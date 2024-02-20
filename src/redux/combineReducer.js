@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
-
+import authReducer from "../modules/auth/authSlice";
 export const rootReducers = combineReducers({
-   /*  example  counter: counterReducer,
-      //Add other reducers here */
+     auth: authReducer,
+    /* Add other reducers here  */
 })

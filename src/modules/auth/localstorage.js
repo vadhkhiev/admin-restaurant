@@ -1,7 +1,6 @@
-function checkToken({item}) {
-  return localStorage.getItem(item);
+function addToken({ item, value }) {
+  localStorage.setItem(item, value);
 }
-
 function getToken({item}) {
   return localStorage.getItem(item);
 }
