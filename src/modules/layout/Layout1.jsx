@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
-import Footer from './components/Footer'
 import { Outlet } from 'react-router-dom'
 import Topnav from './components/Topnav'
 
@@ -10,7 +9,6 @@ const Layout1 = () => {
   const handleToggle = () =>{
     setClose(!close)
   }
-  console.log(close)
 
   return (
     <>

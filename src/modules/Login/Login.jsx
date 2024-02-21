@@ -7,18 +7,24 @@ import { login } from '../auth/authSlice'
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [check , setCheck] = useState(null)
     const dispatch = useDispatch()
     const [error, setError] = useState(null);
+
+    const handleCheckboxChange = (e) => {
+      setCheck(e.target.checked);
+    };
 
   const handleLogin = async () => {
     if (!username || !password) {
       setError('Please enter a username and password');
       return;
     }
-
     try {
       const result = await getAuth(username, password);
-      console.log('Login successful:', result);
+      if(check){
+        localStorage.setItem('token', result.token);
+      }
       dispatch(login(result));
     } catch (error) {
       console.error('Login failed:', error.message);
@@ -43,13 +49,13 @@ const Login = () => {
                     <form>
                       <p className='text-danger text-center'>{error}</p>
                       <div className="mb-3">
-                        <label className="form-label text-white-50">Email <span className='text-danger'>*</span></label>
+                        <label className="form-label text-white-50">Username <span className='text-danger'>*</span></label>
                         <input
                         onChange={(e) => setUsername(e.target.value)}
                           className="form-control form-control-lg"
-                          type="email"
-                          name="email"
-                          placeholder="Enter your email"
+                          type="username"
+                          name="username"
+                          placeholder="Enter your username"
                           required
                         />
                       </div>
@@ -70,7 +76,7 @@ const Login = () => {
                             id="customControlInline"
                             type="checkbox"
                             className="form-check-input"
-                            value="remember-me"
+                            onChange={handleCheckboxChange}
                             name="remember-me"
                             defaultChecked
                           />

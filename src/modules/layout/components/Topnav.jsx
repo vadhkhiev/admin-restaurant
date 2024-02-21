@@ -1,9 +1,17 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../auth/authSlice'
 const Topnav = ({toggle}) => {
     const dispatch = useDispatch()
+    const user = useSelector((state) => state.auth.user)
+
+    const handleLogout = () =>{
+      dispatch(logout())
+      localStorage.removeItem('token')
+    }
+    
+    console.log(user)
   return (
     <div>
          <nav className="navbar navbar-expand navbar-light navbar-bg">
@@ -57,7 +65,7 @@ const Topnav = ({toggle}) => {
                             <i className="align-middle" data-feather="settings"></i>
                         </a>
                         <a className="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                            <img src="img/avatars/avatar.jpg" className="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span className="text-dark">Charles Hall</span>
+                            <img src={user.image} className="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span className="text-dark">{user.username}</span>
                         </a>
                         <div className="dropdown-menu dropdown-menu-end">
                             <Link className="dropdown-item" to='/profile'><i className="align-middle me-1" data-feather="user"></i> Profile</Link>
@@ -66,7 +74,7 @@ const Topnav = ({toggle}) => {
                             <p className="dropdown-item" href="index.html"><i className="align-middle me-1" data-feather="settings"></i> Settings & Privacy</p>
                             <p className="dropdown-item" ><i className="align-middle me-1" data-feather="help-circle"></i> Help Center</p>
                             <div className="dropdown-divider"></div>
-                            <p className="dropdown-item" onClick={() => dispatch(logout())} >Log out</p>
+                            <p className="dropdown-item" onClick={() => handleLogout()} >Log out</p>
                         </div>
                     </li>
                 </ul>

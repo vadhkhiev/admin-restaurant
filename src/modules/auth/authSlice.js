@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  isAuthenticated: false,
-  user: null,
-  token: null,
+  isAuthenticated: true,
+  user: [],
 };
 
 const authSlice = createSlice({
@@ -11,16 +10,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      if(state.token){
-        state.isAuthenticated = true;
-      }
+      state.user = action.payload;
+      state.isAuthenticated = true
     },
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
-      state.token = null;
     },
   },
 });
