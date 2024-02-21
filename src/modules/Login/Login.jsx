@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react'
 import logo from '../../assets/img/kiloit-logo.svg'
+import loadingImg from '../../assets/img/loading.gif'
 import { useState } from 'react'
 import getAuth from '../auth/auth'
 import { useDispatch } from 'react-redux'
-import { login } from '../auth/authSlice'
+import { login, logout } from '../auth/authSlice'
+import getAuthMeData from './core/getUser'
+import { giveAuth } from '../auth/authSlice'
+
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [check , setCheck] = useState(null)
     const dispatch = useDispatch()
     const [error, setError] = useState(null);
+    const [loading ,setLoading ] = useState(true)
 
     const handleCheckboxChange = (e) => {
       setCheck(e.target.checked);
@@ -31,9 +36,37 @@ const Login = () => {
     }
   };
 
+  //checkAuth
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setLoading(true);
+       getAuthMeData(token)
+      .then(data => {
+        dispatch(giveAuth(data));
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error during auth verification:', error);
+        dispatch(logout())
+        setLoading(false);
+        localStorage.removeItem('token');
+      });
+    }else{
+      setLoading(false)
+    }
+  }, []);
+
   return (
     <>
-    <main style={{background:'#222E3C'}} className="d-flex w-100">
+    {
+      loading ? (<div className='loading d-flex flex-row justify-content-center align-items-center'>
+        <h4 className='text-white'>Loading...</h4>
+        <img width={20} src={loadingImg} alt="" />
+      </div>
+        
+      ):( <>
+        <main style={{background:'#222E3C'}} className="d-flex w-100">
       <div className="container d-flex flex-column">
         <div className="row vh-100">
           <div className="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100">
@@ -78,7 +111,6 @@ const Login = () => {
                             className="form-check-input"
                             onChange={handleCheckboxChange}
                             name="remember-me"
-                            defaultChecked
                           />
                           <label className="form-check-label text-small text-white-50" >
                             Remember me
@@ -99,6 +131,8 @@ const Login = () => {
         </div>
       </div>
     </main>
+    </>)
+    }
     </>
   )
 }

@@ -9,3 +9,8 @@
   border-left: 2px solid #4281DE;
   
 }
+.loading{
+  height: 100%;
+  width: 100%;
+  background-color: #233243;
+}
