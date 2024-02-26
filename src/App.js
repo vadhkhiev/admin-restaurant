@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Home from './modules/home/Home';
 import { useSelector } from 'react-redux';
 import Login from './modules/Login/Login';
+import User from './modules/Usermanangement/User';
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
             <Route path="blog" element={<h1>Blog</h1>} />
             <Route path="category" element={<h1>Category</h1>} />
             <Route path="tag" element={<h1>tag</h1>} />
-            <Route path="users" element={<h1>Users</h1>} />
+            <Route path="users" element={<User/>} />
             <Route path="role" element={<h1>Role</h1>} />
             <Route path="reports" element={<h1>Reports</h1>} />
             <Route path="foods" element={<h1>Foods</h1>} />

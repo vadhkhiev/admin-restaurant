@@ -82,13 +82,13 @@ const Topnav = ({toggle}) => {
                             <p className="dropdown-item" href="index.html"><i className="align-middle me-1" data-feather="settings"></i> Settings & Privacy</p>
                             <p className="dropdown-item" ><i className="align-middle me-1" data-feather="help-circle"></i> Help Center</p>
                             <div className="dropdown-divider"></div>
-                            <p className="dropdown-item" onClick={() => handleLogout()} >Log out</p>
+                            <p className="dropdown-item text-danger" onClick={() => handleLogout()} >Log out</p>
                         </div>
                     </li>
                 </ul>
             </div>
         </nav>
-    </div>
+    </div> 
   )
 }
 

@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-const checkAuth = async (token) => {
+const getalluser = async () => {
+    const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('/api/user/profile', {
+    const response = await axios.get('/api/user', {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -14,4 +15,4 @@ const checkAuth = async (token) => {
   }
 };
 
-export default checkAuth;
+export default getalluser;
