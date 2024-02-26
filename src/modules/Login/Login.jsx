@@ -5,19 +5,22 @@ import { useState } from 'react'
 import getAuth from '../auth/auth'
 import { useDispatch } from 'react-redux'
 import { login, logout } from '../auth/authSlice'
-import getAuthMeData from './core/getUser'
-import { giveAuth } from '../auth/authSlice'
+import checkAuth from './core/getUser'
+
+
 
 const Login = () => {
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [check , setCheck] = useState(null)
+    const [check , setCheck] = useState(true)
     const dispatch = useDispatch()
     const [error, setError] = useState(null);
     const [loading ,setLoading ] = useState(true)
+    
 
-    const handleCheckboxChange = (e) => {
-      setCheck(e.target.checked);
+    const handleCheckboxChange = () => {
+      setCheck(!check);
     };
 
   const handleLogin = async () => {
@@ -28,7 +31,7 @@ const Login = () => {
     try {
       const result = await getAuth(username, password);
       if(check){
-        localStorage.setItem('token', result.token);
+        localStorage.setItem('token', result.data.token);
       }
       dispatch(login(result));
     } catch (error) {
@@ -41,9 +44,9 @@ const Login = () => {
     const token = localStorage.getItem('token');
     if (token) {
       setLoading(true);
-       getAuthMeData(token)
+      checkAuth(token)
       .then(data => {
-        dispatch(giveAuth(data));
+        dispatch(login(data));
         setLoading(false);
       })
       .catch(error => {
@@ -110,6 +113,7 @@ const Login = () => {
                             type="checkbox"
                             className="form-check-input"
                             onChange={handleCheckboxChange}
+                            defaultChecked
                             name="remember-me"
                           />
                           <label className="form-check-label text-small text-white-50" >
