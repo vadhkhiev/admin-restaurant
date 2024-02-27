@@ -13,10 +13,14 @@ const Layout1 = () => {
   return (
     <>
   <div className="wrapper">
+     <div>
      {!close && <Sidebar />}
+     </div>
     <div className="main">
      <Topnav toggle={handleToggle} />
-    <Outlet />
+     <div >
+      <Outlet />
+     </div>
     </div>
     </div>
   

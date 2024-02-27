@@ -1,6 +1,4 @@
 import React from 'react'
-import { LuLayoutDashboard } from "react-icons/lu";
-import { CgProfile } from "react-icons/cg";
 import { Link, NavLink } from 'react-router-dom';
 import {sidebarlink, administrator} from '../../../assets/data/sidebarlink';
 const Sidebar = () => {

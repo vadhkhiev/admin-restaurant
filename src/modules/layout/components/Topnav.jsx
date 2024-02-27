@@ -16,7 +16,7 @@ const Topnav = ({toggle}) => {
     
     console.log(user)
   return (
-    <div>
+    <>
          <nav className="navbar navbar-expand navbar-light navbar-bg">
             <a onClick={toggle} className="sidebar-toggle js-sidebar-toggle">
                 <i className="hamburger align-self-center"></i>
@@ -88,7 +88,7 @@ const Topnav = ({toggle}) => {
                 </ul>
             </div>
         </nav>
-    </div> 
+    </> 
   )
 }
 

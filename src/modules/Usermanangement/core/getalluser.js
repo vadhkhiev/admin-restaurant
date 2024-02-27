@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-const getalluser = async () => {
-    const token = localStorage.getItem('token');
+const getalluser = async (token) => {
   try {
     const response = await axios.get('/api/user', {
       headers: {
@@ -16,3 +14,4 @@ const getalluser = async () => {
 };
 
 export default getalluser;
+
