@@ -6,7 +6,7 @@ const Table = ({users , handleDelete}) => {
   return (
     <>
 
-    {allusers?.length > 0 ? (
+    {allusers?.length > 1 ? (
       <>
        <table className="table">
     <thead>

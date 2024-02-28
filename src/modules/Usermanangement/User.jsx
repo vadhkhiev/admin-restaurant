@@ -36,6 +36,7 @@ const User = () => {
   const handleDelete = (user) => {
     setConfirm(user);
   };
+  console.log(users)
 
   const confirmDelete = async () => {
      try {
@@ -93,7 +94,7 @@ const User = () => {
           </div>
         </div>
       )}
-      <div className="container rounded bg-white my-3">
+      <div className="container rounded bg-white my-1">
         {loading ? (
           <div className='d-flex flex-row justify-content-center align-items-center'>
             <h4 style={{ color: '#222E3C' }}>Loading...</h4>
@@ -111,7 +112,7 @@ const User = () => {
                 </span>
               </Link>
             </div>
-            {users.length > 0 && (
+            {users.length > 1 && (
               <>
               <div className=' d-flex  align-items-center'>
               <div className="px-3">
@@ -124,7 +125,7 @@ const User = () => {
  /*                    value={searchTerm}
                     onChange={e => setSearch(e.target.value)} */
                   />
-                  <button className="search-button">
+                  <button className="search-button bg-white">
                     <CiSearch />
                   </button>
               </div>

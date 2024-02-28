@@ -14,7 +14,6 @@ const Topnav = ({toggle}) => {
       localStorage.removeItem('token')
     }
     
-    console.log(user)
   return (
     <>
          <nav className="navbar navbar-expand navbar-light navbar-bg">
