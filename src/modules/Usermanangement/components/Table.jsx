@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TableRow from './TableRow'
-const Table = ({users}) => {
+const Table = ({users , handleDelete}) => {
+  const [popup, setPopup] = useState(false) 
   const allusers = users
   return (
     <>
-    {allusers?.length > 0 ? (
+
+    {allusers?.length > 1 ? (
       <>
        <table className="table">
     <thead>
@@ -18,9 +20,9 @@ const Table = ({users}) => {
     </thead>
     <tbody>
       {
-         allusers.map((item, index) => (
-          <TableRow user={item} key={index} index={index + 1} />
-        )) 
+        allusers.filter(user => user.id !== 1).map((user, index) => (
+          <TableRow handleDelete={handleDelete} key={user.id} index={index + 1} user={user} />
+        ))
       }
     </tbody>
   </table>

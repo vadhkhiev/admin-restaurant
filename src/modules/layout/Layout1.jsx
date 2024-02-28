@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
 import { Outlet } from 'react-router-dom'
 import Topnav from './components/Topnav'
+import Pathbtn from './components/Pathbtn'
 
 
 const Layout1 = () => {
@@ -13,10 +14,15 @@ const Layout1 = () => {
   return (
     <>
   <div className="wrapper">
+     <div>
      {!close && <Sidebar />}
+     </div>
     <div className="main">
      <Topnav toggle={handleToggle} />
-    <Outlet />
+     <div >
+      <Pathbtn/>
+      <Outlet />
+     </div>
     </div>
     </div>
   
