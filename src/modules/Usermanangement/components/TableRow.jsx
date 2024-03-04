@@ -3,6 +3,7 @@ import { PiNotePencilThin } from "react-icons/pi";
 import { GoTrash } from "react-icons/go";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 const formatDate = (inputString) => {
   const [datePart, timePart] = inputString.split('T');
 
@@ -27,20 +28,6 @@ const formatDate = (inputString) => {
 const TableRow = ({ user, index ,handleDelete }) => {
    const token =  useSelector((state) => state.auth.token)
 
-  const deleteUser = async () => {
-  if (token) {
-    try {
-      await axios.delete(`/api/user/${user.id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      // Handle successful deletion, e.g., refresh user list or show a success message
-    } catch (error) {
-      console.error('Error deleting user:', error);
-    }
-  }
-};
 
   return (
     <>
@@ -49,10 +36,11 @@ const TableRow = ({ user, index ,handleDelete }) => {
         <td>{user.username}</td>
         <td>{formatDate(user.createdDate)}</td>
         <td>{formatDate(user.updateDate)}</td>
+        <td>{user.roleEntity.name}</td>
         <td>
-          <button type="button" className="btn btn-primary btn-sm">
+          <Link to='/users/edit' type="button" className="btn btn-primary btn-sm">
             <PiNotePencilThin /> Edit
-          </button>
+          </Link>
           <button onClick={() => handleDelete(user)} type="button" className="btn btn-danger btn-sm">
             <GoTrash /> Delete
           </button>

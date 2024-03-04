@@ -1,5 +1,4 @@
 import React from 'react'
-import logo from '../../../assets/img/kiloit-logo.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../auth/authSlice'

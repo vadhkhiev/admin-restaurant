@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Inputfield from './components/Inputfield';
-import kiloIt from '../../assets/img/kiloit-logo.svg'
+import kiloIt from '../../assets/img/Profile-Avatar-PNG.png'
 import { createUser } from './core/createruser';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+
 const CreateUser = () => {
   const navigate = useNavigate()
    const tokens = useSelector((state) => state.auth.token)
+   const roles = useSelector(state => state.roles.roles);
   
   const initialUserData = {
     name: '',
@@ -20,22 +22,28 @@ const CreateUser = () => {
     phone: '',
     salary: 0,
     hireDate: '',
-    role_id: 1,
+    role_id: null,
   };
 
   const [userData, setUserData] = useState(initialUserData);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  
+  console.log(userData)
 
   useEffect(() => {
     const currentDateTime = new Date();
-    const formattedDate = currentDateTime.toISOString().slice(0, -5) + 'Z';
-  
-    setUserData({
-      ...userData,
-      hireDate: formattedDate,
-    });
+    const formattedDate = currentDateTime?.toISOString();
+
+      setUserData({
+        ...userData,
+        hireDate: formattedDate,
+        role_id: roles[0].id,
+      });
   }, []);
+
+
+
 
   const handleInputChange = (field, value) => {
     setUserData({
@@ -121,9 +129,11 @@ const CreateUser = () => {
           <div className='m-2'>
             <h2>Create user</h2>
             <div>
-              <div className='w-50'>
-                <p>Avatar</p>
-                <img src={kiloIt} width={50} height={50} alt="" />
+              <div className='w-100 d-flex justify-content-center'>
+                <div>
+                  <p>Avatar</p>
+                  <img src={kiloIt} width={50} height={50} alt="" />
+                </div>
               </div>
               <div className='w-50 d-flex flex-column mt-3'>
                 <div className='d-flex'>
@@ -133,8 +143,13 @@ const CreateUser = () => {
                   className='text-center'
                   type="date"
                   id="datetime"
-                  value={userData.hireDate.slice(0, 10)}
-                  onChange={(e) => handleInputChange('hireDate', e.target.value + 'Z')}
+                  value={userData?.hireDate?.slice(0, 10)}
+                  onChange={(e) => {
+                    const currentDate = new Date();
+                    const currentTime = currentDate?.toISOString().slice(11, 19); // Extract time part from ISO string
+                    const formattedDateTime = e.target.value + 'T' + currentTime + 'Z';
+                    handleInputChange('hireDate', formattedDateTime);
+                  }}
                 />
               </div>
             </div>
@@ -183,14 +198,16 @@ const CreateUser = () => {
               <div>
                 <label>Role</label><span className='text-danger'>*</span>
               </div>
-              <select
+               <select
                 onChange={(e) => handleInputChange('role_id', parseInt(e.target.value))}
                 className="form-select form-select-md"
                 aria-label=".form-select-sm ">
-                <option value="1">Customer</option>
-                <option value="1">Super Admin</option>
-                <option value="1">Chef</option>
-              </select>
+                 {
+                  roles.map((role) => (
+                    <option key={role.id} value={role.id}>{role.name}</option>
+                  ))
+                } 
+              </select> 
             </div>
 
             {/* password */}

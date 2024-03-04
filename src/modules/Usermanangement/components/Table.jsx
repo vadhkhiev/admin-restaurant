@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import TableRow from './TableRow'
 const Table = ({users , handleDelete}) => {
-  const [popup, setPopup] = useState(false) 
-  const allusers = users
+  
   return (
     <>
 
-    {allusers?.length > 1 ? (
+    {users?.length > 1 ? (
       <>
        <table className="table">
     <thead>
@@ -15,12 +14,13 @@ const Table = ({users , handleDelete}) => {
         <th scope="col">Username</th>
         <th scope="col">Created At</th>
         <th scope="col">Updated At</th>
+        <th scope='col'>Roles</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
       {
-        allusers.filter(user => user.id !== 1).map((user, index) => (
+        users.filter(user => user.id !== 1).map((user, index) => (
           <TableRow handleDelete={handleDelete} key={user.id} index={index + 1} user={user} />
         ))
       }

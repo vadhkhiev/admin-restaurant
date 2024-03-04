@@ -14,7 +14,7 @@ const Pathbtn = () => {
   };
 
   return (
-    <div className='breadcrumb-container mt-3 mx-3'>
+    <div className='breadcrumb-container my-3 mx-3'>
       <button onClick={() => navigate(-1)} className='breadcrumb-icon-button'>
         <IoIosArrowBack className='breadcrumb-icon' />
       </button>
@@ -24,8 +24,13 @@ const Pathbtn = () => {
           <button onClick={() => handleNavigation(index)} className='breadcrumb-button text-dark'>
             {segment}
           </button>
+          
         </React.Fragment>
       ))}
+      <p className='breadcrumb-icon'>/</p>
+      <button onClick={() => navigate(1)} className='breadcrumb-icon-button'>
+        <IoIosArrowForward className='breadcrumb-icon' />
+      </button>
     </div>
   );
 };

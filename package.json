@@ -2,7 +2,7 @@
   "name": "restuarant-admin",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://13.212.122.195:6001",
+  "proxy": "http://13.214.207.172:6001",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
     "@testing-library/jest-dom": "^5.17.0", 
