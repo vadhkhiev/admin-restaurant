@@ -3,31 +3,34 @@ import Table from './components/Table';
 import getalluser from './core/getalluser';
 import loadingImg from '../../assets/img/loading.gif';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BsFillPersonPlusFill } from 'react-icons/bs';
-import axios from 'axios'; // Import Axios library
+import axios from 'axios'; 
 import { CiSearch } from "react-icons/ci";
+import getroles from '../layout/core/getroles';
+import { storeRoles } from '../layout/core/roleSlice';
+
 
 const User = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedOption, setSelectedOption] = useState('');
   const [confirm, setConfirm] = useState('');
-  const tokens = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');  
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getalluser(tokens || localStorage.getItem('token'));
+        const result = await getalluser(token);
         setUsers(result.data);
         setLoading(false);
       } catch (error) {
         console.error('Error in component:', error);
       }
     };
-
     fetchData();
-  }, [getalluser, tokens]);
+  }, [getalluser, token]);
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
@@ -36,11 +39,9 @@ const User = () => {
   const handleDelete = (user) => {
     setConfirm(user);
   };
-  console.log(users)
 
   const confirmDelete = async () => {
      try {
-      const token = tokens || localStorage.getItem('token');
       if (token && confirm) {
         const id = confirm.id;
         await axios.delete(`/api/user/${id}`, {

@@ -35,7 +35,10 @@ const Login = () => {
       }
       dispatch(login(result));
     } catch (error) {
-      console.error('Login failed:', error.message);
+      if (error.response && error.response.status === 401) {
+        setError(error.response.data.message);
+      }
+
     }
   };
 
@@ -122,7 +125,15 @@ const Login = () => {
                         </div>
                       </div>
                       <div className="d-grid gap-2 mt-3">
-                        <span onClick={handleLogin}  className="btn btn-lg btn-primary">
+                        <span onClick={handleLogin}
+                        tabIndex="0"
+                        role='button'
+                        onKeyDown={event => {
+                          if (event.key === 'Enter') {
+                            handleLogin();
+                          }
+                         }}                   
+                        className="btn btn-lg btn-primary">
                           Sign in
                         </span>
                       </div>

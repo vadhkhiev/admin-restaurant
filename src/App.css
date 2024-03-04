@@ -61,5 +61,45 @@ input[type=number] {
 
 .breadcrumb-button:hover,
 .breadcrumb-icon-button:hover {
-  text-decoration: none;
+  text-decoration: underline;
+}
+.main {
+  background: #f5f7fb;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.main::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+.sidebar-hide{
+  display: none;
+}
+.sidebar {
+  background: #222e3c;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+}
+
+.sidebar, .sidebar-content {
+  background: #222e3c;
+ 
+  position: fixed;
+  top: 0; /* You may adjust this to set the top position */
+  bottom: 0; /* You may adjust this to set the bottom position */
+  left: 0; /* You may adjust this to set the left position */
+  width: 250px; /* You may adjust this to set the width of the sidebar */
+}
+.sidebar-show{
+  margin-left: 260px;
 }
