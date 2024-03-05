@@ -30,7 +30,13 @@ const sidebarlink = [
         link : '/tag',
         icon : <FiTag/>
 
-    }
+    },{
+        Id : 5,
+        title : 'Profile',
+        link : '/profile',
+        icon : <RxPerson/>
+
+    },
 ];
 
 const administrator = [
@@ -62,7 +68,7 @@ const administrator = [
         link : '/profile',
         icon : <RxPerson/>
 
-    }
+    },
 ];
 
 export { sidebarlink, administrator };

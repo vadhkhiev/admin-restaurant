@@ -38,7 +38,7 @@ const TableRow = ({ user, index ,handleDelete }) => {
         <td>{formatDate(user.updateDate)}</td>
         <td>{user.roleEntity.name}</td>
         <td>
-          <Link to='/users/edit' type="button" className="btn btn-primary btn-sm">
+          <Link to={`/users/edit/${user.id}`} type="button" className="btn btn-primary btn-sm">
             <PiNotePencilThin /> Edit
           </Link>
           <button onClick={() => handleDelete(user)} type="button" className="btn btn-danger btn-sm">

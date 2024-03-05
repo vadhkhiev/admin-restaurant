@@ -7,8 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BsFillPersonPlusFill } from 'react-icons/bs';
 import axios from 'axios'; 
 import { CiSearch } from "react-icons/ci";
-import getroles from '../layout/core/getroles';
-import { storeRoles } from '../layout/core/roleSlice';
+import { storeUsers } from './core/usersSlice';
 
 
 const User = () => {
@@ -18,11 +17,13 @@ const User = () => {
   const [confirm, setConfirm] = useState('');
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');  
   const dispatch = useDispatch()
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await getalluser(token);
+        dispatch(storeUsers(result.data))
         setUsers(result.data);
         setLoading(false);
       } catch (error) {
