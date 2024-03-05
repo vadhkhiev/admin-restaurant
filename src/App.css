@@ -75,10 +75,20 @@ input[type=number] {
   width: 100%;
 }
 
-.main::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
+
+/* Additional styles to handle Firefox scrollbar */
+.main {
+  scrollbar-width: none; /* Firefox */
+}
+
+.main::-moz-scrollbar {
+  display: none; /* Firefox */
+}
+
 .sidebar-hide{
   display: none;
 }
@@ -88,17 +98,20 @@ input[type=number] {
   top: 0;
   bottom: 0;
   left: 0;
-  width: 250px;
+  width: 260px;
+}
+.sidebar-content{
+  overflow-y: scroll;
+  height: 100vh;
 }
 
 .sidebar, .sidebar-content {
   background: #222e3c;
- 
   position: fixed;
   top: 0; /* You may adjust this to set the top position */
   bottom: 0; /* You may adjust this to set the bottom position */
   left: 0; /* You may adjust this to set the left position */
-  width: 250px; /* You may adjust this to set the width of the sidebar */
+  width: 260px; /* You may adjust this to set the width of the sidebar */
 }
 .sidebar-show{
   margin-left: 260px;
