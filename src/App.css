@@ -1,12 +1,14 @@
+
 /* sidebar link element  */
+
 .sidebar-link.active {
-  background-color: #f8f9fa;
   border-radius: 0.25rem;
-  background-color: #233243;
+  background-color: #6c738f  ;
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   padding: 0.75rem 1rem;
-  border-left: 2px solid #4281DE;
+  color: #fff;
+  border-left:3px solid red;
   
 }
 .loading{
@@ -39,7 +41,7 @@ input[type=number] {
   padding: 4px;
   margin: 0;
   font-size: 14px;
-  color: #007bff;
+  color: #3e4057 ;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -64,7 +66,7 @@ input[type=number] {
   text-decoration: underline;
 }
 .main {
-  background: #f5f7fb;
+  background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
   display: flex;
@@ -93,7 +95,6 @@ input[type=number] {
   display: none;
 }
 .sidebar {
-  background: #222e3c;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -103,10 +104,11 @@ input[type=number] {
 .sidebar-content{
   overflow-y: scroll;
   height: 100vh;
+  background-color: #3e4057 ;
 }
 
 .sidebar, .sidebar-content {
-  background: #222e3c;
+  background: #3e4057 ;
   position: fixed;
   top: 0; /* You may adjust this to set the top position */
   bottom: 0; /* You may adjust this to set the bottom position */
@@ -116,3 +118,6 @@ input[type=number] {
 .sidebar-show{
   margin-left: 260px;
 }
+
+
+

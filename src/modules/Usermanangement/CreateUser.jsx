@@ -29,7 +29,6 @@ const CreateUser = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   
-  console.log(roles)
 
   useEffect(() => {
     const currentDateTime = new Date();

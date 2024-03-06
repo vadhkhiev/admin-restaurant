@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import Table from './components/Table';
-import getalluser from './core/getalluser';
+import getalluser from './core/getUsers';
 import loadingImg from '../../assets/img/loading.gif';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { BsFillPersonPlusFill } from 'react-icons/bs';
 import axios from 'axios'; 
-import { CiSearch } from "react-icons/ci";
-import { storeUsers } from './core/usersSlice';
+import { storeUsers } from './core/allusersSlice';
+import Confirm from './components/Confirm';
+import EditUser from './components/EditUser';
 
 
 const User = () => {
+
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedOption, setSelectedOption] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [selectUser , setSelectUser] = useState(false)
+  const [edit , setEdit] = useState(false)
+  const [editUser , setEditUser] = useState({})
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');  
   const dispatch = useDispatch()
-  
+
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getalluser(token);
+        const result = await getalluser(token , selectUser === true ? '/api/user?roleId=1' : '/api/user');
         dispatch(storeUsers(result.data))
         setUsers(result.data);
         setLoading(false);
@@ -31,13 +34,15 @@ const User = () => {
       }
     };
     fetchData();
-  }, [getalluser, token]);
+  }, [selectUser]);
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
+
 
   const handleDelete = (user) => {
+    if(user.id===1){
+      alert(`You can not delete Admin Account : \u{1F621}\u{1F621}\u{1F621}\u{1F621}\u{1F621}`)
+      return;
+    }
     setConfirm(user);
   };
 
@@ -62,96 +67,82 @@ const User = () => {
     } 
   };
 
+  const cancelDelete = () => {
+    setConfirm('');
+  }
+  const handleEdit = (editid) => {
+    if (editid === 1) {
+      alert(`You can not edit Admin Account : \u{1F621}\u{1F621}\u{1F621}\u{1F621}\u{1F621}`);
+    } else {
+      setEdit(!edit);
+      setEditUser(users.find((user) => user.id === editid));
+    }
+  };
+
+
   return (
     <>
+    {/* Modal */}
       {confirm && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 9999,
-          }}
-          className='d-flex justify-content-center align-items-center'>
-          <div className='p-3 bg-white rounded text-center'>
-            <p>
-              Are you sure you want to{' '}
-              <span className='text-danger'>delete</span>{' '}
-              <b>{confirm.username}</b> from the list?
-            </p>
-            <div className='d-flex justify-content-center'>
-              <button
-                onClick={confirmDelete}
-                className='btn btn-danger mx-3'
-              >
-                Delete
-              </button>
-              <button onClick={() => setConfirm('')} className='btn btn-primary mx-3'>
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
+        <Confirm confirmDelete={confirmDelete} confirm={confirm} cancelDelete={cancelDelete}/>
       )}
-      <div className="container rounded bg-white my-1">
+
+      {edit && (
+        <>
+        <EditUser handleEdit={handleEdit} editUser={editUser}  />
+        </>
+      )
+
+      }
+
+      {/* End of Modal */}
+
+      <div className="container rounded  my-1">
         {loading ? (
           <div className='d-flex flex-row justify-content-center align-items-center'>
-            <h4 style={{ color: '#222E3C' }}>Loading...</h4>
+            <h4 >Loading...</h4>
             <span>
               <img src={loadingImg} width={20} alt="" />
             </span>
           </div>
         ) : (
-          <>
-            <div className='d-flex justify-content-between  p-3'>
-              <h2 >User Management</h2>
-              <Link to='/users/create'>
-                <span className='btn btn-primary mx-3'>
-                  <BsFillPersonPlusFill /> Add
-                </span>
-              </Link>
-            </div>
-            {users.length > 1 && (
+          <>{
+            users.length > 0 && (
               <>
-              <div className=' d-flex  align-items-center'>
-              <div className="px-3">
+              <div  className='p-4 px-3 d-flex justify-content-between'>
+                <span style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px"}} className='fw-bold p-2 rounded-3' >
+                  <span className='me-3 p-2' style={selectUser===false ? {borderBottom: '3px solid #3e4057',cursor:'pointer'} : {cursor:'pointer'}} onClick={() => setSelectUser(false)} >All</span>
+                  <span className=' p-2' style={!selectUser===false ? {borderBottom: '3px solid #3e4057',cursor:'pointer'} : {cursor:'pointer'}} onClick={() => setSelectUser(true)} >Admin</span>
+                </span>
+                <div>
+                  <p className='fw-bold'>Total {selectUser === true ? 'Admin' : ' Members '}: {users.length}</p>
+               </div>
               </div>
-                <div className="search-container">
-                  <input
-                    type="text"
-                    placeholder="Search users..."
-                    className="search-input"
- /*                    value={searchTerm}
-                    onChange={e => setSearch(e.target.value)} */
-                  />
-                  <button className="search-button bg-white">
-                    <CiSearch />
-                  </button>
+
+              </>
+            )
+          }
+              <div className='pt-3 px-3 d-flex justify-content-between '>
+               <div className='d-flex'>
+                 <h2 style={{color:'#45495c'}} className='fw-bold me-3'>Members</h2>
+                 <button  style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold'>Add More</button>
+               </div>
+               <div>
+               <button  style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold'> {`< Filter`}</button>
+               </div>
+                
               </div>
-              <div className='px-3'>
-              <span>Sort by:</span>
-                <select
-                  className='rounded m-2'
-                  id="mySelect"
-                  value={selectedOption}
-                  onChange={handleSelectChange}
-                >
-                  <option value="Newest">Newest</option>
-                  <option value="Oldest">Oldest</option>
-                </select>
-              </div>
-              </div>
+            {users.length > 0 && (
+              <>
+              <div className='p-3'>
+                <Table
+                 handleDelete={handleDelete}
+                 users={users}
+                 handleEdit={handleEdit}
+               />
+             </div>
               </>
             )}
-            <div className='p-3'>
-            <Table
-              handleDelete={handleDelete}
-              users={selectedOption === 'Oldest' ? [...users].reverse() : users}
-            />
-            </div>
           </>
         )}
       </div>
@@ -160,3 +151,12 @@ const User = () => {
 };
 
 export default User;
+
+
+
+
+{/* <Link to='/users/create'>
+<span className='btn btn-primary mx-3'>
+  <BsFillPersonPlusFill /> Add
+</span>
+</Link> */}

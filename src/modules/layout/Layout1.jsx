@@ -36,10 +36,9 @@ const Layout1 = () => {
   <div className={`sidebar ${open ? '' : 'sidebar-hide'}`}>
     <Sidebar />
   </div>
-  <div className={`main ${open ? 'sidebar-show' : ''}`}>
+  <div style={{ background: '#eff0f1', boxShadow: 'rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em', border: '1px solid rgba(90, 125, 188, 0.1)' }} className={`main ${open ? 'sidebar-show' : ''}`}>
     <Topnav toggle={toggle} />
     <div>
-      <Pathbtn />
       <Outlet />
     </div>
   </div>

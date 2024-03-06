@@ -4,12 +4,10 @@ import {sidebarlink, administrator} from '../../../assets/data/sidebarlink';
 import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
-    const user = useSelector(state => state.auth.user.user)
-    
-
+    const currentuser = useSelector((state) => state.currentUser.currentUser.roleEntity?.name ?? state.currentUser.currentUser?.roleName)
   return (
     <>
-		 <nav >
+		 <nav  >
             <div className="sidebar-content js-simplebar">
                 <Link className="sidebar-brand" to='/'>
                     <span className="align-middle">KiloIT</span>
@@ -24,8 +22,8 @@ const Sidebar = () => {
         </NavLink>
     </li>
 ))}
-{
-    user && (user?.roleId === 1 || user?.roleId === 2) && 
+ {
+    currentuser && (currentuser === 'Super-Admin' || currentuser?.roleId === 'Manager') && 
     <>
         <li className='m-3 text-white-50 ' key="administrator-title">administrator</li>
         {administrator.map((item, index) => (
@@ -37,7 +35,7 @@ const Sidebar = () => {
             </li>
         ))}
     </>
-}
+} 
 
             
                 </ul>
