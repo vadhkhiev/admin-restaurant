@@ -25,7 +25,7 @@ function App() {
             <Route path="tag" element={<h1>tag</h1>} />
             
             {/* admin routes */}
-            {user && user?.roleName === 'Super-Admin' || 'Manager' ? (
+            {user && user?.roleId === 1 || 2 ? (
               <>
                 <Route path="users" element={<User/>} />
                 <Route path='users/create' element={<CreateUser/>} />
