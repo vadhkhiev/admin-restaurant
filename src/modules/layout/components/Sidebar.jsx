@@ -2,18 +2,21 @@ import React from 'react'
 import { Link, NavLink } from 'react-router-dom';
 import {sidebarlink, administrator} from '../../../assets/data/sidebarlink';
 import { useSelector } from 'react-redux';
+import { IoClose } from "react-icons/io5";
 
-const Sidebar = () => {
+const Sidebar = ({toggle}) => {
     const currentuser = useSelector((state) => state.currentUser.currentUser.roleEntity?.name ?? state.currentUser.currentUser?.roleName)
   return (
     <>
 		 <nav  >
             <div className="sidebar-content js-simplebar">
-                <Link className="sidebar-brand" to='/'>
-                    <span className="align-middle">KiloIT</span>
+                <div className='d-flex justify-content-between'>
+                <Link className="sidebar-brand align-items-center" to='/'>
+                    <span >KiloIT</span>
                 </Link>
+                <span className="d-md-none fs-3 text-white-50 p-2" onClick={toggle}><IoClose /></span>
+                </div>
                 <ul className="sidebar-nav">
-				
                 {sidebarlink.map((item) => (
     <li className="sidebar-item" key={item.title}>
         <NavLink to={item.link} className="sidebar-link">

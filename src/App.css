@@ -119,5 +119,20 @@ input[type=number] {
   margin-left: 260px;
 }
 
+@media (max-width: 767px) {
+  /* Styles for screens smaller than 768px */
+  .sidebar {
+    position: fixed;
+    z-index: 1; /* Ensure the sidebar stays on top */
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .sidebar-show {
+    margin-left: 0; /* Reset margin-left for main content */
+  }
+}
+
 
 
