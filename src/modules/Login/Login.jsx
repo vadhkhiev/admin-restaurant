@@ -6,6 +6,7 @@ import getAuth from '../auth/auth'
 import { useDispatch } from 'react-redux'
 import { login, logout } from '../auth/authSlice'
 import checkAuth from './core/getUser'
+import  { storeCurrentUser } from '../Usermanangement/core/currentuserSlice'
 
 
 
@@ -17,6 +18,7 @@ const Login = () => {
     const dispatch = useDispatch()
     const [error, setError] = useState(null);
     const [loading ,setLoading ] = useState(true)
+
     
 
     const handleCheckboxChange = () => {
@@ -34,6 +36,8 @@ const Login = () => {
         localStorage.setItem('token', result.data.token);
       }
       dispatch(login(result));
+      dispatch(storeCurrentUser(result.data.user))
+      console.log(result.data.user)
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setError(error.response.data.message);
@@ -51,6 +55,8 @@ const Login = () => {
       .then(data => {
         dispatch(login(data));
         setLoading(false);
+        dispatch(storeCurrentUser(data.data))
+        console.log(data.data)
       })
       .catch(error => {
         console.error('Error during auth verification:', error);
@@ -62,6 +68,7 @@ const Login = () => {
       setLoading(false)
     }
   }, []);
+
 
   return (
     <>

@@ -1,7 +1,7 @@
 import axios from 'axios';
-const getalluser = async (token) => {
+const getUsers = async (token , url='/api/user' ) => {
   try {
-    const response = await axios.get('/api/user', {
+    const response = await axios.get(url, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -13,5 +13,5 @@ const getalluser = async (token) => {
   }
 };
 
-export default getalluser;
+export default getUsers;
 

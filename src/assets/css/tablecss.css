@@ -1,0 +1,36 @@
+/* Table.css */
+
+.table-container {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px; /* Adjusted padding value */
+}
+
+.table tbody tr {
+  border-radius: 13px; /* Added border-radius for each row in the tbody */
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-danger {
+  color: #dc3545;
+}

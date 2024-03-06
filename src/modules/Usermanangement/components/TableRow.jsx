@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { PiNotePencilThin } from "react-icons/pi";
 import { GoTrash } from "react-icons/go";
-import axios from 'axios';
-import { useSelector } from 'react-redux';
+import '../../../assets/css/tablecss.css'; 
 import { Link } from 'react-router-dom';
-const formatDate = (inputString) => {
+import avatar from '../../../assets/img/avatar.jpg'
+/* const formatDate = (inputString) => {
   const [datePart, timePart] = inputString.split('T');
 
   const [year, month, day] = datePart.split('-');
@@ -23,27 +23,31 @@ const formatDate = (inputString) => {
   return `${formattedDate} ${formattedTime}`;
 };
 
+ */
 
-
-const TableRow = ({ user, index ,handleDelete }) => {
-   const token =  useSelector((state) => state.auth.token)
-
+const TableRow = ({ user,handleDelete ,handleEdit }) => {
 
   return (
     <>
-      <tr>
-        <th scope="row">{index}</th>
-        <td>{user.username}</td>
-        <td>{formatDate(user.createdDate)}</td>
-        <td>{formatDate(user.updateDate)}</td>
-        <td>{user.roleEntity.name}</td>
+      <tr >
+        <td><img src={avatar} className="avatar rounded-circle " /></td>
+        <td >{user.name}</td>
+        <td >{user.email}</td>
+        <td >{user.phone}</td>
+        <td >$ {user.salary}</td>
         <td>
-          <Link to={`/users/edit/${user.id}`} type="button" className="btn btn-primary btn-sm">
-            <PiNotePencilThin /> Edit
-          </Link>
-          <button onClick={() => handleDelete(user)} type="button" className="btn btn-danger btn-sm">
-            <GoTrash /> Delete
-          </button>
+          <p style={{borderRadius:'13px', background: user.status ? '#cee9d0' : '#f8d7da', color:user.status ? '#3fa27f' : 'red' }} className='fs-6 fw-normal text-center'> 
+           {user.status?"Active":"Inactive"}
+          </p>
+        </td>
+        <td >{user.roleEntity.name}</td>
+        <td>
+          <a onClick={() =>handleEdit(user.id) } className='fs-4 text-primary me-2' style={{color:'#6c738f'}} type="button" >
+            <PiNotePencilThin />
+          </a>
+          <a className='fs-4 text-danger' style={{color:'#6c738f'}} onClick={() => handleDelete(user)} type="button" >
+            <GoTrash />
+          </a>
         </td>
       </tr>
     </>

@@ -62,13 +62,7 @@ const administrator = [
         link : '/foods',
         icon : <IoFastFoodOutline/>
         
-    },{
-        Id : 5,
-        title : 'Profile',
-        link : '/profile',
-        icon : <RxPerson/>
-
-    },
+    }
 ];
 
 export { sidebarlink, administrator };

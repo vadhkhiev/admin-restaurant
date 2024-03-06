@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import { logout } from '../../auth/authSlice'
 import { GoBell } from "react-icons/go";
 import { FaRegUserCircle } from "react-icons/fa";
+import { RxHamburgerMenu } from "react-icons/rx";
 const Topnav = ({toggle}) => {
     const dispatch = useDispatch()
-    const user = useSelector((state) => state.auth.user)
 
     const handleLogout = () =>{
       dispatch(logout())
@@ -15,7 +15,7 @@ const Topnav = ({toggle}) => {
     
   return (
     <>
-         <nav className="navbar navbar-expand navbar-light navbar-bg">
+         <nav style={{background:'#6c738f '}} className="navbar navbar-expand ">
             <a onClick={toggle} className="sidebar-toggle js-sidebar-toggle">
                 <i className="hamburger align-self-center"></i>
             </a>
@@ -25,7 +25,7 @@ const Topnav = ({toggle}) => {
                     <li className="nav-item dropdown">
                         <a className="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                             <div className="position-relative">
-                                <GoBell/>
+                                <GoBell className='text-white'/>
                                 <span className="indicator">4</span>
                             </div>
                         </a>
@@ -70,7 +70,7 @@ const Topnav = ({toggle}) => {
                             <i className="align-middle" data-feather="settings"></i>
                         </a>
                         <Link to='profile' className="nav-link dropdown-toggle d-none d-sm-inline-block "  data-bs-toggle="dropdown">
-                        <FaRegUserCircle size={20}/>
+                        <FaRegUserCircle className='text-white fs-3'/>
                     
                         </Link>
                         <div className="dropdown-menu dropdown-menu-end">
