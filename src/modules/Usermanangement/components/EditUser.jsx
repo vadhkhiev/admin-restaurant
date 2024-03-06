@@ -2,20 +2,51 @@ import React, { useState } from 'react'
 import { MdOutlineCancel } from "react-icons/md";
 import avatar from '../../../assets/img/avatar.jpg'
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
-const EditUser = ({handleEdit,editUser}) => {
-  const editto = {
-    avatar : 'avatar',
-    name: editUser.name,
-    role_id : editUser.roleEntity.name,
-    phone : editUser.phone,
-    gender : editUser.gender,
-}
+const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
+
   const roles = useSelector((state) => state.roles.roles);
-  const [editing , setEditing ] = useState(editto)
 
-  console.log(editing)
+  const role = roles.filter((r) => r.name === editUser.roleEntity?.name)[0];
 
+  const [editing, setEditing] = useState({
+    avatar: 'avatar',
+    name: editUser.name,
+    role_id: role?.id, // Use role.id here
+    phone: editUser.phone,
+    gender: editUser.gender,
+  });
+
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
+
+  console.log(roles);
+  console.log(editUser);
+
+  const handleChange = async (e) => {
+    try {
+      const data = { ...editing, username: editUser.username };
+      const filteredData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value !== ''));
+      const result = await axios.put(`/api/user/${editUser.id}`, filteredData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setError('');
+      setSuccessMessage('Update successful');
+      setTimeout(() => setEdit(!edit), 1000);
+    } catch (error) {
+      setError('error');
+      console.log(error);
+      setSuccessMessage('');
+    }
+  };
+
+  console.log(editing);
+
+  
   return (
     <div>
         <div style={{
@@ -35,11 +66,10 @@ const EditUser = ({handleEdit,editUser}) => {
               <MdOutlineCancel onClick={handleEdit} className='fs-1 text-white m-2'/>
             </div>
             <div >
-            <div className='m-3 rounded-3' style={{backgroundColor: 'rgba(255,255,255, 1)'}} >
-              <h2 style={{color: '#495057'}} className=' text-center'>Editing {editUser.name}'s</h2>
+            <div className='mx-3  rounded-3' style={{backgroundColor: 'rgba(255,255,255, 1)'}} >
+              <h3 style={{color: '#495057'}} className=' text-center'>Editing {editUser.name}'s</h3>
             </div>
-
-
+            
             <div className='m-3 p-3 rounded-3' style={{backgroundColor: 'rgba(255,255,255, 1)'}}>
 
             <div  className='d-flex justify-content-center'> 
@@ -47,17 +77,18 @@ const EditUser = ({handleEdit,editUser}) => {
             </div>
 
               <div className='m-3' style={{color: '#495057'}} >
-                <p className='fs-4 p-2 d-flex justify-content-between'>
+                <p className='fs-4 p-1 d-flex justify-content-between'>
                   <span className='w-25'>Name to: </span>
                   <input onChange={(e) => setEditing({ ...editing, name: e.target.value })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}}  type="text" placeholder={editUser.name} />
                 </p>
                </div>
                <div className='m-3' style={{color: '#495057'}}>
-                 <p className='fs-4 p-2 d-flex justify-content-between'>
+                 <p className='fs-4 p-1 d-flex justify-content-between'>
                    <span className='w-25'>Role to: </span>
                    <select onChange={(e) => setEditing({ ...editing, role_id: parseInt(e.target.value) })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}}>
+                     <option disabled  placeholder="Select Role" selected>Select Role</option>
                      {roles.map((role) => (
-                       <option value={role.id} selected={editUser.roleId === role.id}>{role.name}</option>
+                       <option value={role.id} key={role.id} >{role.name}</option>
                      ))}
                    </select>
                  </p>
@@ -72,14 +103,24 @@ const EditUser = ({handleEdit,editUser}) => {
                <div className='m-3' style={{color: '#495057'}}>
                <p className='fs-4 p-2 d-flex justify-content-between'>
                   <span className='w-25'>Gender to: </span>
-                  <select onChange={(e) => setEditing({ ...editing, gender: e.target.value })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}}>
-                    <option value="male" selected={editing.gender === 'male'}>Male</option>
-                    <option value="female" selected={editing.gender === 'female'}>Female</option>
+                  <select onChange={(e) => setEditing({ ...editing, gender: e.target.value })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}} defaultValue={editing.gender}>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                   </select>
                 </p>
                </div>
+               {error && (
+                    <div className='text-center' style={{ background: '#f8d7da', color: '#721c24', border: '1px solid #f5c6cb', borderRadius: '0.25rem', padding: '0.75rem 1.25rem', margin: '1rem 0' }}>
+                      {error}
+                    </div>
+               )}
+               {successMessage && (
+                    <div className='text-center' style={{ background: '#d4edda', color: '#155724', border: '1px solid #c3e6cb', borderRadius: '0.25rem', padding: '0.75rem 1.25rem', margin: '1rem 0' }}>
+                      {successMessage}
+                    </div>
+               )}
                <div className='d-flex justify-content-center'>
-                <button className='btn btn-primary w-25 p-2'>Save</button>
+                <button onClick={handleChange} className='btn btn-primary w-25 p-2'>Save</button>
                </div>
             </div>
             </div>
