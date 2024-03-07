@@ -16,6 +16,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
     role_id: role?.id, // Use role.id here
     phone: editUser.phone,
     gender: editUser.gender,
+    salary: editUser.salary,
   });
 
   const [error, setError] = useState('');
@@ -36,11 +37,14 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
       });
       setError('');
       setSuccessMessage('Update successful');
-      setTimeout(() => setEdit(!edit), 1000);
+      setTimeout(() => {
+        setEdit(!edit);
+        setSuccessMessage(''); // Clear success message after 1 second
+      }, 1000);
     } catch (error) {
       setError('error');
       console.log(error);
-      setSuccessMessage('');
+      setTimeout(() => setSuccessMessage(''), 1000); // Clear success message after 1 second
     }
   };
 
@@ -86,7 +90,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
                  <p className='fs-4 p-1 d-flex justify-content-between'>
                    <span className='w-25'>Role to: </span>
                    <select onChange={(e) => setEditing({ ...editing, role_id: parseInt(e.target.value) })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}}>
-                     <option disabled  placeholder="Select Role" selected>Select Role</option>
+                     <option disabled   placeholder="Select Role" selected>Select Role</option>
                      {roles.map((role) => (
                        <option value={role.id} key={role.id} >{role.name}</option>
                      ))}
@@ -109,15 +113,21 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
                   </select>
                 </p>
                </div>
+{/*                <div className='m-3' style={{color: '#495057'}}>
+               <p className='fs-4 p-2 d-flex justify-content-between'>
+                  <span className='w-25'>Salary to: </span>
+                  <input onChange={(e)=> setEditing({ ...editing, salary: parseInt(e.target.value) })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}}  type='number' placeholder={editUser.salary} />
+                </p>
+               </div> */}
                {error && (
-                    <div className='text-center' style={{ background: '#f8d7da', color: '#721c24', border: '1px solid #f5c6cb', borderRadius: '0.25rem', padding: '0.75rem 1.25rem', margin: '1rem 0' }}>
+                    <div className='position-fixed top-0 start-50 translate-middle' style={{ background: '#f8d7da', color: '#721c24', border: '1px solid #f5c6cb', borderRadius: '0.25rem', padding: '0.75rem 1.25rem', margin: '1rem 0' }}>
                       {error}
                     </div>
                )}
-               {successMessage && (
-                    <div className='text-center' style={{ background: '#d4edda', color: '#155724', border: '1px solid #c3e6cb', borderRadius: '0.25rem', padding: '0.75rem 1.25rem', margin: '1rem 0' }}>
-                      {successMessage}
-                    </div>
+                {successMessage && (
+                    <div className='position-fixed top-0 start-50 translate-middle' style={{ background: '#d4edda', color: '#155724', border: '1px solid #f5c6cb', borderRadius: '0.25rem', padding: '0.75rem 1.25rem', margin: '1rem 0' }}>
+                    {successMessage}
+                  </div>
                )}
                <div className='d-flex justify-content-center'>
                 <button onClick={handleChange} className='btn btn-primary w-25 p-2'>Save</button>

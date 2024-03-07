@@ -12,9 +12,8 @@ export default function FoodCard() {
     <div className="m-2 rounded-3" style={{ background: "#FEC260" }}>
       <div className="rounded-3 foodcard">
         <img
-          className="rounded-3"
+          className="rounded-3 img-fluid"
           src={dummyImage}
-          style={{ height: "150px" }}
           alt=""
         />
       </div>

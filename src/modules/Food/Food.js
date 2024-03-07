@@ -45,17 +45,32 @@ function YourComponent() {
         </nav>
       </header>
 
-      <main className="d-flex flex-wrap justify-content-between">
-        <FoodCard />
-        <FoodCard />
-        <FoodCard />
-        <FoodCard />
-        <FoodCard />
-        <FoodCard />
-        <FoodCard />
-        <FoodCard />
-        <FoodCard />
-        <FoodCard />
+      <main className="container">
+      <div className="row">
+        <div className="col-6 col-lg-3 col-md-4 col-sm-6 ">
+         <FoodCard />
+        </div>
+        <div className="col-6 col-lg-3 col-md-4 col-sm-6">
+         <FoodCard />
+        </div>
+        <div className="col-6 col-lg-3 col-md-4 col-sm-6">
+         <FoodCard />
+        </div>
+        <div className="col-6 col-lg-3 col-md-4 col-sm-6">
+         <FoodCard />
+        </div>
+        <div className="col-6 col-lg-3 col-md-4 col-sm-6">
+         <FoodCard />
+        </div>
+        <div className="col-6 col-lg-3  col-md-4 col-sm-6">
+         <FoodCard />
+        </div>
+        <div className="col-6 col-lg-3 col-md-4 col-sm-6">
+         <FoodCard />
+        </div>
+
+      </div>
+
       </main>
 
       <footer></footer>
