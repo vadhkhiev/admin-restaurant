@@ -18,7 +18,7 @@ const User = () => {
   const [selectUser , setSelectUser] = useState(false)
   const [edit , setEdit] = useState(false)
   const [editUser , setEditUser] = useState({})
-  const [create , setCreate] = useState(true)
+  const [create , setCreate] = useState(false)
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');  
   const dispatch = useDispatch()
 
