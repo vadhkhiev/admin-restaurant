@@ -7,6 +7,7 @@ import axios from 'axios';
 import { storeUsers } from './core/allusersSlice';
 import Confirm from './components/Confirm';
 import EditUser from './components/EditUser';
+import CreateUser from './components/CreateUser';
 
 
 const User = () => {
@@ -34,7 +35,7 @@ const User = () => {
       }
     };
     fetchData();
-  }, [selectUser]);
+  }, [selectUser ,edit]);
 
 
 
@@ -89,11 +90,12 @@ const User = () => {
 
       {edit && (
         <>
-        <EditUser handleEdit={handleEdit} editUser={editUser}  />
+        <EditUser handleEdit={handleEdit} editUser={editUser} setEdit={setEdit} edit={edit}  />
         </>
       )
-
       }
+
+      {/* <CreateUser/> */}
 
       {/* End of Modal */}
 

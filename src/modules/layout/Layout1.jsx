@@ -17,7 +17,6 @@ const Layout1 = () => {
       try {
         const result = await getroles(token);
         dispatch(storeRoles(result.data))
-        console.log(result.data)
       }
       catch (error) {
         console.error( error);
