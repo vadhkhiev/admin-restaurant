@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom';
 import {sidebarlink, administrator} from '../../../assets/data/sidebarlink';
 import { useSelector } from 'react-redux';
@@ -25,10 +25,9 @@ const Sidebar = ({toggle}) => {
         </NavLink>
     </li>
 ))}
- {
-    currentuser && (currentuser === 'Super-Admin' || currentuser?.roleId === 'Manager') && 
+{currentuser && (currentuser === 'Super-Admin' || currentuser === 'Manager') && (
     <>
-        <li className='m-3 text-white-50 ' key="administrator-title">administrator</li>
+        <li className='m-3 text-white-50 ' key="administrator-title">Administrator</li>
         {administrator.map((item, index) => (
             <li className="sidebar-item" key={`administrator-${index}`}>
                 <NavLink to={item.link} className="sidebar-link" >
@@ -38,7 +37,7 @@ const Sidebar = ({toggle}) => {
             </li>
         ))}
     </>
-} 
+)}  
 
             
                 </ul>
