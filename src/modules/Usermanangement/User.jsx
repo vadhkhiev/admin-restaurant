@@ -7,7 +7,7 @@ import axios from 'axios';
 import { storeUsers } from './core/allusersSlice';
 import Confirm from './components/Confirm';
 import EditUser from './components/EditUser';
-import CreateUser from './components/CreateUser';
+import CreateUser from './components/CreateUser'
 
 
 const User = () => {
@@ -18,6 +18,7 @@ const User = () => {
   const [selectUser , setSelectUser] = useState(false)
   const [edit , setEdit] = useState(false)
   const [editUser , setEditUser] = useState({})
+  const [create , setCreate] = useState(true)
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');  
   const dispatch = useDispatch()
 
@@ -79,6 +80,9 @@ const User = () => {
       setEditUser(users.find((user) => user.id === editid));
     }
   };
+  const handleCreate = () => {
+    setCreate(true)
+  }
 
 
   return (
@@ -94,8 +98,13 @@ const User = () => {
         </>
       )
       }
+      {create && (
+        <>
+        <CreateUser onClick={handleCreate} />
+        </>
+        )
+      }
 
-      {/* <CreateUser/> */}
 
       {/* End of Modal */}
 
