@@ -6,7 +6,6 @@ import Home from "./modules/home/Home";
 import { useSelector } from "react-redux";
 import Login from "./modules/Login/Login";
 import User from "./modules/Usermanangement/User";
-import CreateUser from "./modules/Usermanangement/CreateUser";
 import Food from "./modules/Food/Food";
 
 function App() {
@@ -27,7 +26,6 @@ function App() {
             {(user && user?.roleId === 1) || 2 ? (
               <>
                 <Route path="users" element={<User />} />
-                <Route path="users/create" element={<CreateUser />} />
                 <Route path="role" element={<h1>Role</h1>} />
                 <Route path="reports" element={<h1>Reports</h1>} />
                 <Route path="foods" element={<Food />} />

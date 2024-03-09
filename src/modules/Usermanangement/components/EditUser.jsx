@@ -71,7 +71,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
             </div>
             <div >
             <div className='mx-3  rounded-3' style={{backgroundColor: 'rgba(255,255,255, 1)'}} >
-              <h3 style={{color: '#495057'}} className=' text-center'>Editing {editUser.name}'s</h3>
+              <h3 style={{color: '#495057'}} className=' text-center'>Editing {editUser.name}</h3>
             </div>
             
             <div className='m-3 p-3 rounded-3' style={{backgroundColor: 'rgba(255,255,255, 1)'}}>
@@ -82,7 +82,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
 
               <div className='m-3' style={{color: '#495057'}} >
                 <p className='fs-4 p-1 d-flex justify-content-between'>
-                  <span className='w-25'>Name to: </span>
+                  <span className='w-25'>Name : </span>
                   <input onChange={(e) => setEditing({ ...editing, name: e.target.value })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}}  type="text" placeholder={editUser.name} />
                 </p>
                </div>
@@ -100,13 +100,13 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
 
                <div className='m-3' style={{color: '#495057'}}>
                <p className='fs-4 p-2 d-flex justify-content-between'>
-                  <span className='w-25'>Phone to: </span>
+                  <span className='w-25'>Phone : </span>
                   <input onChange={(e)=> setEditing({ ...editing, phone: e.target.value })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}}  type='number' placeholder={editUser.phone} />
                 </p>
                </div>
                <div className='m-3' style={{color: '#495057'}}>
                <p className='fs-4 p-2 d-flex justify-content-between'>
-                  <span className='w-25'>Gender to: </span>
+                  <span className='w-25'>Gender : </span>
                   <select onChange={(e) => setEditing({ ...editing, gender: e.target.value })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}} defaultValue={editing.gender}>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -129,7 +129,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
                     {successMessage}
                   </div>
                )}
-               <div className='d-flex justify-content-center'>
+               <div className='d-flex justify-content-center pb-3'>
                 <button onClick={handleChange} className='btn btn-primary w-25 p-2'>Save</button>
                </div>
             </div>

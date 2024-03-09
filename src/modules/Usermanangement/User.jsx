@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Table from './components/Table';
-import getalluser from './core/getUsers';
+import getusers from './core/getUsers';
 import loadingImg from '../../assets/img/loading.gif';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'; 
@@ -8,6 +8,7 @@ import { storeUsers } from './core/allusersSlice';
 import Confirm from './components/Confirm';
 import EditUser from './components/EditUser';
 import CreateUser from './components/CreateUser'
+import Filterbar from './components/Filterbar';
 
 
 const User = () => {
@@ -15,29 +16,37 @@ const User = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [confirm, setConfirm] = useState('');
-  const [selectUser , setSelectUser] = useState(false)
+  const [selectRole , setSelectRole] = useState('')
   const [edit , setEdit] = useState(false)
+  const [refresh , setRefresh] = useState(false)
   const [editUser , setEditUser] = useState({})
   const [create , setCreate] = useState(false)
+  //filtering
+  const [pagingdetails, setPagingdetails] = useState({});
+  const [query , setQuery] = useState('')
+  const [sortby , setSortby] = useState('')
+  const [currpage , setCurrpage] = useState(1)
+  const [orderby , setOrderby] = useState('asc')
+  const [filter , setFilter] = useState(false)
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');  
   const dispatch = useDispatch()
-
-
+  console.log(filter)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getalluser(token , selectUser === true ? '/api/user?roleId=1' : '/api/user');
+        const result = await getusers(token,currpage,selectRole,query);
         dispatch(storeUsers(result.data))
         setUsers(result.data);
+        setPagingdetails(result.paging)
         setLoading(false);
       } catch (error) {
         console.error('Error in component:', error);
       }
     };
     fetchData();
-  }, [selectUser ,edit]);
 
+  }, [selectRole ,edit ,refresh,currpage ,query ]);
 
 
   const handleDelete = (user) => {
@@ -83,7 +92,14 @@ const User = () => {
   const handleCreate = () => {
     setCreate(true)
   }
-
+  const handlePagination = (paging) => {
+    window.scrollTo(0, 0);
+    if (paging === 'increase') {
+      setCurrpage(pagingdetails.totalPage === currpage ? currpage : currpage + 1 );
+    } else {
+      setCurrpage(currpage === 1 ? 1 : currpage - 1);
+    }
+  }
 
   return (
     <>
@@ -100,7 +116,7 @@ const User = () => {
       }
       {create && (
         <>
-        <CreateUser onClick={handleCreate} />
+        <CreateUser setCreate={setCreate} setRefresh={setRefresh} refresh={refresh}  />
         </>
         )
       }
@@ -117,48 +133,102 @@ const User = () => {
             </span>
           </div>
         ) : (
-          <>{
-            users.length > 0 && (
-              <>
-              <div  className='p-4 px-3 d-flex justify-content-between'>
-                <span style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px"}} className='fw-bold p-2 rounded-3' >
-                  <span className='me-3 p-2' style={selectUser===false ? {borderBottom: '3px solid #3e4057',cursor:'pointer'} : {cursor:'pointer'}} onClick={() => setSelectUser(false)} >All</span>
-                  <span className=' p-2' style={!selectUser===false ? {borderBottom: '3px solid #3e4057',cursor:'pointer'} : {cursor:'pointer'}} onClick={() => setSelectUser(true)} >Admin</span>
-                </span>
-                <div>
-                  <p className='fw-bold'>Total {selectUser === true ? 'Admin' : ' Members '}: {users.length}</p>
-               </div>
-              </div>
-
-              </>
-            )
-          }
-              <div className='pt-3 px-3 d-flex justify-content-between '>
-               <div className='d-flex'>
+          <div>
+            <div className='p-4 px-3 d-flex justify-content-between'>
+            <span style={{ boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px" }} className='fw-bold p-2 rounded-3'>
+              <span className={`me-3 p-2 ${selectRole === '' ? 'borderbottom' : ''}`} onClick={() => setSelectRole('')}>All</span>
+              <span className={`p-2 ${selectRole === 1 ? 'borderbottom' : ''}`} onClick={() => setSelectRole(1)}>Admin</span>
+            </span>
+            <div>
+              <p className='fw-bold'>Total {selectRole === '' ? 'Members' : 'Admin' } : {pagingdetails.totals}</p>
+            </div>
+          </div>
+        
+            <div className='pt-3 ps-3 d-flex justify-content-between row'>
+               <div className='d-flex col-3'>
                  <h2 style={{color:'#45495c'}} className='fw-bold me-3'>Members</h2>
-                 <button  style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold'>Add More</button>
+                 <button onClick={handleCreate}  style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold'>Add</button>
                </div>
-               <div>
-               <button  style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold'> {`< Filter`}</button>
+
+               {/* search and filter */}
+
+              <div className={`col-sm-12 col-md-9 d-flex justify-content-end`}>
+               <div className={`d-flex ${filter? 'col-12' : 'col-4'} `}>
+                <div className='d-flex' >
+                  <div className='w-75' > 
+                    <input
+                      type="text"
+                      className='form-control p-2 w-100'
+                      placeholder='Search user...'
+                      onChange={(e) => {
+                        const timeoutId = setTimeout(() => setQuery(e.target.value), 500);
+                        return () => clearTimeout(timeoutId);
+                      }}
+                    />
+                  </div>
+                  <div className='rounded-start d-flex align-items-center' style={{background:'#6c738f'}}>
+                  <button onClick={() => setFilter(!filter)} style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold  text-nowrap'> {`${filter? '>' : '<'} Filter`}</button>
+                  </div>
+                  </div>
+                  <div style={{background:'#6c738f'}} className={`d-flex align-items-center ${filter? 'col-8' : 'd-none'}`}>
+                        {
+                          filter && <Filterbar setSortby={setSortby} setOrderby={setOrderby}/>
+                        }
+                  </div>
+                    
+               </div>
                </div>
                 
               </div>
-            {users.length > 0 && (
-              <>
-              <div className='p-3'>
-                <Table
-                 handleDelete={handleDelete}
-                 users={users}
-                 handleEdit={handleEdit}
-               />
-             </div>
-              </>
-            )}
-          </>
+              {
+             users.length > 0 ? (
+                <div className='p-3'>
+                  <Table
+                    handleDelete={handleDelete}
+                    users={(orderby === 'desc' ? users.slice().reverse() : users)}
+                    handleEdit={handleEdit}
+                  />
+                </div>
+              ) : (
+                <div className='p-3'>
+                  <p className='text-center text-danger'>No users found</p>
+                </div>
+              )
+            }
+
+            {/* pagination */}
+
+          {users.length > 0 && (
+          <div className='p-0 d-flex justify-content-center'>
+            <nav aria-label="Page navigation example">
+              <ul className="pagination list-unstyled d-flex justify-content-center align-items-center">
+                <li className="page-item underline-none me-4">
+                  <a onClick={() => handlePagination('decrease')} style={{ fontSize: '25px' }} className="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li className="page-item underline-none" style={{ display: 'flex', gap: '5px', width: '60px' }}>
+                  <span className="page-link" style={{ fontSize: '18px' }}>{currpage}</span>
+                  <span className="page-link" style={{ fontSize: '18px' }}>/</span>
+                  <span className="page-link" style={{ fontSize: '18px' }}>{pagingdetails.totalPage}</span>
+                </li>
+                <li className="page-item">
+                  <a onClick={() => handlePagination('increase')} style={{ fontSize: '25px' }} className="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+
+          </div>
         )}
       </div>
-    </>
-  );
+        )
+      }
+    </div>
+  </>
+  )
+  
 };
 
 export default User;
@@ -166,8 +236,3 @@ export default User;
 
 
 
-{/* <Link to='/users/create'>
-<span className='btn btn-primary mx-3'>
-  <BsFillPersonPlusFill /> Add
-</span>
-</Link> */}
