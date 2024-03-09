@@ -57,7 +57,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
             position: 'fixed',
             top: 0,
             right: 0,
-            width: '40vw',
+            width: '30%',
             height: '100%',
             backgroundColor: 'rgba(62,64,87, 0.35)',
             zIndex: 9999,
@@ -71,7 +71,9 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
             </div>
             <div >
             <div className='mx-3  rounded-3' style={{backgroundColor: 'rgba(255,255,255, 1)'}} >
-              <h3 style={{color: '#495057'}} className=' text-center'>Editing {editUser.name}</h3>
+              <h4 style={{color: '#495057'}} className=' text-center'>Editing
+               <span style={{color:'#3d7dda'}}> {editUser.name}</span> 
+               </h4>
             </div>
             
             <div className='m-3 p-3 rounded-3' style={{backgroundColor: 'rgba(255,255,255, 1)'}}>
@@ -81,13 +83,13 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
             </div>
 
               <div className='m-3' style={{color: '#495057'}} >
-                <p className='fs-4 p-1 d-flex justify-content-between'>
+                <p className='fs-5 p-1 d-flex justify-content-between'>
                   <span className='w-25'>Name : </span>
                   <input onChange={(e) => setEditing({ ...editing, name: e.target.value })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}}  type="text" placeholder={editUser.name} />
                 </p>
                </div>
                <div className='m-3' style={{color: '#495057'}}>
-                 <p className='fs-4 p-1 d-flex justify-content-between'>
+                 <p className='fs-5 p-1 d-flex justify-content-between'>
                    <span className='w-25'>Role to: </span>
                    <select onChange={(e) => setEditing({ ...editing, role_id: parseInt(e.target.value) })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}}>
                      <option disabled   placeholder="Select Role" selected>Select Role</option>
@@ -99,13 +101,13 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
                </div>
 
                <div className='m-3' style={{color: '#495057'}}>
-               <p className='fs-4 p-2 d-flex justify-content-between'>
+               <p className='fs-5 p-2 d-flex justify-content-between'>
                   <span className='w-25'>Phone : </span>
                   <input onChange={(e)=> setEditing({ ...editing, phone: e.target.value })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}}  type='number' placeholder={editUser.phone} />
                 </p>
                </div>
                <div className='m-3' style={{color: '#495057'}}>
-               <p className='fs-4 p-2 d-flex justify-content-between'>
+               <p className='fs-5 p-2 d-flex justify-content-between'>
                   <span className='w-25'>Gender : </span>
                   <select onChange={(e) => setEditing({ ...editing, gender: e.target.value })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}} defaultValue={editing.gender}>
                     <option value="Male">Male</option>

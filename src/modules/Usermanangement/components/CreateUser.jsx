@@ -131,7 +131,7 @@ const CreateUser = ({refresh,setCreate ,setRefresh}) => {
             zIndex: 9999,
           }}
           className='d-flex justify-content-center align-items-center'>
-          <div style={{backgroundColor:'rgba(255,255,255,1)',boxShadow: 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;', borderRadius:'0.5rem',width:'35%' }} className='py-3 px-4 bg-white h-100 position-relative'>
+          <div style={{backgroundColor:'#eff0f1',boxShadow: 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;', borderRadius:'0.5rem',width:'35%' }} className='py-3 px-4  h-100 position-relative'>
           <div style={{background:'rgba(239,240,241 1)' , top:'4px',left:'7px',zIndex:'1',fontSize:'12px'}} className='d-flex justify-content-start fs-3 text-danger position-absolute'>
             <IoCloseCircleOutline style={{cursor:'pointer'}} onClick={()=>setCreate(false)}/>
           </div>
@@ -180,7 +180,7 @@ const CreateUser = ({refresh,setCreate ,setRefresh}) => {
 
             <div className="input-group flex-nowrap gap-3 mt-3">
               <div className='w-100 d-flex flex-column position-relative'>
-                <span style={{top:'-10px',left:'10px',zIndex:'1',fontSize:'12px'}} className='d-flex position-absolute bg-white'>
+                <span style={{top:'-10px',left:'10px',zIndex:'1',fontSize:'12px'}} className='d-flex position-absolute '>
                   <label>Email</label><span className='text-danger'>*</span>
                 </span>
                 <input
@@ -197,7 +197,7 @@ const CreateUser = ({refresh,setCreate ,setRefresh}) => {
 
             <div className='w-100 mt-3 d-flex'>
               <div className='w-50 position-relative'>
-              <div style={{top:'-10px',left:'10px',zIndex:'1',fontSize:'12px'}} className='position-absolute bg-white'>
+              <div style={{top:'-10px',left:'10px',zIndex:'1',fontSize:'12px'}} className='position-absolute '>
                 <label>Role</label><span className='text-danger'>*</span>
               </div>
                <select
@@ -212,7 +212,7 @@ const CreateUser = ({refresh,setCreate ,setRefresh}) => {
               </select> 
               </div>
               <div className='w-50 d-flex flex-column position-relative'>
-                <span className='d-flex position-absolute bg-white'style={{top:'-10px',left:'10px',zIndex:'1',fontSize:'12px'}} >
+                <span className='d-flex position-absolute 'style={{top:'-10px',left:'10px',zIndex:'1',fontSize:'12px'}} >
                   <label>Gender</label><span className='text-danger'>*</span>
                 </span>
                 <select
@@ -267,33 +267,33 @@ const CreateUser = ({refresh,setCreate ,setRefresh}) => {
                   </div>
                 )}
 
-{successMessage && (
-  <div className="custom-alert custom-alert-success" role="alert">
-    {successMessage}
-    <button
-      type="button"
-      style={{
-        marginLeft: '10px',
-        marginTop: '-10px',
-        marginBottom: '-10px',
-        padding: '5px 10px',
-        fontSize: '1rem',
-        color: 'green',
-        borderRadius: '50%',
-        cursor: 'pointer',
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        zIndex: '1',
-      }}
-      className="custom-btn-close"
-      aria-label="Close"
-      onClick={() => setSuccessMessage(null)}
-    >
-      &times;
-    </button>
-  </div>
-)}
+                {successMessage && (
+                  <div className="custom-alert custom-alert-success" role="alert">
+                    {successMessage}
+                    <button
+                      type="button"
+                      style={{
+                        marginLeft: '10px',
+                        marginTop: '-10px',
+                        marginBottom: '-10px',
+                        padding: '5px 10px',
+                        fontSize: '1rem',
+                        color: 'green',
+                        borderRadius: '50%',
+                        cursor: 'pointer',
+                        position: 'absolute',
+                        top: '0',
+                        right: '0',
+                        zIndex: '1',
+                      }}
+                      className="custom-btn-close"
+                      aria-label="Close"
+                      onClick={() => setSuccessMessage(null)}
+                    >
+                      &times;
+                    </button>
+                  </div>
+                )}
 
 
             <div className='d-flex justify-content-center mt-2'>

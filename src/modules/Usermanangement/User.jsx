@@ -35,7 +35,7 @@ const User = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getusers(token,currpage,selectRole,query);
+        const result = await getusers(token,currpage,selectRole,query,sortby);
         dispatch(storeUsers(result.data))
         setUsers(result.data);
         setPagingdetails(result.paging)
@@ -46,7 +46,7 @@ const User = () => {
     };
     fetchData();
 
-  }, [selectRole ,edit ,refresh,currpage ,query ]);
+  }, [selectRole ,edit ,refresh,currpage ,query ,sortby ]);
 
 
   const handleDelete = (user) => {
@@ -172,7 +172,9 @@ const User = () => {
                   </div>
                   <div style={{background:'#6c738f'}} className={`d-flex align-items-center ${filter? 'col-8' : 'd-none'}`}>
                         {
-                          filter && <Filterbar setSortby={setSortby} setOrderby={setOrderby}/>
+                          filter && <Filterbar setSortby={setSortby} setOrderby={setOrderby} orderby={orderby} sortby={sortby} 
+                          setSelectRole={setSelectRole} selectRole={selectRole}
+                          />
                         }
                   </div>
                     
