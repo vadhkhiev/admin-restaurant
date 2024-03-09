@@ -18,7 +18,7 @@ function App() {
         {isAuthenticated ? (
           <Route path="/" element={<Layout1 />}>
             <Route index element={<Home />} />
-            <Route path="blog" element={<h1>Blog</h1>} />
+            <Route path="table" element={<h1>table</h1>} />
             <Route path="category" element={<h1>Category</h1>} />
             <Route path="tag" element={<h1>tag</h1>} />
 

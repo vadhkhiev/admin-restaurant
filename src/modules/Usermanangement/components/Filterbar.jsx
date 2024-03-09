@@ -6,7 +6,8 @@ const Filterbar = ({setSortby ,setOrderby , orderby , sortby , selectRole , setS
     console.log(role)
   return (
     <>
-        <div className='mx-3 '>
+    <div className='d-flex justify-content-evenly'>
+    <div className='mx-3 '>
             <div>
                 <select
                 className="form-select py-0"
@@ -50,6 +51,7 @@ const Filterbar = ({setSortby ,setOrderby , orderby , sortby , selectRole , setS
             </select>
 
         </div>
+    </div>
     </>
   )
 }

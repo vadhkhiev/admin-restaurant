@@ -169,7 +169,7 @@ const User = () => {
                   <div className='rounded-start d-flex align-items-center' style={{background:'#6c738f'}}>
                   <button onClick={() => setFilter(!filter)} style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold  text-nowrap'> {`${filter? '>' : '<'} Filter`}</button>
                   </div>
-                  </div>
+                 </div>
                   <div style={{background:'#6c738f'}} className={`d-flex align-items-center ${filter? 'col-8' : 'd-none'}`}>
                         {
                           filter && <Filterbar setSortby={setSortby} setOrderby={setOrderby} orderby={orderby} sortby={sortby} 
