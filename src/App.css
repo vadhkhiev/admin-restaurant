@@ -119,6 +119,40 @@ input[type=number] {
   margin-left: 260px;
 }
 
+.custom-alert {
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  padding: 1rem; /* Add padding as needed */
+  border-radius: 0.25rem; /* Add border-radius as needed */
+}
+
+.custom-alert-danger {
+  background-color: #f8a6b0; /* Set your desired background color for danger alerts */
+  color: #fff; /* Set your desired text color for danger alerts */
+  border: 1px solid red;
+}
+
+.custom-alert-success {
+  background-color: #28a745; /* Set your desired background color for success alerts */
+  color: #fff; /* Set your desired text color for success alerts */
+}
+
+.custom-btn-close {
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0; /* Adjust padding as needed */
+  margin: 0; /* Adjust margin as needed */
+}
+.borderbottom{
+  border-bottom: 3px solid #6c738f;
+
+}
+
 @media (max-width: 767px) {
   /* Styles for screens smaller than 768px */
   .sidebar {

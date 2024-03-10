@@ -7,6 +7,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { RxPerson } from "react-icons/rx";
+import { MdTableBar } from "react-icons/md";
 
 const sidebarlink = [
     {
@@ -16,9 +17,9 @@ const sidebarlink = [
         icon : <FaChartLine/>
     },{
         Id : 2,
-        title : 'Blog',
-        link : '/blog',
-        icon : <TfiWrite/>
+        title : 'Table',
+        link : '/table',
+        icon : <MdTableBar/>
     },{
         Id : 3,
         title : 'Category',

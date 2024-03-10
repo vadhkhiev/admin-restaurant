@@ -66,10 +66,10 @@ const Topnav = ({toggle}) => {
 
                     </li> */}
                     <li className="nav-item dropdown">
-                        <a className="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
+                        <a className="nav-icon dropdown-toggle " href="#" data-bs-toggle="dropdown">
                             <i className="align-middle" data-feather="settings"></i>
                         </a>
-                        <Link to='profile' className="nav-link dropdown-toggle d-none d-sm-inline-block "  data-bs-toggle="dropdown">
+                        <Link to='profile' className="nav-link dropdown-toggle "  data-bs-toggle="dropdown">
                         <FaRegUserCircle className='text-white fs-3'/>
                     
                         </Link>
