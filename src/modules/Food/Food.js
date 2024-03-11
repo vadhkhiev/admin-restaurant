@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import getFoodCategories from "./Core/getFoodCategories";
 import { useSelector } from "react-redux";
 import FoodCard from "./Component/FoodCard";
+import { IoIosAddCircle } from "react-icons/io";
 
 function YourComponent() {
   const [listCategories, setListCategories] = useState([]);
@@ -46,34 +47,35 @@ function YourComponent() {
       </header>
 
       <main className="container">
-      <div className="row">
-        <div className="col-6 col-lg-3 col-md-4 col-sm-6 ">
-         <FoodCard />
+        <div className="row">
+          <div className="col-6 col-lg-3 col-md-4 col-sm-6 ">
+            <FoodCard />
+          </div>
+          <div className="col-6 col-lg-3 col-md-4 col-sm-6">
+            <FoodCard />
+          </div>
+          <div className="col-6 col-lg-3 col-md-4 col-sm-6">
+            <FoodCard />
+          </div>
+          <div className="col-6 col-lg-3 col-md-4 col-sm-6">
+            <FoodCard />
+          </div>
+          <div className="col-6 col-lg-3 col-md-4 col-sm-6">
+            <FoodCard />
+          </div>
+          <div className="col-6 col-lg-3  col-md-4 col-sm-6">
+            <FoodCard />
+          </div>
+          <div className="col-6 col-lg-3 col-md-4 col-sm-6">
+            <FoodCard />
+          </div>
         </div>
-        <div className="col-6 col-lg-3 col-md-4 col-sm-6">
-         <FoodCard />
-        </div>
-        <div className="col-6 col-lg-3 col-md-4 col-sm-6">
-         <FoodCard />
-        </div>
-        <div className="col-6 col-lg-3 col-md-4 col-sm-6">
-         <FoodCard />
-        </div>
-        <div className="col-6 col-lg-3 col-md-4 col-sm-6">
-         <FoodCard />
-        </div>
-        <div className="col-6 col-lg-3  col-md-4 col-sm-6">
-         <FoodCard />
-        </div>
-        <div className="col-6 col-lg-3 col-md-4 col-sm-6">
-         <FoodCard />
-        </div>
-
-      </div>
-
       </main>
 
       <footer></footer>
+      <div className="position-absolute end-0 me-4">
+        <IoIosAddCircle style={{ fontSize: "3.2em" }} />
+      </div>
     </>
   );
 }
