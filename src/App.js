@@ -20,7 +20,8 @@ function App() {
             <Route index element={<Home />} />
             <Route path="table" element={<h1>table</h1>} />
             <Route path="category" element={<h1>Category</h1>} />
-            <Route path="tag" element={<h1>tag</h1>} />
+            <Route path="order" element={<h1>order</h1>} />
+            <Route path="profile" element={<h1>Profile</h1>} />
 
             {/* admin routes */}
             {(user && user?.roleId === 1) || 2 ? (
@@ -29,7 +30,6 @@ function App() {
                 <Route path="role" element={<h1>Role</h1>} />
                 <Route path="reports" element={<h1>Reports</h1>} />
                 <Route path="foods" element={<Food />} />
-                <Route path="profile" element={<h1>Profile</h1>} />
               </>
             ) : null}
 

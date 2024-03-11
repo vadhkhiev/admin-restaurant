@@ -8,6 +8,7 @@ import { HiOutlineDocumentReport } from "react-icons/hi";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { RxPerson } from "react-icons/rx";
 import { MdTableBar } from "react-icons/md";
+import { BsBox2 } from "react-icons/bs";
 
 const sidebarlink = [
     {
@@ -27,9 +28,9 @@ const sidebarlink = [
         icon : <BiCategory/>
     },{
         Id : 4,
-        title : 'Tag',
-        link : '/tag',
-        icon : <FiTag/>
+        title : 'Order',
+        link : '/order',
+        icon : <BsBox2/>
 
     },{
         Id : 5,
@@ -37,7 +38,13 @@ const sidebarlink = [
         link : '/profile',
         icon : <RxPerson/>
 
-    },
+    },{
+        Id : 6,
+        title : 'Foods',
+        link : '/foods',
+        icon : <IoFastFoodOutline/>
+        
+    }
 ];
 
 const administrator = [
@@ -57,13 +64,7 @@ const administrator = [
         title : 'Reports',
         link : '/reports',
         icon : <HiOutlineDocumentReport/>
-    },{
-        Id : 4,
-        title : 'Foods',
-        link : '/foods',
-        icon : <IoFastFoodOutline/>
-        
-    }
+    },
 ];
 
 export { sidebarlink, administrator };
