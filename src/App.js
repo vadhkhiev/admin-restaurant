@@ -22,14 +22,14 @@ function App() {
             <Route path="category" element={<h1>Category</h1>} />
             <Route path="order" element={<h1>order</h1>} />
             <Route path="profile" element={<h1>Profile</h1>} />
+            <Route path="foods" element={<Food />} />
 
             {/* admin routes */}
-            {(user && user?.roleId === 1) || 2 ? (
+            {(user && user?.roleId === 1) || 2  ? (
               <>
                 <Route path="users" element={<User />} />
                 <Route path="role" element={<h1>Role</h1>} />
                 <Route path="reports" element={<h1>Reports</h1>} />
-                <Route path="foods" element={<Food />} />
               </>
             ) : null}
 
