@@ -9,7 +9,7 @@ export const rootReducers = combineReducers({
   roles: roleReducer, // all roles
   users: allusersReducer, // all user
   currentUser: currentUserReducer, // current user
-  allfood: foodReducer,
+  foodList: foodReducer,
 
   /* Add other reducers here  */
 });
