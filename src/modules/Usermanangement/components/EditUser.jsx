@@ -90,10 +90,10 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
                </div>
                <div className='m-3' style={{color: '#495057'}}>
                  <p className='fs-5 p-1 d-flex justify-content-between'>
-                   <span className='w-25'>Role to: </span>
+                   <span className='w-25'>Role : </span>
                    <select onChange={(e) => setEditing({ ...editing, role_id: parseInt(e.target.value) })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'7px',border:'none'}}>
-                     <option disabled   placeholder="Select Role" selected>Select Role</option>
-                     {roles.map((role) => (
+                     <option value={editUser.role_id}  selected>{editUser.roleEntity.name}</option>
+                     {roles.filter((role) => role.id !== editUser.roleEntity.id).map((role) => (
                        <option value={role.id} key={role.id} >{role.name}</option>
                      ))}
                    </select>

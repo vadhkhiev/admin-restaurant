@@ -26,16 +26,27 @@ const User = () => {
   const [query , setQuery] = useState('')
   const [sortby , setSortby] = useState('')
   const [currpage , setCurrpage] = useState(1)
-  const [orderby , setOrderby] = useState('asc')
+  const [orderby , setOrderby] = useState('')
+  const [limit , setLimit] = useState(10)
   const [filter , setFilter] = useState(false)
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');  
+  const roles = useSelector((state) => state.roles.roles);
   const dispatch = useDispatch()
-  console.log(filter)
+
+
+  //solved no user when we make change on other pages > 1
+
+  useEffect(()=>{
+    setLoading(true)
+    setCurrpage(1)
+    setLoading(false) 
+  },[limit ,selectRole])
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getusers(token,currpage,selectRole,query,sortby);
+        const result = await getusers(token,currpage,selectRole,query,sortby ,limit);
         dispatch(storeUsers(result.data))
         setUsers(result.data);
         setPagingdetails(result.paging)
@@ -46,7 +57,7 @@ const User = () => {
     };
     fetchData();
 
-  }, [selectRole ,edit ,refresh,currpage ,query ,sortby ]);
+  }, [selectRole ,edit ,refresh, currpage ,query ,sortby , limit ]);
 
 
   const handleDelete = (user) => {
@@ -140,20 +151,22 @@ const User = () => {
               <span className={`p-2 ${selectRole === 1 ? 'borderbottom' : ''}`} onClick={() => setSelectRole(1)}>Admin</span>
             </span>
             <div>
-              <p className='fw-bold'>Total {selectRole === '' ? 'Members' : 'Admin' } : {pagingdetails.totals}</p>
+                  <p className=''>
+                  Total <span style={{color:'#3d7dda'}}> {selectRole === '' ? 'All' : selectRole === 1 ? 'Admin' : (roles.find((role) => role.id === parseInt(selectRole)))?.name}</span> : {pagingdetails.totals}
+                </p>
             </div>
           </div>
         
             <div className='pt-3 ps-3 d-flex justify-content-between row'>
-               <div className='d-flex col-3'>
-                 <h2 style={{color:'#45495c'}} className='fw-bold me-3'>Members</h2>
+               <div className='d-flex col-2'>
+                 <h3 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center me-3'>Members</h3>
                  <button onClick={handleCreate}  style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold'>Add</button>
                </div>
 
                {/* search and filter */}
 
-              <div className={`col-sm-12 col-md-9 d-flex justify-content-end`}>
-               <div className={`d-flex ${filter? 'col-12' : 'col-4'} `}>
+              <div className={`col-sm-12 col-md-10 d-flex justify-content-end`}>
+               <div style={{transition:'all 0.3s'}}  className={`d-flex ${filter? 'col-12' : 'col-4'} `} > 
                 <div className='d-flex' >
                   <div className='w-75' > 
                     <input
@@ -170,10 +183,10 @@ const User = () => {
                   <button onClick={() => setFilter(!filter)} style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold  text-nowrap'> {`${filter? '>' : '<'} Filter`}</button>
                   </div>
                  </div>
-                  <div style={{background:'#6c738f'}} className={`d-flex align-items-center ${filter? 'col-8' : 'd-none'}`}>
+                  <div style={{background:'#6c738f'}} className={`d-flex align-items-center ${filter? 'col-8' : ''}`}>
                         {
                           filter && <Filterbar setSortby={setSortby} setOrderby={setOrderby} orderby={orderby} sortby={sortby} 
-                          setSelectRole={setSelectRole} selectRole={selectRole}
+                          setSelectRole={setSelectRole} selectRole={selectRole} setLimit={setLimit}
                           />
                         }
                   </div>
