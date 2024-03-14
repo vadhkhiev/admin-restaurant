@@ -181,7 +181,7 @@ const User = () => {
                       }}
                     />
                   </div>
-                  <div className='rounded-start d-flex align-items-center' style={{background:'#6c738f'}}>
+                  <div className='rounded-start d-flex ' style={{background:'#6c738f'}}>
                   <button onClick={() => setFilter(!filter)} style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold  text-nowrap'> {`${filter? '>' : '<'} Filter`}</button>
                   </div>
                  </div>

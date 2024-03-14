@@ -1,7 +1,9 @@
 import React from 'react'
 import { MdOutlineLockPerson } from "react-icons/md";
 import { PiNotePencilThin } from "react-icons/pi";
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { storeId } from '../core/idSlice';
 
  const formatDate = (inputString) => {
   const [datePart, timePart] = inputString.split('T');
@@ -21,10 +23,12 @@ import { Link } from 'react-router-dom';
 
   return `${formattedDate} ${formattedTime}`;
 };
-
+ 
  
 
 const TableRow = ({role , index}) => {
+  const dispatch = useDispatch()
+  console.log(role)
 
   return (
     <>
@@ -34,7 +38,7 @@ const TableRow = ({role , index}) => {
             <td >{role?.createdBy.name}</td>
             <td >{formatDate(role?.createdDate)}</td>
          <td>
-            <Link to="/role/access"  className='fs-4 text-primary me-2' style={{color:'#6c738f'}} type="button" >
+            <Link to="/role/access" onClick={() => dispatch(storeId(role?.id))}   className='fs-4 text-primary me-2' style={{color:'#6c738f'}} type="button" >
                 <MdOutlineLockPerson/>
               </Link> 
              <a className='fs-4 text-danger' style={{color:'#6c738f'}} type="button" >
