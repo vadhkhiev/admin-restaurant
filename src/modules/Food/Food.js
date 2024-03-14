@@ -45,6 +45,8 @@ function YourComponent() {
     fetchData();
   }, []);
 
+  useEffect(() => {});
+
   return (
     <div className="position-absolute">
       <header>
