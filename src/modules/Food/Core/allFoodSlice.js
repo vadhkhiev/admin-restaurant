@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  food: [],
+  foodList: [],
 };
 
 const foodsSlice = createSlice({
-  name: "food",
+  name: "foodList",
   initialState,
   reducers: {
     storeFood: (state, action) => {
-      state.food = action.payload;
+      state.foodList = action.payload;
     },
   },
 });

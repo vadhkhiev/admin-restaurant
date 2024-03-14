@@ -1,17 +1,16 @@
-
 /* sidebar link element  */
 
 .sidebar-link.active {
   border-radius: 0.25rem;
-  background-color: #6c738f  ;
+  background-color: #6c738f;
   text-decoration: none;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   padding: 0.75rem 1rem;
   color: #fff;
-  border-left:3px solid red;
-  
+  border-left: 3px solid red;
 }
-.loading{
+.loading {
   height: 100%;
   width: 100%;
   background-color: #233243;
@@ -24,10 +23,9 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
-
 
 .breadcrumb-container {
   display: flex;
@@ -41,7 +39,7 @@ input[type=number] {
   padding: 4px;
   margin: 0;
   font-size: 14px;
-  color: #3e4057 ;
+  color: #3e4057;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -91,7 +89,7 @@ input[type=number] {
   display: none; /* Firefox */
 }
 
-.sidebar-hide{
+.sidebar-hide {
   display: none;
 }
 .sidebar {
@@ -101,21 +99,22 @@ input[type=number] {
   left: 0;
   width: 260px;
 }
-.sidebar-content{
+.sidebar-content {
   overflow-y: scroll;
   height: 100vh;
-  background-color: #3e4057 ;
+  background-color: #3e4057;
 }
 
-.sidebar, .sidebar-content {
-  background: #3e4057 ;
+.sidebar,
+.sidebar-content {
+  background: #3e4057;
   position: fixed;
   top: 0; /* You may adjust this to set the top position */
   bottom: 0; /* You may adjust this to set the bottom position */
   left: 0; /* You may adjust this to set the left position */
   width: 260px; /* You may adjust this to set the width of the sidebar */
 }
-.sidebar-show{
+.sidebar-show {
   margin-left: 260px;
 }
 
@@ -148,9 +147,8 @@ input[type=number] {
   padding: 0; /* Adjust padding as needed */
   margin: 0; /* Adjust margin as needed */
 }
-.borderbottom{
+.borderbottom {
   border-bottom: 3px solid #6c738f;
-
 }
 
 @media (max-width: 767px) {
@@ -168,5 +166,12 @@ input[type=number] {
   }
 }
 
-
-
+.add-form {
+  color: #fff;
+  background: rgba(190, 172, 172, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(13px);
+  -webkit-backdrop-filter: blur(13px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
