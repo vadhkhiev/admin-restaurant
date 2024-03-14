@@ -17,6 +17,8 @@ function YourComponent() {
   const token = localStorage.getItem("token") || tokens;
   const dispatch = useDispatch();
 
+  const [toggleForm, setToggleForm] = useState(false);
+
   //allfood
   useEffect(() => {
     const fetchData = async () => {
@@ -80,11 +82,17 @@ function YourComponent() {
         {/* <FoodCard food={food[0]} /> */}
       </main>
 
-      <AddForm />
+      <div>{toggleForm && <AddForm />}</div>
 
       <footer></footer>
       <div className="position-absolute end-0 me-2">
-        <button style={{ color: "#6c738f" }} className="border">
+        <button
+          style={{ color: "#6c738f" }}
+          className="border"
+          onClick={() => {
+            setToggleForm(!toggleForm);
+          }}
+        >
           <IoIosAddCircle style={{ fontSize: "3.2em" }} />
         </button>
       </div>
