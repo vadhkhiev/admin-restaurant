@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 export default function AddForm() {
+  //state
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
+  const [foodName, setFoodName] = useState("");
+  const [foodPrice, setFoodPrice] = useState(0);
+  const [foodCategory, setFoodCategory] = useState("");
+  const [foodDescription, setFoodDescription] = useState("");
+  //end state
+
   let categoryName = [];
   listCategories.map(({ name }) => {
     categoryName.push(name);
   });
+
   useEffect(() => {
-    console.log(categoryName);
-  }, [categoryName]);
+    console.log(foodName + " - " + foodPrice);
+  }, [foodName, foodPrice, foodDescription, foodCategory]);
   return (
     <>
       <form
@@ -19,18 +27,38 @@ export default function AddForm() {
       >
         <div class="form-group">
           <label for="inputName">Food Name</label>
-          <input type="text" className="form-control" placeholder="Food Name" />
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Food Name"
+            onChange={(e) => {
+              setFoodName(e.target.value);
+            }}
+          />
         </div>
 
         <div class="form-group">
           <label for="inputPrice">Price</label>
           {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
-          <input type="text" className="form-control" placeholder="Price" />
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Price"
+            onChange={(e) => {
+              setFoodPrice(e.target.value);
+            }}
+          />
         </div>
 
         <div class="form-group">
           <label for="inputState">Categories</label>
-          <select id="inputState" class="form-control">
+          <select
+            id="inputState"
+            class="form-control"
+            onChange={(e) => {
+              setFoodCategory(e.target.value);
+            }}
+          >
             <option selected disabled hidden>
               Choose...
             </option>
@@ -53,6 +81,9 @@ export default function AddForm() {
             type="text"
             className="form-control"
             placeholder="Description"
+            onChange={(e) => {
+              setFoodDescription(e.target.value);
+            }}
           />
         </div>
 
