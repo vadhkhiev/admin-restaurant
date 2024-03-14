@@ -9,6 +9,8 @@ import Confirm from './components/Confirm';
 import EditUser from './components/EditUser';
 import CreateUser from './components/CreateUser'
 import Filterbar from './components/Filterbar';
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { BsPeople } from "react-icons/bs";
 
 
 const User = () => {
@@ -37,9 +39,7 @@ const User = () => {
   //solved no user when we make change on other pages > 1
 
   useEffect(()=>{
-    setLoading(true)
     setCurrpage(1)
-    setLoading(false) 
   },[limit ,selectRole])
 
 
@@ -147,8 +147,10 @@ const User = () => {
           <div>
             <div className='p-4 px-3 d-flex justify-content-between'>
             <span style={{ boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px" }} className='fw-bold p-2 rounded-3'>
-              <span className={`me-3 p-2 ${selectRole === '' ? 'borderbottom' : ''}`} onClick={() => setSelectRole('')}>All</span>
-              <span className={`p-2 ${selectRole === 1 ? 'borderbottom' : ''}`} onClick={() => setSelectRole(1)}>Admin</span>
+              <span className={`me-3 p-2 ${selectRole === '' ? 'borderbottom' : ''}`} onClick={() => setSelectRole('')}>
+                All <BsPeople className='mb-1'/>
+                </span>
+              <span className={`p-2 ${selectRole === 1 ? 'borderbottom' : ''}`} onClick={() => setSelectRole(1)}>Admin <MdOutlineAdminPanelSettings /></span>
             </span>
             <div>
                   <p className=''>

@@ -25,7 +25,7 @@ const Sidebar = ({toggle}) => {
         </NavLink>
     </li>
 ))}
-{currentuser && (currentuser === 'Super-Admin' || currentuser === 'Manager' ) && (
+{ currentuser === 'Super-Admin' && (
     <>
         <li className='m-3 text-white-50 ' key="administrator-title">Administrator</li>
         {administrator.map((item, index) => (

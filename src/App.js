@@ -1,16 +1,20 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout1 from "./modules/layout/Layout1";
-
 import Home from "./modules/home/Home";
 import { useSelector } from "react-redux";
 import Login from "./modules/Login/Login";
 import User from "./modules/Usermanangement/User";
 import Food from "./modules/Food/Food";
+import Role from "./modules/Role/Role";
+import Access from "./modules/Role/components/Access";
+
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const user = useSelector((state) => state.auth.user.user);
+  const currentUser = useSelector((state) => state.currentUser.currentUser);
+  console.log(currentUser)
+
 
   return (
     <>
@@ -23,13 +27,15 @@ function App() {
             <Route path="order" element={<h1>order</h1>} />
             <Route path="profile" element={<h1>Profile</h1>} />
             <Route path="foods" element={<Food />} />
+            <Route path="reports" element={<h1>Reports</h1>} />
 
             {/* admin routes */}
-            {(user && user?.roleId === 1) || 2  ? (
+            {currentUser && currentUser?.roleEntity.id === 1  ? (
               <>
                 <Route path="users" element={<User />} />
-                <Route path="role" element={<h1>Role</h1>} />
-                <Route path="reports" element={<h1>Reports</h1>} />
+                <Route path="role" element={<Role/>} />
+                <Route path="role/access" element={<Access/>} />
+                
               </>
             ) : null}
 
