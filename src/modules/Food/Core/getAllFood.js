@@ -6,7 +6,6 @@ const getAllFood = async (token, url = "/api/food") => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
