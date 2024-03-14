@@ -5,19 +5,24 @@ import FoodCard from "./Component/FoodCard";
 import { IoIosAddCircle } from "react-icons/io";
 import { storeFood } from "./Core/allFoodSlice";
 import getAllFood from "./Core/getAllFood";
+import AddForm from "./Component/AddForm";
+import { storeCategories } from "./Core/allCategoriesSlice";
 
 function YourComponent() {
-  const [listCategories, setListCategories] = useState([]);
-  const food = useSelector((state) => {});
+  const food = useSelector((state) => state.foodList.foodList);
+  const listCategories = useSelector(
+    (state) => state.allCategory.listCategories
+  );
   const tokens = useSelector((state) => state.auth.token);
   const token = localStorage.getItem("token") || tokens;
   const dispatch = useDispatch();
 
+  //allfood
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await getAllFood(token, "/api/food");
-        console.log(result.data);
+        dispatch(storeFood(result.data));
       } catch (error) {
         console.error("Error in  component:", error);
       }
@@ -25,11 +30,12 @@ function YourComponent() {
     fetchData();
   }, []);
 
+  //food categories
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getFoodCategories(token);
-        setListCategories(result.data);
+        const result = await getFoodCategories(token, "/api/category");
+        dispatch(storeCategories(result.data));
       } catch (error) {
         console.error("Error in component:", error);
       }
@@ -38,8 +44,8 @@ function YourComponent() {
   }, []);
 
   return (
-    <>
-      <header className="position-relative">
+    <div className="position-absolute">
+      <header>
         <div
           className=" p-2 text-center text-white m-2 rounded-3 fw-bold"
           style={{ background: "#6c738f" }}
@@ -61,37 +67,28 @@ function YourComponent() {
         </nav>
       </header>
 
-      <main className="container">
+      <main className="container position-relative">
         <div className="row">
-          <div className="col-6 col-lg-3 col-md-4 col-sm-6 ">
-            <FoodCard />
-          </div>
-          <div className="col-6 col-lg-3 col-md-4 col-sm-6">
-            <FoodCard />
-          </div>
-          <div className="col-6 col-lg-3 col-md-4 col-sm-6">
-            <FoodCard />
-          </div>
-          <div className="col-6 col-lg-3 col-md-4 col-sm-6">
-            <FoodCard />
-          </div>
-          <div className="col-6 col-lg-3 col-md-4 col-sm-6">
-            <FoodCard />
-          </div>
-          <div className="col-6 col-lg-3  col-md-4 col-sm-6">
-            <FoodCard />
-          </div>
-          <div className="col-6 col-lg-3 col-md-4 col-sm-6">
-            <FoodCard />
-          </div>
+          {food.map((i) => {
+            return (
+              <div className="col-6 col-lg-3 col-md-4 col-sm-6" key={i.id}>
+                <FoodCard food={i} />
+              </div>
+            );
+          })}
         </div>
+        {/* <FoodCard food={food[0]} /> */}
       </main>
 
+      <AddForm />
+
       <footer></footer>
-      <div className="position-absolute end-0 me-4">
-        <IoIosAddCircle style={{ fontSize: "3.2em" }} />
+      <div className="position-absolute end-0 me-2">
+        <button style={{ color: "#6c738f" }} className="border">
+          <IoIosAddCircle style={{ fontSize: "3.2em" }} />
+        </button>
       </div>
-    </>
+    </div>
   );
 }
 
