@@ -1,14 +1,33 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-export default function AddForm() {
+import { createFood, createUser } from "../Core/createFood";
+export default function AddForm({ toggle, toggleForm }) {
   //state
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-  const [foodName, setFoodName] = useState("");
-  const [foodPrice, setFoodPrice] = useState(0);
-  const [foodCategory, setFoodCategory] = useState("");
-  const [foodDescription, setFoodDescription] = useState("");
+
+  const token = useSelector(
+    (state) => state.auth.token || localStorage.getItem("token")
+  );
+  const sendFood = (value, token) => {
+    try {
+      const result = createFood(value, token);
+    } catch {}
+  };
+
+  const initialValue = {
+    name: "",
+    code: "",
+    price: 0,
+    discount: 10,
+    description: "",
+    categoryId: 0,
+    foodImage: "x",
+  };
+  const [value, setValue] = useState(initialValue);
+  console.log(value);
+
   //end state
 
   let categoryName = [];
@@ -16,12 +35,19 @@ export default function AddForm() {
     categoryName.push(name);
   });
 
-  useEffect(() => {
-    console.log(foodName + " - " + foodPrice);
-  }, [foodName, foodPrice, foodDescription, foodCategory]);
+  const sendDataToParent = () => {
+    toggle.sendDataToParent(false);
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+    sendDataToParent();
+    alert("Food Added");
+  };
+
   return (
     <>
       <form
+        onSubmit={handleSubmit}
         className="add-form d-flex justify-content-center flex-column position-absolute col-9 p-3 rounded-2 ms-3"
         style={{ top: "15%", right: "10%" }}
       >
@@ -32,7 +58,7 @@ export default function AddForm() {
             className="form-control"
             placeholder="Food Name"
             onChange={(e) => {
-              setFoodName(e.target.value);
+              setValue({ ...value, name: e.target.value });
             }}
           />
         </div>
@@ -45,33 +71,53 @@ export default function AddForm() {
             className="form-control"
             placeholder="Price"
             onChange={(e) => {
-              setFoodPrice(e.target.value);
+              setValue({ ...value, price: parseInt(e.target.value) });
             }}
           />
         </div>
 
         <div class="form-group">
-          <label for="inputState">Categories</label>
+          <label for="inputPrice">Code</label>
+          {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Code"
+            onChange={(e) => {
+              setValue({ ...value, code: e.target.value });
+            }}
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Categories</label>
           <select
             id="inputState"
             class="form-control"
             onChange={(e) => {
-              setFoodCategory(e.target.value);
+              listCategories.map(({ id, name }) => {
+                if (name === e.target.value) {
+                  setValue({ ...value, categoryId: id });
+                }
+              });
+              // setValue({ ...value, category: e.target.value });
             }}
           >
             <option selected disabled hidden>
               Choose...
             </option>
             {categoryName.map((p) => {
-              return <option value={p}>{p}</option>;
+              return (
+                <option value={p} key={p}>
+                  {p}
+                </option>
+              );
             })}
           </select>
         </div>
 
         <div class="mb-2">
-          <label for="formFile" class="form-label">
-            Food Image
-          </label>
+          <label class="form-label">Food Image</label>
           <input class="form-control" type="file" id="formFile"></input>
         </div>
 
@@ -82,13 +128,20 @@ export default function AddForm() {
             className="form-control"
             placeholder="Description"
             onChange={(e) => {
-              setFoodDescription(e.target.value);
+              setValue({ ...value, description: e.target.value });
             }}
           />
         </div>
 
         <div class="col-12 mt-1">
-          <button class="btn btn-primary" type="submit">
+          <button
+            class="btn btn-primary"
+            onClick={() => {
+              toggle.sendDataToParent(!toggleForm);
+              sendFood(value, token);
+              console.log(value);
+            }}
+          >
             Submit form
           </button>
         </div>

@@ -82,7 +82,9 @@ function YourComponent() {
         {/* <FoodCard food={food[0]} /> */}
       </main>
 
-      <div>{toggleForm && <AddForm />}</div>
+      <div>
+        {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}
+      </div>
 
       <footer></footer>
       <div className="position-absolute end-0 me-2">
