@@ -7,33 +7,37 @@ import { storeFood } from "./Core/allFoodSlice";
 import getAllFood from "./Core/getAllFood";
 import AddForm from "./Component/AddForm";
 import { storeCategories } from "./Core/allCategoriesSlice";
-import memeLoading from "../../assets/img/loadingmeme.gif";
+import loadingImg from "../../assets/img/loading.gif";
+import loadingmeme from "../../assets/img/loadingmeme.gif";
+import EditForm from "./Component/EditFoodForm";
 
 function YourComponent() {
   const food = useSelector((state) => state.foodList.foodList);
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
+  const [fetchStatus, setFetchStatus] = useState(400);
   const tokens = useSelector((state) => state.auth.token);
   const token = localStorage.getItem("token") || tokens;
   const dispatch = useDispatch();
-
+  const [refresh, setRefresh] = useState(true);
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [toggleEdit, setToggleEdit] = useState(true);
   //allfood
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await getAllFood(token, "/api/food");
         dispatch(storeFood(result.data));
+        setRefresh(!refresh);
+        setFetchStatus(result.status);
       } catch (error) {
         console.error("Error in  component:", error);
       }
     };
     fetchData();
-  }, []);
-
-  useEffect(() => {}, []);
+  }, [refresh]);
   //food categories
   useEffect(() => {
     const fetchData = async () => {
@@ -45,18 +49,13 @@ function YourComponent() {
       }
     };
     fetchData();
-    if (food) {
+  }, [food]);
+
+  useEffect(() => {
+    if (fetchStatus == 200) {
       setLoading(!loading);
     }
-  }, []);
-
-  if (loading) {
-    return (
-      <>
-        <img className="w-100" src={memeLoading}></img>
-      </>
-    );
-  }
+  }, [fetchStatus]);
   return (
     <div className="">
       <header>
@@ -82,15 +81,21 @@ function YourComponent() {
       </header>
 
       <main className="container position-relative">
-        <div className="row">
-          {food.map((i) => {
-            return (
-              <div className="col-6 col-lg-3 col-md-4 col-sm-6" key={i.id}>
-                <FoodCard food={i} />
-              </div>
-            );
-          })}
-        </div>
+        {loading ? (
+          <>
+            <img src={loadingmeme} alt="" />
+          </>
+        ) : (
+          <div className="row">
+            {food.map((i) => {
+              return (
+                <div className="col-6 col-lg-3 col-md-4 col-sm-6" key={i.id}>
+                  <FoodCard food={i} />
+                </div>
+              );
+            })}
+          </div>
+        )}
         {/* <FoodCard food={food[0]} /> */}
       </main>
 
