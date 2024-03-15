@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import dummyImage from "../../../assets/img/dummy.png";
+import { deleteFood } from "../Core/deleteFood";
 export default function FoodCard({ food }) {
+  const token = localStorage.getItem("token");
+
   return (
     <>
       <div
@@ -18,7 +21,14 @@ export default function FoodCard({ food }) {
           </div>
           <div className="d-flex justify-content-between">
             <button className="border rounded-3">Edit</button>
-            <button className="border rounded-3">Remove</button>
+            <button
+              className="border rounded-3"
+              onClick={() => {
+                deleteFood(token, food.id);
+              }}
+            >
+              Remove
+            </button>
           </div>
         </div>
       </div>
