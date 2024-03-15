@@ -44,7 +44,12 @@ const sidebarlink = [
         link : '/foods',
         icon : <IoFastFoodOutline/>
         
-    }
+    },{
+        Id : 3,
+        title : 'Reports',
+        link : '/reports',
+        icon : <HiOutlineDocumentReport/>
+    },
 ];
 
 const administrator = [
@@ -59,12 +64,7 @@ const administrator = [
         title : 'Roles',
         link : '/role',
         icon : <BsPersonGear/>
-    },{
-        Id : 3,
-        title : 'Reports',
-        link : '/reports',
-        icon : <HiOutlineDocumentReport/>
-    },
+    }
 ];
 
 export { sidebarlink, administrator };

@@ -37,7 +37,6 @@ const Login = () => {
       }
       dispatch(login(result));
       dispatch(storeCurrentUser(result.data.user))
-      console.log(result.data.user)
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setError(error.response.data.message);
