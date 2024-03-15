@@ -26,8 +26,6 @@ export default function AddForm({ toggle, toggleForm }) {
     foodImage: "x",
   };
   const [value, setValue] = useState(initialValue);
-  console.log(value);
-
   //end state
 
   let categoryName = [];

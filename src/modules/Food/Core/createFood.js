@@ -12,10 +12,7 @@ const createFood = async (foodData, token) => {
     });
     if (response.status === 200 || response.status === 201) {
       console.log("Success");
-    } else {
-      console.log("we fucked ");
     }
-    return response.data;
   } catch (error) {
     console.error(error);
     throw error;
