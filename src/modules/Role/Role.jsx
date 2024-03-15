@@ -3,7 +3,7 @@ import Table from './components/Table'
 
 const Role = () => {
   return (
-    <div className='m-4'>
+    <div className='m-5'>
         <div className='d-flex mb-3 justify-content-between'>
             <div className='d-flex'>
               <h3 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center me-3'>Roles</h3>
