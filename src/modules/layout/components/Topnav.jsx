@@ -22,29 +22,21 @@ const Topnav = ({toggle}) => {
 
             <div className="navbar-collapse collapse">
                 <ul className="navbar-nav navbar-align">
-                    <li className="nav-item dropdown">
-                        <a className="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
-                            <div className="position-relative">
-                                <GoBell className='text-white'/>
-                                <span className="indicator">4</span>
-                            </div>
-                        </a>
-                        <div className="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
-                            <div className="dropdown-menu-header">
-                                4 New Notifications
-                            </div>
-                            <div className="list-group">
-                                {/* Notifications items go here */}
-                            </div>
-                            <div className="dropdown-menu-footer">
-                                <a href="#" className="text-muted">Show all notifications</a>
-                            </div>
-                        </div>
+                    <li className="nav-item ">
+                        <p className=" fs-4 text-white align-middle mt-1" ref={(el) => {
+                            if (el) {
+                                setTimeout(() => {
+                                    el.innerHTML = `Enjoy working!`
+                                }, 10000)
+                            }
+                        }}>
+                        Welcome back!
+                        </p>
                     </li>
                     <li className="nav-item dropdown">
                         <a className="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
                             <div className="position-relative">
-                                <i className="align-middle" data-feather="message-square"></i>
+                                <i className="pb-3" data-feather="message-square"></i>
                             </div>
                         </a>
                         <div className="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="messagesDropdown">
@@ -75,12 +67,8 @@ const Topnav = ({toggle}) => {
                         </Link>
                         <div className="dropdown-menu dropdown-menu-end">
                             <Link className="dropdown-item" to='/profile'><i className="align-middle me-1" data-feather="user"></i> Profile</Link>
-                            <p className="dropdown-item" ><i className="align-middle me-1" data-feather="pie-chart"></i> Analytics</p>
-                            <div className="dropdown-divider"></div>
-                            <p className="dropdown-item" href="index.html"><i className="align-middle me-1" data-feather="settings"></i> Settings & Privacy</p>
-                            <p className="dropdown-item" ><i className="align-middle me-1" data-feather="help-circle"></i> Help Center</p>
-                            <div className="dropdown-divider"></div>
-                            <p className="dropdown-item text-danger" onClick={() => handleLogout()} >Log out</p>
+                            <Link to='/' className="dropdown-item" ><i className="align-middle me-1" data-feather="pie-chart"></i> Dashboard</Link>
+                            <p className="dropdown-item text-danger border-top mt-3" onClick={() => handleLogout()} >Log out</p>
                         </div>
                     </li>
                 </ul>

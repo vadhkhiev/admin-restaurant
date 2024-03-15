@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 const Filterbar = ({setSortby ,setOrderby , orderby , sortby , selectRole , setSelectRole , setLimit  }) => {
     const role = useSelector((state) => state.roles.roles)
-    console.log(role)
+
   return (
     <>
     <div className='d-flex justify-content-evenly'>

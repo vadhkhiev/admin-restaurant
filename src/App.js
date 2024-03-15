@@ -13,7 +13,7 @@ import Access from "./modules/Role/components/Access";
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const currentUser = useSelector((state) => state.currentUser.currentUser);
-  console.log(currentUser)
+
 
 
   return (

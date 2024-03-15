@@ -35,8 +35,8 @@ const Login = () => {
       if(check){
         localStorage.setItem('token', result.data.token);
       }
-      dispatch(login(result));
       dispatch(storeCurrentUser(result.data.user))
+      dispatch(login(result));
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setError(error.response.data.message);
@@ -55,7 +55,6 @@ const Login = () => {
         dispatch(login(data));
         setLoading(false);
         dispatch(storeCurrentUser(data.data))
-        console.log(data.data)
       })
       .catch(error => {
         console.error('Error during auth verification:', error);

@@ -14,7 +14,7 @@ export const rootReducers = combineReducers({
   currentUser: currentUserReducer, // current user
   foodList: foodReducer, //all food
   allCategory: categoriesReducer, //all food categories
-  id : idReducer,    // id of clicked table row in role
+  id : idReducer,    // id of clicked staff title in role
 
   /* Add other reducers here  */
 });

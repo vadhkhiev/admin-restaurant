@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   id: null,
+
 };
 
 const idSlice = createSlice({
@@ -15,5 +16,5 @@ const idSlice = createSlice({
   },
 });
 
-export const { storeId } = idSlice.actions;
+export const { storeId  } = idSlice.actions;
 export default idSlice.reducer;

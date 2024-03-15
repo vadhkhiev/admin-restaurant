@@ -5,7 +5,7 @@ import Topnav from './components/Topnav'
 import Pathbtn from './components/Pathbtn'
 import getroles from './core/getroles'
 import { useDispatch, useSelector } from 'react-redux'
-import { storeRoles } from './core/roleSlice'
+import { storeRoles , refetch } from './core/roleSlice'
 
 const Layout1 = () => {
   const [open, setOpen] = useState(true);
@@ -16,14 +16,14 @@ const Layout1 = () => {
     const fetchroles = async () => {
       try {
         const result = await getroles(token);
-        dispatch(storeRoles(result.data))
+        dispatch(storeRoles(result))
       }
       catch (error) {
         console.error( error);
       }
     }
     fetchroles(); 
-     
+    dispatch(refetch()) 
   },[])
 
   const toggle = () => {
@@ -36,7 +36,7 @@ const Layout1 = () => {
   <div className={`sidebar ${open ? '' : 'sidebar-hide'}`}>
     <Sidebar toggle={toggle}/>
   </div>
-  <div style={{ background: '#eff0f1', boxShadow: 'rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em', border: '1px solid rgba(90, 125, 188, 0.1)' }} className={`main ${open ? 'sidebar-show' : ''}`}>
+  <div style={{ background: '#eff0f1', boxShadow: 'rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em' }} className={`main ${open ? 'sidebar-show' : ''}`}>
     <Topnav toggle={toggle} />
     <div>
       <Outlet />
