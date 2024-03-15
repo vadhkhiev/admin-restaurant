@@ -46,7 +46,7 @@ function YourComponent() {
     };
     fetchData();
     if (food) {
-      setLoading(!loading);
+      setLoading(loading);
     }
   }, []);
 

@@ -1,15 +1,21 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 import { GrUserAdmin } from "react-icons/gr";
+import { useSelector } from 'react-redux';
+import Checkbox from './Checkbox';
+
 
 const Access = () => {
+  const id = useSelector((state) => state.id.id);
+  const roles = useSelector((state) => state.roles.roles)?.find((role)=>role.id == id);
+
     const navigate = useNavigate()
     const handleBack =()=>{
       navigate(-1)
     }
   return (
-    <>
     <div className='m-3'>
+    <div >
       <div className='p-4 px-3 d-flex justify-content-between'>
         <div>
           <span style={{ boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px" }} className='fw-bold p-2 rounded-3'>
@@ -23,7 +29,9 @@ const Access = () => {
         </div>
        </div>
     </div>
-    </>
+    {console.log(roles)}
+    <Checkbox/>
+    </div>
   )
 }
 

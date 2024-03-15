@@ -190,7 +190,7 @@ const User = () => {
                           filter && <Filterbar setSortby={setSortby} setOrderby={setOrderby} orderby={orderby} sortby={sortby} 
                           setSelectRole={setSelectRole} selectRole={selectRole} setLimit={setLimit}
                           />
-                        }
+                        } 
                   </div>
                     
                </div>
