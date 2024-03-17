@@ -7,6 +7,8 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 const Topnav = ({toggle}) => {
     const dispatch = useDispatch()
+    const currentUser = useSelector((state) => state.currentUser.currentUser)
+    console.log(currentUser.avatar)
 
     const handleLogout = () =>{
       dispatch(logout())
@@ -23,17 +25,9 @@ const Topnav = ({toggle}) => {
 
             <div className="navbar-collapse collapse">
                 <ul className="navbar-nav navbar-align">
-                    <li className="nav-item ">
-                        <p className=" fs-4 text-white align-middle mt-1" ref={(el) => {
-                            if (el) {
-                                setTimeout(() => {
-                                    el.innerHTML = `Enjoy working!`
-                                }, 10000)
-                            }
-                        }}>
-                        Welcome back!
-                        </p>
-                    </li>
+                    <li className="nav-item d-flex align-items-center">
+                       <span className='fs-4 fs-normal' style={{color:"#fcfdff"}}>{currentUser?.name}</span>
+                    </li> 
                     <li className="nav-item dropdown">
                         <a className="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
                             <div className="position-relative">
@@ -54,16 +48,12 @@ const Topnav = ({toggle}) => {
                             </div>
                         </div>
                     </li>
-                    {/* <li>
-                        <img width={35}  src={logo} alt="" />
 
-                    </li> */}
-                    <li className="nav-item dropdown">
-                        <a className="nav-icon dropdown-toggle " href="#" data-bs-toggle="dropdown">
-                            <i className="align-middle" data-feather="settings"></i>
-                        </a>
-                        <Link to='profile' className="nav-link dropdown-toggle "  data-bs-toggle="dropdown">
-                        <FaRegUserCircle className='text-white fs-3'/>
+                    <li className="nav-item dropdown d-flex align-items-center m-1 me-3 ">
+                        <Link to='profile' className="nav-link  p-0"  data-bs-toggle="dropdown">
+                        <div className='position-relative'>
+                          <img height={30}  width={30} className='p-0 avatar border rounded-circle' src={currentUser?.avatar} alt="" />
+                        </div>
                     
                         </Link>
                         <div className="dropdown-menu dropdown-menu-end">
