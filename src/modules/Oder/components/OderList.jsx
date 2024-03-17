@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./OrderList.css";
-
 function OrderList() {
   const [orders, setOrders] = useState([]);
   const [errorMessage, setErrorMessage] = useState(""); // New state for error message
@@ -36,32 +35,34 @@ function OrderList() {
 
   return (
     <div>
-      <h2>User Order</h2>
+      <h2 className="h1">User Order</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <table className="table-containers container-fluid">
+      <table className="container-fluid">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>UserEntity</th>
+            <th>ID </th>
             <th>Status</th>
-            <th>Quantity</th>
             <th>Payment</th>
+            <th>Date</th>
             <th>Total</th>
           </tr>
         </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order.id}>
-              <td>{order.id}</td>
-              <td>{order.UserEntity}</td>
-              <td>{order.Status}</td>
-              <td>{order.Quantity}</td>
-              <td>{order.Payment}</td>
-              <td>{order.Total}</td>
-            </tr>
-          ))}
-        </tbody>
       </table>
+      {orders.map(({ id, status, paymentMethod, createDate, updateDate }) => (
+        <table className=" table-containers container-fluid " key={id}>
+          <tbody>
+            <tr>
+              <td>{id}</td>
+              <td>{status}</td>
+              <td>{paymentMethod}</td>
+              <td>{createDate}</td>
+              <td>{updateDate}</td>
+            </tr>
+          </tbody>
+        </table>
+      ))}
+      {/* </tbody>
+      </table> */}
     </div>
   );
 }
