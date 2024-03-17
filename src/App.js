@@ -8,13 +8,12 @@ import User from "./modules/Usermanangement/User";
 import Food from "./modules/Food/Food";
 import Role from "./modules/Role/Role";
 import Access from "./modules/Role/components/Access";
-
+import MainOder from "./modules/Oder/core/MainOder";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const currentUser = useSelector((state) => state.currentUser.currentUser);
-  console.log(currentUser)
-
+  console.log(currentUser);
 
   return (
     <>
@@ -25,18 +24,18 @@ function App() {
             <Route path="table" element={<h1>table</h1>} />
             <Route path="table/:id" element={<h1>table</h1>} />
             <Route path="category" element={<h1>Category</h1>} />
-            <Route path="order" element={<h1>order</h1>} />
+            <Route path="order" element={<MainOder />} />
             <Route path="profile" element={<h1>Profile</h1>} />
             <Route path="foods" element={<Food />} />
             <Route path="reports" element={<h1>Reports</h1>} />
 
             {/* admin routes */}
-            {currentUser && currentUser?.roleEntity?.id === 1 || currentUser?.roleName === 'Super-Admin'  ? (
+            {(currentUser && currentUser?.roleEntity?.id === 1) ||
+            currentUser?.roleName === "Super-Admin" ? (
               <>
                 <Route path="users" element={<User />} />
-                <Route path="role" element={<Role/>} />
-                <Route path="role/access" element={<Access/>} />
-                
+                <Route path="role" element={<Role />} />
+                <Route path="role/access" element={<Access />} />
               </>
             ) : null}
 
