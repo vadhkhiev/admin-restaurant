@@ -82,7 +82,7 @@ return (
       <div>
               <div className='p-2'>
         {fetchedData?.map((item) => (
-          <div key={item.id} className='d-flex justify-content-between bg-white rounded-3 border align-items-center p-2 m-2'>
+          <div key={item.id} className='d-flex justify-content-between  border align-items-center p-2 m-2'>
             <div>{item.name}</div>
             <div className='form-check form-switch'>
               <input

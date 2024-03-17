@@ -70,7 +70,7 @@ const TableRow = ({role , index , setUpdate }) => {
                 <CiTrash />
               </p>
             )}
-    </td>
+         </td>
   )
 }
 

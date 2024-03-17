@@ -31,7 +31,7 @@ const Access = () => {
        </div>
        <h3 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center mb-2'>Permission of <span className='text-primary ms-2'>{role?.name}</span></h3>
     </div>
-    <div className='bg-white rounded-3'>
+    <div style={{background:'#fcfdff'}} className=' rounded-3'>
       <Checkbox/>
 
     </div>
