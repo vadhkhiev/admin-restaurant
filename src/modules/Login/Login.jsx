@@ -3,10 +3,12 @@ import logo from '../../assets/img/kiloit-logo.svg'
 import loadingImg from '../../assets/img/loading.gif'
 import { useState } from 'react'
 import getAuth from '../auth/auth'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { login, logout } from '../auth/authSlice'
 import checkAuth from './core/getUser'
 import  { storeCurrentUser } from '../Usermanangement/core/currentuserSlice'
+import getPermission from '../Role/core/getPermission'
+import { storePermission } from '../Role/core/permissionSlice'
 
 
 
@@ -18,6 +20,9 @@ const Login = () => {
     const dispatch = useDispatch()
     const [error, setError] = useState(null);
     const [loading ,setLoading ] = useState(true)
+    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
+
+
 
     
 
@@ -25,25 +30,37 @@ const Login = () => {
       setCheck(!check);
     };
 
-  const handleLogin = async () => {
-    if (!username || !password) {
-      setError('Please enter a username and password');
-      return;
-    }
-    try {
-      const result = await getAuth(username, password);
-      if(check){
-        localStorage.setItem('token', result.data.token);
+    const handleLogin = async () => {
+      if (!username || !password) {
+        setError('Please enter a username and password');
+        return;
       }
-      dispatch(login(result));
-      dispatch(storeCurrentUser(result.data.user))
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setError(error.response.data.message);
-      }
+    
+      try {
+        const result = await getAuth(username, password);
+        if (check) {
+          localStorage.setItem('token', result.data.token);
+        }
+        try {
+          const permissionResult = await getPermission(result.data.token, result.data.user.id);
+          dispatch(storePermission(permissionResult));
+        } catch (permissionError) {
+          console.error('Error fetching permissions:', permissionError);
+        }
+        dispatch(storeCurrentUser(result.data.user));
+        dispatch(login(result));
 
-    }
-  };
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          setError(error.response.data.message);
+        } else {
+          console.error('Error during login:', error);
+        }
+      }
+    };
+    
+
+
 
   //checkAuth
   useEffect(() => {
@@ -51,22 +68,31 @@ const Login = () => {
     if (token) {
       setLoading(true);
       checkAuth(token)
-      .then(data => {
-        dispatch(login(data));
-        setLoading(false);
-        dispatch(storeCurrentUser(data.data))
-        console.log(data.data)
-      })
-      .catch(error => {
-        console.error('Error during auth verification:', error);
-        dispatch(logout())
-        setLoading(false);
-        localStorage.removeItem('token');
-      });
-    }else{
-      setLoading(false)
+        .then(data => {
+
+         getPermission(token, data?.data?.roleEntity?.id)
+          .then(permissionResult => {
+            dispatch(storePermission(permissionResult));
+          })
+          .catch(permissionError => {
+            console.error('Error fetching permissions:', permissionError);
+          }); 
+          dispatch(login(data));
+          setLoading(false);
+          dispatch(storeCurrentUser(data.data));
+        })
+        .catch(error => {
+          console.error('Error during auth verification:', error);
+          dispatch(logout());
+          setLoading(false);
+          localStorage.removeItem('token');
+        });
+    } else {
+      setLoading(false);
     }
   }, []);
+  
+
 
 
   return (

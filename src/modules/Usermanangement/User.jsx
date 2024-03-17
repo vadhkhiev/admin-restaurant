@@ -34,6 +34,10 @@ const User = () => {
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');  
   const roles = useSelector((state) => state.roles.roles);
   const dispatch = useDispatch()
+  //permission
+  const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
+
+
 
 
   //solved no user when we make change on other pages > 1
@@ -161,14 +165,20 @@ const User = () => {
         
             <div className='pt-3 ps-3 d-flex justify-content-between row'>
                <div className='d-flex col-2'>
-                 <h3 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center me-3'>Members</h3>
-                 <button onClick={handleCreate}  style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold'>Add</button>
+               <h3 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center me-3'>Members</h3>
+                {
+                  (permission?.find((per) => per.name == 'create-user'))?.status === 1 && 
+                  <>
+                    
+                    <button onClick={handleCreate}  style={{backgroundColor:'#6c738f'}} className='btn text-white fw-bold'>Add</button>
+                  </>
+                }
                </div>
 
                {/* search and filter */}
 
               <div className={`col-sm-12 col-md-10 d-flex justify-content-end`}>
-               <div style={{transition:'all 0.3s'}}  className={`d-flex ${filter? 'col-12' : 'col-4'} `} > 
+               <div style={{transition:'all 0.3s'}}  className={`d-flex ${filter? 'col-12' : 'col-4'} justify-content-end me-3`} > 
                 <div className='d-flex' >
                   <div className='w-75' > 
                     <input

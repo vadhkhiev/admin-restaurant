@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import TableRow from './TableRow';
 import '../../../assets/css/tablecss.css'; 
+import { useSelector } from 'react-redux';
 
 const Table = ({ users, handleDelete ,handleEdit }) => {
+  const permission = useSelector((state) => state.permission?.permission?.data?.permissions); 
   return (
     <>
       {users?.length > 0 ? (
@@ -11,14 +13,16 @@ const Table = ({ users, handleDelete ,handleEdit }) => {
             <table style={{color:'#464d69'}} className="table bg-white fw-bold">
               <thead >
                 <tr>
-                <th scope="col">Profile</th>
+                  <th scope="col">Profile</th>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
                   <th scope="col">Phone Number</th>
                   <th scope='col'>Salary</th>
                   <th scope="col">Status</th>
                   <th scope='col'>Roles</th>
-                  <th scope="col">Actions</th>
+                  {
+                    ((permission?.find((per) => per.name == 'edit-user'))?.status === 1 || (permission?.find((per) => per.name == 'delete-user'))?.status === 1) &&<th scope='col'>Actions</th>
+                  }
                 </tr>
               </thead>
               <tbody>

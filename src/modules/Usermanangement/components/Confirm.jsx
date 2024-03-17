@@ -10,11 +10,11 @@ const Confirm = ({confirmDelete ,cancelDelete , confirm }) => {
             left: 0,
             width: '100%',
             height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(62,64,87, 0.35)',
             zIndex: 9999,
           }}
           className='d-flex justify-content-center align-items-center'>
-          <div className='p-3 bg-white rounded text-center'>
+          <div style={{backdropFilter: 'blur(10px)'}} className='p-3 border  rounded text-center'>
             <p>
               Are you sure you want to{' '}
               <span className='text-danger'>delete</span>{' '}

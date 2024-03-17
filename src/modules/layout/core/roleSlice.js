@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   roles: [],
+  paging : {},
 };
 
 const roleSlice = createSlice({
@@ -9,11 +10,11 @@ const roleSlice = createSlice({
   initialState,
   reducers: {
     storeRoles: (state, action) => {
-      state.roles = action.payload;
+      state.roles = action.payload.data;
+      state.paging = action.payload.paging;
     },
-
   },
 });
 
-export const { storeRoles } = roleSlice.actions;
+export const { storeRoles  } = roleSlice.actions;
 export default roleSlice.reducer;
