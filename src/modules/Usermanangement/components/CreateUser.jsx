@@ -113,7 +113,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
   };
 
   return (
-    <div>
+    <div >
       <div
         style={{
           position: "fixed",
@@ -128,13 +128,14 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
       >
         <div
           style={{
-            backgroundColor: "#eff0f1",
-            boxShadow:
-              "rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;",
+
+            boxShadow: 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset',
             borderRadius: "0.5rem",
-            width: "35%",
+            backdropFilter:'blur(5px)',
+            width: "45%",
+          
           }}
-          className="py-3 px-4  h-100 position-relative"
+          className="position-relative p-5 border"
         >
           <div
             style={{
@@ -144,18 +145,18 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
               zIndex: "1",
               fontSize: "12px",
             }}
-            className="d-flex justify-content-start fs-3 text-danger position-absolute"
+            className="d-flex  fs-3 text-danger position-absolute"
           >
             <IoCloseCircleOutline
               style={{ cursor: "pointer" }}
               onClick={() => setCreate(false)}
             />
           </div>
-          <div className="">
+          <div >
             <div>
               <form style={{ background: "rgba(239,240,241 1)" }}>
                 <div>
-                  <div className="">
+                  <div >
                     <div>
                       <div className="w-100 d-flex ">
                         <div className="w-50 d-flex m-1">
@@ -166,11 +167,11 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                             height={50}
                             alt=""
                           />
-                          <p style={{ color: "#6c738f" }}>Avatar</p>
+                          <p className="text-white">Avatar</p>
                         </div>
                         <div className="w-50 d-flex flex-column mt-3">
                           <div className="d-flex">
-                            <label>Hired Date</label>
+                            <label className="text-white">Hired Date</label>
                           </div>
                           <input
                             className="text-center"
@@ -212,10 +213,8 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                             zIndex: "1",
                             fontSize: "12px",
                           }}
-                          className="d-flex position-absolute "
+
                         >
-                          <label>Email</label>
-                          <span className="text-danger">*</span>
                         </span>
                         <input
                           onChange={(e) =>
@@ -240,10 +239,8 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                             zIndex: "1",
                             fontSize: "12px",
                           }}
-                          className="position-absolute "
+                        
                         >
-                          <label>Role</label>
-                          <span className="text-danger">*</span>
                         </div>
                         <select
                           onChange={(e) =>
@@ -254,17 +251,20 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                           }
                           className="form-select form-select-md"
                           aria-label=".form-select-sm "
+
                         >
+                          <option selected disabled>Role</option>
                           {roles.map((role) => (
                             <option key={role.id} value={role.id}>
                               {role.name}
                             </option>
                           ))}
                         </select>
+
                       </div>
                       <div className="w-50 d-flex flex-column position-relative">
                         <span
-                          className="d-flex position-absolute "
+                          className=""
                           style={{
                             top: "-10px",
                             left: "10px",
@@ -272,8 +272,6 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                             fontSize: "12px",
                           }}
                         >
-                          <label>Gender</label>
-                          <span className="text-danger">*</span>
                         </span>
                         <select
                           onChange={(e) =>
@@ -380,7 +378,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                       </div>
                     )}
 
-                    <div className="d-flex justify-content-center mt-2">
+                    <div className="d-flex justify-content-center mt-3">
                       <button
                         type="button"
                         onClick={handleSubmit}

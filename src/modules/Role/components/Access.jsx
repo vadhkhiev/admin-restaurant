@@ -7,8 +7,7 @@ import Checkbox from './Checkbox';
 
 const Access = () => {
   const id = useSelector((state) => state.id.id);
-  const roles = useSelector((state) => state.roles.roles)?.find((role)=>role.id == id);
-
+  const role = useSelector((state) => state.roles.roles)?.find((role)=>role.id == id);
     const navigate = useNavigate()
     const handleBack =()=>{
       navigate(-1)
@@ -16,21 +15,26 @@ const Access = () => {
   return (
     <div className='m-3'>
     <div >
-      <div className='p-4 px-3 d-flex justify-content-between'>
+      <div className='p-2 px-3 d-flex justify-content-between'>
         <div>
           <span style={{ boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px" }} className='fw-bold p-2 rounded-3'>
 
            <a style={{color:'#6c738f',textDecoration:'none',}} className={`p-2  borderbottom`} >Access <GrUserAdmin className='pb-1' /></a>
 
           </span>
+          
         </div>
+        
         <div>
           <button onClick={handleBack} style={{background:'#6c738f'}} className='btn btn-primary text-white rounded'>{`< Back`}</button>
         </div>
        </div>
+       <h3 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center mb-2'>Permission of <span className='text-primary ms-2'>{role?.name}</span></h3>
     </div>
-    {console.log(roles)}
-    <Checkbox/>
+    <div className='bg-white rounded-3'>
+      <Checkbox/>
+
+    </div>
     </div>
   )
 }

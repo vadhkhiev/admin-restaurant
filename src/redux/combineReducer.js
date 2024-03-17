@@ -6,6 +6,7 @@ import currentUserReducer from "../modules/Usermanangement/core/currentuserSlice
 import foodReducer from "../modules/Food/Core/allFoodSlice";
 import categoriesReducer from "../modules/Food/Core/allCategoriesSlice";
 import idReducer from "../modules/Role/core/idSlice";
+import permissionReducer from "../modules/Role/core/permissionSlice";
 
 export const rootReducers = combineReducers({
   auth: authReducer, // auth
@@ -14,7 +15,8 @@ export const rootReducers = combineReducers({
   currentUser: currentUserReducer, // current user
   foodList: foodReducer, //all food
   allCategory: categoriesReducer, //all food categories
-  id : idReducer,    // id of clicked table row in role
+  id : idReducer,    // id of clicked staff title in role
+  permission : permissionReducer, 
 
   /* Add other reducers here  */
 });

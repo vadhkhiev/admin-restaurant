@@ -3,6 +3,8 @@ import { PiNotePencilThin } from "react-icons/pi";
 import { GoTrash } from "react-icons/go";
 import '../../../assets/css/tablecss.css'; 
 import avatar from '../../../assets/img/avatar.jpg'
+import { useSelector } from 'react-redux';
+
 /* const formatDate = (inputString) => {
   const [datePart, timePart] = inputString.split('T');
 
@@ -25,6 +27,7 @@ import avatar from '../../../assets/img/avatar.jpg'
  */
 
 const TableRow = ({ user,handleDelete ,handleEdit }) => {
+  const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
 
   return (
     <>
@@ -40,14 +43,23 @@ const TableRow = ({ user,handleDelete ,handleEdit }) => {
           </p>
         </td>
         <td >{user.roleEntity.name}</td>
-        <td>
-          <a onClick={() =>handleEdit(user.id) } className='fs-4 text-primary me-2' style={{color:'#6c738f'}} type="button" >
-            <PiNotePencilThin />
-          </a>
-          <a className='fs-4 text-danger' style={{color:'#6c738f'}} onClick={() => handleDelete(user)} type="button" >
-            <GoTrash />
-          </a>
-        </td>
+        {
+          ((permission?.find(per => per.name === 'edit-user')?.status === 1) || (permission?.find(per => per.name === 'delete-user')?.status === 1)) && (
+            <td>
+              {permission?.find(per => per.name === 'edit-user')?.status === 1 && (
+                <a onClick={() => handleEdit(user.id)} className='fs-4 text-primary me-2' style={{ color: '#6c738f' }} type="button">
+                  <PiNotePencilThin />
+                </a>
+              )}
+              {permission?.find(per => per.name === 'delete-user')?.status === 1 && (
+                <a className='fs-4 text-danger' style={{ color: '#6c738f' }} onClick={() => handleDelete(user)} type="button">
+                  <GoTrash />
+                </a>
+              )}
+            </td>
+          )
+        }
+
       </tr>
     </>
   );
