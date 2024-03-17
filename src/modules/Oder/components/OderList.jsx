@@ -32,6 +32,8 @@ function OrderList() {
     }
   }, [token]);
 
+  console.log(orders);
+
   return (
     <div>
       <h2>User Order</h2>
