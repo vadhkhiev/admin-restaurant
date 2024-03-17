@@ -11,6 +11,7 @@ const Topnav = ({toggle}) => {
     const handleLogout = () =>{
       dispatch(logout())
       localStorage.removeItem('token')
+      
     }
     
   return (

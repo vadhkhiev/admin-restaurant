@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   roles: [],
   paging : {},
-  refetchvalue : false,
 };
 
 const roleSlice = createSlice({
@@ -14,16 +13,8 @@ const roleSlice = createSlice({
       state.roles = action.payload.data;
       state.paging = action.payload.paging;
     },
-    refetch: (state) => {
-      return {
-        ...state,
-        refetchvalue: !state.refetchvalue,
-      };
-    },
-    
-
   },
 });
 
-export const { storeRoles , refetch } = roleSlice.actions;
+export const { storeRoles  } = roleSlice.actions;
 export default roleSlice.reducer;

@@ -129,8 +129,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
         <div
           style={{
 
-            boxShadow:
-              "rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;",
+            boxShadow: 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset',
             borderRadius: "0.5rem",
             backdropFilter:'blur(5px)',
             width: "45%",
@@ -252,14 +251,16 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                           }
                           className="form-select form-select-md"
                           aria-label=".form-select-sm "
+
                         >
-                          <option selected disabled >Role</option>
+                          <option selected disabled>Role</option>
                           {roles.map((role) => (
                             <option key={role.id} value={role.id}>
                               {role.name}
                             </option>
                           ))}
                         </select>
+
                       </div>
                       <div className="w-50 d-flex flex-column position-relative">
                         <span

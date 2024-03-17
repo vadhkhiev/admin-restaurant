@@ -12,7 +12,8 @@ import Access from "./modules/Role/components/Access";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const currentUser = useSelector((state) => state.currentUser.currentUser);
+  const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
+  const currentUser = useSelector((state) => state.currentUser?.currentUser);
 
 
 
@@ -30,15 +31,25 @@ function App() {
             <Route path="foods" element={<Food />} />
             <Route path="reports" element={<h1>Reports</h1>} />
 
-            {/* admin routes */}
-            {currentUser && currentUser?.roleEntity?.id === 1 || currentUser?.roleName === 'Super-Admin'  ? (
+            {/* administrator route */}
+
+            {
+              ( (permission?.find((per) => per.name == 'list-role'))?.status === 1 ) && 
               <>
-                <Route path="users" element={<User />} />
-                <Route path="role" element={<Role/>} />
-                <Route path="role/access" element={<Access/>} />
-                
+               <Route path="role" element={<Role/>} />
+               <Route path="role/access" element={<Access/>} />
               </>
-            ) : null}
+            }  
+
+            {
+              ( (permission?.find((per) => per.name == 'list-user'))?.status === 1 ) && 
+              <>
+               <Route path="users" element={<User />} />
+              </>
+             }  
+
+            {/*end of administrator route */}
+                
 
             {/* unknown path redirect to dashboard */}
             <Route path="*" element={<Navigate to="/" />}></Route>

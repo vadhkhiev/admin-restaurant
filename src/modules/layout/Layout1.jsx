@@ -5,7 +5,7 @@ import Topnav from './components/Topnav'
 import Pathbtn from './components/Pathbtn'
 import getroles from './core/getroles'
 import { useDispatch, useSelector } from 'react-redux'
-import { storeRoles , refetch } from './core/roleSlice'
+import { storeRoles } from './core/roleSlice'
 
 const Layout1 = () => {
   const [open, setOpen] = useState(true);
@@ -23,12 +23,12 @@ const Layout1 = () => {
       }
     }
     fetchroles(); 
-    dispatch(refetch()) 
   },[])
 
   const toggle = () => {
     setOpen(!open);
   }
+
 
   return (
     <>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { MdOutlineLockPerson } from "react-icons/md";
 import { PiNotePencilThin } from "react-icons/pi";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { storeId } from '../core/idSlice';
 import { CiTrash } from "react-icons/ci";
@@ -29,27 +29,51 @@ import { CiTrash } from "react-icons/ci";
 
 const TableRow = ({role , index , setUpdate }) => {
   const dispatch = useDispatch()
+  const id1 = useSelector((state) => state.currentUser.currentUser?.roleId)
+  const id2 = useSelector((state) => state.currentUser.currentUser?.roleEntity?.id)
+  const roleId =  id1 || id2 ;
+  const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
+
+
+  
 
   return (
     <>
         <tr>
-            <td >{index}</td>
+            <td >
+              <div className='py-1'>
+               {index}
+              </div>
+            </td>
             <td >{role?.name}</td>
             <td >{role?.createdBy.name}</td>
             <td >{formatDate(role?.createdDate)}</td>
-         <td className='d-flex'>
-            <Link to="/role/access" onClick={() => dispatch(storeId(role?.id))}   className='fs-4 text-primary me-2' style={{color:'#6c738f'}} type="button" >
-                <MdOutlineLockPerson/>
-              </Link> 
-             <p onClick={() => 
-              dispatch(storeId(role?.id)) 
-              } className='fs-4 me-2' style={{color:'#6c738f'}} type="button" >
-             <PiNotePencilThin onClick={() => setUpdate(true)} />
-              </p> 
+            <td >{formatDate(role?.updateDate)}</td>
+            {
+            (roleId === 1 || permission?.find(per => per.name === 'edit-role')?.status === 1 || permission?.find(per => per.name === 'delete-role')?.status === 1) && (
+              <td className='d-flex'>
+                {roleId === 1 && (
+                  <Link to="/role/access" onClick={() => dispatch(storeId(role?.id))} className='fs-4 text-primary me-2' style={{ color: '#6c738f' }} type="button">
+                    <MdOutlineLockPerson />
+                  </Link>
+                )}
+                {permission?.find(per => per.name === 'edit-role')?.status === 1 && (
+                  <p onClick={() => {
+                    dispatch(storeId(role?.id));
+                    setUpdate(true);
+                  }} className='fs-4 me-2' style={{ color: '#6c738f' }} type="button">
+                    <PiNotePencilThin />
+                  </p>
+                )}
+             {permission?.find(per => per.name === 'delete-role')?.status === 1 && (
               <p onClick={() => dispatch(storeId(role?.id))} className='fs-4 text-danger' type="button">
-                <CiTrash/>
+                <CiTrash />
               </p>
-            </td> 
+            )}
+    </td>
+  )
+}
+
           </tr>
         
     </>

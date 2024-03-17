@@ -47,7 +47,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
     }
   };
 
-  console.log(editing);
+
 
   
   return (
