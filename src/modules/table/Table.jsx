@@ -9,11 +9,12 @@ import { IoIosPersonAdd } from "react-icons/io";
 
 const Table = () => {
   const [tableList, setTableList] = useState([]);
+  const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
   useEffect(() => {
     axios.get(`/api/table`, {
       headers: {
         "Content-Type" : "application/json",
-        "Authorization" : "Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVJZCI6MSwiaXNzIjoiS0lMTy1JVCIsImF2YXRhciI6ImF2YXRhciIsInBob25lIjoiMDEyMzQ1Njc4OSIsInNjb3BlIjoibGlzdC11c2VyIGNyZWF0ZS1yb2xlIGRlbGV0ZS1yb2xlIGNyZWF0ZS11c2VyIGVkaXQtdXNlciBlZGl0LXJvbGUgbGlzdC1yb2xlIGRlbGV0ZS11c2VyIiwibmFtZSI6IkFkbWluIiwicm9sZU5hbWUiOiJTdXBlci1BZG1pbiIsImlkIjoxLCJleHAiOjE3MTA5OTY1MDUsImlhdCI6MTcxMDM5MTcwNSwianRpIjoiMSIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwidXNlcm5hbWUiOiJhZG1pbiIsInN0YXR1cyI6dHJ1ZX0.MePeEbgnhlqFzGJU8U1nNrJAlVxEdVmMJ3XmDAeHjCH2uDln5dH-FkCW7M1Faa3_dGtMrzPVkTnoQa75G7hbA522kdebFei2ZxjpBtAgaCFBrIc73L0fne3Mu2j5751QefIY245PDTWK8jLdcjEk3NnHz5LSFdazxNJFuHi4PC1L-wQxa3vWomLEDbiI-0etp6vd2FtPeiAiDq9DZjIO79R45N2YpArgQrMSceL_I-3qAzMiBdPqR7xTB32HeABb4gnMt-GEENGIbJyPlOSxOBlmMmcy4smZ3fNkrasHt64Y8UgA0Pr9NGnAXlwk1mLwekgxicFpJbrqu2wCJEIz6g",
+        "Authorization" : `Bearer ${token}`,
       },
     })
     .then(res => {
