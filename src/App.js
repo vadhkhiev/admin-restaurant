@@ -8,6 +8,7 @@ import User from "./modules/Usermanangement/User";
 import Food from "./modules/Food/Food";
 import Role from "./modules/Role/Role";
 import Access from "./modules/Role/components/Access";
+import Table from "./modules/table/Table";
 
 
 
@@ -24,7 +25,7 @@ function App() {
         {isAuthenticated ? (
           <Route path="/" element={<Layout1 />}>
             <Route index element={<Home />} />
-            <Route path="table" element={<h1>table</h1>} />
+            <Route path="table" element={<Table/>} />
             <Route path="table/:id" element={<h1>table</h1>} />
             <Route path="category" element={<h1>Category</h1>} />
             <Route path="order" element={<h1>order</h1>} />

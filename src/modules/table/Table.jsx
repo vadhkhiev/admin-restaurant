@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { FaUserEdit } from "react-icons/fa";
 import axios from "axios";
 import { IoIosPersonAdd } from "react-icons/io";
+import dateTimeFormat from "../Role/core/dateTimeFormat";
+import { useSelector } from "react-redux";
 
 
 
@@ -31,7 +33,7 @@ const Table = () => {
       axios.delete(`/api/table/`+ id, {
         headers: {
           "Content-Type" : "application/json",
-          "Authorization" : "Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVJZCI6MSwiaXNzIjoiS0lMTy1JVCIsImF2YXRhciI6ImF2YXRhciIsInBob25lIjoiMDEyMzQ1Njc4OSIsInNjb3BlIjoibGlzdC11c2VyIGNyZWF0ZS1yb2xlIGRlbGV0ZS1yb2xlIGNyZWF0ZS11c2VyIGVkaXQtdXNlciBlZGl0LXJvbGUgbGlzdC1yb2xlIGRlbGV0ZS11c2VyIiwibmFtZSI6IkFkbWluIiwicm9sZU5hbWUiOiJTdXBlci1BZG1pbiIsImlkIjoxLCJleHAiOjE3MTA5OTY1MDUsImlhdCI6MTcxMDM5MTcwNSwianRpIjoiMSIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwidXNlcm5hbWUiOiJhZG1pbiIsInN0YXR1cyI6dHJ1ZX0.MePeEbgnhlqFzGJU8U1nNrJAlVxEdVmMJ3XmDAeHjCH2uDln5dH-FkCW7M1Faa3_dGtMrzPVkTnoQa75G7hbA522kdebFei2ZxjpBtAgaCFBrIc73L0fne3Mu2j5751QefIY245PDTWK8jLdcjEk3NnHz5LSFdazxNJFuHi4PC1L-wQxa3vWomLEDbiI-0etp6vd2FtPeiAiDq9DZjIO79R45N2YpArgQrMSceL_I-3qAzMiBdPqR7xTB32HeABb4gnMt-GEENGIbJyPlOSxOBlmMmcy4smZ3fNkrasHt64Y8UgA0Pr9NGnAXlwk1mLwekgxicFpJbrqu2wCJEIz6g",
+          "Authorization" : `Bearer ${token}`,
         },
       })
       .then(res => {
@@ -47,7 +49,6 @@ const Table = () => {
       <table className="table bg-white">
         <thead>
           <tr>
-            {/* <th scope="col">Id</th> */}
             <th scope="col">Name</th>
             <th scope="col">Status</th>
             <th scope="col">SeatCapacity</th>
@@ -59,12 +60,11 @@ const Table = () => {
         <tbody>
           {tableList.map((tables,index) => (
             <tr key={index}>
-              {/* <td>{index+1}</td> */}
               <td>{tables.name}</td>
               <td>{tables.status}</td>
               <td>{tables.seatCapacity}</td>
-              <td>{tables.createdDate}</td>
-              <td>{tables.updateDate}</td>
+              <td>{dateTimeFormat(tables.createdDate)}</td>
+              <td>{dateTimeFormat(tables.updateDate)}</td>
               <td className="d-flex gap-2 text-center">
                 <Link to={`/createTable`}><IoIosPersonAdd style={{ width: "20px", color: "blue" }} /></Link>
                 <Link to={`/UpdateTable/${tables.id}`}><FaUserEdit style={{ width: "15px", color: "green" }} /></Link>
