@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import Login from "./modules/Login/Login";
 import User from "./modules/Usermanangement/User";
 import Food from "./modules/Food/Food";
+import Table from "./modules/table/Table";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -18,7 +19,7 @@ function App() {
         {isAuthenticated ? (
           <Route path="/" element={<Layout1 />}>
             <Route index element={<Home />} />
-            <Route path="table" element={<h1>table</h1>} />
+            <Route path="table" element={<Table />} />
             <Route path="category" element={<h1>Category</h1>} />
             <Route path="order" element={<h1>order</h1>} />
             <Route path="profile" element={<h1>Profile</h1>} />
