@@ -73,12 +73,12 @@ const Login = () => {
          getPermission(token, data?.data?.roleEntity?.id)
           .then(permissionResult => {
             dispatch(storePermission(permissionResult));
+            dispatch(login(data));
+            setLoading(false);
           })
           .catch(permissionError => {
             console.error('Error fetching permissions:', permissionError);
           }); 
-          dispatch(login(data));
-          setLoading(false);
           dispatch(storeCurrentUser(data.data));
         })
         .catch(error => {

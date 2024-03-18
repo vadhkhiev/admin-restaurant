@@ -22,10 +22,31 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
+  const [fileInput, setFileInput] = useState(null);
+
+  const handleUpload = async () => {
+    const formdata = new FormData();
+    formdata.append("file", fileInput);
+  
+    axios.post(`/api/user/${editUser.id}/profileAvatar`, formdata, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+    .then(response => {
+      console.log(response.data);
+      
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  };
+  
+
+  
 
 
-
-  const handleChange = async (e) => {
+  const handleChange = async () => {
     try {
       const data = { ...editing, username: editUser.username };
       const filteredData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value !== ''));
@@ -34,24 +55,33 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
           Authorization: `Bearer ${token}`,
         },
       });
+  
+      await handleUpload();
+  
       setError('');
       setSuccessMessage('Update successful');
       setTimeout(() => {
         setEdit(!edit);
-        setSuccessMessage(''); // Clear success message after 1 second
+        setSuccessMessage('');
       }, 1000);
     } catch (error) {
       setError('error');
       console.log(error);
-      setTimeout(() => setSuccessMessage(''), 1000); // Clear success message after 1 second
+      setTimeout(() => setSuccessMessage(''), 1000);
     }
   };
+  
+  console.log(editUser)
 
 
 
+
+
+console.log(fileInput)
   
   return (
     <div>
+     
         <div
         className='d-flex justify-content-center align-items-center'
          style={{
@@ -76,7 +106,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
                 <MdOutlineCancel onClick={handleEdit} className='fs-3 text-danger m-2'/>
               </div>
               <div >
-              <div className='mx-3  rounded-3'  >
+              <div className=' rounded-3'  >
                 <h3  className=' text-center p-1'>Editing
                 <span className='text-primary'> {editUser.name}</span> 
                 </h3>
@@ -84,8 +114,15 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
               
               <div className=' p-1 rounded-3' >
 
-              <div  className='d-flex my-3 justify-content-center'> 
-                <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={avatar} width={80} height={80}  alt="" className='rounded-circle' />
+              <div  className='d-flex my-3 justify-content-between'> 
+              <div className='w-25 d-flex justify-content-center'>
+                <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={avatar} width={65} height={65}  alt="" className='rounded-circle ' />
+              </div>
+               <div className='w-75 d-flex justify-content-start m-3'>
+               <div>
+                <input  onChange={(e) => setFileInput(e.target.files[0])} className="form-control  " id="formFileSm" type="file"/>
+               </div>
+               </div>
               </div>
 
 
