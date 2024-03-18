@@ -32,7 +32,7 @@ const TableRow = ({ user,handleDelete ,handleEdit }) => {
   return (
     <>
       <tr >
-        <td><img src={avatar} className="avatar rounded-circle " /></td>
+        <td><img src={user?.avatar?.length > 50 ? user.avatar : avatar} className="avatar rounded-circle " style={{border:'1px solid #6c738f'}} /></td>
         <td >{user.name}</td>
         <td >{user.email}</td>
         <td >{user.phone}</td>
