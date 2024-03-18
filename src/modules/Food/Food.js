@@ -7,6 +7,7 @@ import { storeFood } from "./Core/allFoodSlice";
 import getAllFood from "./Core/getAllFood";
 import AddForm from "./Component/AddForm";
 import { storeCategories } from "./Core/allCategoriesSlice";
+import memeLoading from "../../assets/img/loadingmeme.gif";
 
 function YourComponent() {
   const food = useSelector((state) => state.foodList.foodList);
@@ -18,7 +19,7 @@ function YourComponent() {
   const dispatch = useDispatch();
 
   const [toggleForm, setToggleForm] = useState(false);
-
+  const [loading, setLoading] = useState(true);
   //allfood
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +33,7 @@ function YourComponent() {
     fetchData();
   }, []);
 
+  useEffect(() => {}, []);
   //food categories
   useEffect(() => {
     const fetchData = async () => {
@@ -43,10 +45,20 @@ function YourComponent() {
       }
     };
     fetchData();
+    if (food) {
+      setLoading(loading);
+    }
   }, []);
 
+  if (loading) {
+    return (
+      <>
+        <img className="w-100" src={memeLoading}></img>
+      </>
+    );
+  }
   return (
-    <div className="position-absolute">
+    <div className="">
       <header>
         <div
           className=" p-2 text-center text-white m-2 rounded-3 fw-bold"
@@ -82,7 +94,9 @@ function YourComponent() {
         {/* <FoodCard food={food[0]} /> */}
       </main>
 
-      <div>{toggleForm && <AddForm />}</div>
+      <div>
+        {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}
+      </div>
 
       <footer></footer>
       <div className="position-absolute end-0 me-2">

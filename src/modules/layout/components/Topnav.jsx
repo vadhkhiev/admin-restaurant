@@ -7,10 +7,13 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 const Topnav = ({toggle}) => {
     const dispatch = useDispatch()
+    const currentUser = useSelector((state) => state.currentUser.currentUser)
+    console.log(currentUser.avatar)
 
     const handleLogout = () =>{
       dispatch(logout())
       localStorage.removeItem('token')
+      
     }
     
   return (
@@ -22,29 +25,13 @@ const Topnav = ({toggle}) => {
 
             <div className="navbar-collapse collapse">
                 <ul className="navbar-nav navbar-align">
-                    <li className="nav-item dropdown">
-                        <a className="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
-                            <div className="position-relative">
-                                <GoBell className='text-white'/>
-                                <span className="indicator">4</span>
-                            </div>
-                        </a>
-                        <div className="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
-                            <div className="dropdown-menu-header">
-                                4 New Notifications
-                            </div>
-                            <div className="list-group">
-                                {/* Notifications items go here */}
-                            </div>
-                            <div className="dropdown-menu-footer">
-                                <a href="#" className="text-muted">Show all notifications</a>
-                            </div>
-                        </div>
-                    </li>
+                    <li className="nav-item d-flex align-items-center">
+                       <span className='fs-4 fs-normal' style={{color:"#fcfdff"}}>{currentUser?.name}</span>
+                    </li> 
                     <li className="nav-item dropdown">
                         <a className="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
                             <div className="position-relative">
-                                <i className="align-middle" data-feather="message-square"></i>
+                                <i className="pb-3" data-feather="message-square"></i>
                             </div>
                         </a>
                         <div className="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="messagesDropdown">
@@ -61,26 +48,18 @@ const Topnav = ({toggle}) => {
                             </div>
                         </div>
                     </li>
-                    {/* <li>
-                        <img width={35}  src={logo} alt="" />
 
-                    </li> */}
-                    <li className="nav-item dropdown">
-                        <a className="nav-icon dropdown-toggle " href="#" data-bs-toggle="dropdown">
-                            <i className="align-middle" data-feather="settings"></i>
-                        </a>
-                        <Link to='profile' className="nav-link dropdown-toggle "  data-bs-toggle="dropdown">
-                        <FaRegUserCircle className='text-white fs-3'/>
+                    <li className="nav-item dropdown d-flex align-items-center m-1 me-3 ">
+                        <Link to='profile' className="nav-link  p-0"  data-bs-toggle="dropdown">
+                        <div className='position-relative'>
+                          <img height={30}  width={30} className='p-0 avatar border rounded-circle' src={currentUser?.avatar} alt="" />
+                        </div>
                     
                         </Link>
                         <div className="dropdown-menu dropdown-menu-end">
                             <Link className="dropdown-item" to='/profile'><i className="align-middle me-1" data-feather="user"></i> Profile</Link>
-                            <p className="dropdown-item" ><i className="align-middle me-1" data-feather="pie-chart"></i> Analytics</p>
-                            <div className="dropdown-divider"></div>
-                            <p className="dropdown-item" href="index.html"><i className="align-middle me-1" data-feather="settings"></i> Settings & Privacy</p>
-                            <p className="dropdown-item" ><i className="align-middle me-1" data-feather="help-circle"></i> Help Center</p>
-                            <div className="dropdown-divider"></div>
-                            <p className="dropdown-item text-danger" onClick={() => handleLogout()} >Log out</p>
+                            <Link to='/' className="dropdown-item" ><i className="align-middle me-1" data-feather="pie-chart"></i> Dashboard</Link>
+                            <p className="dropdown-item text-danger border-top mt-3" onClick={() => handleLogout()} >Log out</p>
                         </div>
                     </li>
                 </ul>
