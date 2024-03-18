@@ -9,11 +9,12 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
   const tokens = useSelector((state) => state.auth.token);
   const roles = useSelector((state) => state.roles.roles);
 
+
   const initialUserData = {
     name: "",
     username: "",
     gender: "Male",
-    avatar: "avatar",
+    avatar: "no image",
     email: "",
     password: "",
     confirmPassword: "",
@@ -26,6 +27,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
   const [userData, setUserData] = useState(initialUserData);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     const currentDateTime = new Date();
@@ -37,6 +39,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
       role_id: roles[0].id,
     });
   }, []);
+
 
   const handleInputChange = (field, value) => {
     setUserData({
@@ -112,6 +115,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
     }, 1000);
   };
 
+
   return (
     <div >
       <div
@@ -158,23 +162,25 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                 <div>
                   <div >
                     <div>
-                      <div className="w-100 d-flex ">
-                        <div className="w-50 d-flex m-1">
-                          <img
-                            className="me-3 avatar rounded-circle"
+                      <img
+                          className="avatar rounded-circle"
                             src={kiloit}
                             width={50}
                             height={50}
                             alt=""
-                          />
-                          <p className="text-white">Avatar</p>
+                        />
+                       <div className="w-100 d-flex gap-1">
+                        <div className="w-50 d-flex flex-column mt-3">
+                            <label className="text-white">Image</label>
+                          <input 
+                           className="form-control form-control-sm" id="formFileSm" type="file" />
                         </div>
                         <div className="w-50 d-flex flex-column mt-3">
                           <div className="d-flex">
                             <label className="text-white">Hired Date</label>
                           </div>
                           <input
-                            className="text-center"
+                            className="text-center form-control form-control-sm"
                             type="date"
                             id="datetime"
                             value={userData?.hireDate?.slice(0, 10)}
@@ -230,7 +236,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
 
                     {/* role */}
 
-                    <div className="w-100 mt-3 d-flex">
+                    <div className="w-100 mt-3 d-flex gap-1">
                       <div className="w-50 position-relative">
                         <div
                           style={{
