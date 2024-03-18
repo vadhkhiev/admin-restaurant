@@ -34,33 +34,46 @@ function OrderList() {
   console.log(orders);
 
   return (
-    <div>
+    <div className="m-3">
       <h2 className="h1">User Order</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <table className="container-fluid">
+      <table
+        style={{ color: "#464d69" }}
+        className="table-container table bg-white fw-bold"
+      >
         <thead>
           <tr>
-            <th>ID </th>
-            <th>Status</th>
-            <th>Payment</th>
-            <th>Date</th>
-            <th>Total</th>
+            <th scope="col">ID </th>
+            <th scope="col">Status</th>
+            <th scope="col">Payment</th>
+            <th scope="col">Create Date</th>
+            <th scope="col">Update Date</th>
+            <th scope="col">Table Name</th>
+            <td scope="col">Total</td>
+            <td scope="col">Action</td>
           </tr>
         </thead>
-      </table>
-      {orders.map(({ id, status, paymentMethod, createDate, updateDate }) => (
-        <table className=" table-containers container-fluid " key={id}>
+
+        {orders.map((order) => (
           <tbody>
             <tr>
-              <td>{id}</td>
-              <td>{status}</td>
-              <td>{paymentMethod}</td>
-              <td>{createDate}</td>
-              <td>{updateDate}</td>
+              <td className="fw-normal">{order.id}</td>
+              <td
+                className={`fw-normal ${
+                  order.status == "Complete" ? "text-success" : " text-danger"
+                } `}
+              >
+                {order.status}
+              </td>
+              <td className="fw-normal">{order.paymentMethod}</td>
+              <td className="fw-normal">{order.createdDate}</td>
+              <td className="fw-normal">{order.updateDate}</td>
+              <td className="text-center">{order.tableEntity.name}</td>
+              <td className="fw-normal">{order.totalPrice}</td>
             </tr>
           </tbody>
-        </table>
-      ))}
+        ))}
+      </table>
       {/* </tbody>
       </table> */}
     </div>
