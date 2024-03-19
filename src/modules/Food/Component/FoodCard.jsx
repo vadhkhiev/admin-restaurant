@@ -23,9 +23,9 @@ export default function FoodCard({ food }) {
             <button className="border rounded-3">Edit</button>
             <button
               className="border rounded-3"
-              onClick={() => {
-                deleteFood(token, food.id);
-              }}
+              // onClick={() => {
+              //   deleteFood(token, food.id);
+              // }}
             >
               Remove
             </button>

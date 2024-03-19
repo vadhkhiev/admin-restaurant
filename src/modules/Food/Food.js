@@ -1,62 +1,35 @@
 import React, { useEffect, useState } from "react";
-import getFoodCategories from "./Core/getFoodCategories";
 import { useDispatch, useSelector } from "react-redux";
 import FoodCard from "./Component/FoodCard";
 import { IoIosAddCircle } from "react-icons/io";
-import { storeFood } from "./Core/allFoodSlice";
-import getAllFood from "./Core/getAllFood";
 import AddForm from "./Component/AddForm";
-import { storeCategories } from "./Core/allCategoriesSlice";
-import memeLoading from "../../assets/img/loadingmeme.gif";
+import loadingmeme from "../../assets/img/loadingmeme.gif";
+import EditFoodForm from "./Component/EditFoodForm";
+import LoadingFoodCard from "./Component/LoadingFoodCard";
 
 function YourComponent() {
-  const food = useSelector((state) => state.foodList.foodList);
+  const listFood = useSelector((state) => state.foodList.foodList);
+  const [food, setFood] = useState([]);
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-  const tokens = useSelector((state) => state.auth.token);
-  const token = localStorage.getItem("token") || tokens;
-  const dispatch = useDispatch();
-
+  const [innerRefresh, setInnerRefresh] = useState(false);
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
+  const Refresh = useSelector((state) => state.foodList.refresh);
+  const [toggleEdit, setToggleEdit] = useState(false);
   //allfood
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllFood(token, "/api/food");
-        dispatch(storeFood(result.data));
-      } catch (error) {
-        console.error("Error in  component:", error);
-      }
-    };
-    fetchData();
-  }, []);
 
-  useEffect(() => {}, []);
-  //food categories
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getFoodCategories(token, "/api/category");
-        dispatch(storeCategories(result.data));
-      } catch (error) {
-        console.error("Error in component:", error);
-      }
-    };
-    fetchData();
-    if (food) {
-      setLoading(loading);
+    setFood(listFood);
+  }, [listFood]);
+
+  useEffect(() => {
+    if (food.length > 0) {
+      setLoading(false);
     }
-  }, []);
+  }, [food]);
 
-  if (loading) {
-    return (
-      <>
-        <img className="w-100" src={memeLoading}></img>
-      </>
-    );
-  }
   return (
     <div className="">
       <header>
@@ -82,20 +55,35 @@ function YourComponent() {
       </header>
 
       <main className="container position-relative">
-        <div className="row">
-          {food.map((i) => {
-            return (
-              <div className="col-6 col-lg-3 col-md-4 col-sm-6" key={i.id}>
-                <FoodCard food={i} />
-              </div>
-            );
-          })}
-        </div>
+        {loading ? (
+          <>
+            <LoadingFoodCard />
+          </>
+        ) : (
+          <div className="row">
+            {food.map((i) => {
+              return (
+                <div className="col-6 col-lg-3 col-md-4 col-sm-6" key={i.id}>
+                  <FoodCard food={i} toggleEdit />
+                </div>
+              );
+            })}
+          </div>
+        )}
         {/* <FoodCard food={food[0]} /> */}
       </main>
-
       <div>
-        {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}
+        {toggleEdit && (
+          <EditFoodForm toggle1={{ sendDataToParent: setToggleEdit }} />
+        )}
+      </div>
+      <div>
+        {toggleForm && (
+          <AddForm
+            toggle={{ sendDataToParent: setToggleForm }}
+            innerRefresh={{ sendDataToParent: setInnerRefresh }}
+          />
+        )}
       </div>
 
       <footer></footer>
