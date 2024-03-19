@@ -5,6 +5,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import AddForm from "./Component/AddForm";
 import loadingmeme from "../../assets/img/loadingmeme.gif";
 import EditFoodForm from "./Component/EditFoodForm";
+import LoadingFoodCard from "./Component/LoadingFoodCard";
 
 function YourComponent() {
   const listFood = useSelector((state) => state.foodList.foodList);
@@ -12,27 +13,22 @@ function YourComponent() {
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
+  const [innerRefresh, setInnerRefresh] = useState(false);
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [refresh, setRefresh] = useState(true);
+  const Refresh = useSelector((state) => state.foodList.refresh);
   const [toggleEdit, setToggleEdit] = useState(false);
   //allfood
 
   useEffect(() => {
     setFood(listFood);
-    setRefresh(!refresh);
   }, [listFood]);
 
   useEffect(() => {
     if (food.length > 0) {
       setLoading(false);
     }
-    setRefresh(!refresh);
   }, [food]);
-
-  useEffect(() => {
-    console.log("Food : " + food);
-  }, []);
 
   return (
     <div className="">
@@ -61,7 +57,7 @@ function YourComponent() {
       <main className="container position-relative">
         {loading ? (
           <>
-            <img src={loadingmeme} alt="" />
+            <LoadingFoodCard />
           </>
         ) : (
           <div className="row">
@@ -82,7 +78,12 @@ function YourComponent() {
         )}
       </div>
       <div>
-        {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}
+        {toggleForm && (
+          <AddForm
+            toggle={{ sendDataToParent: setToggleForm }}
+            innerRefresh={{ sendDataToParent: setInnerRefresh }}
+          />
+        )}
       </div>
 
       <footer></footer>

@@ -8,11 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { storeRoles } from "./core/roleSlice";
 
 //
-import { storeFood } from "../Food/Core/allFoodSlice";
+import { storeFood, storeRefresh } from "../Food/Core/allFoodSlice";
 import getAllFood from "../Food/Core/getAllFood";
 import { storeCategories } from "../Food/Core/allCategoriesSlice";
 import getFoodCategories from "../Food/Core/getFoodCategories";
 const Layout1 = () => {
+  const Refresh = useSelector((state) => state.foodList.refresh);
   const [open, setOpen] = useState(true);
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
@@ -42,7 +43,7 @@ const Layout1 = () => {
   }, []);
   //food categories
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchFood = async () => {
       try {
         const result = await getFoodCategories(token, "/api/category");
         dispatch(storeCategories(result.data));
@@ -50,7 +51,7 @@ const Layout1 = () => {
         console.error("Error in component:", error);
       }
     };
-    fetchData();
+    fetchFood();
   }, []);
 
   const toggle = () => {
