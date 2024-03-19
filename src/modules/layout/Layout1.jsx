@@ -23,7 +23,8 @@ const Layout1 = () => {
     const fetchroles = async () => {
       try {
         const result = await getroles(token);
-        dispatch(storeRoles(result.data));
+        dispatch(storeRoles(result));
+        console.log(result);
       } catch (error) {
         console.error(error);
       }
