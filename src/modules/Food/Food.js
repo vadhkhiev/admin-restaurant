@@ -1,61 +1,39 @@
 import React, { useEffect, useState } from "react";
-import getFoodCategories from "./Core/getFoodCategories";
 import { useDispatch, useSelector } from "react-redux";
 import FoodCard from "./Component/FoodCard";
 import { IoIosAddCircle } from "react-icons/io";
-import { storeFood } from "./Core/allFoodSlice";
-import getAllFood from "./Core/getAllFood";
 import AddForm from "./Component/AddForm";
-import { storeCategories } from "./Core/allCategoriesSlice";
-import loadingImg from "../../assets/img/loading.gif";
 import loadingmeme from "../../assets/img/loadingmeme.gif";
-import EditForm from "./Component/EditFoodForm";
+import EditFoodForm from "./Component/EditFoodForm";
 
 function YourComponent() {
-  const food = useSelector((state) => state.foodList.foodList);
+  const listFood = useSelector((state) => state.foodList.foodList);
+  const [food, setFood] = useState([]);
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-  const [fetchStatus, setFetchStatus] = useState(400);
-  const tokens = useSelector((state) => state.auth.token);
-  const token = localStorage.getItem("token") || tokens;
-  const dispatch = useDispatch();
-  const [refresh, setRefresh] = useState(true);
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [toggleEdit, setToggleEdit] = useState(true);
+  const [refresh, setRefresh] = useState(true);
+  const [toggleEdit, setToggleEdit] = useState(false);
   //allfood
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllFood(token, "/api/food");
-        dispatch(storeFood(result.data));
-        setRefresh(!refresh);
-        setFetchStatus(result.status);
-      } catch (error) {
-        console.error("Error in  component:", error);
-      }
-    };
-    fetchData();
-  }, [refresh]);
-  //food categories
+    setFood(listFood);
+    setRefresh(!refresh);
+  }, [listFood]);
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getFoodCategories(token, "/api/category");
-        dispatch(storeCategories(result.data));
-      } catch (error) {
-        console.error("Error in component:", error);
-      }
-    };
-    fetchData();
+    if (food.length > 0) {
+      setLoading(false);
+    }
+    setRefresh(!refresh);
   }, [food]);
 
   useEffect(() => {
-    if (fetchStatus == 200) {
-      setLoading(!loading);
-    }
-  }, [fetchStatus]);
+    console.log("Food : " + food);
+  }, []);
+
   return (
     <div className="">
       <header>
@@ -90,7 +68,7 @@ function YourComponent() {
             {food.map((i) => {
               return (
                 <div className="col-6 col-lg-3 col-md-4 col-sm-6" key={i.id}>
-                  <FoodCard food={i} />
+                  <FoodCard food={i} toggleEdit />
                 </div>
               );
             })}
@@ -98,7 +76,11 @@ function YourComponent() {
         )}
         {/* <FoodCard food={food[0]} /> */}
       </main>
-
+      <div>
+        {toggleEdit && (
+          <EditFoodForm toggle1={{ sendDataToParent: setToggleEdit }} />
+        )}
+      </div>
       <div>
         {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}
       </div>
