@@ -151,7 +151,7 @@ input[type="number"] {
   border-bottom: 3px solid #6c738f;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 992px) {
   /* Styles for screens smaller than 768px */
   .sidebar {
     position: fixed;
