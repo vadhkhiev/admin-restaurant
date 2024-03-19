@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineCancel } from "react-icons/md";
 import avatar from '../../../assets/img/avatar.jpg'
 import { useSelector } from 'react-redux';
@@ -10,10 +10,11 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
 
   const role = roles.filter((r) => r.name === editUser.roleEntity?.name)[0];
 
+
+
   const [editing, setEditing] = useState({
-    avatar: 'avatar',
     name: editUser.name,
-    role_id: role?.id, // Use role.id here
+    role_id: role?.id, 
     phone: editUser.phone,
     gender: editUser.gender,
     salary: editUser.salary,
@@ -24,7 +25,23 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
   const [fileInput, setFileInput] = useState(null);
 
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreensize(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  const [screensize , setScreensize] = useState(window.innerWidth);
+
   const handleUpload = async () => {
+    if(!fileInput) {
+      return;
+    }
     const formdata = new FormData();
     formdata.append("file", fileInput);
   
@@ -34,7 +51,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
       }
     })
     .then(response => {
-      console.log(response.data);
+ 
       
     })
     .catch(error => {
@@ -47,6 +64,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
 
 
   const handleChange = async () => {
+
     try {
       const data = { ...editing, username: editUser.username };
       const filteredData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value !== ''));
@@ -56,7 +74,10 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
         },
       });
   
-      await handleUpload();
+      if(fileInput) {
+       await handleUpload();
+      }	
+
   
       setError('');
       setSuccessMessage('Update successful');
@@ -70,14 +91,8 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
       setTimeout(() => setSuccessMessage(''), 1000);
     }
   };
-  
-  console.log(editUser)
+  console.log(screensize)
 
-
-
-
-
-console.log(fileInput)
   
   return (
     <div>
@@ -99,7 +114,7 @@ console.log(fileInput)
         >
           <main className='rounded-3 border' style={{
             backdropFilter: 'blur(5px)',
-            width: window.innerWidth < 768 ? '100%' : '45%',
+            width: screensize < 768 ? '100%' : '45%',
           }}
           >
             <div >
@@ -116,7 +131,7 @@ console.log(fileInput)
 
               <div  className='d-flex my-3 justify-content-between'> 
               <div className='w-25 d-flex justify-content-center'>
-                <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={avatar} width={65} height={65}  alt="" className='rounded-circle ' />
+                <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={editUser.avatar} width={65} height={65}  alt="" className='rounded-circle ' />
               </div>
                <div className='w-75 d-flex justify-content-start m-3'>
                <div>
