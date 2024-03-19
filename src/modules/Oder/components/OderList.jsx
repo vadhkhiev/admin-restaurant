@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./OrderList.css";
 function OrderList() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setError] = useState(false);
   const [orders, setOrders] = useState([]);
   const [errorMessage, setErrorMessage] = useState(""); // New state for error message
   const token = localStorage.getItem("token");
@@ -21,9 +23,11 @@ function OrderList() {
 
         setOrders(response.data.data);
       } catch (error) {
-        console.error("Error:", error);
-        setErrorMessage("Failed to fetch orders. Please try again later."); // Set error message
+        setError(true);
+        await new Promise((resolve) => setTimeout(resolve, 20000));
+        setIsLoading(true);
       }
+      setIsLoading(false);
     };
 
     if (token) {
@@ -32,7 +36,12 @@ function OrderList() {
   }, [token]);
 
   console.log(orders);
-
+  if (isLoading) {
+    return <h2 className="h1"> Loading... </h2>;
+  }
+  if (isError) {
+    return <h1>Develop Error </h1>;
+  }
   return (
     <div className="m-3">
       <h2 className="h1">User Order</h2>
