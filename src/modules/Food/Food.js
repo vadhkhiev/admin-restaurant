@@ -18,12 +18,11 @@ function YourComponent({}) {
   const [toggleEdit, setToggleEdit] = useState(false);
 
   useEffect(() => {
-    setFood(listFood);
-  }, [toggleForm, listFood]);
-
+    console.log(food);
+  }, []);
   useEffect(() => {
-    setRefresh(!refresh);
-  }, [toggleForm, refresh]);
+    setFood(listFood);
+  }, [listFood]);
 
   useEffect(() => {
     if (food.length > 0) {
@@ -39,9 +38,6 @@ function YourComponent({}) {
   const handleEditSubmit = () => {
     setToggleEdit(false);
   };
-  useState(() => {
-    setRefresh(!refresh);
-  }, [refresh]);
 
   return (
     <div className="">
@@ -92,15 +88,16 @@ function YourComponent({}) {
         {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}
       </div>
 
-      <div className="position-absolute end-0 me-2">
+      <div className="position-absolute " style={{ border: "no-border" }}>
         <button
           style={{
             color: "#6c738f",
-            border: "0px",
-            zIndex: "10000",
+            border: "no-border",
+            bottom: "10px",
+            right: "10px",
             background: "transparent",
           }}
-          className="border"
+          className=" position-fixed"
           onClick={() => {
             setToggleForm(!toggleForm);
           }}
