@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./OrderList.css";
+
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setError] = useState(false);
@@ -24,8 +25,7 @@ function OrderList() {
         setOrders(response.data.data);
       } catch (error) {
         setError(true);
-        await new Promise((resolve) => setTimeout(resolve, 20000));
-        setIsLoading(true);
+        setErrorMessage("Failed to fetch orders. Please try again later.");
       }
       setIsLoading(false);
     };
@@ -35,13 +35,36 @@ function OrderList() {
     }
   }, [token]);
 
-  console.log(orders);
+  const handleStatusChange = async (orderId, newStatus) => {
+    try {
+      await axios.put(
+        `/api/order/status/${orderId}`,
+        { status: newStatus },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // Update the local state to reflect the change
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+    } catch (error) {
+      setErrorMessage("Failed to update status. Please try again later.");
+    }
+  };
+
   if (isLoading) {
-    return <h2 className="h1"> Loading... </h2>;
+    return <h2 className="h1">Loading...</h2>;
   }
+
   if (isError) {
-    return <h1>Develop Error </h1>;
+    return <h1>Development Error</h1>;
   }
+
   return (
     <div className="m-3">
       <h2 className="h1">User Order</h2>
@@ -52,7 +75,7 @@ function OrderList() {
       >
         <thead>
           <tr>
-            <th scope="col">ID </th>
+            <th scope="col">ID</th>
             <th scope="col">Status</th>
             <th scope="col">Payment</th>
             <th scope="col">Create Date</th>
@@ -62,15 +85,14 @@ function OrderList() {
             <td scope="col">Action</td>
           </tr>
         </thead>
-
-        {orders.map((order) => (
-          <tbody>
-            <tr>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order.id}>
               <td className="fw-normal">{order.id}</td>
               <td
                 className={`fw-normal ${
-                  order.status == "Complete" ? "text-success" : " text-danger"
-                } `}
+                  order.status === "Complete" ? "text-success" : "text-danger"
+                }`}
               >
                 {order.status}
               </td>
@@ -79,12 +101,21 @@ function OrderList() {
               <td className="fw-normal">{order.updateDate}</td>
               <td className="text-center">{order.tableEntity.name}</td>
               <td className="fw-normal">{order.totalPrice}</td>
+              <td>
+                <select
+                  className="form-control"
+                  value={order.status}
+                  onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                >
+                  <option value="Complete">Complete</option>
+                  <option value="Cooking">Cooking</option>
+                  <option value="Prepare">Prepare</option>
+                </select>
+              </td>
             </tr>
-          </tbody>
-        ))}
+          ))}
+        </tbody>
       </table>
-      {/* </tbody>
-      </table> */}
     </div>
   );
 }
