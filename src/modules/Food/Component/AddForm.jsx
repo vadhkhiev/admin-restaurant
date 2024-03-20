@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { createFood, createUser } from "../Core/createFood";
-export default function AddForm({
-  toggle,
-  toggleForm,
-  innerRefresh,
-  setInnerRefresh,
-}) {
+export default function AddForm({ toggle, toggleForm }) {
   //state
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
@@ -40,7 +35,6 @@ export default function AddForm({
 
   const sendDataToParent = () => {
     toggle.sendDataToParent(false);
-    innerRefresh.sendDataToParent(!innerRefresh);
   };
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent the default form submission behavior
@@ -141,7 +135,6 @@ export default function AddForm({
             class="btn btn-primary"
             onClick={() => {
               toggle.sendDataToParent(!toggleForm);
-              innerRefresh.sendDataToParent(!innerRefresh);
               sendFood(value, token);
             }}
           >
