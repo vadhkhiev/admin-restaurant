@@ -13,12 +13,12 @@ import getAllFood from "../Food/Core/getAllFood";
 import { storeCategories } from "../Food/Core/allCategoriesSlice";
 import getFoodCategories from "../Food/Core/getFoodCategories";
 const Layout1 = () => {
-  const Refresh = useSelector((state) => state.foodList.refresh);
   const [open, setOpen] = useState(true);
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const dispatch = useDispatch();
 
+  //fetch role
   useEffect(() => {
     const fetchroles = async () => {
       try {
@@ -31,6 +31,8 @@ const Layout1 = () => {
     };
     fetchroles();
   }, []);
+
+  //fetch food
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,7 +44,8 @@ const Layout1 = () => {
     };
     fetchData();
   }, []);
-  //food categories
+
+  // fetch food categories
   useEffect(() => {
     const fetchFood = async () => {
       try {
@@ -58,7 +61,6 @@ const Layout1 = () => {
   const toggle = () => {
     setOpen(!open);
   };
-
 
   return (
     <>

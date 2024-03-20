@@ -3,32 +3,45 @@ import { useDispatch, useSelector } from "react-redux";
 import FoodCard from "./Component/FoodCard";
 import { IoIosAddCircle } from "react-icons/io";
 import AddForm from "./Component/AddForm";
-import loadingmeme from "../../assets/img/loadingmeme.gif";
 import EditFoodForm from "./Component/EditFoodForm";
 import LoadingFoodCard from "./Component/LoadingFoodCard";
 
-function YourComponent() {
+function YourComponent({}) {
   const listFood = useSelector((state) => state.foodList.foodList);
   const [food, setFood] = useState([]);
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-  const [innerRefresh, setInnerRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(true);
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
-  const Refresh = useSelector((state) => state.foodList.refresh);
   const [toggleEdit, setToggleEdit] = useState(false);
-  //allfood
 
   useEffect(() => {
     setFood(listFood);
-  }, [listFood]);
+  }, [toggleForm, listFood]);
+
+  useEffect(() => {
+    setRefresh(!refresh);
+  }, [toggleForm, refresh]);
 
   useEffect(() => {
     if (food.length > 0) {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 400);
     }
   }, [food]);
+
+  const handleEditClick = () => {
+    setToggleEdit(true);
+  };
+  const handleEditSubmit = () => {
+    setToggleEdit(false);
+  };
+  useState(() => {
+    setRefresh(!refresh);
+  }, [refresh]);
 
   return (
     <div className="">
@@ -64,7 +77,7 @@ function YourComponent() {
             {food.map((i) => {
               return (
                 <div className="col-6 col-lg-3 col-md-4 col-sm-6" key={i.id}>
-                  <FoodCard food={i} toggleEdit />
+                  <FoodCard food={i} toggleEdit={handleEditClick} />
                 </div>
               );
             })}
@@ -73,23 +86,20 @@ function YourComponent() {
         {/* <FoodCard food={food[0]} /> */}
       </main>
       <div>
-        {toggleEdit && (
-          <EditFoodForm toggle1={{ sendDataToParent: setToggleEdit }} />
-        )}
+        <div>{toggleEdit && <EditFoodForm onSubmit={handleEditSubmit} />}</div>
       </div>
       <div>
-        {toggleForm && (
-          <AddForm
-            toggle={{ sendDataToParent: setToggleForm }}
-            innerRefresh={{ sendDataToParent: setInnerRefresh }}
-          />
-        )}
+        {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}
       </div>
 
-      <footer></footer>
       <div className="position-absolute end-0 me-2">
         <button
-          style={{ color: "#6c738f" }}
+          style={{
+            color: "#6c738f",
+            border: "0px",
+            zIndex: "10000",
+            background: "transparent",
+          }}
           className="border"
           onClick={() => {
             setToggleForm(!toggleForm);
