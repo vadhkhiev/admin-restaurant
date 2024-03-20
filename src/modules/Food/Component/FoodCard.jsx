@@ -22,7 +22,11 @@ export default function FoodCard({ food, toggleEdit }) {
         style={{ background: "#6b728e" }}
       >
         <div className="rounded-3 foodcard ">
-          <img className="rounded-3 img-fluid" src={dummyImage} alt="" />
+          <img
+            className="rounded-3 img-fluid"
+            src={food.foodImageEntities[0]?.url}
+            alt=""
+          />
         </div>
         <div className="px-1 pb-2 pt-1 text-white">
           <h4 className="text-white">{food.name}</h4>
