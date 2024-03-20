@@ -35,3 +35,12 @@ th {
   border-bottom: 1px solid #ddd;
   cursor: pointer;
 }
+.delete {
+  color: rgb(255, 110, 110);
+  font-size: 1.5rem;
+  margin: 10px;
+}
+.edit {
+  color: rgb(110, 180, 255);
+  font-size: 1.3rem;
+}

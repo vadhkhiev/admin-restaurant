@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./OrderList.css";
 import loadingImg from "../../../assets/img/loading.gif";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setError] = useState(false);
-  const [handleCreate] = useState(null);
   const [orders, setOrders] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(""); // New state for error message
+  const [errorMessage, setErrorMessage] = useState("");
+  const [editOrderId, setEditOrderId] = useState("");
+  const [editedPaymentMethod, setEditedPaymentMethod] = useState("");
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [deleteOrderId, setDeleteOrderId] = useState(""); // Track order ID to delete
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -36,6 +42,63 @@ function OrderList() {
     }
   }, [token]);
 
+  const handleDelete = async (orderId) => {
+    if (deleteConfirmation) {
+      try {
+        await axios.delete(`/api/order/${orderId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setOrders(orders.filter((order) => order.id !== orderId));
+        setDeleteConfirmation(false);
+        setDeleteOrderId(""); // Reset delete order ID
+      } catch (error) {
+        setErrorMessage("Failed to delete order. Please try again later.");
+      }
+    } else {
+      // Ask for confirmation before deleting
+      setDeleteOrderId(orderId); // Set delete order ID
+      setDeleteConfirmation(true);
+    }
+  };
+
+  const handleEdit = async (orderId) => {
+    setEditOrderId(orderId);
+    const orderToEdit = orders.find((order) => order.id === orderId);
+    setEditedPaymentMethod(orderToEdit.paymentMethod);
+  };
+
+  const handleSaveEdit = async () => {
+    try {
+      await axios.put(
+        `/api/order/${editOrderId}`,
+        {
+          paymentMethod: editedPaymentMethod,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const updatedOrders = orders.map((order) => {
+        if (order.id === editOrderId) {
+          return { ...order, paymentMethod: editedPaymentMethod };
+        }
+        return order;
+      });
+
+      setOrders(updatedOrders);
+      setEditOrderId("");
+      setEditedPaymentMethod("");
+    } catch (error) {
+      setErrorMessage("Failed to save changes. Please try again later.");
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="h1">
@@ -48,21 +111,11 @@ function OrderList() {
   if (isError) {
     return <h1>Development Error</h1>;
   }
-  console.log(orders);
 
   return (
     <div className="m-3">
       <h2 className="h1">User Order</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <>
-        <button
-          onClick={handleCreate}
-          style={{ backgroundColor: "#6c738f" }}
-          className="btn text-white fw-bold"
-        >
-          Add
-        </button>
-      </>
       <table
         style={{ color: "#464d69" }}
         className="table-container table bg-white fw-bold"
@@ -83,8 +136,17 @@ function OrderList() {
           {orders.map((order) => (
             <tr key={order.id}>
               <td className="fw-normal">{order.id}</td>
-
-              <td className="fw-normal">{order.paymentMethod}</td>
+              <td className="fw-normal">
+                {editOrderId === order.id ? (
+                  <input
+                    type="text"
+                    value={editedPaymentMethod}
+                    onChange={(e) => setEditedPaymentMethod(e.target.value)}
+                  />
+                ) : (
+                  order.paymentMethod
+                )}
+              </td>
               <td className="fw-normal">{order.createdDate}</td>
               <td className="fw-normal">{order.updateDate}</td>
               <td className="text-center">{order.tableEntity.name}</td>
@@ -96,11 +158,31 @@ function OrderList() {
               >
                 {order.status}
               </td>
-              <td></td>
+              <td>
+                {editOrderId === order.id ? (
+                  <button onClick={handleSaveEdit}>Save</button>
+                ) : (
+                  <FaEdit
+                    className="edit"
+                    onClick={() => handleEdit(order.id)}
+                  />
+                )}
+                <MdDelete
+                  className="delete"
+                  onClick={() => handleDelete(order.id)}
+                />
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {deleteConfirmation && (
+        <div className="delete-confirmation">
+          <p>Are you sure you want to delete this order?</p>
+          <button onClick={() => handleDelete(deleteOrderId)}>Yes</button>
+          <button onClick={() => setDeleteConfirmation(false)}>No</button>
+        </div>
+      )}
     </div>
   );
 }
