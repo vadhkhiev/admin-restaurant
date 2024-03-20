@@ -1,0 +1,25 @@
+import axios from "axios";
+
+const createFood = async (foodData, token) => {
+  const myHeaders = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+
+  try {
+    const response = await axios.post(`/api/food`, foodData, {
+      headers: myHeaders,
+    });
+    if (response.status === 200) {
+      alert("Food Added");
+      return;
+    }
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      console.log("Bad Request");
+      alert("Please Fill the Correct Information");
+    }
+  }
+};
+
+export { createFood };

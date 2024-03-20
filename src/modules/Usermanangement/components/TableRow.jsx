@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PiNotePencilThin } from "react-icons/pi";
 import { GoTrash } from "react-icons/go";
-import axios from 'axios';
+import '../../../assets/css/tablecss.css'; 
+import avatar from '../../../assets/img/avatar.jpg'
 import { useSelector } from 'react-redux';
-const formatDate = (inputString) => {
+
+/* const formatDate = (inputString) => {
   const [datePart, timePart] = inputString.split('T');
 
   const [year, month, day] = datePart.split('-');
@@ -22,41 +24,42 @@ const formatDate = (inputString) => {
   return `${formattedDate} ${formattedTime}`;
 };
 
+ */
 
-
-const TableRow = ({ user, index ,handleDelete }) => {
-   const token =  useSelector((state) => state.auth.token)
-
-  const deleteUser = async () => {
-  if (token) {
-    try {
-      await axios.delete(`/api/user/${user.id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      // Handle successful deletion, e.g., refresh user list or show a success message
-    } catch (error) {
-      console.error('Error deleting user:', error);
-    }
-  }
-};
+const TableRow = ({ user,handleDelete ,handleEdit }) => {
+  const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
 
   return (
     <>
-      <tr>
-        <th scope="row">{index}</th>
-        <td>{user.username}</td>
-        <td>{formatDate(user.createdDate)}</td>
-        <td>{formatDate(user.updateDate)}</td>
-        <td>
-          <button type="button" className="btn btn-primary btn-sm">
-            <PiNotePencilThin /> Edit
-          </button>
-          <button onClick={() => handleDelete(user)} type="button" className="btn btn-danger btn-sm">
-            <GoTrash /> Delete
-          </button>
+      <tr >
+        <td><img src={user?.avatar?.length > 50 ? user.avatar : avatar} className="avatar rounded-circle " style={{border:'1px solid #6c738f'}} /></td>
+        <td >{user.name}</td>
+        <td >{user.email}</td>
+        <td >{user.phone}</td>
+        <td >$ {user.salary}</td>
+        <td >
+          <p style={{borderRadius:'13px', background: user.status ? '#cee9d0' : '#f8d7da', color:user.status ? '#3fa27f' : 'red' }} className='fs-6 fw-normal text-center mt-3'> 
+           {user.status?"Active":"Inactive"}
+          </p>
         </td>
+        <td >{user.roleEntity.name}</td>
+        {
+          ((permission?.find(per => per.name === 'edit-user')?.status === 1) || (permission?.find(per => per.name === 'delete-user')?.status === 1)) && (
+            <td>
+              {permission?.find(per => per.name === 'edit-user')?.status === 1 && (
+                <a onClick={() => handleEdit(user.id)} className='fs-4 text-primary me-2' style={{ color: '#6c738f' }} type="button">
+                  <PiNotePencilThin />
+                </a>
+              )}
+              {permission?.find(per => per.name === 'delete-user')?.status === 1 && (
+                <a className='fs-4 text-danger' style={{ color: '#6c738f' }} onClick={() => handleDelete(user)} type="button">
+                  <GoTrash />
+                </a>
+              )}
+            </td>
+          )
+        }
+
       </tr>
     </>
   );

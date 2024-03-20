@@ -1,41 +1,61 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom';
-import {sidebarlink, administrator} from '../../../assets/data/sidebarlink';
-const Sidebar = () => {
+import {sidebarlink} from '../../../assets/data/sidebarlink';
+import { useSelector } from 'react-redux';
+import { IoClose } from "react-icons/io5";
+import { BsPersonGear } from "react-icons/bs";
+import { FaRegUserCircle } from "react-icons/fa";
 
+const Sidebar = ({toggle}) => {
+    const permission = useSelector((state) => state.permission?.permission?.data?.permissions)
   return (
     <>
-		 <nav id="sidebar" className="sidebar js-sidebar">
+	 <nav  >
             <div className="sidebar-content js-simplebar">
-                <Link className="sidebar-brand" to='/'>
-                    <span className="align-middle">KiloIT</span>
+                <div className='d-flex justify-content-between'>
+                <Link className="sidebar-brand align-items-center" to='/'>
+                    <span >KiloIT</span>
                 </Link>
+                <span className="d-lg-none fs-3 text-white-50 p-2" onClick={toggle}><IoClose /></span>
+                </div>
                 <ul className="sidebar-nav">
-				
-				{sidebarlink.map((item , index) => (
-                <li className="sidebar-item" key={index}>
-                    <NavLink to={item.link} className="sidebar-link" >
-                        <span className='fs-4'>{item.icon}</span>
-                        <span className="align-middle">{item.title}</span>
-                    </NavLink>
-                </li>
-            ))}
-			<li className="sidebar-header ">
-                    Administrator
-                </li>
-				{
-					administrator.map((item , index) => (
-						<li className="sidebar-item" key={index}>
-							<NavLink to={item.link} className="sidebar-link" >
-								<span className='fs-4'>{item.icon}</span>
-								<span className="align-middle">{item.title}</span>
-							</NavLink>
-						</li>
-					))
-				}
-                </ul>
-            </div>
-        </nav>
+                {sidebarlink.map((item) => (
+                    <li className="sidebar-item" key={item.title}>
+                        <NavLink to={item.link} className="sidebar-link">
+                            <span className='fs-4'>{item.icon}</span>
+                            <span className="align-middle">{item.title}</span>
+                        </NavLink>
+                    </li>
+                ))}
+
+
+
+         {( ((permission?.find((per) => per.name == 'list-role'))?.status === 1) || ((permission?.find((per) => per.name == 'list-user'))?.status === 1) ) && <li className='m-3 text-white-50 ' key="administrator-title">Administrator</li>}
+         {
+        ( (permission?.find((per) => per.name == 'list-user'))?.status === 1 ) &&
+        <>
+          <li className="sidebar-item" >
+                <NavLink to='/users' className="sidebar-link" >
+                    <span className='fs-4'><FaRegUserCircle/></span>
+                    <span className="align-middle">Users Management</span>
+                </NavLink>
+            </li>
+        </>
+        }
+
+        {( (permission?.find((per) => per.name == 'list-role'))?.status === 1 ) &&
+        <>
+          <li className="sidebar-item" >
+                <NavLink to='/role' className="sidebar-link" >
+                    <span className='fs-4'><BsPersonGear/></span>
+                    <span className="align-middle">Roles</span>
+                </NavLink>
+            </li>
+        </>}
+        
+        </ul>
+      </div>
+     </nav>
     </>
   )
 }

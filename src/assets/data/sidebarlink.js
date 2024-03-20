@@ -7,6 +7,8 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { RxPerson } from "react-icons/rx";
+import { MdTableBar } from "react-icons/md";
+import { BsBox2 } from "react-icons/bs";
 
 const sidebarlink = [
     {
@@ -16,9 +18,9 @@ const sidebarlink = [
         icon : <FaChartLine/>
     },{
         Id : 2,
-        title : 'Blog',
-        link : '/blog',
-        icon : <TfiWrite/>
+        title : 'Table',
+        link : '/table',
+        icon : <MdTableBar/>
     },{
         Id : 3,
         title : 'Category',
@@ -26,11 +28,28 @@ const sidebarlink = [
         icon : <BiCategory/>
     },{
         Id : 4,
-        title : 'Tag',
-        link : '/tag',
-        icon : <FiTag/>
+        title : 'Order',
+        link : '/order',
+        icon : <BsBox2/>
 
-    }
+    },{
+        Id : 5,
+        title : 'Profile',
+        link : '/profile',
+        icon : <RxPerson/>
+
+    },{
+        Id : 6,
+        title : 'Foods',
+        link : '/foods',
+        icon : <IoFastFoodOutline/>
+        
+    },{
+        Id : 3,
+        title : 'Reports',
+        link : '/reports',
+        icon : <HiOutlineDocumentReport/>
+    },
 ];
 
 const administrator = [
@@ -45,23 +64,6 @@ const administrator = [
         title : 'Roles',
         link : '/role',
         icon : <BsPersonGear/>
-    },{
-        Id : 3,
-        title : 'Reports',
-        link : '/reports',
-        icon : <HiOutlineDocumentReport/>
-    },{
-        Id : 4,
-        title : 'Foods',
-        link : '/foods',
-        icon : <IoFastFoodOutline/>
-        
-    },{
-        Id : 5,
-        title : 'Profile',
-        link : '/profile',
-        icon : <RxPerson/>
-
     }
 ];
 
