@@ -39,9 +39,6 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
   const [screensize , setScreensize] = useState(window.innerWidth);
 
   const handleUpload = async () => {
-    if(!fileInput) {
-      return;
-    }
     const formdata = new FormData();
     formdata.append("file", fileInput);
   
@@ -63,8 +60,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
   
 
 
-  const handleChange = async () => {
-
+  const handleChange = async () => {	
     try {
       const data = { ...editing, username: editUser.username };
       const filteredData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value !== ''));
@@ -73,12 +69,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
-      if(fileInput) {
-       await handleUpload();
-      }	
 
-  
       setError('');
       setSuccessMessage('Update successful');
       setTimeout(() => {

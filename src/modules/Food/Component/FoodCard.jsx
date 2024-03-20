@@ -14,6 +14,7 @@ export default function FoodCard({ food, toggleEdit }) {
       dispatch(storeFood(result.data));
     } catch (error) {}
   };
+  console.log(food.foodImageEntities[0]?.url);
 
   return (
     <>
