@@ -3,7 +3,7 @@ import { useState } from 'react'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-const CreateTable = ({toggleModal}) => {
+const CreateTable = () => {
     const [values, setValues] = useState({
     id: "",
     name: "",
@@ -11,7 +11,10 @@ const CreateTable = ({toggleModal}) => {
     seatCapacity: "",
   });
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
-  
+  const [modal,setModal] = useState(false);
+  // function toggleModal (){
+  //   setModal(!modal)
+  // }
 
 
   const handleCreate = (e) => {
@@ -26,7 +29,7 @@ const CreateTable = ({toggleModal}) => {
       })
       .then((res) => {
         console.log(res);
-        toggleModal();
+        setModal(false)
       })
       .catch((err) => console.log(err));
     }
