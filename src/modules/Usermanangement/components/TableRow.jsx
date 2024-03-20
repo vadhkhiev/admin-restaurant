@@ -39,7 +39,7 @@ const TableRow = ({ user,handleDelete ,handleEdit }) => {
         <td >$ {user.salary}</td>
         <td >
           <p style={{borderRadius:'13px', background: user.status ? '#cee9d0' : '#f8d7da', color:user.status ? '#3fa27f' : 'red' }} className='fs-6 fw-normal text-center mt-3'> 
-           {user.status?"Active":"Inactive"}
+            {user.status?"Active":"Inactive"}
           </p>
         </td>
         <td >{user.roleEntity.name}</td>
