@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from "react";
 import dummyImage from "../../../assets/img/dummy.png";
 import { deleteFood } from "../Core/deleteFood";
+import getAllFood from "../Core/getAllFood";
+import { useDispatch } from "react-redux";
+import { storeFood } from "../Core/allFoodSlice";
 export default function FoodCard({ food, toggleEdit }) {
+  const dispatch = useDispatch();
   const token = localStorage.getItem("token");
+
+  const refetchFood = async () => {
+    try {
+      const result = await getAllFood(token);
+      dispatch(storeFood(result.data));
+    } catch (error) {}
+  };
 
   return (
     <>
@@ -16,7 +27,7 @@ export default function FoodCard({ food, toggleEdit }) {
         <div className="px-1 pb-2 pt-1 text-white">
           <h4 className="text-white">{food.name}</h4>
           <div className="d-flex justify-content-between">
-            <h5 className="text-white">Code : {food.id}</h5>
+            <h5 className="text-white">Code : {food.code}</h5>
             <h5 className="text-white">Price : ${food.price}.00</h5>
           </div>
           <div className="d-flex justify-content-between">
@@ -25,9 +36,11 @@ export default function FoodCard({ food, toggleEdit }) {
             </button>
             <button
               className="border rounded-3"
-              // onClick={() => {
-              //   deleteFood(token, food.id);
-              // }}
+              onClick={() => {
+                refetchFood();
+                deleteFood(token, food.id);
+                refetchFood();
+              }}
             >
               Remove
             </button>
