@@ -1,62 +1,48 @@
 import React, { useEffect, useState } from "react";
-import getFoodCategories from "./Core/getFoodCategories";
 import { useDispatch, useSelector } from "react-redux";
 import FoodCard from "./Component/FoodCard";
 import { IoIosAddCircle } from "react-icons/io";
-import { storeFood } from "./Core/allFoodSlice";
-import getAllFood from "./Core/getAllFood";
 import AddForm from "./Component/AddForm";
-import { storeCategories } from "./Core/allCategoriesSlice";
-import memeLoading from "../../assets/img/loadingmeme.gif";
+import EditFoodForm from "./Component/EditFoodForm";
+import LoadingFoodCard from "./Component/LoadingFoodCard";
 
-function YourComponent() {
-  const food = useSelector((state) => state.foodList.foodList);
+function YourComponent({}) {
+  const listFood = useSelector((state) => state.foodList.foodList);
+  const [food, setFood] = useState([]);
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-  const tokens = useSelector((state) => state.auth.token);
-  const token = localStorage.getItem("token") || tokens;
-  const dispatch = useDispatch();
-
+  const [refresh, setRefresh] = useState(true);
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
-  //allfood
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllFood(token, "/api/food");
-        dispatch(storeFood(result.data));
-      } catch (error) {
-        console.error("Error in  component:", error);
-      }
-    };
-    fetchData();
-  }, []);
+  const [toggleEdit, setToggleEdit] = useState(false);
 
-  useEffect(() => {}, []);
-  //food categories
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getFoodCategories(token, "/api/category");
-        dispatch(storeCategories(result.data));
-      } catch (error) {
-        console.error("Error in component:", error);
-      }
-    };
-    fetchData();
-    if (food) {
-      setLoading(loading);
+    setFood(listFood);
+  }, [toggleForm, listFood]);
+
+  useEffect(() => {
+    setRefresh(!refresh);
+  }, [toggleForm, refresh]);
+
+  useEffect(() => {
+    if (food.length > 0) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 400);
     }
-  }, []);
+  }, [food]);
 
-  if (loading) {
-    return (
-      <>
-        <img className="w-100" src={memeLoading}></img>
-      </>
-    );
-  }
+  const handleEditClick = () => {
+    setToggleEdit(true);
+  };
+  const handleEditSubmit = () => {
+    setToggleEdit(false);
+  };
+  useState(() => {
+    setRefresh(!refresh);
+  }, [refresh]);
+
   return (
     <div className="">
       <header>
@@ -82,26 +68,38 @@ function YourComponent() {
       </header>
 
       <main className="container position-relative">
-        <div className="row">
-          {food.map((i) => {
-            return (
-              <div className="col-6 col-lg-3 col-md-4 col-sm-6" key={i.id}>
-                <FoodCard food={i} />
-              </div>
-            );
-          })}
-        </div>
+        {loading ? (
+          <>
+            <LoadingFoodCard />
+          </>
+        ) : (
+          <div className="row">
+            {food.map((i) => {
+              return (
+                <div className="col-6 col-lg-3 col-md-4 col-sm-6" key={i.id}>
+                  <FoodCard food={i} toggleEdit={handleEditClick} />
+                </div>
+              );
+            })}
+          </div>
+        )}
         {/* <FoodCard food={food[0]} /> */}
       </main>
-
+      <div>
+        <div>{toggleEdit && <EditFoodForm onSubmit={handleEditSubmit} />}</div>
+      </div>
       <div>
         {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}
       </div>
 
-      <footer></footer>
       <div className="position-absolute end-0 me-2">
         <button
-          style={{ color: "#6c738f" }}
+          style={{
+            color: "#6c738f",
+            border: "0px",
+            zIndex: "10000",
+            background: "transparent",
+          }}
           className="border"
           onClick={() => {
             setToggleForm(!toggleForm);

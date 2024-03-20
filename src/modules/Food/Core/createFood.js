@@ -10,12 +10,15 @@ const createFood = async (foodData, token) => {
     const response = await axios.post(`/api/food`, foodData, {
       headers: myHeaders,
     });
-    if (response.status === 200 || response.status === 201) {
-      console.log("Success");
+    if (response.status === 200) {
+      alert("Food Added");
+      return;
     }
   } catch (error) {
-    console.error(error);
-    throw error;
+    if (error.response && error.response.status === 400) {
+      console.log("Bad Request");
+      alert("Please Fill the Correct Information");
+    }
   }
 };
 

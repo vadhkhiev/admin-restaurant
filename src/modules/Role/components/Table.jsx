@@ -7,6 +7,7 @@ const Table = ({setUpdate}) => {
   const pagingdetails = useSelector((state) => state.roles.paging);
   const [currpage , setCurrpage] = useState(1);
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
+  console.log(roles)
 
   
 
@@ -36,9 +37,9 @@ const Table = ({setUpdate}) => {
                 </tr>
               </thead>
               <tbody>
-                {
-                    roles.filter((admin)=> admin.id !== 1).map((role ,index)=> <TableRow  setUpdate={setUpdate} key={role.id} role={role} index={index + 1}/>)
-                }
+{
+                    roles?.filter((admin)=> admin.id !== 1)?.map((role ,index)=> <TableRow  setUpdate={setUpdate} key={role.id} role={role} index={index + 1}/>)
+                } 
               </tbody>
             </table>
 

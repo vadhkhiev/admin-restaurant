@@ -39,7 +39,6 @@ export default function AddForm({ toggle, toggleForm }) {
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent the default form submission behavior
     sendDataToParent();
-    alert("Food Added");
   };
 
   return (
@@ -137,7 +136,6 @@ export default function AddForm({ toggle, toggleForm }) {
             onClick={() => {
               toggle.sendDataToParent(!toggleForm);
               sendFood(value, token);
-              console.log(value);
             }}
           >
             Submit form
