@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoIosClose } from "react-icons/io";
 
 export default function EditFoodForm({ onSubmit }) {
+  const initialValue = {
+    name: "",
+    code: "",
+    price: 0,
+    discount: 10,
+    description: "",
+    categoryId: 0,
+    foodImage: "x",
+  };
+
+  const [value, setValue] = useState({ initialValue });
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -24,7 +36,9 @@ export default function EditFoodForm({ onSubmit }) {
         >
           <IoIosClose />
         </button>
+
         <h4 className="text-white">Edit Food Information</h4>
+
         <div class="form-group">
           <label for="inputName">Food Name</label>
           <input type="text" className="form-control" placeholder="Food Name" />
