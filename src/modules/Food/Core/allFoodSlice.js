@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   foodList: [],
+  refresh: true,
 };
 
 const foodsSlice = createSlice({

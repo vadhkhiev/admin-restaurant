@@ -9,6 +9,7 @@ export const deleteFood = async (token, id) => {
         },
       });
     }
+    alert("Food Deleted");
   } catch (error) {
     console.error("Error deleting user:", error);
   }

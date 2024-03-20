@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import dummyImage from "../../../assets/img/dummy.png";
 import { deleteFood } from "../Core/deleteFood";
-export default function FoodCard({ food }) {
+export default function FoodCard({ food, toggleEdit }) {
   const token = localStorage.getItem("token");
 
   return (
@@ -20,12 +20,14 @@ export default function FoodCard({ food }) {
             <h5 className="text-white">Price : ${food.price}.00</h5>
           </div>
           <div className="d-flex justify-content-between">
-            <button className="border rounded-3">Edit</button>
+            <button className="border rounded-3" onClick={toggleEdit}>
+              Edit
+            </button>
             <button
               className="border rounded-3"
-              onClick={() => {
-                deleteFood(token, food.id);
-              }}
+              // onClick={() => {
+              //   deleteFood(token, food.id);
+              // }}
             >
               Remove
             </button>
