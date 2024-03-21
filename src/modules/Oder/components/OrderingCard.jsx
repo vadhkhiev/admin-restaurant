@@ -1,13 +1,20 @@
 import React from 'react'
 import foodimg from '../../../assets/img/dummy.png'
-import { IoAddCircleOutline } from "react-icons/io5";
-const OrderingCard = ({food}) => {
-    console.log(food)
+const OrderingCard = ({food , toggleCart}) => {
+
+  const css = {
+    boxShadow: "rgba(0, 0, 0, 0.15) 1.4px 1.4px 2.2px",
+    border: '1px solid #c0c8ff', 
+    height: '80px',
+  };
+
+
+
   return (
     <>
 
-<div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3'>
-  <div className='position-relative rounded-pill overflow-hidden d-flex' style={{ border: '1px solid #6c738f', height: '80px' }}>
+<div className=' col-sm-12 col-md-6 mb-3'>
+  <div className='position-relative rounded-3 overflow-hidden d-flex' style={css}>
     <div className='w-25 overflow-hidden'>
       <img width={'120px'} src={foodimg} alt='Food' />
     </div>
@@ -21,8 +28,8 @@ const OrderingCard = ({food}) => {
           <h5>${food.price}.00</h5>
           <h5 className='text-danger ms-2'>-{food.discount}%</h5>
         </div>
-        <div className=''>
-          <button style={{ background: '#6c738f' }} className='btn text-white'>Order</button>
+        <div className='ms-2'>
+          <button onClick={()=>toggleCart(food.id)} style={{ background: '#6c738f' }} className='btn text-white'>Order</button>
         </div>
       </aside>
     </main>

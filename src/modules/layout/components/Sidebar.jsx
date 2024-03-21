@@ -16,7 +16,7 @@ const Sidebar = ({toggle}) => {
                 <Link className="sidebar-brand align-items-center" to='/'>
                     <span >KiloIT</span>
                 </Link>
-                <span className="d-lg-none fs-3 text-white-50 p-2" onClick={toggle}><IoClose /></span>
+                <span className="d-xl-none fs-3 text-white-50 p-2" onClick={toggle}><IoClose /></span>
                 </div>
                 <ul className="sidebar-nav">
                 {sidebarlink.map((item) => (
