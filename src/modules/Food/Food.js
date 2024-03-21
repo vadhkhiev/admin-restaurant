@@ -12,10 +12,9 @@ function YourComponent({}) {
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-  const [refresh, setRefresh] = useState(true);
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [toggleEdit, setToggleEdit] = useState(false);
+  const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
 
   useEffect(() => {
     console.log(food);
@@ -31,13 +30,6 @@ function YourComponent({}) {
       }, 400);
     }
   }, [food]);
-
-  const handleEditClick = () => {
-    setToggleEdit(true);
-  };
-  const handleEditSubmit = () => {
-    setToggleEdit(false);
-  };
 
   return (
     <div className="">
@@ -73,7 +65,7 @@ function YourComponent({}) {
             {food.map((i) => {
               return (
                 <div className="col-6 col-lg-3 col-md-4 col-sm-6" key={i.id}>
-                  <FoodCard food={i} toggleEdit={handleEditClick} />
+                  <FoodCard food={i} />
                 </div>
               );
             })}
@@ -82,7 +74,7 @@ function YourComponent({}) {
         {/* <FoodCard food={food[0]} /> */}
       </main>
       <div>
-        <div>{toggleEdit && <EditFoodForm onSubmit={handleEditSubmit} />}</div>
+        <div>{toggleEdit && <EditFoodForm />}</div>
       </div>
       <div>
         {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}

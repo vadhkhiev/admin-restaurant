@@ -4,8 +4,12 @@ import { createFood, createUser } from "../Core/createFood";
 import getAllFood from "../Core/getAllFood";
 import { storeFood } from "../Core/allFoodSlice";
 import { updateFood } from "../Core/updateFood";
-export default function AddForm({ toggle, toggleForm }) {
+import { storeEditToggle } from "../Core/allFoodSlice";
+
+export default function AddForm() {
   const dispatch = useDispatch();
+
+  const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
 
   //states
   const listCategories = useSelector(
@@ -23,7 +27,7 @@ export default function AddForm({ toggle, toggleForm }) {
     } catch (error) {}
   };
 
-  const sendFood = async (value, token) => {
+  const Food = async (value, token) => {
     try {
       const result = await createFood(value, token);
       refetchFood();
@@ -58,6 +62,14 @@ export default function AddForm({ toggle, toggleForm }) {
         className="add-form d-flex justify-content-center flex-column position-absolute col-9 p-3 rounded-2 ms-3"
         style={{ top: "15%", right: "10%" }}
       >
+        <button
+          className="border position-absolute top-0 end-0 bg-whit fw-bold rounded-3 mt-1 me-3"
+          onClick={() => {
+            dispatch(storeEditToggle(false));
+          }}
+        >
+          X
+        </button>
         <div class="form-group">
           <label for="inputName">Food Name</label>
           <input
