@@ -23,6 +23,7 @@ export default function AddForm({ toggle, toggleForm }) {
 
   const sendFood = async (value, token) => {
     try {
+      refetchFood();
       const result = await createFood(value, token);
       refetchFood();
     } catch {}
