@@ -14,10 +14,10 @@ import Table from "./modules/table/Table";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
+  const permission = useSelector(
+    (state) => state.permission?.permission?.data?.permissions
+  );
   const currentUser = useSelector((state) => state.currentUser?.currentUser);
-
-
 
   return (
     <>
@@ -28,31 +28,24 @@ function App() {
             <Route path="table" element={<Table/>} />
             {/* <Route path="table/:id" element={<h1>table</h1>} /> */}
             <Route path="category" element={<h1>Category</h1>} />
-            <Route path="order" element={<h1>order</h1>} />
             <Route path="profile" element={<h1>Profile</h1>} />
             <Route path="foods" element={<Food />} />
             <Route path="reports" element={<h1>Reports</h1>} />
-
             {/* administrator route */}
-
-            {
-              ( (permission?.find((per) => per.name == 'list-role'))?.status === 1 ) && 
+            {permission?.find((per) => per.name == "list-role")?.status ===
+              1 && (
               <>
-               <Route path="role" element={<Role/>} />
-               <Route path="role/access" element={<Access/>} />
+                <Route path="role" element={<Role />} />
+                <Route path="role/access" element={<Access />} />
               </>
-            }  
-
-            {
-              ( (permission?.find((per) => per.name == 'list-user'))?.status === 1 ) && 
+            )}
+            {permission?.find((per) => per.name == "list-user")?.status ===
+              1 && (
               <>
-               <Route path="users" element={<User />} />
+                <Route path="users" element={<User />} />
               </>
-             }  
-
+            )}
             {/*end of administrator route */}
-                
-
             {/* unknown path redirect to dashboard */}
             <Route path="*" element={<Navigate to="/" />}></Route>
           </Route>
