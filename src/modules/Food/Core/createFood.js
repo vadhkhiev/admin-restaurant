@@ -16,7 +16,6 @@ const createFood = async (foodData, token) => {
     }
   } catch (error) {
     if (error.response && error.response.status === 400) {
-      console.log("Bad Request");
       alert("Please Fill the Correct Information");
     }
   }
