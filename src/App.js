@@ -9,6 +9,7 @@ import Food from "./modules/Food/Food";
 import Role from "./modules/Role/Role";
 import Access from "./modules/Role/components/Access";
 import MainOder from "./modules/Oder/core/MainOder";
+import MakeOrder from "./modules/Oder/components/MakeOrder";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<Layout1 />}>
             <Route index element={<Home />} />
             <Route path="order" element={<MainOder />} />
+            <Route path="order/ordering" element={<MakeOrder/>} />
             <Route path="table" element={<h1>table</h1>} />
             <Route path="table/:id" element={<h1>table</h1>} />
             <Route path="category" element={<h1>Category</h1>} />

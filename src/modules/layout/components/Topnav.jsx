@@ -8,6 +8,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 const Topnav = ({toggle}) => {
     const dispatch = useDispatch()
     const currentUser = useSelector((state) => state.currentUser.currentUser)
+    console.log(currentUser)
 
     const handleLogout = () =>{
       dispatch(logout())

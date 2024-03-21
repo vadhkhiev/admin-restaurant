@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./OrderList.css";
 import loadingImg from "../../../assets/img/loading.gif";
+import { Link } from "react-router-dom";
+
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setError] = useState(false);
-  const [handleCreate] = useState(null);
   const [orders, setOrders] = useState([]);
   const [errorMessage, setErrorMessage] = useState(""); // New state for error message
   const token = localStorage.getItem("token");
@@ -55,13 +56,13 @@ function OrderList() {
       <h2 className="h1">User Order</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <>
-        <button
-          onClick={handleCreate}
+        <Link to='/order/ordering'
+          
           style={{ backgroundColor: "#6c738f" }}
           className="btn text-white fw-bold"
         >
           Add
-        </button>
+        </Link>
       </>
       <table
         style={{ color: "#464d69" }}

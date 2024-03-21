@@ -13,6 +13,7 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
 
 
   const [editing, setEditing] = useState({
+    avatar: editUser.avatar,
     name: editUser.name,
     role_id: role?.id, 
     phone: editUser.phone,
@@ -69,6 +70,10 @@ const EditUser = ({handleEdit,editUser ,setEdit , edit}) => {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      if (fileInput) {
+        await handleUpload();
+      }
 
       setError('');
       setSuccessMessage('Update successful');
