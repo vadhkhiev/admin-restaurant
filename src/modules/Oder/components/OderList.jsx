@@ -18,7 +18,7 @@ function OrderList() {
   const [deleteOrderId, setDeleteOrderId] = useState(""); // Track order ID to delete
   const [paymentMethods, setPaymentMethods] = useState(["Cash", "Bank"]); // Payment method options
   const [statusOptions, setStatusOptions] = useState([
-    "Prepar",
+    "Prepare",
     "Complete",
     "Cooking",
   ]); // Status options
@@ -114,6 +114,19 @@ function OrderList() {
     }
   };
 
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "prepare":
+        return "red";
+      case "complete":
+        return "green";
+      case "cooking":
+        return "yellow";
+      default:
+        return "";
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="h1">
@@ -142,10 +155,7 @@ function OrderList() {
         </div>
       )}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <table
-        style={{ color: "#464d69" }}
-        className="table-container table bg-white fw-bold"
-      >
+      <table className="table-container table bg-white fw-bold">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -183,7 +193,10 @@ function OrderList() {
               <td className="fw-normal">{order.userEntity.name}</td>
               <td className="text-center">{order.tableEntity.name}</td>
               <td className="fw-normal">{order.totalPrice}</td>
-              <td className="fw-normal">
+              <td
+                className="fw-normal"
+                style={{ color: getStatusColor(order.status) }}
+              >
                 {editOrderId === order.id ? (
                   <select
                     className="form-select"
