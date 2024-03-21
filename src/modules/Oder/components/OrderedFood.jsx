@@ -19,23 +19,24 @@ const OrderedFood = ({handleEdit , cartFood}) => {
                             onChange={() => dispatch(tickedFood(food.id))} 
                             className='form-check-input me-1' 
                             type="checkbox" 
+                            
                         />
 
                     <div style={{width:'33%'}}>
                         <div className='d-flex'>
-                         <img className='rounded-circle' width={50} src={img} alt="" />
+                         <img className='rounded-3' width={50} src={img} alt="" />
                          <h6 className='ms-2'>{food.name}</h6>
                         
                         </div>
                             
                     </div>
                     <div style={{width:'33%'}} className='d-flex  justify-content-end align-items-center'>
-                      <span className='fw-bold pe-2  cursor-pointer' onClick={() => dispatch(quantity({ id: food.id, case: 'decrement' }))}>-</span>
-                      <h6>{food.quantity}</h6>
-                      <span className='fw-bold ps-2 cursor-pointer' onClick={() => dispatch(quantity({ id: food.id, case: 'increment' }))}>+</span>
+                      <span className='fw-bold pe-2 mb-2 fs-4 cursor-pointer text-danger' onClick={() => dispatch(quantity({ id: food.id, case: 'decrement' }))}>-</span>
+                      <h4>{food.quantity}</h4>
+                      <span style={{color:'#6c738f'}} className='fw-bold ps-2 mb-2 fs-4 cursor-pointer ' onClick={() => dispatch(quantity({ id: food.id, case: 'increment' }))}>+</span>
                     </div>
                     <div style={{width:'33%'}} className='d-flex justify-content-end align-items-center'>
-                     <h6 className='ms-2'>{food.price}</h6>
+                     <h6 className='ms-2'><sup>$</sup> {(((food.price)*(1-(food.discount/100))* food.quantity ).toFixed(2))}</h6>
                     </div>
                 </div>
             ))
@@ -47,3 +48,6 @@ const OrderedFood = ({handleEdit , cartFood}) => {
 }
 
 export default OrderedFood
+
+
+// {((food.price)*(1-(food.discount/100)) ).toFixed(2)} discount price
