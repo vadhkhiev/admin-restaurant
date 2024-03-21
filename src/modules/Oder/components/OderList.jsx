@@ -13,8 +13,15 @@ function OrderList() {
   const [errorMessage, setErrorMessage] = useState("");
   const [editOrderId, setEditOrderId] = useState("");
   const [editedPaymentMethod, setEditedPaymentMethod] = useState("");
+  const [editedStatus, setEditedStatus] = useState(""); // Add state for edited status
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [deleteOrderId, setDeleteOrderId] = useState(""); // Track order ID to delete
+  const [paymentMethods, setPaymentMethods] = useState(["Cash", "Bank"]); // Payment method options
+  const [statusOptions, setStatusOptions] = useState([
+    "Prepar",
+    "Complete",
+    "Cooking",
+  ]); // Status options
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -69,15 +76,16 @@ function OrderList() {
     setEditOrderId(orderId);
     const orderToEdit = orders.find((order) => order.id === orderId);
     setEditedPaymentMethod(orderToEdit.paymentMethod);
+    setEditedStatus(orderToEdit.status); // Set initial status value
   };
 
   const handleSaveEdit = async () => {
-    //payment
     try {
       await axios.put(
         `/api/order/payment/${editOrderId}`,
         {
           paymentMethod: editedPaymentMethod,
+          status: editedStatus, // Include edited status in the request
         },
         {
           headers: {
@@ -88,7 +96,11 @@ function OrderList() {
 
       const updatedOrders = orders.map((order) => {
         if (order.id === editOrderId) {
-          return { ...order, paymentMethod: editedPaymentMethod };
+          return {
+            ...order,
+            paymentMethod: editedPaymentMethod,
+            status: editedStatus,
+          };
         }
         return order;
       });
@@ -96,6 +108,7 @@ function OrderList() {
       setOrders(updatedOrders);
       setEditOrderId("");
       setEditedPaymentMethod("");
+      setEditedStatus(""); // Reset edited status
     } catch (error) {
       setErrorMessage("Failed to save changes. Please try again later.");
     }
@@ -113,8 +126,7 @@ function OrderList() {
   if (isError) {
     return <h1>Development Error</h1>;
   }
-  console.log(editedPaymentMethod);
-  console.log(editOrderId);
+
   return (
     <div className="m-3">
       <h2 className="h1">User Order</h2>
@@ -151,41 +163,48 @@ function OrderList() {
             <tr key={order.id}>
               <td className="fw-normal">{order.id}</td>
               <td className="fw-normal">
-                {/* {editOrderId === order.id ? (
-                  <input
-                    type="text"
-                    value={editedPaymentMethod}
-                    onChange={(e) => setEditedPaymentMethod(e.target.value)}
-                  />
-                ) : (
-                  order.paymentMethod
-                )} */}
-
                 {editOrderId === order.id ? (
-                  <input
-                    type="text"
+                  <select
+                    className=" form-select"
                     value={editedPaymentMethod}
                     onChange={(e) => setEditedPaymentMethod(e.target.value)}
-                  />
+                  >
+                    {paymentMethods.map((method) => (
+                      <option key={method} value={method}>
+                        {method}
+                      </option>
+                    ))}
+                  </select>
                 ) : (
                   order.paymentMethod
                 )}
               </td>
-
               <td className="fw-normal">{dateTimeFormat(order.createdDate)}</td>
               <td className="fw-normal">{order.userEntity.name}</td>
               <td className="text-center">{order.tableEntity.name}</td>
               <td className="fw-normal">{order.totalPrice}</td>
-              <td
-                className={`fw-normal ${
-                  order.status === "Complete" ? "text-success" : "text-danger"
-                }`}
-              >
-                {order.status}
+              <td className="fw-normal">
+                {editOrderId === order.id ? (
+                  <select
+                    className="form-select"
+                    value={editedStatus}
+                    onChange={(e) => setEditedStatus(e.target.value)}
+                  >
+                    {statusOptions.map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  order.status
+                )}
               </td>
               <td>
                 {editOrderId === order.id ? (
-                  <button onClick={handleSaveEdit}>Save</button>
+                  <button className=" btn btn-primary" onClick={handleSaveEdit}>
+                    Save
+                  </button>
                 ) : (
                   <FaEdit
                     className="edit"
