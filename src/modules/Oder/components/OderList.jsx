@@ -4,6 +4,7 @@ import "./OrderList.css";
 import loadingImg from "../../../assets/img/loading.gif";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import dateTimeFormat from "../../Role/core/dateTimeFormat";
 
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
@@ -71,9 +72,10 @@ function OrderList() {
   };
 
   const handleSaveEdit = async () => {
+    //payment
     try {
       await axios.put(
-        `/api/order/${editOrderId}`,
+        `/api/order/payment/${editOrderId}`,
         {
           paymentMethod: editedPaymentMethod,
         },
@@ -111,10 +113,22 @@ function OrderList() {
   if (isError) {
     return <h1>Development Error</h1>;
   }
-
+  console.log(editedPaymentMethod);
+  console.log(editOrderId);
   return (
     <div className="m-3">
       <h2 className="h1">User Order</h2>
+      {deleteConfirmation && (
+        <div className="delete-confirmation form-control">
+          <p>Are you sure you want to delete this order?</p>
+          <button className="yes" onClick={() => handleDelete(deleteOrderId)}>
+            Yes
+          </button>
+          <button className="no" onClick={() => setDeleteConfirmation(false)}>
+            No
+          </button>
+        </div>
+      )}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <table
         style={{ color: "#464d69" }}
@@ -125,7 +139,7 @@ function OrderList() {
             <th scope="col">ID</th>
             <th scope="col">Payment</th>
             <th scope="col">Create Date</th>
-            <th scope="col">Update Date</th>
+            <th scope="col">User Entity</th>
             <th scope="col">Table Name</th>
             <td scope="col">Total</td>
             <th scope="col">Status</th>
@@ -137,6 +151,16 @@ function OrderList() {
             <tr key={order.id}>
               <td className="fw-normal">{order.id}</td>
               <td className="fw-normal">
+                {/* {editOrderId === order.id ? (
+                  <input
+                    type="text"
+                    value={editedPaymentMethod}
+                    onChange={(e) => setEditedPaymentMethod(e.target.value)}
+                  />
+                ) : (
+                  order.paymentMethod
+                )} */}
+
                 {editOrderId === order.id ? (
                   <input
                     type="text"
@@ -147,8 +171,9 @@ function OrderList() {
                   order.paymentMethod
                 )}
               </td>
-              <td className="fw-normal">{order.createdDate}</td>
-              <td className="fw-normal">{order.updateDate}</td>
+
+              <td className="fw-normal">{dateTimeFormat(order.createdDate)}</td>
+              <td className="fw-normal">{order.userEntity.name}</td>
               <td className="text-center">{order.tableEntity.name}</td>
               <td className="fw-normal">{order.totalPrice}</td>
               <td
@@ -176,13 +201,6 @@ function OrderList() {
           ))}
         </tbody>
       </table>
-      {deleteConfirmation && (
-        <div className="delete-confirmation">
-          <p>Are you sure you want to delete this order?</p>
-          <button onClick={() => handleDelete(deleteOrderId)}>Yes</button>
-          <button onClick={() => setDeleteConfirmation(false)}>No</button>
-        </div>
-      )}
     </div>
   );
 }
