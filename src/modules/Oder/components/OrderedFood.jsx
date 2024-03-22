@@ -6,7 +6,6 @@ import { quantity, tickedFood } from '../core/foodCartSlice'
 
 const OrderedFood = ({handleEdit , cartFood}) => {
     const dispatch = useDispatch() 
-    console.log(cartFood)
 
   return (
     <>

@@ -11,7 +11,6 @@ import Access from "./modules/Role/components/Access";
 import Table from "./modules/table/Table";
 import MainOder from "./modules/Oder/MainOder";
 import MakeOrder from "./modules/Oder/components/MakeOrder"
-import MainOder from "./modules/Oder/MainOder";
 
 
 

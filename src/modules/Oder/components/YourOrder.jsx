@@ -18,20 +18,38 @@ const YourOrder = () => {
     const dispatch = useDispatch() 
     const [edit , setEdit] = useState(false);
     const navigate = useNavigate();
+    
+
 
     const [postData , setPostData] = useState({
         userId :currentUser?.id,
         tableId : null,
         paymentMethod : '',
         items : 
-               (cartFood?.map((food)=>{
+               cartFood?.map((food)=>{
                 return {
                     foodId : food?.id,
                     quantity : food?.quantity
                 }
-            }))
+            })
         
     })
+    
+    useEffect(() => {
+        setPostData({
+            userId :currentUser?.id,
+            tableId : null,
+            paymentMethod : '',
+            items : 
+                   cartFood?.map((food)=>{
+                    return {
+                        foodId : food?.id,
+                        quantity : food?.quantity
+                    }
+            })
+        })
+        
+    }, [cartFood])
     
 
     const handleEdit = ()=>{
@@ -62,17 +80,26 @@ const YourOrder = () => {
     }
 
     const bookedTable = () => {
-        axios.post('/api/table/' + postData.tableId ,
+        try {
+            axios.put('/api/table/' + postData.tableId ,
         {
             status : 'Booked',
-            name : table.find(table => table.id === postData.tableId).name
+            name : table.find(table => table.id === postData.tableId).name,
+            seatCapacity : table.seatCapacity.toString()
+
         },
          {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
         })
+            
+        } catch (error) {
+            console.log(error)
+        }
     }
+
+    console.log(postData)
     const handleAdd = async () => {
         try {
             
@@ -86,14 +113,17 @@ const YourOrder = () => {
                 }
             );
             setMessage('Successfully created role');
-            dispatch(clearOrderedFood());
             bookedTable();
+            dispatch(clearOrderedFood());
             setTimeout(() => {
              navigate(-1)
-            }, 700);
+            }, 1000);
 
         } catch (error) {
             setError(error.response.data.message);
+            setTimeout(() => {
+                setError('')
+            }, 1000);
         }
         
     }

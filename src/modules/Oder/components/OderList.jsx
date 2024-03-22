@@ -5,6 +5,7 @@ import loadingImg from "../../../assets/img/loading.gif";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import dateTimeFormat from "../../Role/core/dateTimeFormat";
+import { Link } from "react-router-dom";
 
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
@@ -155,6 +156,10 @@ function OrderList() {
         </div>
       )}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <div className="d-flex my-3">
+
+       <Link to='/order/ordering'  style={{background:'#6c738f'}} className="btn text-white ">Add Order</Link>
+      </div>
       <table className="table-container table bg-white fw-bold">
         <thead>
           <tr>
