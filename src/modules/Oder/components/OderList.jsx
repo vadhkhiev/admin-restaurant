@@ -27,7 +27,7 @@ function OrderList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/order?order=asc`, {
+        const response = await axios.get(`/api/order?order=desc`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -78,7 +78,6 @@ function OrderList() {
     setEditedPaymentMethod(orderToEdit.paymentMethod);
     setEditedStatus(orderToEdit.status); // Set initial status value
   };
-
   const handleSaveEdit = async () => {
     try {
       await axios.put(
@@ -113,7 +112,6 @@ function OrderList() {
       setErrorMessage("Failed to save changes. Please try again later.");
     }
   };
-
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case "prepare":
@@ -135,7 +133,6 @@ function OrderList() {
       </div>
     );
   }
-
   if (isError) {
     return <h1>Development Error</h1>;
   }

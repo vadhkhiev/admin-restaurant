@@ -36,7 +36,6 @@ const TableRow = ({role , index , setUpdate }) => {
 
 
   
-
   return (
     <>
         <tr>
