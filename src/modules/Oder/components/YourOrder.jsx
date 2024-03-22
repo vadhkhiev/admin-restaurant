@@ -1,17 +1,56 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import OrderedFood from './OrderedFood'
 import { FaRegEdit } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteFood, selection } from '../core/foodCartSlice';
+import { clearOrderedFood, deleteFood, selection } from '../core/foodCartSlice';
 import { FiTrash } from "react-icons/fi";
+import fetchTable from '../core/fetchTable';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const YourOrder = () => {
     const cartFood = useSelector((state) => state.foodCart?.orderedFood)
+    const currentUser = useSelector((state) => state.currentUser.currentUser)
+    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
+    const [table , setTable ] = useState([])	
+    const [message , setMessage] = useState('')
+    const [error , setError] = useState('')
     const dispatch = useDispatch() 
     const [edit , setEdit] = useState(false);
+    const navigate = useNavigate();
+
+    const [postData , setPostData] = useState({
+        userId :currentUser?.id,
+        tableId : null,
+        paymentMethod : '',
+        items : 
+               (cartFood?.map((food)=>{
+                return {
+                    foodId : food?.id,
+                    quantity : food?.quantity
+                }
+            }))
+        
+    })
+    
+
     const handleEdit = ()=>{
         setEdit(!edit)
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetchTable(token);
+                setTable(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, []); 
+
 
     const selectAll = (event)=>{
         if (event.target.checked) {
@@ -21,7 +60,44 @@ const YourOrder = () => {
         }
         
     }
-    
+
+    const bookedTable = () => {
+        axios.post('/api/table/' + postData.tableId ,
+        {
+            status : 'Booked',
+            name : table.find(table => table.id === postData.tableId).name
+        },
+         {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+        })
+    }
+    const handleAdd = async () => {
+        try {
+            
+            const response = await axios.post(
+                '/api/order',
+                postData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                }
+            );
+            setMessage('Successfully created role');
+            dispatch(clearOrderedFood());
+            bookedTable();
+            setTimeout(() => {
+             navigate(-1)
+            }, 700);
+
+        } catch (error) {
+            setError(error.response.data.message);
+        }
+        
+    }
+
 
     
   return (
@@ -33,17 +109,19 @@ const YourOrder = () => {
         <section  className='my-3 d-flex justify-content-between border rounded-3 p-1 '>
             <div className='d-flex w-50'>
                 <span className='w-25 text-center'>Select </span>
-                <select className="form-select py-0 w-75" aria-label="Default select example">
-                    <option selected>table</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select   onChange={(e)=>setPostData({...postData , tableId : parseInt(e.target.value)})}  className="form-select py-0 w-75" aria-label="Default select example">
+                    <option disabled selected>table</option>
+                    {
+                        table?.map((table , index)=>(
+                            <option key={index} value={table.id}>{table.name}</option>
+                        ))
+                    }
                 </select>
             </div>
             <div className='d-flex w-50'>
                 <span className='w-25 text-center'>Select</span>
-                <select className="form-select py-0 w-75 " aria-label="Default select example">
-                    <option selected>payment</option>
+                <select onChange={(e)=>setPostData({...postData , paymentMethod : e.target.value})} className="form-select py-0 w-75 " aria-label="Default select example">
+                    <option disabled selected>payment</option>
                     <option value="Cash">Cash</option>
                     <option value="Bank">Bank</option>
 
@@ -66,9 +144,19 @@ const YourOrder = () => {
             <h4 className='text-danger'> <sup>$</sup> {cartFood?.reduce((acc, food) => acc + (food.price)*(1-(food.discount/100)) * food.quantity, 0).toFixed(2)}</h4>
         </div>
         <div>
-            <button style={{background: '#6c738f'}} className='btn w-100 text-white fw-bold' >Add Order</button>
+            <button onClick={handleAdd} style={{background: '#6c738f'}} className='btn w-100 text-white fw-bold' >Add Order</button>
         </div>
      </main>
+     {
+          message && <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-success text-white text-center p-2 rounded ">
+                Successfully Created role!
+              </div>
+      }
+      {
+          error && <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-danger text-white text-center p-2 rounded ">
+                {error}
+         </div>
+      }
     </>
   )
 }

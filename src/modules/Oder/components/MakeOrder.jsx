@@ -12,7 +12,6 @@ const MakeOrder = () => {
   const cartFood = useSelector((state) => state.foodCart?.orderedFood)
   const foodcategory = useSelector((state) => state.allCategory.listCategories)
   const [clickedIndex , setClickedIndex] = useState(0) 
-  const [showCart , setShowCart] = useState(false)
   const navigate = useNavigate() 
   const dispatch = useDispatch() 
   const handleBack =()=>{
