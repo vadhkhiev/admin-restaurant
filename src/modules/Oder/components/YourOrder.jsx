@@ -12,13 +12,15 @@ const YourOrder = () => {
     const cartFood = useSelector((state) => state.foodCart?.orderedFood)
     const currentUser = useSelector((state) => state.currentUser.currentUser)
     const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
+    const [refetch , setRefetch] = useState(false)
     const [table , setTable ] = useState([])	
+    const [tableData , setTableData] = useState({})
     const [message , setMessage] = useState('')
     const [error , setError] = useState('')
     const dispatch = useDispatch() 
     const [edit , setEdit] = useState(false);
     const navigate = useNavigate();
-    
+  
 
 
     const [postData , setPostData] = useState({
@@ -50,6 +52,11 @@ const YourOrder = () => {
         })
         
     }, [cartFood])
+    useEffect(() => {
+        setTableData(table?.find(table => table?.id === postData?.tableId))
+    },[postData])
+    
+    
     
 
     const handleEdit = ()=>{
@@ -67,7 +74,9 @@ const YourOrder = () => {
         };
 
         fetchData();
-    }, []); 
+    }, [refetch]); 
+
+
 
 
     const selectAll = (event)=>{
@@ -82,12 +91,11 @@ const YourOrder = () => {
     const bookedTable = () => {
         try {
             axios.put('/api/table/' + postData.tableId ,
-        {
-            status : 'Booked',
-            name : table.find(table => table.id === postData.tableId).name,
-            seatCapacity : table.seatCapacity.toString()
-
-        },
+            {
+                status: 'Booked',
+                name: table?.find(table => table.id === postData.tableId).name,
+                seatCapacity: tableData?.seatCapacity
+            },
          {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -99,7 +107,6 @@ const YourOrder = () => {
         }
     }
 
-    console.log(postData)
     const handleAdd = async () => {
         try {
             
@@ -112,21 +119,24 @@ const YourOrder = () => {
                     },
                 }
             );
-            setMessage('Successfully created role');
+            setMessage(response); 
             bookedTable();
-            dispatch(clearOrderedFood());
-            setTimeout(() => {
+            setRefetch(!refetch)
+            
+             setTimeout(() => {
+              dispatch(clearOrderedFood());
              navigate(-1)
-            }, 1000);
+            }, 1000);  
 
         } catch (error) {
-            setError(error.response.data.message);
+             setError(error.response.data.message);
             setTimeout(() => {
                 setError('')
-            }, 1000);
+            }, 1000); 
         }
         
     }
+
 
 
     
@@ -178,15 +188,20 @@ const YourOrder = () => {
         </div>
      </main>
      {
-          message && <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-success text-white text-center p-2 rounded ">
-                Successfully Created role!
-              </div>
-      }
-      {
-          error && <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-danger text-white text-center p-2 rounded ">
-                {error}
-         </div>
-      }
+    message && (
+        <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-success text-white text-center p-2 rounded ">
+            {message.data.message} 
+        </div>
+    )
+}
+{
+    error && (
+        <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-danger text-white text-center p-2 rounded ">
+            {error} 
+        </div>
+    )
+}
+
     </>
   )
 }
