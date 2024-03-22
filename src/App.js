@@ -8,6 +8,7 @@ import User from "./modules/Usermanangement/User";
 import Food from "./modules/Food/Food";
 import Role from "./modules/Role/Role";
 import Access from "./modules/Role/components/Access";
+import Profile from "./modules/profile/Profile";
 
 
 
@@ -28,7 +29,7 @@ function App() {
             <Route path="table/:id" element={<h1>table</h1>} />
             <Route path="category" element={<h1>Category</h1>} />
             <Route path="order" element={<h1>order</h1>} />
-            <Route path="profile" element={<h1>Profile</h1>} />
+            <Route path="profile" element={<Profile/> } />
             <Route path="foods" element={<Food />} />
             <Route path="reports" element={<h1>Reports</h1>} />
 
