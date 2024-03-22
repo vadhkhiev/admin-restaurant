@@ -8,6 +8,17 @@ import kiloit from "../../../assets/img/avatar.jpg";
 const CreateUser = ({ refresh, setCreate, setRefresh }) => {
   const tokens = useSelector((state) => state.auth.token);
   const roles = useSelector((state) => state.roles.roles);
+  useEffect(() => {
+    const handleResize = () => {
+      setScreensize(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  const [screensize , setScreensize] = useState(window.innerWidth);
 
 
   const initialUserData = {
@@ -136,7 +147,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
             boxShadow: 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset',
             borderRadius: "0.5rem",
             backdropFilter:'blur(5px)',
-            width: "45%",
+            width: screensize < 992 ? (screensize < 768 ? "100%" : "70%") : "45%",
           
           }}
           className="position-relative p-5 border"
