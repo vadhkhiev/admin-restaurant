@@ -57,7 +57,7 @@ const Layout1 = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        dispatch(storeorder(response.data.paging.totals))
+        dispatch(storeorder(response.data))
       } catch (error) {
         console.error(error);
       }
