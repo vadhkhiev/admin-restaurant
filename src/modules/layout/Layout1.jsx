@@ -14,7 +14,7 @@ import getAllFood from "../Food/Core/getAllFood";
 import { storeCategories } from "../Food/Core/allCategoriesSlice";
 import getFoodCategories from "../Food/Core/getFoodCategories";
 import getUsers from "../Usermanangement/core/getUsers";
-import { storeTotalUsers } from "../Usermanangement/core/allusersSlice";
+import { storeRecentUsers, storeTotalUsers } from "../Usermanangement/core/allusersSlice";
 import axios from "axios";
 import { storeorder } from "../Oder/core/orderSlice";
 const Layout1 = () => {
@@ -23,7 +23,7 @@ const Layout1 = () => {
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const dispatch = useDispatch();
 
-  //fetch role & total users & orders
+  //fetch role & total users , recentUsers & orders 
   useEffect(() => {
     const fetchroles = async () => {
       try {
@@ -41,6 +41,8 @@ const Layout1 = () => {
         try {
           const result = await getUsers(token);
           dispatch(storeTotalUsers(result.paging.totals)) 
+          dispatch(storeRecentUsers((result.data).slice(0,5)))
+          console.log(result)
         } catch (error) {
           console.error('Error in component:', error);
         }
