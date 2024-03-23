@@ -7,18 +7,23 @@ import getroles from "./core/getroles";
 import { useDispatch, useSelector } from "react-redux";
 import { storeRoles } from "./core/roleSlice";
 
+
 //
-import { storeFood, storeRefresh } from "../Food/Core/allFoodSlice";
+import { storeFood} from "../Food/Core/allFoodSlice";
 import getAllFood from "../Food/Core/getAllFood";
 import { storeCategories } from "../Food/Core/allCategoriesSlice";
 import getFoodCategories from "../Food/Core/getFoodCategories";
+import getUsers from "../Usermanangement/core/getUsers";
+import { storeTotalUsers } from "../Usermanangement/core/allusersSlice";
+import axios from "axios";
+import { storeorder } from "../Oder/core/orderSlice";
 const Layout1 = () => {
   const [open, setOpen] = useState(true);
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const dispatch = useDispatch();
 
-  //fetch role
+  //fetch role & total users & orders
   useEffect(() => {
     const fetchroles = async () => {
       try {
@@ -30,6 +35,33 @@ const Layout1 = () => {
       }
     };
     fetchroles();
+    
+
+    const totalUser = async () => {
+        try {
+          const result = await getUsers(token);
+          dispatch(storeTotalUsers(result.paging.totals)) 
+        } catch (error) {
+          console.error('Error in component:', error);
+        }
+      } 
+
+      totalUser();
+
+    const totalOrder = async () => {
+       try {
+        const response = await axios.get(`/api/order?page=1`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(storeorder(response.data.paging.totals))
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    totalOrder();
+
   }, []);
 
   //fetch food

@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout1 from "./modules/layout/Layout1";
-import Home from "./modules/home/Home";
 import { useSelector } from "react-redux";
 import Login from "./modules/Login/Login";
 import User from "./modules/Usermanangement/User";
@@ -11,6 +10,7 @@ import Access from "./modules/Role/components/Access";
 import Table from "./modules/table/Table";
 import MainOder from "./modules/Oder/MainOder";
 import MakeOrder from "./modules/Oder/components/MakeOrder"
+import Dashboard from "./modules/Dashboard/Dashboard";
 
 
 
@@ -26,7 +26,7 @@ function App() {
       <Routes>
         {isAuthenticated ? (
           <Route path="/" element={<Layout1 />}>
-            <Route index element={<Home />} />
+            <Route index element={<Dashboard/>} />
             <Route path="table" element={<Table/>} />
             <Route path='order' element= {<MainOder />} />
             <Route path="category" element={<h1>Category</h1>} />

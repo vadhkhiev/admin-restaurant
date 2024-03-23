@@ -20,6 +20,7 @@ const YourOrder = () => {
     const dispatch = useDispatch() 
     const [edit , setEdit] = useState(false);
     const navigate = useNavigate();
+    const [ticked , setTicked] = useState(false)
   
 
 
@@ -80,6 +81,7 @@ const YourOrder = () => {
 
 
     const selectAll = (event)=>{
+        setTicked(!ticked)
         if (event.target.checked) {
               dispatch(selection('tick'));
             } else {
@@ -170,10 +172,15 @@ const YourOrder = () => {
         </section>
         <div className='d-flex justify-content-between'>
             <p>
-                <input onChange={selectAll} className='form-check-input me-1' type="checkbox" />
+                <input onChange={selectAll}   className='form-check-input me-1' type="checkbox" checked={ticked}/>
                 Select All
             </p>
-            <FiTrash onClick={()=>dispatch(deleteFood())} className='me-2 text-danger cursor-pointer fs-4'/>
+            <FiTrash onClick={()=>{
+                dispatch(deleteFood())
+                setTicked(false)
+
+            }
+            } className='me-2 text-danger cursor-pointer fs-4'/>
         </div>
 
         <section >
