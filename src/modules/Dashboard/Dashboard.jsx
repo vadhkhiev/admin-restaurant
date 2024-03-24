@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import PieCharts from './components/PieCharts';
 import profile from '../../assets/img/avatar.jpg';	
 import dateTimeFormat from '../Role/core/dateTimeFormat';
+import BarChart from './components/BarChart';
 
 const Dashboard = () => {
   const roles = useSelector((state) => state.roles.roles); 
@@ -14,6 +15,14 @@ const Dashboard = () => {
   const Allusers = useSelector((state) => state.users.total);
   const Allorders = useSelector((state) => state.orders.orders);
   const recentUsers = useSelector((state) => state.users.recent);
+
+
+  const data = [
+    { label: 'A', value: 10 },
+    { label: 'B', value: 20 },
+    { label: 'C', value: 15 },
+    { label: 'D', value: 25 },
+  ];
   
 
   console.log(Allorders);
@@ -32,7 +41,7 @@ const Dashboard = () => {
             <Catebox title={' Users'} icon={<FaUsers />} num={Allusers} color={'#6895a1'} />
             <Catebox title={'Orders'} icon={<CiBoxes />} num={Allorders?.paging.totals} color={'#344955'} />
             <Catebox title={'Foods'} icon={<IoFastFoodOutline />} num={foodlist?.length} color={'#50727B'} />
-            <Catebox title={' Roles'} icon={<FaUsers />} num={roles?.length} color={'#78A083'} />
+            <Catebox title={' Roles'} icon={<FaUsers />} num={roles?.length - 1 } color={'#78A083'} />
             </section>
 
             <section  className='col-12 col-md-6 px-3 mt-3 py-3 '>
@@ -61,14 +70,16 @@ const Dashboard = () => {
                  <div style={{ background: '#f5f5f5', height: '55px',boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}  className='d-flex justify-content-between rounded-3 align-items-center mb-1 p-2'>
                       <p className='fw-bold fs-5'>ID</p>
                       <p className='fw-bold fs-5'>Status</p>
+                      <p className='fw-bold fs-5 ms-3'>Total</p>
                       <p className='fw-bold fs-5 ms-3'>Payment</p>
                   </div>
               {
-                Allorders.data.slice(0,4)?.map((order , index) => {
+                Allorders.data?.slice(0,4)?.map((order , index) => {
                   return (
                     <div style={{ background: '#f5f5f5', height: '55px',boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}  className='d-flex justify-content-between rounded-3 align-items-center mb-1 p-2'>
                     <p className='fw-bold fs-5'>{order?.id}</p>
                     <p className={`fw-bold fs-5 px-2 ${order?.status ? 'text-danger' : 'text-success'}`}>{order?.status}</p>
+                    <p className='fw-bold fs-5 ms-3'><sup>$</sup>{(order?.totalPrice)?.toFixed(2)}</p>
                     <p className='fw-bold fs-5 ms-3'>{order?.paymentMethod}</p>
                    </div>
                  
@@ -78,6 +89,9 @@ const Dashboard = () => {
               }
               </div>
             </section>
+            <div className="col-12">
+            <BarChart data={data} />
+            </div>
 
             
 
