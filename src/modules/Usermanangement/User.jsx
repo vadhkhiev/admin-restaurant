@@ -151,10 +151,10 @@ const User = () => {
           <div>
             <div className='p-4 px-3 d-flex justify-content-between'>
             <span style={{ boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px" }} className='fw-bold p-2 rounded-3'>
-              <span className={`me-3 p-2 ${selectRole === '' ? 'borderbottom' : ''}`} onClick={() => setSelectRole('')}>
+              <span className={`me-3 cursor-pointer p-2 ${selectRole === '' ? 'borderbottom' : ''}`} onClick={() => setSelectRole('')}>
                 All <BsPeople className='mb-1'/>
                 </span>
-              <span className={`p-2 ${selectRole === 1 ? 'borderbottom' : ''}`} onClick={() => setSelectRole(1)}>Admin <MdOutlineAdminPanelSettings /></span>
+              <span className={`p-2 cursor-pointer ${selectRole === 1 ? 'borderbottom' : ''}`} onClick={() => setSelectRole(1)}>Admin <MdOutlineAdminPanelSettings /></span>
             </span>
             <div>
                   <p className=''>
