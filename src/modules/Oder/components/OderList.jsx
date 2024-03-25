@@ -28,7 +28,7 @@ function OrderList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/order?order=asc`, {
+        const response = await axios.get(`/api/order?page=1`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,6 +39,7 @@ function OrderList() {
         }
 
         setOrders(response.data.data);
+        console.log(response)
       } catch (error) {
         setError(true);
         setErrorMessage("Failed to fetch orders. Please try again later.");

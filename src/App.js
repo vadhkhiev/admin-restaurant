@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout1 from "./modules/layout/Layout1";
-import Home from "./modules/home/Home";
 import { useSelector } from "react-redux";
 import Login from "./modules/Login/Login";
 import User from "./modules/Usermanangement/User";
@@ -9,7 +8,9 @@ import Food from "./modules/Food/Food";
 import Role from "./modules/Role/Role";
 import Access from "./modules/Role/components/Access";
 import Table from "./modules/table/Table";
-
+import Dashboard from "./modules/Dashboard/Dashboard";
+import MainOder from "./modules/Oder/MainOder";
+import MakeOrder from "./modules/Oder/components/MakeOrder"; 
 
 
 function App() {
@@ -24,10 +25,12 @@ function App() {
       <Routes>
         {isAuthenticated ? (
           <Route path="/" element={<Layout1 />}>
-            <Route index element={<Home />} />
+            <Route index element={<Dashboard/>} />
             <Route path="order" element={<MainOder />} />
+            <Route path="order/ordering" element={<MakeOrder />} />
             <Route path="table" element={<Table/>} />
             <Route path="table" element={<Table/>} />
+
             {/* <Route path="table/:id" element={<h1>table</h1>} /> */}
             <Route path="category" element={<h1>Category</h1>} />
             <Route path="profile" element={<h1>Profile</h1>} />

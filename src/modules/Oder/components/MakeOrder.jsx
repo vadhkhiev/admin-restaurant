@@ -19,7 +19,6 @@ const MakeOrder = () => {
   }
   const handleClicked = (index)=>{
     setClickedIndex(index)
-    dispatch(clearOrderedFood())
   }
   const toggleCart = (id) =>{
      dispatch(storeOrderedFood(allfood.find(food => food.id === id))) 
@@ -37,11 +36,10 @@ const MakeOrder = () => {
     </div>
     <main className='row mt-3'>
       <div className="col-12 mb-3">
-        {
-          foodcategory?.map((category , index)=>(
-            <span key={index} onClick={()=>handleClicked(index)} style={{ background: clickedIndex == index ? 'transparent' : '#6c738f'}} className={`mb-2 me-2 cursor-pointer ${clickedIndex == index ? 'text-dark py-2 px-3 rounded-pill border' : 'text-white py-2 px-3 rounded-pill'} `}>{category.name}</span>
-          ))
-        }
+        <span onClick={() => handleClicked(0)} style={{ background: clickedIndex === 0 ? 'transparent' : '#6c738f'}} className={`mb-2 me-2 cursor-pointer ${clickedIndex === 0 ? 'text-dark py-2 px-3 rounded-pill border' : 'text-white py-2 px-3 rounded-pill'}`}>All</span>
+        {foodcategory?.map((category, index) => (
+          <span key={index} onClick={() => handleClicked(index + 1)} style={{ background: clickedIndex === index + 1 ? 'transparent' : '#6c738f'}} className={`mb-2 me-2 cursor-pointer ${clickedIndex === index + 1 ? 'text-dark py-2 px-3 rounded-pill border' : 'text-white py-2 px-3 rounded-pill'}`}>{category.name}</span>
+        ))}
       </div>
       <div className={`${cartFood?.length !== 0 ? 'col-12 col-lg-8 ' : 'col-12'}`}>
         <div className="row">
