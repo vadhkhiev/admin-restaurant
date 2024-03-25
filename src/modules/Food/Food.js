@@ -17,9 +17,6 @@ function YourComponent({}) {
   const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
 
   useEffect(() => {
-    console.log(food);
-  }, []);
-  useEffect(() => {
     setFood(listFood);
   }, [listFood]);
 

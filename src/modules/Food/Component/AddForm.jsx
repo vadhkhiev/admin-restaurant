@@ -10,24 +10,21 @@ export default function AddForm({ toggle, toggleForm }) {
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-
   const token = useSelector(
     (state) => state.auth.token || localStorage.getItem("token")
   );
-  const refetchFood = async () => {
-    try {
-      const result = await getAllFood(token);
-      dispatch(storeFood(result.data));
-    } catch (error) {}
+
+  let categoryName = [];
+
+  //validation const
+  const validationObj = {
+    name: /^[a-zA-Z\s]{1,20}$/,
+    price: /^[1,9]{1,3}$/,
+    code: /^[a-zA-Z1-9]{1,6}$/,
+    description: /^[a-zA-Z1-9\s]{1,20}$/,
   };
 
-  const sendFood = async (value, token) => {
-    try {
-      refetchFood();
-      const result = await createFood(value, token);
-      refetchFood();
-    } catch {}
-  };
+  const [submitable, setSubmitable] = useState(false);
 
   const initialValue = {
     name: "",
@@ -41,7 +38,41 @@ export default function AddForm({ toggle, toggleForm }) {
   const [value, setValue] = useState(initialValue);
   //end state
 
-  let categoryName = [];
+  const isValidInput = () => {
+    if (
+      validationObj.name.test(value.name) &
+      validationObj.code.test(value.code) &
+      validationObj.price.test(value.price) &
+      validationObj.description.test(value.description)
+    ) {
+      setSubmitable(true);
+    }
+    console.log("======================================================");
+    console.log(validationObj.name.test(value.name) + "name");
+    console.log(validationObj.price.test(value.price) + "price");
+    console.log(validationObj.code.test(value.code) + "code");
+    console.log(
+      validationObj.description.test(value.description) + "description"
+    );
+    console.log(submitable + "ADDD");
+    console.log("==========================================================");
+  };
+
+  const sendFood = async (value, token) => {
+    try {
+      refetchFood();
+      const result = await createFood(value, token);
+      refetchFood();
+    } catch {}
+  };
+
+  const refetchFood = async () => {
+    try {
+      const result = await getAllFood(token);
+      dispatch(storeFood(result.data));
+    } catch (error) {}
+  };
+
   listCategories.map(({ name }) => {
     categoryName.push(name);
   });
@@ -69,6 +100,7 @@ export default function AddForm({ toggle, toggleForm }) {
             placeholder="Food Name"
             onChange={(e) => {
               setValue({ ...value, name: e.target.value });
+              isValidInput();
             }}
           />
         </div>
@@ -82,6 +114,7 @@ export default function AddForm({ toggle, toggleForm }) {
             placeholder="Price"
             onChange={(e) => {
               setValue({ ...value, price: parseInt(e.target.value) });
+              isValidInput();
             }}
           />
         </div>
@@ -95,6 +128,7 @@ export default function AddForm({ toggle, toggleForm }) {
             placeholder="Code"
             onChange={(e) => {
               setValue({ ...value, code: e.target.value });
+              isValidInput();
             }}
           />
         </div>
@@ -139,20 +173,40 @@ export default function AddForm({ toggle, toggleForm }) {
             placeholder="Description"
             onChange={(e) => {
               setValue({ ...value, description: e.target.value });
+              isValidInput();
             }}
           />
         </div>
 
+        {/**btn submit */}
         <div class="col-12 mt-1">
-          <button
-            class="btn btn-primary"
-            onClick={() => {
-              toggle.sendDataToParent(!toggleForm);
-              sendFood(value, token);
-            }}
-          >
-            Submit form
-          </button>
+          {submitable ? (
+            <button
+              class="btn btn-primary"
+              onClick={() => {
+                toggle.sendDataToParent(!toggleForm);
+                sendFood(value, token);
+              }}
+            >
+              Submit form
+            </button>
+          ) : (
+            <div>
+              <h6 className="text-danger fw-bold position-absolute top-0 end-0  me-4 my-2 bg-white p-1">
+                PLEASE CHECK THE INFORMATION ENTERED !!!
+              </h6>
+              <button
+                disabled
+                class="btn btn-primary"
+                onClick={() => {
+                  toggle.sendDataToParent(!toggleForm);
+                  sendFood(value, token);
+                }}
+              >
+                Submit form
+              </button>
+            </div>
+          )}
         </div>
       </form>
     </>
