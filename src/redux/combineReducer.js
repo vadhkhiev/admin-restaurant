@@ -7,6 +7,7 @@ import foodReducer from "../modules/Food/Core/allFoodSlice";
 import categoriesReducer from "../modules/Food/Core/allCategoriesSlice";
 import idReducer from "../modules/Role/core/idSlice";
 import permissionReducer from "../modules/Role/core/permissionSlice";
+import foodCartReducer from "../modules/Oder/core/foodCartSlice"
 
 export const rootReducers = combineReducers({
   auth: authReducer, // auth
@@ -17,6 +18,7 @@ export const rootReducers = combineReducers({
   allCategory: categoriesReducer, //all food categories
   id : idReducer,    // id of clicked staff title in role
   permission : permissionReducer, 
+  foodCart: foodCartReducer ,  //  food order cart
 
   /* Add other reducers here  */
 });

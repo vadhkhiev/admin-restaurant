@@ -1,6 +1,6 @@
 import React from "react";
-import OderList from "../components/OderList";
-import OderSt from "../components/OderSt";
+import OderList from "./components/OderList";
+import OderSt from "./components/OderSt";
 
 const MainOder = () => {
   return (
