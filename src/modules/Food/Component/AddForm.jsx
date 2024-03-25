@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createFood, createUser } from "../Core/createFood";
+import getAllFood from "../Core/getAllFood";
+import { storeFood } from "../Core/allFoodSlice";
 export default function AddForm({ toggle, toggleForm }) {
-  //state
+  const dispatch = useDispatch();
+
+  //states
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
@@ -10,9 +14,18 @@ export default function AddForm({ toggle, toggleForm }) {
   const token = useSelector(
     (state) => state.auth.token || localStorage.getItem("token")
   );
-  const sendFood = (value, token) => {
+  const refetchFood = async () => {
     try {
-      const result = createFood(value, token);
+      const result = await getAllFood(token);
+      dispatch(storeFood(result.data));
+    } catch (error) {}
+  };
+
+  const sendFood = async (value, token) => {
+    try {
+      refetchFood();
+      const result = await createFood(value, token);
+      refetchFood();
     } catch {}
   };
 
@@ -37,7 +50,7 @@ export default function AddForm({ toggle, toggleForm }) {
     toggle.sendDataToParent(false);
   };
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault();
     sendDataToParent();
   };
 

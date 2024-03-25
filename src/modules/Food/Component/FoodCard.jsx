@@ -1,8 +1,22 @@
 import React, { useEffect, useState } from "react";
 import dummyImage from "../../../assets/img/dummy.png";
 import { deleteFood } from "../Core/deleteFood";
-export default function FoodCard({ food, toggleEdit }) {
+import getAllFood from "../Core/getAllFood";
+import { useDispatch, useSelector } from "react-redux";
+import { storeFood } from "../Core/allFoodSlice";
+import { storeEditToggle } from "../Core/allFoodSlice";
+
+export default function FoodCard({ food }) {
+  const dispatch = useDispatch();
   const token = localStorage.getItem("token");
+  const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
+  const refetchFood = async () => {
+    try {
+      const result = await getAllFood(token);
+      dispatch(storeFood(result.data));
+    } catch (error) {}
+  };
+  console.log(food.foodImageEntities[0]?.url);
 
   return (
     <>
@@ -16,18 +30,25 @@ export default function FoodCard({ food, toggleEdit }) {
         <div className="px-1 pb-2 pt-1 text-white">
           <h4 className="text-white">{food.name}</h4>
           <div className="d-flex justify-content-between">
-            <h5 className="text-white">Code : {food.id}</h5>
+            <h5 className="text-white">Code : {food.code}</h5>
             <h5 className="text-white">Price : ${food.price}.00</h5>
           </div>
           <div className="d-flex justify-content-between">
-            <button className="border rounded-3" onClick={toggleEdit}>
+            <button
+              className="border rounded-3"
+              onClick={() => {
+                dispatch(storeEditToggle(true));
+              }}
+            >
               Edit
             </button>
             <button
               className="border rounded-3"
-              // onClick={() => {
-              //   deleteFood(token, food.id);
-              // }}
+              onClick={() => {
+                refetchFood();
+                deleteFood(token, food.id);
+                refetchFood();
+              }}
             >
               Remove
             </button>

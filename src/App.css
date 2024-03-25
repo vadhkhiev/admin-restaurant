@@ -151,20 +151,32 @@ input[type="number"] {
   border-bottom: 3px solid #6c738f;
 }
 
-@media (max-width: 992px) {
-  /* Styles for screens smaller than 768px */
+/* .sidebar {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.sidebar-show {
+  margin-left: 0; 
+}
+ */
+ @media (max-width: 1200px) {
+ 
   .sidebar {
     position: fixed;
-    z-index: 1; /* Ensure the sidebar stays on top */
+    z-index: 1; 
     width: 100%;
     height: 100%;
     overflow-y: auto;
   }
 
   .sidebar-show {
-    margin-left: 0; /* Reset margin-left for main content */
+    margin-left: 0; 
   }
-}
+} 
 
 .add-form {
   color: #fff;
@@ -227,4 +239,9 @@ input[type="number"] {
   to {
     background-position-x: -200%;
   }
+}
+
+
+.ordercardwrapper{
+  
 }
