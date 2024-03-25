@@ -154,8 +154,13 @@ function OrderList() {
       )}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div className="d-flex my-3">
-
-       <Link to='/order/ordering'  style={{background:'#6c738f'}} className="btn text-white ">Add Order</Link>
+        <Link
+          to="/order/ordering"
+          style={{ background: "#6c738f" }}
+          className="btn text-white "
+        >
+          Add Order
+        </Link>
       </div>
       <table className="table-container table bg-white fw-bold">
         <thead>
@@ -163,7 +168,7 @@ function OrderList() {
             <th scope="col">ID</th>
             <th scope="col">Payment</th>
             <th scope="col">Create Date</th>
-            <th scope="col">User Entity</th>
+            <th scope="col">Order by</th>
             <th scope="col">Table Name</th>
             <td scope="col">Total</td>
             <th scope="col">Status</th>
@@ -194,7 +199,10 @@ function OrderList() {
               <td className="fw-normal">{dateTimeFormat(order.createdDate)}</td>
               <td className="fw-normal">{order.userEntity.name}</td>
               <td className="text-center">{order.tableEntity.name}</td>
-              <td className="fw-normal">{order.totalPrice}</td>
+              <td className="fw-normal">
+                <sup className=" fs-6 text-danger">$</sup>
+                {order.totalPrice.toFixed(2)}
+              </td>
               <td
                 className="fw-normal"
                 style={{ color: getStatusColor(order.status) }}
