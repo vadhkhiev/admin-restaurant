@@ -65,7 +65,7 @@ const CreateTable = ({ toggleModal }) => {
               className="ps-2 pe-5 py-2 border-0 rounded-3 w-75"
               type="text"
               name="name"
-              placeholder="Name"
+              placeholder="Table Name"
               onChange={(e) => setValues({ ...values, name: e.target.value })}
             />
             <br /> <br />
