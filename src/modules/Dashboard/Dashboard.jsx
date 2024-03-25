@@ -23,6 +23,23 @@ const Dashboard = () => {
     { label: 'C', value: 15 },
     { label: 'D', value: 25 },
   ];
+
+  useEffect(() => {
+    const totalOrder = async () => {
+       try {
+        const response = await axios.get(`/api/order?page=1`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(storeorder(response.data))
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    totalOrder();
+
+  }, []);
   
 
   console.log(Allorders);
@@ -38,11 +55,14 @@ const Dashboard = () => {
            <aside  className="col-12 col-md-8 px-3 row ">
 
             <section className='col-12 row pb-3' style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}}>
-            <Catebox title={' Users'} icon={<FaUsers />} num={Allusers} color={'#6895a1'} />
-            <Catebox title={'Orders'} icon={<CiBoxes />} num={Allorders?.paging.totals} color={'#344955'} />
+            <Catebox title={' Users'} icon={<FaUsers />} num={Allusers - 1} color={'#6895a1'} />
+            <Catebox title={'Orders'} icon={<CiBoxes />} num={Allorders?.paging?.totals} color={'#344955'} />
             <Catebox title={'Foods'} icon={<IoFastFoodOutline />} num={foodlist?.length} color={'#50727B'} />
             <Catebox title={' Roles'} icon={<FaUsers />} num={roles?.length - 1 } color={'#78A083'} />
             </section>
+            <div className="col-12">
+            <BarChart data={data} />
+            </div>
 
             <section  className='col-12 col-md-6 px-3 mt-3 py-3 '>
               <div  >
@@ -64,6 +84,7 @@ const Dashboard = () => {
               }
               </div>
             </section>
+
             <section  className='col-12 col-md-6 px-3 mt-3 py-3 '>
               <div  >
               <h4 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center '>Recent Order</h4>
@@ -89,16 +110,14 @@ const Dashboard = () => {
               }
               </div>
             </section>
-            <div className="col-12">
-            <BarChart data={data} />
-            </div>
+
 
             
 
            </aside>
 
            <aside className="col-12 col-md-4 row ">
-            <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className="col-12 px-5 pb-5 rounded  justify-content-center ">
+            <div  className="col-12 px-5 pb-5 rounded  justify-content-center ">
              <PieCharts  />
             </div>
            </aside>

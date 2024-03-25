@@ -51,7 +51,7 @@ const PieCharts = () => {
     };
 
     return (
-        <div className='mt-2'>
+        <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className='mt-2 pb-2 pe-2'>
            <div className='d-flex justify-content-between'>
             <h4 style={{ color: '#45495c' }} className='fw-bold text-center'>This Month Income</h4>
             <p className='text-center fs-3 fw-bold'> <sup>$</sup> {(data[0] + data[1])? (data[0] + data[1]): 0 }</p>
