@@ -26,7 +26,6 @@ function App() {
             <Route index element={<Home />} />
             <Route path="order" element={<MainOder />} />
             <Route path="table" element={<Table/>} />
-            {/* <Route path="table/:id" element={<h1>table</h1>} /> */}
             <Route path="category" element={<h1>Category</h1>} />
             <Route path="profile" element={<h1>Profile</h1>} />
             <Route path="foods" element={<Food />} />
