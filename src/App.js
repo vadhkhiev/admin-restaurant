@@ -9,7 +9,12 @@ import Food from "./modules/Food/Food";
 import Role from "./modules/Role/Role";
 import Access from "./modules/Role/components/Access";
 import Table from "./modules/table/Table";
+<<<<<<< HEAD
 import MainOder from "./modules/Oder/core/MainOder";
+=======
+
+
+>>>>>>> 18e4c642a88f616e62e8b8acf566f69eaed2b4a5
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -24,8 +29,13 @@ function App() {
         {isAuthenticated ? (
           <Route path="/" element={<Layout1 />}>
             <Route index element={<Home />} />
+<<<<<<< HEAD
             <Route path="order" element={<MainOder />} />
-            <Route path="table" element={<Table />} />
+            <Route path="table" element={<Table/>} />
+=======
+            <Route path="table" element={<Table/>} />
+            {/* <Route path="table/:id" element={<h1>table</h1>} /> */}
+>>>>>>> 18e4c642a88f616e62e8b8acf566f69eaed2b4a5
             <Route path="category" element={<h1>Category</h1>} />
             <Route path="profile" element={<h1>Profile</h1>} />
             <Route path="foods" element={<Food />} />

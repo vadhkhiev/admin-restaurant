@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react'
 import { MdOutlineCancel } from "react-icons/md";
 import avatar from "../../../assets/img/avatar.jpg";
 import { useSelector } from "react-redux";
@@ -9,10 +9,12 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
 
   const role = roles.filter((r) => r.name === editUser.roleEntity?.name)[0];
 
+
+
   const [editing, setEditing] = useState({
-    avatar: "avatar",
+    avatar: editUser.avatar,
     name: editUser.name,
-    role_id: role?.id, // Use role.id here
+    role_id: role?.id, 
     phone: editUser.phone,
     gender: editUser.gender,
     salary: editUser.salary,
@@ -24,25 +26,38 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const [fileInput, setFileInput] = useState(null);
 
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreensize(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  const [screensize , setScreensize] = useState(window.innerWidth);
+
   const handleUpload = async () => {
     const formdata = new FormData();
     formdata.append("file", fileInput);
-
-    axios
-      .post(`/api/user/${editUser.id}/profileAvatar`, formdata, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  
+    axios.post(`/api/user/${editUser.id}/profileAvatar`, formdata, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+    .then(response => {
+ 
+      
+    })
+    .catch(error => {
+      console.error(error);
+    });
   };
 
-  const handleChange = async () => {
+  const handleChange = async () => {	
     try {
       const data = { ...editing, username: editUser.username };
       const filteredData = Object.fromEntries(
@@ -54,10 +69,12 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
         },
       });
 
-      await handleUpload();
+      if (fileInput) {
+        await handleUpload();
+      }
 
-      setError("");
-      setSuccessMessage("Update successful");
+      setError('');
+      setSuccessMessage('Update successful');
       setTimeout(() => {
         setEdit(!edit);
         setSuccessMessage("");
@@ -68,73 +85,53 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
       setTimeout(() => setSuccessMessage(""), 1000);
     }
   };
+  console.log(screensize)
 
-  console.log(editUser);
-
-  console.log(fileInput);
-
+  
   return (
     <div>
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{
-          position: "fixed",
-          top: 0,
-          right: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(62,64,87, 0.35)",
-          zIndex: 9999,
-          borderRadius: "10px 0 0 10px",
-          transition: "all 0.3s ease-in-out",
-        }}
-      >
-        <main
-          className="rounded-3 border"
-          style={{
-            backdropFilter: "blur(5px)",
-            width: window.innerWidth < 768 ? "100%" : "45%",
-          }}
+     
+        <div
+        className='d-flex justify-content-center align-items-center'
+         style={{
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: "rgba(62,64,87, 0.35)",
+            zIndex: 9999,
+            borderRadius: '10px 0 0 10px',
+            transition: 'all 0.3s ease-in-out',
+            
+          }} 
         >
-          <div>
-            <MdOutlineCancel
-              onClick={handleEdit}
-              className="fs-3 text-danger m-2"
-            />
-          </div>
-          <div>
-            <div className=" rounded-3">
-              <h3 className=" text-center p-1">
-                Editing
-                <span className="text-primary"> {editUser.name}</span>
-              </h3>
-            </div>
+          <main className='rounded-3 border' style={{
+            backdropFilter: 'blur(5px)',
+            width: screensize < 768 ? '100%' : '45%',
+          }}
+          >
+            <div >
+                <MdOutlineCancel onClick={handleEdit} className='fs-3 text-danger m-2'/>
+              </div>
+              <div >
+              <div className=' rounded-3'  >
+                <h3  className=' text-center p-1'>Editing
+                <span className='text-primary'> {editUser.name}</span> 
+                </h3>
+              </div>
+              
+              <div className=' p-1 rounded-3' >
 
-            <div className=" p-1 rounded-3">
-              <div className="d-flex my-3 justify-content-between">
-                <div className="w-25 d-flex justify-content-center">
-                  <img
-                    style={{
-                      boxShadow:
-                        "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px",
-                    }}
-                    src={avatar}
-                    width={65}
-                    height={65}
-                    alt=""
-                    className="rounded-circle "
-                  />
-                </div>
-                <div className="w-75 d-flex justify-content-start m-3">
-                  <div>
-                    <input
-                      onChange={(e) => setFileInput(e.target.files[0])}
-                      className="form-control  "
-                      id="formFileSm"
-                      type="file"
-                    />
-                  </div>
-                </div>
+              <div  className='d-flex my-3 justify-content-between'> 
+              <div className='w-25 d-flex justify-content-center'>
+                <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={editUser.avatar} width={65} height={65}  alt="" className='rounded-circle ' />
+              </div>
+               <div className='w-75 d-flex justify-content-start m-3'>
+               <div>
+                <input  onChange={(e) => setFileInput(e.target.files[0])} className="form-control  " id="formFileSm" type="file"/>
+               </div>
+               </div>
               </div>
 
               {/* name */}
