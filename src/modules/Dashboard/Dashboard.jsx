@@ -21,7 +21,10 @@ const Dashboard = () => {
     { label: "C", value: 15 },
     { label: "D", value: 25 },
   ];
+  
 
+  console.log(Allorders);
+  
   return (
     <>
       <div className="m-3 ">
@@ -172,11 +175,12 @@ const Dashboard = () => {
               </section>
             </aside>
 
-            <aside className="col-12 col-md-4 row ">
-              <div className="col-12 px-5 pb-5 rounded  justify-content-center ">
-                <PieCharts />
-              </div>
-            </aside>
+           <aside className="col-12 col-md-4 row ">
+            <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className="col-12 px-5 pb-5 rounded  justify-content-center ">
+             <PieCharts  />
+            </div>
+           </aside>
+
           </section>
         </main>
       </div>
