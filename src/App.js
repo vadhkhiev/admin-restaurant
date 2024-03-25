@@ -9,7 +9,8 @@ import Role from "./modules/Role/Role";
 import Access from "./modules/Role/components/Access";
 import Table from "./modules/table/Table";
 import Dashboard from "./modules/Dashboard/Dashboard";
-
+import MainOder from "./modules/Oder/MainOder";
+import MakeOrder from "./modules/Oder/components/MakeOrder"; 
 
 
 function App() {
@@ -26,8 +27,10 @@ function App() {
           <Route path="/" element={<Layout1 />}>
             <Route index element={<Dashboard/>} />
             <Route path="order" element={<MainOder />} />
+            <Route path="order/ordering" element={<MakeOrder />} />
             <Route path="table" element={<Table/>} />
             <Route path="table" element={<Table/>} />
+
             {/* <Route path="table/:id" element={<h1>table</h1>} /> */}
             <Route path="category" element={<h1>Category</h1>} />
             <Route path="profile" element={<h1>Profile</h1>} />
