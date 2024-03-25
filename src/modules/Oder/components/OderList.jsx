@@ -39,6 +39,7 @@ function OrderList() {
         }
 
         setOrders(response.data.data);
+        console.log(response)
       } catch (error) {
         setError(true);
         setErrorMessage("Failed to fetch orders. Please try again later.");
