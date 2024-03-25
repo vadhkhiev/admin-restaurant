@@ -50,7 +50,20 @@ const Layout1 = () => {
 
       totalUser();
 
-    
+    const totalOrder = async () => {
+       try {
+        const response = await axios.get(`/api/order?page=1`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(storeorder(response.data))
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    totalOrder();
+
   }, []);
 
   //fetch food
