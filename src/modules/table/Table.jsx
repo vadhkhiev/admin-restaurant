@@ -12,46 +12,75 @@ const Table = () => {
   const [modal, setModal] = useState(false);
   const [query, setQuery] = useState("");
 
-  // const [value,setValue] = useState("")
-  const [sortValue,setSortValue] = useState("")
-  const sortOptions = ["ASC","DASC"];
-
-  const [filterValue,setFilterValue] = useState("")
-  const filterOptions = ["Available","Booked"];
-
-    useEffect(() =>{
-      // if(query.length === 0 || query.length > 2){
-        axios
-        .get(`/api/table?query=${query}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          setTableList(res.data.data);
-        })
-        .catch((err) => console.log(err));
-      // }
-    },[query])
+  // sort
+  const [sortValue, setSortValue] = useState("");
+  const sortOptions = ["asc", "dasc"];
+  // filter
+  const [filterValue, setFilterValue] = useState("");
+  const filterOptions = ["Available", "Booked"];
+  //pagination
+  const [page, setPage] = useState(1);
+  const handleNextPage = () =>{
+    setPage(nextPage);
+    axios
+      .get(`/api/table?size=10&page=${page}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setTableList(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }
+  const handlePrevPage = (nextPage) =>{
+    setPage(prevPage);
+    axios
+      .get(`/api/table?size=10&page=${page}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setTableList(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }
+  useEffect(() => {
+    // if(query.length === 0 || query.length > 2){
+    axios
+      .get(`/api/table?query=${query}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setTableList(res.data.data);
+      })
+      .catch((err) => console.log(err));
+    // }
+  }, [query]);
 
   function toggleModal() {
     setModal(!modal);
   }
   useEffect(() => {
     axios
-      .get(`/api/table`, {
+      .get(`/api/table?size=10`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization:`Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
         setTableList(res.data.data);
         setRefresh(true);
         console.log(res.data);
-      })
-  }, [refresh,token]);
+      });
+  }, [refresh, token]);
 
   // function for delete
   const handleDelete = (id) => {
@@ -70,38 +99,38 @@ const Table = () => {
         .catch((err) => console.log(err));
     }
   };
-  //sort 
-    const handleSort = async (e) => {
-      let value = e.target.value;
-      setSortValue(value);
-      return await axios
-        .get(`/api/table?order=${value}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          setTableList(res.data.data);
-        })
-        .catch((err) => console.log(err));
-    }
-    //filter
-    const handleFilter = async (e) => {
-      let value = e.target.value;
-      setFilterValue(value);
-      return await axios
-        .get(`/api/table?status=${value}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          setTableList(res.data.data);
-        })
-        .catch((err) => console.log(err));
-    }
+  //sort
+  const handleSort = async (e) => {
+    let value = e.target.value;
+    setSortValue(value);
+    return await axios
+      .get(`/api/table?order=${value}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setTableList(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
+  //filter
+  const handleFilter = async (e) => {
+    let value = e.target.value;
+    setFilterValue(value);
+    return await axios
+      .get(`/api/table?status=${value}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setTableList(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <>
@@ -125,26 +154,32 @@ const Table = () => {
                 placeholder="Search"
                 onChange={(e) => setQuery(e.target.value)}
               />
-              <h5>Sort By: </h5>
-              <select 
-                style={{ width: "20%", borderRadius:"2px", height:"35px" }} 
-                onChange={handleSort}
-                value={sortValue}
-              >
-                <option value="">Choose Sort</option>
-                {sortOptions.map((item,index) => (
-                  <option value={item} key={index}>{item}</option>
-                ))}
-              </select>
+              <div className="d-flex g-2 align-item-center">
+                <h5 className="">Sort By: </h5>
+                <select
+                  className="ps-2 pe-5 py-2 border-0 rounded-3 w-75"
+                  onChange={handleSort}
+                  value={sortValue}
+                >
+                  <option value="">Choose Sort</option>
+                  {sortOptions.map((item, index) => (
+                    <option value={item} key={index}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <h5>Filter By: </h5>
               <select
-                style={{ width: "20%", borderRadius:"2px", height:"35px" }} 
+                style={{ width: "20%", borderRadius: "2px", height: "35px" }}
                 onChange={handleFilter}
                 value={filterValue}
               >
                 <option value="">Choose filter</option>
-                {filterOptions.map((item,index) => (
-                  <option value={item} key={index}>{item}</option>
+                {filterOptions.map((item, index) => (
+                  <option value={item} key={index}>
+                    {item}
+                  </option>
                 ))}
               </select>
             </div>
@@ -164,27 +199,40 @@ const Table = () => {
               </tr>
             </thead>
             <tbody>
-              {tableList.map((tables) => (
+              {tableList.slice(0, 10).map((tables) => (
                 <tr key={tables.id}>
                   <td>{tables.id}</td>
                   <td>{tables.name}</td>
                   <td
                     className={`${
-                      tables.status === "Available" ? "text-success": "text-danger"
+                      tables.status === "Available"
+                        ? "text-success"
+                        : "text-danger"
                     }`}
                   >
-                    {tables.status}</td>
+                    {tables.status}
+                  </td>
                   <td>{tables.seatCapacity}</td>
                   <td>{dateTimeFormat(tables.createdDate)}</td>
                   <td>{dateTimeFormat(tables.updateDate)}</td>
                   <td className="d-flex gap-2 justify-content-center">
-                    <button className="btn btn-success" >Update</button>
-                    <button className="btn btn-danger" onClick={(e) => handleDelete(tables.id)}>Delete</button>
+                    <button className="btn btn-success">Update</button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={(e) => handleDelete(tables.id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="d-flex justify-content-center align-item-center">
+          <button className="btn btn-danger me-2" onClick={handlePrevPage}>Prev</button>
+          {/* <span className="fw-bold">1/2</span> */}
+          <button className="btn btn-primary ms-2" onClick={handleNextPage}>Next</button>
         </div>
       </div>
     </>
