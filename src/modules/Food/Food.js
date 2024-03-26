@@ -5,6 +5,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import AddForm from "./Component/AddForm";
 import EditFoodForm from "./Component/EditFoodForm";
 import LoadingFoodCard from "./Component/LoadingFoodCard";
+import ActionCategories from "./Core/ActionCategories";
 
 function YourComponent({}) {
   const listFood = useSelector((state) => state.foodList.foodList);
@@ -15,7 +16,7 @@ function YourComponent({}) {
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
-
+  const [actionsCategories, setActionCategories] = useState(false);
   useEffect(() => {
     setFood(listFood);
   }, [listFood]);
@@ -36,8 +37,19 @@ function YourComponent({}) {
           style={{ background: "#6c738f" }}
         >
           Food List
+          <span>
+            <button
+              className="border text-align-center text-white position-absolute end-0 me-4 mt-6 rounded-3"
+              onClick={() => {
+                setActionCategories(!actionsCategories);
+              }}
+              style={{ background: "#6c738f" }}
+            >
+              <p className="p-0 m-0">Actions</p>
+            </button>
+          </span>
         </div>
-        <nav className="d-flex col justify-content-between m-2">
+        <nav className="d-flex m-2  flex-wrap justify-content-start">
           {listCategories.map(({ name, id }) => {
             return (
               <button
@@ -73,6 +85,7 @@ function YourComponent({}) {
       <div>
         <div>{toggleEdit && <EditFoodForm />}</div>
       </div>
+      <div>{actionsCategories && <ActionCategories />}</div>
       <div>
         {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}
       </div>
