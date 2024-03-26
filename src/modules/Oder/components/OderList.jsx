@@ -23,6 +23,7 @@ function OrderList() {
     "Complete",
     "Cooking",
   ]); // Status options
+  const [searchQuery, setSearchQuery] = useState(""); // State to hold search query
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -39,7 +40,6 @@ function OrderList() {
         }
 
         setOrders(response.data.data);
-        console.log(response)
       } catch (error) {
         setError(true);
         setErrorMessage("Failed to fetch orders. Please try again later.");
@@ -127,6 +127,11 @@ function OrderList() {
     }
   };
 
+  // Function to filter orders based on search query
+  const filteredOrders = orders.filter((order) =>
+    order.tableEntity.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (isLoading) {
     return (
       <div className="h1">
@@ -141,7 +146,18 @@ function OrderList() {
 
   return (
     <div className="m-3">
-      <h2 className="h1">User Order</h2>
+      <div className="d-flex form">
+        <form className="tp">
+          <input
+            className="form-control mr-sm-2"
+            type="text"
+            placeholder="Search table name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </form>
+      </div>
+      {/* <h2 className="h1">User Order</h2> */}
       {deleteConfirmation && (
         <div className="delete-confirmation form-control">
           <p>Are you sure you want to delete this order?</p>
@@ -177,7 +193,7 @@ function OrderList() {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {filteredOrders.map((order) => (
             <tr key={order.id}>
               <td className="fw-normal">{order.id}</td>
               <td className="fw-normal">
@@ -201,7 +217,7 @@ function OrderList() {
               <td className="fw-normal">{order.userEntity.name}</td>
               <td className="text-center">{order.tableEntity.name}</td>
               <td className="fw-normal">
-                <sup className=" fs-6 text-danger">$</sup>
+                <sup className=" fs-6text-danger">$</sup>
                 {order.totalPrice.toFixed(2)}
               </td>
               <td
