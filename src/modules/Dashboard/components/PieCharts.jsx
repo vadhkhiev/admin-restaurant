@@ -57,6 +57,26 @@ const PieCharts = () => {
             <p className='text-center fs-3 fw-bold'> <sup>$</sup> {(data[0] + data[1])? (data[0] + data[1]): 0 }</p>
            </div>
             <Pie data={income} />
+            <div className='mt-3'>
+                <ul>
+                    <li className='fw-bold list-unstyled mb-1'>Cash : <sup>$</sup><span className='fw-bold'>{data[0]}</span></li>
+                    <li className='list-unstyled'>
+                        <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className=' rounded border me-1 '>
+                           <div className=' rounded text-center text-white' style={{ width: `${(data[0] / (data[0] + data[1]) * 100).toFixed(2)}%` , height: '100%',background:income.datasets[0].backgroundColor[0]}}>
+                            { data[0] && data[1] ? (data[0] / (data[0] + data[1]) * 100)?.toFixed(2) : 0 } %
+                           </div>
+                        </div>
+                     </li>
+                    <li className='fw-bold list-unstyled'>Bank : <sup>$</sup>{data[1]} <span className='fw-bold'>
+                        <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className=' rounded border me-1 '>
+                           <div className=' rounded text-center text-white' style={{ width: `${(data[1] / (data[0] + data[1]) * 100).toFixed(2)}%` , height: '100%',background:income.datasets[0].backgroundColor[1]}}>
+                            {data[0] && data[1] ? (data[1] / (data[0] + data[1]) * 100).toFixed(2) : 0 } %
+                           </div>
+
+                        </div>
+                    </span></li>
+                </ul>
+            </div>
         </div>
     );
 }

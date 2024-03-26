@@ -8,6 +8,7 @@ import PieCharts from './components/PieCharts';
 import profile from '../../assets/img/avatar.jpg';	
 import dateTimeFormat from '../Role/core/dateTimeFormat';
 import BarChart from './components/BarChart';
+import LineChart from './components/LineChart';
 
 const Dashboard = () => {
   const roles = useSelector((state) => state.roles.roles); 
@@ -25,7 +26,6 @@ const Dashboard = () => {
   ];
   
 
-  console.log(Allorders);
   
   return (
     <>
@@ -43,8 +43,10 @@ const Dashboard = () => {
             <Catebox title={'Foods'} icon={<IoFastFoodOutline />} num={foodlist?.length} color={'#50727B'} />
             <Catebox title={' Roles'} icon={<FaUsers />} num={roles?.length - 1 } color={'#78A083'} />
             </section>
-            <div className="col-12">
-            <BarChart data={data} />
+            <div className="col-12 mt-3">
+            <div style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}  className='p-3'>
+             <LineChart data={data} />
+            </div>
             </div>
 
             <section  className='col-12 col-md-6 px-3 mt-3 py-3 '>
@@ -100,8 +102,8 @@ const Dashboard = () => {
            </aside>
 
            <aside className="col-12 col-md-4 row ">
-            <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className="col-12 px-5 pb-5 rounded  justify-content-center ">
-             <PieCharts  />
+            <div  className="col-12  pb-5 rounded   ">
+             <PieCharts />
             </div>
            </aside>
 
