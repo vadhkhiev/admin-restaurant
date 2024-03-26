@@ -22,6 +22,7 @@ const Table = ({setUpdate}) => {
 
   return (
     <div>
+      
          <div className="table-container">
             <table style={{color:'#464d69'}} className="table bg-white fw-bold">
               <thead >

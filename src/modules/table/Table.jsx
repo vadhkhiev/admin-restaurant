@@ -7,6 +7,7 @@ import CreateTable from "./components/CreateTable";
 const Table = () => {
   const [tableList, setTableList] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [paging, setPaging] = useState({});
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const [modal, setModal] = useState(false);
@@ -20,66 +21,48 @@ const Table = () => {
   const filterOptions = ["Available", "Booked"];
   //pagination
   const [page, setPage] = useState(1);
-  const handleNextPage = () =>{
-    axios
-      .get(`/api/table?size=10&page=${page}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setTableList(res.data.data);
-      })
-      .catch((err) => console.log(err));
-  }
-  const handlePrevPage = (nextPage) =>{
 
-    axios
-      .get(`/api/table?size=10&page=${page}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setTableList(res.data.data);
-      })
-      .catch((err) => console.log(err));
-  }
+  console.log(paging);
+
+  const handlePageNext = () => {
+    if (page < paging.totalPage) {
+      setPage(page + 1);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const handlePagePrev = () => {
+    if (page === 1) {
+      setPage(page);
+    } else {
+      setPage(page - 1);
+      window.scrollTo(0, 0);
+    }
+  };
+
   useEffect(() => {
     // if(query.length === 0 || query.length > 2){
     axios
-      .get(`/api/table?query=${query}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `/api/table?status=${filterValue}&order=${sortValue}&query=${query}&size=10&page=${page}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         setTableList(res.data.data);
+        setPaging(res.data.paging);
       })
       .catch((err) => console.log(err));
     // }
-  }, [query]);
+  }, [query, filterValue, sortValue, page]);
 
   function toggleModal() {
     setModal(!modal);
   }
-  useEffect(() => {
-    axios
-      .get(`/api/table?size=10`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setTableList(res.data.data);
-        setRefresh(true);
-        console.log(res.data);
-      });
-  }, [refresh, token]);
 
   // function for delete
   const handleDelete = (id) => {
@@ -97,38 +80,6 @@ const Table = () => {
         })
         .catch((err) => console.log(err));
     }
-  };
-  //sort
-  const handleSort = async (e) => {
-    let value = e.target.value;
-    setSortValue(value);
-    return await axios
-      .get(`/api/table?order=${value}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setTableList(res.data.data);
-      })
-      .catch((err) => console.log(err));
-  };
-  //filter
-  const handleFilter = async (e) => {
-    let value = e.target.value;
-    setFilterValue(value);
-    return await axios
-      .get(`/api/table?status=${value}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setTableList(res.data.data);
-      })
-      .catch((err) => console.log(err));
   };
 
   return (
@@ -153,11 +104,11 @@ const Table = () => {
                 placeholder="Search"
                 onChange={(e) => setQuery(e.target.value)}
               />
-              <div className="d-flex g-2 align-item-center">
+              <div className="d-flex">
                 <h5 className="">Sort By: </h5>
                 <select
                   className="ps-2 pe-5 py-2 border-0 rounded-3 w-75"
-                  onChange={handleSort}
+                  onChange={(e) => setSortValue(e.target.value)}
                   value={sortValue}
                 >
                   <option value="">Choose Sort</option>
@@ -171,7 +122,7 @@ const Table = () => {
               <h5>Filter By: </h5>
               <select
                 style={{ width: "20%", borderRadius: "2px", height: "35px" }}
-                onChange={handleFilter}
+                onChange={(e) => setFilterValue(e.target.value)}
                 value={filterValue}
               >
                 <option value="">Choose filter</option>
@@ -198,7 +149,7 @@ const Table = () => {
               </tr>
             </thead>
             <tbody>
-              {tableList.slice(0, 10).map((tables) => (
+              {tableList.map((tables) => (
                 <tr key={tables.id}>
                   <td>{tables.id}</td>
                   <td>{tables.name}</td>
@@ -228,10 +179,14 @@ const Table = () => {
             </tbody>
           </table>
         </div>
-        <div className="d-flex justify-content-center align-item-center">
-          <button className="btn btn-danger me-2" onClick={handlePrevPage}>Prev</button>
-          {/* <span className="fw-bold">1/2</span> */}
-          <button className="btn btn-primary ms-2" onClick={handleNextPage}>Next</button>
+        <div className="d-flex justify-content-center align-item-center mb-3">
+          <button className="btn btn-danger me-2" onClick={handlePagePrev}>
+            Prev
+          </button>
+          <span className="fw-bold fs-4">{page}/{paging.totalPage}</span>
+          <button className="btn btn-primary ms-2" onClick={handlePageNext}>
+            Next
+          </button>
         </div>
       </div>
     </>

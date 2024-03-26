@@ -56,7 +56,7 @@ const Role = () => {
             <div className='d-flex align-items-center rounded' style={{background:'#6c738f'}}>
                 <div  className='d-flex px-3' >
                     <span className='text-nowrap text-white pe-2'>
-                        Total roles :  <span>{pagingdetails?.totals}</span>
+                        Total roles :  <span>{pagingdetails?.totals - 1}</span>
                     </span>
                     <div>
                 </div>
