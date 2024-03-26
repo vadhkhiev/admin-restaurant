@@ -6,6 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import dateTimeFormat from "../../Role/core/dateTimeFormat";
 import { Link } from "react-router-dom";
+import { FiEye } from "react-icons/fi";
 
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
@@ -234,6 +235,9 @@ function OrderList() {
                   className="delete"
                   onClick={() => handleDelete(order.id)}
                 />
+               <Link to='/order/view'>
+                <FiEye className="fs-3"/>
+               </Link>
               </td>
             </tr>
           ))}

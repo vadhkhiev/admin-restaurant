@@ -11,6 +11,7 @@ import Table from "./modules/table/Table";
 import Dashboard from "./modules/Dashboard/Dashboard";
 import MainOder from "./modules/Oder/MainOder";
 import MakeOrder from "./modules/Oder/components/MakeOrder"; 
+import ViewOrder from "./modules/Oder/components/ViewOrder";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route index element={<Dashboard/>} />
             <Route path="order" element={<MainOder />} />
             <Route path="order/ordering" element={<MakeOrder />} />
+            <Route path='order/view' element={<ViewOrder/>} />
             <Route path="table" element={<Table/>} />
             <Route path="table" element={<Table/>} />
 
