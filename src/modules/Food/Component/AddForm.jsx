@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { createFood, createUser } from "../Core/createFood";
 import getAllFood from "../Core/getAllFood";
 import { storeFood } from "../Core/allFoodSlice";
+import { postImage } from "../Core/postImage";
 export default function AddForm({ toggle, toggleForm }) {
   const dispatch = useDispatch();
+  const fetchfoodList = useSelector((state) => state.foodList.foodList);
 
   //states
   const listCategories = useSelector(
@@ -36,32 +38,13 @@ export default function AddForm({ toggle, toggleForm }) {
     foodImage: "x",
   };
   const [value, setValue] = useState(initialValue);
+  const [imageFile, setImageFile] = useState(null);
   //end state
-
-  const isValidInput = () => {
-    if (
-      validationObj.name.test(value.name) &
-      validationObj.code.test(value.code) &
-      validationObj.price.test(value.price) &
-      validationObj.description.test(value.description)
-    ) {
-      setSubmitable(true);
-    }
-    console.log("======================================================");
-    console.log(validationObj.name.test(value.name) + "name");
-    console.log(validationObj.price.test(value.price) + "price");
-    console.log(validationObj.code.test(value.code) + "code");
-    console.log(
-      validationObj.description.test(value.description) + "description"
-    );
-    console.log(submitable + "ADDD");
-    console.log("==========================================================");
-  };
 
   const sendFood = async (value, token) => {
     try {
       refetchFood();
-      const result = await createFood(value, token);
+      const result = await createFood(value, imageFile, token);
       refetchFood();
     } catch {}
   };
@@ -80,9 +63,10 @@ export default function AddForm({ toggle, toggleForm }) {
   const sendDataToParent = () => {
     toggle.sendDataToParent(false);
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     sendDataToParent();
+    sendFood(value, token);
   };
 
   return (
@@ -100,7 +84,6 @@ export default function AddForm({ toggle, toggleForm }) {
             placeholder="Food Name"
             onChange={(e) => {
               setValue({ ...value, name: e.target.value });
-              isValidInput();
             }}
           />
         </div>
@@ -114,7 +97,6 @@ export default function AddForm({ toggle, toggleForm }) {
             placeholder="Price"
             onChange={(e) => {
               setValue({ ...value, price: parseInt(e.target.value) });
-              isValidInput();
             }}
           />
         </div>
@@ -128,7 +110,6 @@ export default function AddForm({ toggle, toggleForm }) {
             placeholder="Code"
             onChange={(e) => {
               setValue({ ...value, code: e.target.value });
-              isValidInput();
             }}
           />
         </div>
@@ -162,7 +143,14 @@ export default function AddForm({ toggle, toggleForm }) {
 
         <div class="mb-2">
           <label class="form-label">Food Image</label>
-          <input class="form-control" type="file" id="formFile"></input>
+          <input
+            class="form-control"
+            type="file"
+            id="formFile"
+            onChange={(e) => {
+              setImageFile(e.target.files[0]);
+            }}
+          ></input>
         </div>
 
         <div class="form-group">
@@ -173,19 +161,18 @@ export default function AddForm({ toggle, toggleForm }) {
             placeholder="Description"
             onChange={(e) => {
               setValue({ ...value, description: e.target.value });
-              isValidInput();
             }}
           />
         </div>
 
         {/**btn submit */}
         <div class="col-12 mt-1">
-          {submitable ? (
+          {!submitable ? (
             <button
+              type="submit"
               class="btn btn-primary"
               onClick={() => {
                 toggle.sendDataToParent(!toggleForm);
-                sendFood(value, token);
               }}
             >
               Submit form
@@ -200,7 +187,6 @@ export default function AddForm({ toggle, toggleForm }) {
                 class="btn btn-primary"
                 onClick={() => {
                   toggle.sendDataToParent(!toggleForm);
-                  sendFood(value, token);
                 }}
               >
                 Submit form

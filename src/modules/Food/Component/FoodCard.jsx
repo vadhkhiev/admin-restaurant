@@ -16,7 +16,6 @@ export default function FoodCard({ food }) {
       dispatch(storeFood(result.data));
     } catch (error) {}
   };
-  console.log(food.foodImageEntities[0]?.url);
 
   return (
     <>

@@ -1,6 +1,7 @@
 import axios from "axios";
+import { postImage } from "./postImage";
 
-const createFood = async (foodData, token) => {
+const createFood = async (foodData, imageFile, token) => {
   const myHeaders = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -12,7 +13,11 @@ const createFood = async (foodData, token) => {
     });
     if (response.status === 200) {
       alert("Food Added");
-      return;
+
+      const id = response.data;
+      console.log(id);
+      await postImage(id, imageFile, token);
+      return response.data;
     }
   } catch (error) {
     if (error.response && error.response.status === 400) {
