@@ -6,6 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import dateTimeFormat from "../../Role/core/dateTimeFormat";
 import { Link } from "react-router-dom";
+import { FiEye } from "react-icons/fi";
 
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +29,7 @@ function OrderList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/order?order=asc`, {
+        const response = await axios.get(`/api/order?page=1`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,6 +40,7 @@ function OrderList() {
         }
 
         setOrders(response.data.data);
+        console.log(response)
       } catch (error) {
         setError(true);
         setErrorMessage("Failed to fetch orders. Please try again later.");
@@ -233,6 +235,9 @@ function OrderList() {
                   className="delete"
                   onClick={() => handleDelete(order.id)}
                 />
+               <Link to='/order/view'>
+                <FiEye className="fs-3"/>
+               </Link>
               </td>
             </tr>
           ))}

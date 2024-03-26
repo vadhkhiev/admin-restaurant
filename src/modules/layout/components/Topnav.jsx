@@ -2,9 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../auth/authSlice'
-import { GoBell } from "react-icons/go";
-import { FaRegUserCircle } from "react-icons/fa";
-import { RxHamburgerMenu } from "react-icons/rx";
+import profileImg from '../../../assets/img/avatar.jpg'
 const Topnav = ({toggle}) => {
     const dispatch = useDispatch()
     const currentUser = useSelector((state) => state.currentUser.currentUser)
@@ -52,7 +50,7 @@ const Topnav = ({toggle}) => {
                     <li className="nav-item dropdown d-flex align-items-center m-1 me-3 ">
                         <Link to='profile' className="nav-link  p-0"  data-bs-toggle="dropdown">
                         <div className='position-relative'>
-                          <img height={30}  width={30} className='p-0 avatar border rounded-circle' src={currentUser?.avatar} alt="" />
+                          <img height={30}  width={30} className='p-0 avatar border rounded-circle' src={currentUser?.avatar?.length < 50 ? profileImg : currentUser?.avatar} alt="" />
                         </div>
                     
                         </Link>
