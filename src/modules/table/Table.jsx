@@ -21,7 +21,6 @@ const Table = () => {
   //pagination
   const [page, setPage] = useState(1);
   const handleNextPage = () =>{
-    setPage(nextPage);
     axios
       .get(`/api/table?size=10&page=${page}`, {
         headers: {
@@ -35,7 +34,7 @@ const Table = () => {
       .catch((err) => console.log(err));
   }
   const handlePrevPage = (nextPage) =>{
-    setPage(prevPage);
+
     axios
       .get(`/api/table?size=10&page=${page}`, {
         headers: {
