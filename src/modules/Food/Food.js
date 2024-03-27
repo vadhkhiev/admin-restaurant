@@ -6,6 +6,7 @@ import AddForm from "./Component/AddForm";
 import EditFoodForm from "./Component/EditFoodForm";
 import LoadingFoodCard from "./Component/LoadingFoodCard";
 import ActionCategories from "./Component/ActionCategories";
+import { storeToggleAction } from "./Core/allCategoriesSlice";
 
 function YourComponent({}) {
   const listFood = useSelector((state) => state.foodList.foodList);
@@ -16,7 +17,9 @@ function YourComponent({}) {
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
-  const [actionsCategories, setActionCategories] = useState(false);
+  const toggleAction = useSelector((state) => state.allCategory.toggleAction);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setFood(listFood);
   }, [listFood]);
@@ -40,10 +43,10 @@ function YourComponent({}) {
           <span>
             <button
               className="border text-align-center text-white position-absolute end-0 me-4 mt-6 rounded-3"
-              onClick={() => {
-                setActionCategories(!actionsCategories);
-              }}
               style={{ background: "#6c738f" }}
+              onClick={() => {
+                dispatch(storeToggleAction(!toggleAction));
+              }}
             >
               <p className="p-0 m-0">Actions</p>
             </button>
@@ -85,7 +88,7 @@ function YourComponent({}) {
       <div>
         <div>{toggleEdit && <EditFoodForm />}</div>
       </div>
-      <div>{actionsCategories && <ActionCategories />}</div>
+      <div>{toggleAction && <ActionCategories />}</div>
       <div>
         {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}
       </div>

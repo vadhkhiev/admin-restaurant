@@ -15,10 +15,7 @@ export default function ActionCategories() {
   const [stateAdd, setStateAdd] = useState(false);
   const [stateDelete, setStateDelete] = useState(false);
   //states
-  const listCategories = useSelector(
-    (state) => state.allCategory.listCategories
-  );
-  const [selectedMethod, setSelectedMethod] = useState("");
+
   const method = ["Edit", "Add", "Delete"];
 
   //useEffects

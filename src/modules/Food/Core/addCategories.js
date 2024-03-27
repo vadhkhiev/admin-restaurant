@@ -1,13 +1,13 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const addCategories = async (newCategories, token) => {
+const addCategories = async (name, token) => {
   const myHeaders = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
   try {
-    const response = await axios.post(`/api/category`, newCategories, {
+    const response = await axios.post(`/api/category`, name, {
       headers: myHeaders,
     });
     if (response.status === 200) {
