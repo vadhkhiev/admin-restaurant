@@ -5,7 +5,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import AddForm from "./Component/AddForm";
 import EditFoodForm from "./Component/EditFoodForm";
 import LoadingFoodCard from "./Component/LoadingFoodCard";
-import ActionCategories from "./Core/ActionCategories";
+import ActionCategories from "./Component/ActionCategories";
 
 function YourComponent({}) {
   const listFood = useSelector((state) => state.foodList.foodList);

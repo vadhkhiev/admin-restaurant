@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import AddCategoriesFood from "./CategoriesComponent/AddCategoriesFood";
+import EditCategoriesFood from "./CategoriesComponent/EditCategoriesFood";
+import DeleteCategoriesFood from "./CategoriesComponent/DeleteCategoriesFood";
 
 export default function ActionCategories() {
   /**
@@ -7,6 +10,10 @@ export default function ActionCategories() {
    *  ? display all the method for edit add delete
    */
 
+  //initial state
+  const [stateEdit, setStateEdit] = useState(false);
+  const [stateAdd, setStateAdd] = useState(false);
+  const [stateDelete, setStateDelete] = useState(false);
   //states
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
@@ -15,9 +22,6 @@ export default function ActionCategories() {
   const method = ["Edit", "Add", "Delete"];
 
   //useEffects
-  useEffect(() => {
-    console.log(selectedMethod);
-  }, [selectedMethod]);
 
   return (
     <div
@@ -25,13 +29,25 @@ export default function ActionCategories() {
       style={{ top: "15%", right: "10%" }}
     >
       <h3 className="text-white">Action Categories</h3>
-      <div class="form-group d-flex">
+      <div className="form-group d-flex">
         <label className="col-2  text-center pt-1 fw-bold">Method</label>
         <select
           id="inputState"
           className="form-control"
           onChange={(e) => {
-            setSelectedMethod(e.target.value);
+            if (e.target.value == "Edit") {
+              setStateEdit(true);
+              setStateAdd(false);
+              setStateDelete(false);
+            } else if (e.target.value == "Delete") {
+              setStateEdit(false);
+              setStateAdd(false);
+              setStateDelete(true);
+            } else if (e.target.value == "Add") {
+              setStateEdit(false);
+              setStateAdd(true);
+              setStateDelete(false);
+            }
           }}
         >
           <option selected disabled hidden>
@@ -46,6 +62,11 @@ export default function ActionCategories() {
           })}
         </select>
       </div>
+
+      {/**Form  */}
+      <div>{stateAdd && <AddCategoriesFood />} </div>
+      <div>{stateEdit && <EditCategoriesFood />} </div>
+      <div>{stateDelete && <DeleteCategoriesFood />} </div>
     </div>
   );
 }
