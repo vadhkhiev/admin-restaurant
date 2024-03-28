@@ -14,12 +14,14 @@ function YourComponent({}) {
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
+
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
   const toggleAction = useSelector((state) => state.allCategory.toggleAction);
   const dispatch = useDispatch();
 
+  //! if delete this, it not gonna work, i have no idea why
   useEffect(() => {
     setFood(listFood);
   }, [listFood]);
@@ -52,6 +54,7 @@ function YourComponent({}) {
             </button>
           </span>
         </div>
+
         <nav className="d-flex m-2  flex-wrap justify-content-start">
           {listCategories.map(({ name, id }) => {
             return (
