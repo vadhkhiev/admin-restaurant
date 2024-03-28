@@ -9,6 +9,10 @@ import checkAuth from './core/getUser'
 import  { storeCurrentUser } from '../Usermanangement/core/currentuserSlice'
 import getPermission from '../Role/core/getPermission'
 import { storePermission } from '../Role/core/permissionSlice'
+import getRoles from '../layout/core/getroles'
+import axios from 'axios'
+import getUserRole from './core/getUserRole'
+import getroles from '../layout/core/getroles'
 
 
 
@@ -62,35 +66,49 @@ const Login = () => {
 
 
 
-  //checkAuth
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setLoading(true);
-      checkAuth(token)
-        .then(data => {
-
-         getPermission(token, data?.data?.roleEntity?.id)
-          .then(permissionResult => {
-            dispatch(storePermission(permissionResult));
-            dispatch(login(data));
-            setLoading(false);
+//checkAuth
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    setLoading(true);
+    checkAuth(token)
+      .then((data) => {
+        console.log(data?.data);
+        getUserRole(token, data?.data?.id)
+          .then((userRoleResult) => {
+            console.log(userRoleResult?.data?.role?.name);
+            getroles(token).then((result) => {
+              const role = result.data?.filter((role) => role?.name === userRoleResult?.data?.role?.name);
+              getPermission(token, role[0]?.id)
+              .then((permissionResult) => {
+                dispatch(storePermission(permissionResult));
+                dispatch(login(data));
+                setLoading(false);
+              })
+              .catch((permissionError) => {
+                console.error('Error fetching permissions:', permissionError);
+              });
+            })
           })
-          .catch(permissionError => {
-            console.error('Error fetching permissions:', permissionError);
-          }); 
-          dispatch(storeCurrentUser(data.data));
-        })
-        .catch(error => {
-          console.error('Error during auth verification:', error);
-          dispatch(logout());
-          setLoading(false);
-          localStorage.removeItem('token');
-        });
-    } else {
-      setLoading(false);
-    }
-  }, []);
+          .catch((error) => {
+            console.error('Error fetching user data:', error);
+          });
+
+
+
+        dispatch(storeCurrentUser(data?.data));
+        console.log(data?.data);
+      })
+      .catch((error) => {
+        console.error('Error during auth verification:', error);
+        dispatch(logout());
+        setLoading(false);
+        localStorage.removeItem('token');
+      });
+  } else {
+    setLoading(false);
+  }
+}, []);
   
 
 

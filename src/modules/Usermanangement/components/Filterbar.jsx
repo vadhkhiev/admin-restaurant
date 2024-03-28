@@ -1,8 +1,26 @@
-import React from 'react'
+import  getroles  from '../../layout/core/getroles';
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 
 const Filterbar = ({setSortby ,setOrderby , orderby , sortby , selectRole , setSelectRole , setLimit  }) => {
-    const role = useSelector((state) => state.roles.roles)
+    const [roles , setRoles] = useState([])
+    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await getroles(token);
+                setRoles(result.data);
+
+            } catch (error) {
+                console.error('Error in component:', error);
+            }
+        }
+        fetchData();
+
+    },[])
+    
+   
 
   return (
     <>
@@ -44,7 +62,7 @@ const Filterbar = ({setSortby ,setOrderby , orderby , sortby , selectRole , setS
              name="" className="form-select py-0" id="">
                 <option key={0} value="">Role</option>
                 {
-                    role.map((r) => {
+                    roles.map((r) => {
                         return <option key={r.id} value={r.id} {...(selectRole === r.id && {selected: true})}>{r.name}</option>
                     })
                 }

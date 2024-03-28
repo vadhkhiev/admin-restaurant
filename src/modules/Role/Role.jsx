@@ -14,6 +14,8 @@ const Role = () => {
     const permission = useSelector((state) => state.permission?.permission?.data?.permissions); 
     const [add , setAdd] = useState(false);
     const [update,setUpdate] = useState(false);
+    const [page , setPage ] = useState(1)
+    const [size , setSize ] = useState(10)
     const dispatch = useDispatch(); 
     
     const handleAdd = ()=>{
@@ -25,7 +27,7 @@ const Role = () => {
     useEffect(()=>{
         const fetchData = async () => {
           try {
-            const result = await getroles(token);
+            const result = await getroles(token , size , page);
             dispatch(storeRoles(result)) 
           }
           catch (error) {
@@ -34,7 +36,7 @@ const Role = () => {
         };
         fetchData();
       
-    },[])
+    },[page,size])
     
 
   return (
@@ -53,18 +55,32 @@ const Role = () => {
               }
               
             </div>
-            <div className='d-flex align-items-center rounded' style={{background:'#6c738f'}}>
-                <div  className='d-flex px-3' >
-                    <span className='text-nowrap text-white pe-2'>
-                        Total roles :  <span>{pagingdetails?.totals}</span>
+            <div className='d-flex'>
+              <div style={{width:'120px'}} className='d-flex justify-content-center align-items-center me-3'>
+              <div className='d-flex justify-content-center align-items-center me-2 w-25'>Show</div>
+               <span className='p-0 d-flex justify-content-center w-75'>  
+               <select onChange={(e) => setSize(parseInt(e.target.value))} className="form-select form-select-sm w-100" aria-label=".form-select-sm example">
+                  <option  value="10" selected>10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
+               </span>
+              </div>
+              <div className='d-flex align-items-center rounded' style={{background:'#6c738f'}}>
+                  <div  className='d-flex px-3' >
+                    <span>
                     </span>
-                    <div>
-                </div>
-                </div>
+                      <span className='text-nowrap text-white pe-2'>
+                          Total roles :  <span>{pagingdetails?.totals - 1}</span>
+                      </span>
+                      <div>
+                  </div>
+                  </div>
+            </div>
             </div>
         </div>
         <div >
-            <Table setUpdate={setUpdate}/>
+            <Table setPage={setPage} page={page} size={size} setUpdate={setUpdate}/>
         </div>
     </div>
     </>

@@ -25,7 +25,7 @@ const UpdateRole = ({setUpdate}) => {
         
         try {
             const response = await axios.put(
-                '/api/role/'+id,
+                '/api/roles/'+id,
                 roleinfo,
                 {
                     headers: {

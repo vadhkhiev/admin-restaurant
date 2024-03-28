@@ -21,7 +21,7 @@ const CreateTable = ({ toggleModal }) => {
   const handleCreate = (e) => {
     e.preventDefault();
     axios
-      .post("/api/table", values, {
+      .post("/api/tables", values, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

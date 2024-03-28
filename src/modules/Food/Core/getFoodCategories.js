@@ -1,5 +1,5 @@
 import axios from "axios";
-const getFoodCategories = async (token, url = "/api/category") => {
+const getFoodCategories = async (token, url = "/api/categories") => {
   try {
     const response = await axios.get(url, {
       headers: {

@@ -43,7 +43,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
     const formdata = new FormData();
     formdata.append("file", fileInput);
   
-    axios.post(`/api/user/${editUser.id}/profileAvatar`, formdata, {
+    axios.post(`/api/user/${editUser?.id}/profile-avatar`, formdata, {
       headers: {
         'Authorization': `Bearer ${token}`,
       }
@@ -63,7 +63,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
       const filteredData = Object.fromEntries(
         Object.entries(data).filter(([_, value]) => value !== "")
       );
-      const result = await axios.put(`/api/user/${editUser.id}`, filteredData, {
+      const result = await axios.put(`/api/user/${editUser?.id}`, filteredData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -85,7 +85,6 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
       setTimeout(() => setSuccessMessage(""), 1000);
     }
   };
-  console.log(screensize)
 
   
   return (
@@ -156,7 +155,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
               </div>
 
               {/* role */}
-              <div className="m-3" style={{ color: "#495057" }}>
+{/*               <div className="m-3" style={{ color: "#495057" }}>
                 <p className="fs-4 text-dark p-1 d-flex justify-content-between">
                   <span className="w-25 text-center">Role : </span>
                   <select
@@ -175,13 +174,13 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
                     }}
                   >
                     <option
-                      key={editUser.roleEntity.id}
-                      defaultValue={editUser.roleEntity.id}
+                      key={roles?.find((role) => role.name === editUser.role.name)?.id}
+                      defaultValue={editUser.roleEntity?.id}
                     >
                       {editUser.roleEntity.name}
                     </option>
                     {roles
-                      .filter((role) => role.id !== editUser.roleEntity.id)
+                      .filter((role) => role.name !== editUser.role.name)
                       .map((role) => (
                         <option value={role.id} key={role.id}>
                           {role.name}
@@ -189,7 +188,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
                       ))}
                   </select>
                 </p>
-              </div>
+              </div> */}
 
               {/* phone */}
               <div className="m-3" style={{ color: "#495057" }}>
