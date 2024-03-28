@@ -71,7 +71,7 @@ const Role = () => {
                     <span>
                     </span>
                       <span className='text-nowrap text-white pe-2'>
-                          Total roles :  <span>{pagingdetails?.totals - 1}</span>
+                          Total roles :  <span>{pagingdetails?.totals - 1 - 1}</span>
                       </span>
                       <div>
                   </div>
