@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import dateTimeFormat from "../Role/core/dateTimeFormat";
 import { useSelector } from "react-redux";
 import CreateTable from "./components/CreateTable";
 
 const Table = () => {
   const [tableList, setTableList] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const [paging, setPaging] = useState({});
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
@@ -18,8 +18,8 @@ const Table = () => {
   const [sortValue, setSortValue] = useState("");
   const sortOptions = ["asc", "dasc"];
   // filter
-  const [filterValue, setFilterValue] = useState("");
-  const filterOptions = ["Available", "Booked"];
+  // const [filterValue, setFilterValue] = useState("");
+  // const filterOptions = ["Available", "Booked"];
   //pagination
   const [page, setPage] = useState(1);
 
@@ -45,7 +45,7 @@ const Table = () => {
     // if(query.length === 0 || query.length > 2){
     axios
       .get(
-        `/api/tables?status=${filterValue}&order=${sortValue}&query=${query}&size=${limit}&page=${page}`,
+        `/api/tables?order=${sortValue}&query=${query}&size=${limit}&page=${page}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -55,11 +55,12 @@ const Table = () => {
       )
       .then((res) => {
         setTableList(res.data.data);
+        setRefresh(true);
         setPaging(res.data.paging);
       })
       .catch((err) => console.log(err));
     // }
-  }, [query, filterValue, sortValue, page, limit]);
+  }, [token, refresh,query, sortValue, page, limit]);
 
   function toggleModal() {
     setModal(!modal);
@@ -70,7 +71,7 @@ const Table = () => {
     const confirm = window.confirm("Are You Sure to delete?");
     if (confirm) {
       axios
-        .delete(`/api/tables/` + id, {
+        .delete(`/api/tables/${id}` ,{
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -124,7 +125,7 @@ const Table = () => {
                 </select>
               </div>
               {/* <h5>Filter By: </h5> */}
-              <div className="d-flex me-2">
+              {/* <div className="d-flex me-2">
                 <select
                   className="ps-1 py-2 border-0 rounded-3 w-100"
                   onChange={(e) => setFilterValue(e.target.value)}
@@ -137,7 +138,7 @@ const Table = () => {
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> */}
               <div className="d-flex me-2">
                 <select
                   className="ps-1 py-2 border-0 rounded-3 w-100" 
@@ -162,8 +163,6 @@ const Table = () => {
                 <th scope="col">Name</th>
                 <th scope="col">Status</th>
                 <th scope="col">SeatCapacity</th>
-                <th scope="col">CreateDate</th>
-                <th scope="col">UpdateDate</th>
                 <th className="text-center">Action</th>
               </tr>
             </thead>
@@ -182,10 +181,8 @@ const Table = () => {
                     {tables.status}
                   </td>
                   <td>{tables.seatCapacity}</td>
-                  <td>{dateTimeFormat(tables.createdDate)}</td>
-                  <td>{dateTimeFormat(tables.updateDate)}</td>
                   <td className="d-flex gap-2 justify-content-center">
-                    <button className="btn btn-success">Update</button>
+                    <button className="btn btn-success" >Update</button>
                     <button
                       className="btn btn-danger"
                       onClick={(e) => handleDelete(tables.id)}
