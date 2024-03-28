@@ -8,7 +8,7 @@ import dateTimeFormat from "../../Role/core/dateTimeFormat";
 import { Link } from "react-router-dom";
 import { FiEye } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { storeViewId } from "../core/orderSlice";
+import { storeCLickedorder, storeViewId } from "../core/orderSlice";
 
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
@@ -28,6 +28,8 @@ function OrderList() {
   ]); // Status options
   const token = localStorage.getItem("token");
   const dispatch = useDispatch()
+  const [clickedorder,setClickedorder] = useState([])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -82,6 +84,12 @@ function OrderList() {
     const orderToEdit = orders.find((order) => order.id === orderId);
     setEditedPaymentMethod(orderToEdit.paymentMethod);
     setEditedStatus(orderToEdit.status); // Set initial status value
+  };
+
+  const handleIdClicked = (orderId) => {
+    dispatch(storeViewId(orderId));
+    dispatch(storeCLickedorder(orders.filter((order) => order.id === orderId)))
+    console.log(orders.filter((order) => order.id === orderId))
   };
 
   const handleSaveEdit = async () => {
@@ -186,7 +194,7 @@ function OrderList() {
                   onClick={() => handleDelete(order.id)}
                 />
                <Link to='/order/view'>
-                <FiEye className="fs-3" onClick={() => dispatch(storeViewId(order.id))}/>
+                <FiEye className="fs-3" onClick={() => handleIdClicked(order.id)}/>
                </Link>
               </td>
             </tr>

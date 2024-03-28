@@ -7,13 +7,30 @@ import { useSelector } from 'react-redux';
 import PieCharts from './components/PieCharts';
 import profile from '../../assets/img/avatar.jpg';	
 import LineChart from './components/LineChart';
+import getroles from '../layout/core/getroles'
+import RadarChart from './components/RadarChart';
 
 const Dashboard = () => {
-  const roles = useSelector((state) => state.roles.roles); 
+  const token = useSelector((state) => state.currentUser.currentUser?.token) || localStorage.getItem('token');
   const foodlist = useSelector((state) => state.foodList.foodList);
   const Allusers = useSelector((state) => state.users.total);
   const Allorders = useSelector((state) => state.orders.orders);
   const recentUsers = useSelector((state) => state.users.recent);
+  const [roles, setRoles] = useState([]);
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const response = await getroles(token);
+        setRoles(response.data);
+
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchdata();
+  },[])
+  console.log(roles)
 
 
   const data = [
@@ -35,8 +52,8 @@ const Dashboard = () => {
           <section className='row '>
            <aside  className="col-12 col-md-8 px-3 row ">
 
-            <section className='col-12 row pb-3' style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}}>
-            <Catebox title={' Users'} icon={<FaUsers />} num={Allusers - 1} color={'#6895a1'} />
+            <section className='col-12 row ' style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}}>
+            <Catebox title={' Users'} icon={<FaUsers />} num={Allusers} color={'#6895a1'} />
             <Catebox title={'Orders'} icon={<CiBoxes />} num={Allorders?.paging?.totals} color={'#344955'} />
             <Catebox title={'Foods'} icon={<IoFastFoodOutline />} num={foodlist?.length} color={'#50727B'} />
             <Catebox title={' Roles'} icon={<FaUsers />} num={roles?.length - 1 } color={'#78A083'} />
@@ -47,7 +64,7 @@ const Dashboard = () => {
             </div>
             </div>
 
-            <section  className='col-12 col-md-6 px-3 mt-3 py-3 '>
+            <section  className='col-12 col-md-6 px-3  py-3 '>
               <div  >
               <h4 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center '>Recent Users</h4>
               {
@@ -68,23 +85,23 @@ const Dashboard = () => {
               </div>
             </section>
 
-            <section  className='col-12 col-md-6 px-3 mt-3 py-3 '>
+            <section  className='col-12 col-md-6 px-3 mt-3 '>
               <div  >
-              <h4 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center '>Recent Order</h4>
+              <h4 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center '>Recent Orders</h4>
                  <div style={{ background: '#f5f5f5', height: '55px',boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}  className='d-flex justify-content-between rounded-3 align-items-center mb-1 p-2'>
-                      <p className='fw-bold fs-5'>ID</p>
-                      <p className='fw-bold fs-5'>Status</p>
-                      <p className='fw-bold fs-5 ms-3'>Total</p>
-                      <p className='fw-bold fs-5 ms-3'>Payment</p>
+                      <p className='fw-bold fs-5 w-25'>ID</p>
+                      <p className='fw-bold fs-5 w-25'>Ordered by</p>
+                      <p className='fw-bold fs-5 ms-3  w-25'>Total</p>
+                      <p className='fw-bold fs-5 ms-3 w-25'>Table</p>
                   </div>
               {
                 Allorders.data?.slice(0,4)?.map((order , index) => {
                   return (
                     <div key={index} style={{ background: '#f5f5f5', height: '55px',boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}  className='d-flex justify-content-between rounded-3 align-items-center mb-1 p-2'>
-                    <p className='fw-bold fs-5'>{order?.id}</p>
-                    <p className={`fw-bold fs-5 px-2 ${order?.status ? 'text-danger' : 'text-success'}`}>{order?.status}</p>
-                    <p className='fw-bold fs-5 ms-3'><sup>$</sup>{(order?.totalPrice)?.toFixed(2)}</p>
-                    <p className='fw-bold fs-5 ms-3'>{order?.paymentMethod}</p>
+                    <p className='fw-bold fs-5 w-25'>{order?.id}</p>
+                    <p className={`fw-bold fs-5 px-2 w-25 text-center text-info`}>{order?.userEntity?.name}</p>
+                    <p className='fw-bold fs-5 ms-3 w-25 text-success'><sup className=''>$</sup>{(order?.totalPrice)?.toFixed(2)}</p>
+                    <p className='fw-bold fs-5 ms-3 w-25 text-danger'>{order?.tableEntity?.name}</p>
                    </div>
                  
 
@@ -102,6 +119,7 @@ const Dashboard = () => {
            <aside className="col-12 col-md-4 row ">
             <div  className="col-12  pb-5 rounded   ">
              <PieCharts />
+             <RadarChart/>
             </div>
            </aside>
 

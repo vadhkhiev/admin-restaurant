@@ -12,17 +12,6 @@ const getRandomColor = () => {
     }
     return color;
 };
-function formatMonthYear(month, year) {
-
-    const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
-    const monthName = monthNames[month - 1];
-    const formattedDate = `${year}:${(month < 10 ? '0' : '') + month}`;
-
-    return formattedDate;
-}
 
 const PieCharts = () => {
     const token = useSelector((state) => state.auth.token) || localStorage.getItem('token'); 
@@ -30,18 +19,19 @@ const PieCharts = () => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; 
     const currentYear = currentDate.getFullYear();
-    const formattedDate = formatMonthYear(currentMonth, currentYear);
-    
+    const [selectedMonth, setSelectedMonth] = useState(`${currentYear}-${currentMonth.toString().padStart(2, '0')}`);
+
     useEffect(() => {
+        console.log(`selectedMonth: ${selectedMonth.substring(0, 4)}:${selectedMonth.substring(5, 7)}`)
         const fetchData = async () => {
             try {
-                const response = await axios.get(`/report/income?paymentStatus=Bank&month=${formattedDate}`, {
+                const response = await axios.get(`/report/income?paymentStatus=Bank&month=${selectedMonth.substring(0, 4)}:${selectedMonth.substring(5, 7)}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
 
-                const response2 = await axios.get(`/report/income?paymentStatus=Cash&month=${formattedDate}`, {
+                const response2 = await axios.get(`/report/income?paymentStatus=Cash&month=${selectedMonth.substring(0, 4)}:${selectedMonth.substring(5, 7)}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
@@ -55,7 +45,7 @@ const PieCharts = () => {
             }
         }
         fetchData();
-    }, []);
+    }, [selectedMonth]);
 
     const income = {
         labels: ['Cash' ,'Bank'],
@@ -70,8 +60,14 @@ const PieCharts = () => {
         <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className='mt-2 pb-2 pe-2'>
            <div className='d-flex justify-content-between'>
             <h4 style={{ color: '#45495c' }} className='fw-bold text-center'>This Month Income</h4>
-            <p className='text-center fs-3 fw-bold'> <sup>$</sup> {(data[0] + data[1])? (data[0] + data[1]).toFixed(2): 0 }</p>
+            <input style={{width: '35%'}} 
+           onChange={(e) => setSelectedMonth(e.target.value)}
+           type="month" 
+            className='form-control form-control-sm '
+             value={selectedMonth}
+              />
            </div>
+           <p className='text-end text-success mt-3 fs-3 fw-bold'> <sup>$</sup> {(data[0] + data[1])? (data[0] + data[1]).toFixed(2): 0 }</p>
             <Pie data={income} />
             <div className='mt-3'>
                 <ul>

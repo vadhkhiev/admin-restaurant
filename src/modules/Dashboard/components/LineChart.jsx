@@ -1,45 +1,45 @@
-import React from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS } from 'chart.js/auto';
+import React, { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const LineChart = () => {
-  const generateRandomData = (numPoints) => {
-    const labels = [];
-    const datasets = [];
+  const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
+  const [staffData, setStaffData] = useState([]);
 
-    for (let i = 0; i < numPoints; i++) {
-      labels.push(`Label ${i + 1}`);
-    }
-
-    for (let j = 0; j < 3; j++) { // Generating 3 datasets
-      const values = [];
-      for (let i = 0; i < numPoints; i++) {
-        values.push(Math.floor(Math.random() * 100)); // Generating random values
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/report/staff?month=2024:03`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setStaffData(response.data.data);
+        console.log(response.data.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-      datasets.push({
-        label: `Dataset ${j + 1}`,
-        values: values
-      });
-    }
-
-    return {
-      labels: labels,
-      datasets: datasets
     };
+    fetchData();
+  }, []);
+
+  const generateRandomColor = () => {
+    return `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.6)`;
   };
-
-  const randomData = generateRandomData(10); // Generating data with 10 data points
-
+  
+  
   const chartData = {
-    labels: randomData.labels,
-    datasets: randomData.datasets.map((dataset, index) => ({
-      label: dataset.label,
-      fill: false,
-      backgroundColor: `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.4)`,
-      borderColor: `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},1)`,
-      borderWidth: 1,
-      data: dataset.values
-    }))
+    labels: staffData.map(item => item.userEntity.name),
+    datasets: [
+      {
+        label: 'Staff Income $',
+        backgroundColor: staffData.map(() => generateRandomColor()), // Generate random color for each bar
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+        data: staffData.map(item => item.totalPrice)
+      }
+    ]
   };
 
   const options = {
@@ -55,8 +55,8 @@ const LineChart = () => {
   };
 
   return (
-    <div >
-      <Line
+    <div>
+      <Bar
         data={chartData}
         options={options}
       />
