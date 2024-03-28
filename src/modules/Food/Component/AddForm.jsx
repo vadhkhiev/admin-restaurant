@@ -125,7 +125,6 @@ export default function AddForm({ toggle, toggleForm }) {
                   setValue({ ...value, categoryId: id });
                 }
               });
-              // setValue({ ...value, category: e.target.value });
             }}
           >
             <option selected disabled hidden>

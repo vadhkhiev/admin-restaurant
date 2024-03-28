@@ -5,8 +5,6 @@ export default function EditCategoriesFood() {
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-  useEffect(() => {
-    console.log(listCategories);
-  }, []);
+  useEffect(() => {}, []);
   return <div>EditCategoriesFood</div>;
 }
