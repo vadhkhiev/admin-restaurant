@@ -27,7 +27,7 @@ function OrderList() {
   ]); // Status options
   const [searchQuery, setSearchQuery] = useState(""); // State to hold search query
   const token = localStorage.getItem("token");
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,7 +42,7 @@ function OrderList() {
         }
 
         setOrders(response.data.data);
-        console.log(response.data.data)
+        console.log(response.data.data);
       } catch (error) {
         setError(true);
         setErrorMessage("Failed to fetch orders. Please try again later.");
@@ -135,7 +135,6 @@ function OrderList() {
     order.tableEntity.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-
   if (isLoading) {
     return (
       <div className="h1">
@@ -147,7 +146,6 @@ function OrderList() {
   if (isError) {
     return <h1 className="h1">Development Error</h1>;
   }
-  
 
   return (
     <div className="m-3">
@@ -164,7 +162,7 @@ function OrderList() {
       </div>
       {/* <h2 className="h1">User Order</h2> */}
       {deleteConfirmation && (
-        <div className="delete-confirmation form-control">
+        <div className="delete-confirmation">
           <p>Are you sure you want to delete this order?</p>
           <button className="yes" onClick={() => handleDelete(deleteOrderId)}>
             Yes
@@ -216,9 +214,12 @@ function OrderList() {
                   className="delete"
                   onClick={() => handleDelete(order.id)}
                 />
-               <Link to='/order/view'>
-                <FiEye className="fs-3" onClick={() => dispatch(storeViewId(order.id))}/>
-               </Link>
+                <Link to="/order/view">
+                  <FiEye
+                    className="fs-3"
+                    onClick={() => dispatch(storeViewId(order.id))}
+                  />
+                </Link>
               </td>
             </tr>
           ))}

@@ -34,11 +34,10 @@ const User = () => {
   const roles = useSelector((state) => state.roles.roles);
   const dispatch = useDispatch();
   //permission
-  const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
-  console.log(users)
-
-
-
+  const permission = useSelector(
+    (state) => state.permission?.permission?.data?.permissions
+  );
+  console.log(users);
 
   //solved no user when we make change on other pages > 1
 
@@ -124,8 +123,8 @@ const User = () => {
     } else {
       setCurrpage(currpage === 1 ? 1 : currpage - 1);
     }
-  }
-  console.log(users)
+  };
+  console.log(users);
 
   return (
     <>
@@ -292,21 +291,21 @@ const User = () => {
                   </div>
                 </div>
               </div>
-              {
-             users.length > 0 ? (
-                <div className='p-3'>
-                  <Table
-                    handleDelete={handleDelete}
-                    users={(orderby === 'desc' ? users.slice().reverse() : users)}
-                    handleEdit={handleEdit}
-                  /> *
-                </div>
-              ) : (
-                <div className='p-3'>
-                  <p className='text-center text-danger'>No users found</p>
-                </div>
-              )
-            }
+            </div>
+            {users.length > 0 ? (
+              <div className="p-3">
+                <Table
+                  handleDelete={handleDelete}
+                  users={orderby === "desc" ? users.slice().reverse() : users}
+                  handleEdit={handleEdit}
+                />{" "}
+                *
+              </div>
+            ) : (
+              <div className="p-3">
+                <p className="text-center text-danger">No users found</p>
+              </div>
+            )}
 
             {/* pagination */}
 
