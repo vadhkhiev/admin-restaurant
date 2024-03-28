@@ -71,7 +71,6 @@ const Table = () => {
     if (confirm) {
       axios
         .delete(`/api/tables/` + id, {
-        .delete(`/api/tables/` + id, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
