@@ -36,6 +36,7 @@ const User = () => {
   const dispatch = useDispatch()
   //permission
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
+  console.log(users)
 
 
 
@@ -115,6 +116,7 @@ const User = () => {
       setCurrpage(currpage === 1 ? 1 : currpage - 1);
     }
   }
+  console.log(users)
 
   return (
     <>
@@ -214,7 +216,7 @@ const User = () => {
                     handleDelete={handleDelete}
                     users={(orderby === 'desc' ? users.slice().reverse() : users)}
                     handleEdit={handleEdit}
-                  />
+                  /> *
                 </div>
               ) : (
                 <div className='p-3'>
