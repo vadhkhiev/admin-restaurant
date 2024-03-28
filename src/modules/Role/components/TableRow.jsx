@@ -1,38 +1,72 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineLockPerson } from "react-icons/md";
 import { PiNotePencilThin } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { storeId } from '../core/idSlice';
 import { CiTrash } from "react-icons/ci";
+import formatDate from '../core/dateTimeFormat'
+import axios from 'axios';
 
- const formatDate = (inputString) => {
-  const [datePart, timePart] = inputString.split('T');
-
-  const [year, month, day] = datePart.split('-');
-  const formattedDate = `${day}/${month}/${year.slice(0,4)}`;
-
-  const [hour, minute] = timePart.slice(0, -1).split(':');
-  const utcOffset = 7; // UTC+7
-  const adjustedHour = parseInt(hour, 10) + utcOffset;
-  
-  // Ensure the hour is within the range 0-23
-  const adjustedHourInRange = (adjustedHour + 24) % 24;
-  
-  // Format the time in 12-hour format with AM/PM
-  const formattedTime = `${(adjustedHourInRange % 12) || 12}:${minute} ${adjustedHourInRange < 12 ? 'AM' : 'PM'}`;
-
-  return `${formattedDate} at ${formattedTime}`;
+const getUserRole = async (token, id) => {
+  try {
+    const response = await axios.get(`/api/user/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error; 
+  }
 };
- 
- 
 
-const TableRow = ({role , index , setUpdate }) => {
+const getroles = async (token) => {
+  try {
+    const response = await axios.get(`/api/roles`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;  
+  }
+};
+
+
+const TableRow = ({role , index , setUpdate , page , size}) => {
   const dispatch = useDispatch()
+  const token = useSelector((state) => state.currentUser.currentUser?.token) || localStorage.getItem('token');
   const id1 = useSelector((state) => state.currentUser.currentUser?.roleId)
-  const id2 = useSelector((state) => state.currentUser.currentUser?.roleEntity?.id)
-  const roleId =  id1 || id2 ;
+  const id2 = useSelector((state) => state.currentUser.currentUser?.id)
+  const [roleidofuser , setroleidofuser] = useState('')
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
+  const [componentroles , setcomponentroles] = useState([])
+
+
+
+  useEffect(() => {
+    if(id2){
+      const fetchData = async () => {
+        try {
+          const response = await getUserRole(token, id2);
+          const roleresponse = await getroles(token);
+          setroleidofuser (roleresponse.data?.filter(role => role.name === response.data?.role?.name));
+        } catch (error) {
+          console.error(error);
+        }
+      };
+  
+      fetchData();
+    }
+  }, [id2, token]);
+  
+  const roleId =  id1 || roleidofuser.id ;
+
+
 
 
   
@@ -41,7 +75,7 @@ const TableRow = ({role , index , setUpdate }) => {
         <tr>
             <td >
               <div className='py-1'>
-               {index}
+               { page > 1 ? (page * size) - size + index :  index }
               </div>
             </td>
             <td >{role?.name}</td>

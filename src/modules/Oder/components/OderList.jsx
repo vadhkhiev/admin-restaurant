@@ -6,6 +6,9 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import dateTimeFormat from "../../Role/core/dateTimeFormat";
 import { Link } from "react-router-dom";
+import { FiEye } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import { storeViewId } from "../core/orderSlice";
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setError] = useState(false);
@@ -24,11 +27,11 @@ function OrderList() {
   ]); // Status options
   const [searchQuery, setSearchQuery] = useState(""); // State to hold search query
   const token = localStorage.getItem("token");
-
+  const dispatch = useDispatch()
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/order?order=desc`, {
+        const response = await axios.get(`/api/orders?page=1`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,6 +42,7 @@ function OrderList() {
         }
 
         setOrders(response.data.data);
+        console.log(response.data.data)
       } catch (error) {
         setError(true);
         setErrorMessage("Failed to fetch orders. Please try again later.");
@@ -54,7 +58,7 @@ function OrderList() {
   const handleDelete = async (orderId) => {
     if (deleteConfirmation) {
       try {
-        await axios.delete(`/api/order/${orderId}`, {
+        await axios.delete(`/api/orders/${orderId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -82,7 +86,7 @@ function OrderList() {
   const handleSaveEdit = async () => {
     try {
       await axios.put(
-        `/api/order/payment/${editOrderId}`,
+        `/api/orders/payment/${editOrderId}`,
         {
           paymentMethod: editedPaymentMethod,
           status: editedStatus, // Include edited status in the request
@@ -131,6 +135,7 @@ function OrderList() {
     order.tableEntity.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+
   if (isLoading) {
     return (
       <div className="h1">
@@ -142,6 +147,7 @@ function OrderList() {
   if (isError) {
     return <h1 className="h1">Development Error</h1>;
   }
+  
 
   return (
     <div className="m-3">
@@ -182,12 +188,9 @@ function OrderList() {
         <thead>
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">Payment</th>
-            <th scope="col">Create Date</th>
-            <th scope="col">Order by</th>
+            <th scope="col">User Entity</th>
             <th scope="col">Table Name</th>
             <td scope="col">Total</td>
-            <th scope="col">Status</th>
             <td scope="col">Action</td>
           </tr>
         </thead>
@@ -195,50 +198,9 @@ function OrderList() {
           {filteredOrders.map((order) => (
             <tr key={order.id}>
               <td className="fw-normal">{order.id}</td>
-              <td className="fw-normal">
-                {editOrderId === order.id ? (
-                  <select
-                    className=" form-select"
-                    value={editedPaymentMethod}
-                    onChange={(e) => setEditedPaymentMethod(e.target.value)}
-                  >
-                    {paymentMethods.map((method) => (
-                      <option key={method} value={method}>
-                        {method}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  order.paymentMethod
-                )}
-              </td>
-              <td className="fw-normal">{dateTimeFormat(order.createdDate)}</td>
               <td className="fw-normal">{order.userEntity.name}</td>
               <td className="text-center">{order.tableEntity.name}</td>
-              <td className="fw-normal">
-                <sup className=" fs-6text-danger">$</sup>
-                {order.totalPrice.toFixed(2)}
-              </td>
-              <td
-                className="fw-normal"
-                style={{ color: getStatusColor(order.status) }}
-              >
-                {editOrderId === order.id ? (
-                  <select
-                    className="form-select"
-                    value={editedStatus}
-                    onChange={(e) => setEditedStatus(e.target.value)}
-                  >
-                    {statusOptions.map((status) => (
-                      <option key={status} value={status}>
-                        {status}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  order.status
-                )}
-              </td>
+              <td className="fw-normal">{order.totalPrice}</td>
               <td>
                 {editOrderId === order.id ? (
                   <button className=" btn btn-primary" onClick={handleSaveEdit}>
@@ -254,6 +216,9 @@ function OrderList() {
                   className="delete"
                   onClick={() => handleDelete(order.id)}
                 />
+               <Link to='/order/view'>
+                <FiEye className="fs-3" onClick={() => dispatch(storeViewId(order.id))}/>
+               </Link>
               </td>
             </tr>
           ))}

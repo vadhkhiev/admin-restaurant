@@ -61,56 +61,75 @@ const YourOrder = () => {
       }
     };
 
-    fetchData();
-  }, [token, refetch]);
+        fetchData();
+    }, [refetch]); 
 
-  const selectAll = (event) => {
-    setTicked((prevTicked) => !prevTicked);
-    dispatch(selection(event.target.checked ? "tick" : "untick"));
-  };
 
-  const bookedTable = async () => {
-    try {
-      await axios.put(
-        `/api/table/${postData.tableId}`,
-        {
-          status: "Booked",
-          name: table.find((tbl) => tbl.id === postData.tableId).name,
-          seatCapacity: tableData?.seatCapacity,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+
+
+    const selectAll = (event)=>{
+        setTicked(!ticked)
+        if (event.target.checked) {
+              dispatch(selection('tick'));
+            } else {
+              dispatch(selection('untick'));
         }
-      );
-    } catch (error) {
-      console.log(error);
+        
+    }
+
+    const bookedTable = () => {
+        try {
+            axios.put('/api/tables/' + postData.tableId ,
+            {
+                status: 'Booked',
+                name: table?.find(table => table.id === postData.tableId).name,
+                seatCapacity: tableData?.seatCapacity
+            },
+         {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+        })
+            
+        } catch (error) {
+            console.log(error)
+        }
     }
   };
 
-  const handleAdd = async () => {
-    try {
-      const response = await axios.post("/api/order", postData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setMessage(response.data.message);
-      bookedTable();
-      setRefetch((prevRefetch) => !prevRefetch);
-      setTimeout(() => {
-        dispatch(clearOrderedFood());
-        navigate(-1);
-      }, 1000);
-    } catch (error) {
-      setError(error.response.data.message);
-      setTimeout(() => {
-        setError("");
-      }, 1000);
-    }
-  };
+    const handleAdd = async () => {
+        try {
+            
+            const response = await axios.post(
+                '/api/orders',
+                postData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                }
+            );
+            setMessage(response); 
+            bookedTable();
+            setRefetch(!refetch)
+            
+             setTimeout(() => {
+              dispatch(clearOrderedFood());
+             navigate(-1)
+            }, 1000);  
 
+        } catch (error) {
+             setError(error.response.data.message);
+            setTimeout(() => {
+                setError('')
+            }, 1000); 
+        }
+        
+    }
+
+
+
+    
   return (
     <>
       <main

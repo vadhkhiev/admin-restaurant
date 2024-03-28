@@ -12,28 +12,44 @@ const getRandomColor = () => {
     }
     return color;
 };
+function formatMonthYear(month, year) {
+
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const monthName = monthNames[month - 1];
+    const formattedDate = `${year}:${(month < 10 ? '0' : '') + month}`;
+
+    return formattedDate;
+}
 
 const PieCharts = () => {
     const token = useSelector((state) => state.auth.token) || localStorage.getItem('token'); 
     const [data , setData ] = useState([]);
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; 
+    const currentYear = currentDate.getFullYear();
+    const formattedDate = formatMonthYear(currentMonth, currentYear);
+    console.log(formattedDate);
     
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/sale_report_income/day?paymentStatus=Bank', {
+                const response = await axios.get(`/report/income?paymentStatus=Bank&month=${formattedDate}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
 
-                const response2 = await axios.get('/sale_report_income/day?paymentStatus=Cash', {
+                const response2 = await axios.get(`/report/income?paymentStatus=Cash&month=${formattedDate}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
-
                 const bankPrice = (response.data.data[0]?.totalPrice).toFixed(2);
                 const cashPrice = (response2.data.data[0]?.totalPrice).toFixed(2);
+
                 setData([ parseFloat(cashPrice) ,parseFloat(bankPrice) ]); 
             } catch (error) {
                 console.error('Error fetching data:', error); 
@@ -50,6 +66,7 @@ const PieCharts = () => {
         }]
     };
 
+
     return (
         <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className='mt-2 pb-2 pe-2'>
            <div className='d-flex justify-content-between'>
@@ -57,6 +74,26 @@ const PieCharts = () => {
             <p className='text-center fs-3 fw-bold'> <sup>$</sup> {(data[0] + data[1])? (data[0] + data[1]): 0 }</p>
            </div>
             <Pie data={income} />
+            <div className='mt-3'>
+                <ul>
+                    <li className='fw-bold list-unstyled mb-1'>Cash : <sup>$</sup><span className='fw-bold'>{data[0]}</span></li>
+                    <li className='list-unstyled'>
+                        <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className=' rounded border me-1 '>
+                           <div className=' rounded text-center text-white' style={{ width: `${(data[0] / (data[0] + data[1]) * 100).toFixed(2)}%` , height: '100%',background:income.datasets[0].backgroundColor[0]}}>
+                            { data[0] && data[1] ? (data[0] / (data[0] + data[1]) * 100)?.toFixed(2) : 0 } %
+                           </div>
+                        </div>
+                     </li>
+                    <li className='fw-bold list-unstyled'>Bank : <sup>$</sup>{data[1]} <span className='fw-bold'>
+                        <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className=' rounded border me-1 '>
+                           <div className=' rounded text-center text-white' style={{ width: `${(data[1] / (data[0] + data[1]) * 100).toFixed(2)}%` , height: '100%',background:income.datasets[0].backgroundColor[1]}}>
+                            {data[0] && data[1] ? (data[1] / (data[0] + data[1]) * 100).toFixed(2) : 0 } %
+                           </div>
+
+                        </div>
+                    </span></li>
+                </ul>
+            </div>
         </div>
     );
 }

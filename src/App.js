@@ -10,26 +10,26 @@ import Access from "./modules/Role/components/Access";
 import Table from "./modules/table/Table";
 import Dashboard from "./modules/Dashboard/Dashboard";
 import MainOder from "./modules/Oder/MainOder";
-import MakeOrder from "./modules/Oder/components/MakeOrder"; 
-
+import MakeOrder from "./modules/Oder/components/MakeOrder";
+import ViewOrder from "./modules/Oder/components/ViewOrder";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const permission = useSelector(
     (state) => state.permission?.permission?.data?.permissions
   );
-  const currentUser = useSelector((state) => state.currentUser?.currentUser);
 
   return (
     <>
       <Routes>
         {isAuthenticated ? (
           <Route path="/" element={<Layout1 />}>
-            <Route index element={<Dashboard/>} />
+            <Route index element={<Dashboard />} />
             <Route path="order" element={<MainOder />} />
-            <Route path="order/ordering" element={<MakeOrder /> } />
-            <Route path="table" element={<Table/>} />
-            <Route path="table" element={<Table/>} />
+            <Route path="order/ordering" element={<MakeOrder />} />
+            <Route path="order/view" element={<ViewOrder />} />
+            <Route path="table" element={<Table />} />
+            <Route path="table" element={<Table />} />
 
             {/* <Route path="table/:id" element={<h1>table</h1>} /> */}
             <Route path="category" element={<h1>Category</h1>} />

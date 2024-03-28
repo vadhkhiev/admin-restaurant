@@ -4,23 +4,23 @@ export default function LoadingFoodCard() {
   return (
     <div className="d-flex flex-row">
       {" "}
-      <div class="card is-loading">
-        <div class="image"></div>
-        <div class="content">
+      <div className="card-x is-loading-x">
+        <div className="image-x"></div>
+        <div className="content-x">
           <h2></h2>
           <p></p>
         </div>
       </div>
-      <div class="card is-loading">
-        <div class="image"></div>
-        <div class="content">
+      <div className="card-x is-loading-x">
+        <div className="image-x"></div>
+        <div className="content-x">
           <h2></h2>
           <p></p>
         </div>
       </div>
-      <div class="card is-loading">
-        <div class="image"></div>
-        <div class="content">
+      <div className="card-x is-loading-x">
+        <div className="image-x"></div>
+        <div className="content-x">
           <h2></h2>
           <p></p>
         </div>

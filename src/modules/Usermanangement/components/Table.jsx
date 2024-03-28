@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 const Table = ({ users, handleDelete ,handleEdit }) => {
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions); 
+  console.log(users)
   return (
     <>
       {users?.length > 0 ? (

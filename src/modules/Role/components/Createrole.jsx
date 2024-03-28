@@ -22,7 +22,7 @@ const Createrole = ({setAdd}) => {
         try {
             
             const response = await axios.post(
-                '/api/role',
+                '/api/roles',
                 roleinfo,
                 {
                     headers: {

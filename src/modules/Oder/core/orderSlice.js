@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   orders: [],
-  totals : 0
+  totals : 0,
+  viewId : 0
 };
 
 const orderSlice = createSlice({
@@ -14,9 +15,12 @@ const orderSlice = createSlice({
     },
     storeTotalorder: (state, action) => {
       state.totals = action.payload
+    },
+    storeViewId: (state, action) => {
+      state.viewId = action.payload
     }
   },
 });
 
-export const { storeorder , storeTotalorder } = orderSlice.actions;
+export const { storeorder , storeTotalorder ,storeViewId } = orderSlice.actions;
 export default orderSlice.reducer;
