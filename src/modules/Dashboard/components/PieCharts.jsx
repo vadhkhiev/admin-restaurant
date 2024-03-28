@@ -31,7 +31,6 @@ const PieCharts = () => {
     const currentMonth = currentDate.getMonth() + 1; 
     const currentYear = currentDate.getFullYear();
     const formattedDate = formatMonthYear(currentMonth, currentYear);
-    console.log(formattedDate);
     
     useEffect(() => {
         const fetchData = async () => {
