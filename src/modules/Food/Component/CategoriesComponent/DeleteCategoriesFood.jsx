@@ -1,40 +1,78 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCategories } from "../../Core/deleteCategories";
+import getFoodCategories from "../../Core/getFoodCategories";
+import {
+  storeCategories,
+  storeToggleAction,
+} from "../../Core/allCategoriesSlice";
 
 export default function DeleteCategoriesFood() {
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-  let categoryName = [];
+  const [categoryNames, setCategoryNames] = useState([]);
+  const dispatch = useDispatch();
+  const [selectedId, setSelectedId] = useState();
+  const [selectedCategories, setSelectedCategories] = useState();
+  const token =
+    useSelector((state) => state.auth.token) || localStorage.getItem("token");
 
-  const getCategoryName = () => {
-    listCategories.map(({ name }) => {
-      categoryName.push(name);
-    });
+  const refetchCategories = async () => {
+    try {
+      const result = await getFoodCategories(token);
+      dispatch(storeCategories(result.data));
+    } catch (error) {}
   };
 
   useEffect(() => {
-    getCategoryName();
-    console.log(categoryName);
-    categoryName.map((p) => {
-      console.log(p);
-    });
+    const getCategoryNames = () => {
+      const names = listCategories.map((category) => category.name);
+      setCategoryNames(names);
+    };
+    refetchCategories();
+    getCategoryNames();
   }, [listCategories]);
 
   return (
     <div>
-      <div class="form-group">
+      <div className="form-group">
         <label className="fw-bold mt-1">
           Select The Categories You Want To Delete
         </label>
-        <select id="inputState" class="form-control">
-          <option selected disabled hidden>
+        <select
+          id="inputState"
+          className="form-control"
+          onChange={(e) => {
+            setSelectedCategories(e.target.value);
+            listCategories.forEach(({ name, id }) => {
+              if (name === e.target.value) {
+                setSelectedId(id);
+              }
+            });
+          }}
+        >
+          <option value="" disabled selected hidden>
             Choose...
           </option>
-
-          <div>{categoryName}</div>
+          {categoryNames.map((name) => (
+            <option value={name} key={name}>
+              {name}
+            </option>
+          ))}
         </select>
       </div>
+      <button
+        className=" mt-1 btn btn-primary bg-danger border"
+        onClick={() => {
+          refetchCategories();
+          deleteCategories(selectedCategories, token, selectedId);
+          dispatch(storeToggleAction(false));
+          refetchCategories();
+        }}
+      >
+        Submit form
+      </button>
     </div>
   );
 }

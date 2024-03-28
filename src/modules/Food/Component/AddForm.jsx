@@ -34,8 +34,7 @@ export default function AddForm({ toggle, toggleForm }) {
     price: 0,
     discount: 10,
     description: "",
-    categoryId: 0,
-    foodImage: "x",
+    food_categoryId: 0,
   };
   const [value, setValue] = useState(initialValue);
   const [imageFile, setImageFile] = useState(null);
@@ -44,7 +43,8 @@ export default function AddForm({ toggle, toggleForm }) {
   const sendFood = async (value, token) => {
     try {
       refetchFood();
-      const result = await createFood(value, imageFile, token);
+      const result = await createFood(value, token);
+      console.log(value);
       refetchFood();
     } catch {}
   };
@@ -122,7 +122,7 @@ export default function AddForm({ toggle, toggleForm }) {
             onChange={(e) => {
               listCategories.map(({ id, name }) => {
                 if (name === e.target.value) {
-                  setValue({ ...value, categoryId: id });
+                  setValue({ ...value, food_categoryId: id });
                 }
               });
             }}
