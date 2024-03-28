@@ -29,7 +29,6 @@ const Layout1 = () => {
       try {
         const result = await getroles(token);
         dispatch(storeRoles(result));
-        console.log(result);
       } catch (error) {
         console.error(error);
       }
@@ -52,7 +51,7 @@ const Layout1 = () => {
 
     const totalOrder = async () => {
        try {
-        const response = await axios.get(`/api/order?page=1`, {
+        const response = await axios.get(`/api/orders?page=1`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +69,7 @@ const Layout1 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getAllFood(token, "/api/food");
+        const result = await getAllFood(token, "/api/foods");
         dispatch(storeFood(result.data));
       } catch (error) {
         console.error("Error in  component:", error);
@@ -83,7 +82,7 @@ const Layout1 = () => {
   useEffect(() => {
     const fetchFood = async () => {
       try {
-        const result = await getFoodCategories(token, "/api/category");
+        const result = await getFoodCategories(token, "/api/categories");
         dispatch(storeCategories(result.data));
       } catch (error) {
         console.error("Error in component:", error);

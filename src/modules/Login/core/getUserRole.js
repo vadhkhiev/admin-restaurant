@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const getPermission = async (token , id ) => {
+const getUserRole = async (token , id) => {
   try {
-    const response = await axios.get(`/api/roles/${id}`, {
+    const response = await axios.get(`/api/user/${id}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -14,4 +14,4 @@ const getPermission = async (token , id ) => {
   }
 };
 
-export default getPermission;
+export default getUserRole;

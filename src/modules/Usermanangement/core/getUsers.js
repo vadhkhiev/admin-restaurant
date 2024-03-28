@@ -1,7 +1,7 @@
 import axios from 'axios';
 const getUsers = async (token ,page='',role = '',query='', sortby='' , limit=10) => {
   try {
-    const response = await axios.get(`/api/user?sort=${sortby}&roleId=${role}&query=${query}&page=${page}&size= ${limit}`, {
+    const response = await axios.get(`/api/user?query=${query}&page=${page}&size=${limit}&sort=${sortby}&order=desc&roleId=${role}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
