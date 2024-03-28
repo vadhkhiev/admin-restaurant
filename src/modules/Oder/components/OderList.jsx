@@ -6,7 +6,6 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import dateTimeFormat from "../../Role/core/dateTimeFormat";
 import { Link } from "react-router-dom";
-
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setError] = useState(false);
