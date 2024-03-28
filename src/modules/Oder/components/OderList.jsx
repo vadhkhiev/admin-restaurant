@@ -141,7 +141,7 @@ function OrderList() {
     );
   }
   if (isError) {
-    return <h1>Development Error</h1>;
+    return <h1 className="h1">Development Error</h1>;
   }
 
   return (
@@ -247,7 +247,7 @@ function OrderList() {
                   </button>
                 ) : (
                   <FaEdit
-                    className="edit"
+                    className="edit cusrser-pointer"
                     onClick={() => handleEdit(order.id)}
                   />
                 )}

@@ -39,10 +39,12 @@ th {
   color: rgb(255, 110, 110);
   font-size: 1.5rem;
   margin: 10px;
+  cursor: pointer;
 }
 .edit {
   color: rgb(110, 180, 255);
   font-size: 1.3rem;
+  cursor: pointer;
 }
 .yes {
   background-color: #333;
