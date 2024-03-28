@@ -88,7 +88,7 @@ export default function EditCategoriesFood() {
           refetchCategories();
         }}
       >
-        Submit form
+        Submit Changes
       </button>
     </div>
   );
