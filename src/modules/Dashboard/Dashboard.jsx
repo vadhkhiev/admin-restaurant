@@ -6,8 +6,6 @@ import { CiBoxes } from "react-icons/ci";
 import { useSelector } from 'react-redux';
 import PieCharts from './components/PieCharts';
 import profile from '../../assets/img/avatar.jpg';	
-import dateTimeFormat from '../Role/core/dateTimeFormat';
-import BarChart from './components/BarChart';
 import LineChart from './components/LineChart';
 
 const Dashboard = () => {

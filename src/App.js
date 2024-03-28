@@ -19,7 +19,7 @@ function App() {
   const permission = useSelector(
     (state) => state.permission?.permission?.data?.permissions
   );
-  const currentUser = useSelector((state) => state.currentUser?.currentUser);
+
 
   return (
     <>

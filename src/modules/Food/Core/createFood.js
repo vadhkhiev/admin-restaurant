@@ -8,7 +8,7 @@ const createFood = async (foodData, imageFile, token) => {
   };
 
   try {
-    const response = await axios.post(`/api/food`, foodData, {
+    const response = await axios.post(`/api/foods`, foodData, {
       headers: myHeaders,
     });
     if (response.status === 200) {

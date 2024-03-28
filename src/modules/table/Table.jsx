@@ -22,7 +22,7 @@ const Table = () => {
     useEffect(() =>{
       // if(query.length === 0 || query.length > 2){
         axios
-        .get(`/api/table?query=${query}`, {
+        .get(`/api/tables?query=${query}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ const Table = () => {
   }
   useEffect(() => {
     axios
-      .get(`/api/table`, {
+      .get(`/api/tables`, {
         headers: {
           "Content-Type": "application/json",
           Authorization:`Bearer ${token}`,
@@ -58,7 +58,7 @@ const Table = () => {
     const confirm = window.confirm("Are You Sure to delete?");
     if (confirm) {
       axios
-        .delete(`/api/table/` + id, {
+        .delete(`/api/tables/` + id, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -75,7 +75,7 @@ const Table = () => {
       let value = e.target.value;
       setSortValue(value);
       return await axios
-        .get(`/api/table?order=${value}`, {
+        .get(`/api/tables?order=${value}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -91,7 +91,7 @@ const Table = () => {
       let value = e.target.value;
       setFilterValue(value);
       return await axios
-        .get(`/api/table?status=${value}`, {
+        .get(`/api/tables?status=${value}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

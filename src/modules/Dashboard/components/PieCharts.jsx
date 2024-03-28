@@ -12,28 +12,44 @@ const getRandomColor = () => {
     }
     return color;
 };
+function formatMonthYear(month, year) {
+
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const monthName = monthNames[month - 1];
+    const formattedDate = `${year}:${(month < 10 ? '0' : '') + month}`;
+
+    return formattedDate;
+}
 
 const PieCharts = () => {
     const token = useSelector((state) => state.auth.token) || localStorage.getItem('token'); 
     const [data , setData ] = useState([]);
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; 
+    const currentYear = currentDate.getFullYear();
+    const formattedDate = formatMonthYear(currentMonth, currentYear);
+    console.log(formattedDate);
     
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/sale_report_income/day?paymentStatus=Bank', {
+                const response = await axios.get(`/report/income?paymentStatus=Bank&month=${formattedDate}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
 
-                const response2 = await axios.get('/sale_report_income/day?paymentStatus=Cash', {
+                const response2 = await axios.get(`/report/income?paymentStatus=Cash&month=${formattedDate}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
-
                 const bankPrice = (response.data.data[0]?.totalPrice).toFixed(2);
                 const cashPrice = (response2.data.data[0]?.totalPrice).toFixed(2);
+
                 setData([ parseFloat(cashPrice) ,parseFloat(bankPrice) ]); 
             } catch (error) {
                 console.error('Error fetching data:', error); 
@@ -49,6 +65,7 @@ const PieCharts = () => {
             backgroundColor: [getRandomColor(), getRandomColor()]
         }]
     };
+
 
     return (
         <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className='mt-2 pb-2 pe-2'>

@@ -92,7 +92,7 @@ const YourOrder = () => {
 
     const bookedTable = () => {
         try {
-            axios.put('/api/table/' + postData.tableId ,
+            axios.put('/api/tables/' + postData.tableId ,
             {
                 status: 'Booked',
                 name: table?.find(table => table.id === postData.tableId).name,
@@ -113,7 +113,7 @@ const YourOrder = () => {
         try {
             
             const response = await axios.post(
-                '/api/order',
+                '/api/orders',
                 postData,
                 {
                     headers: {

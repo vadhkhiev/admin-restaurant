@@ -36,13 +36,13 @@ const TableRow = ({ user,handleDelete ,handleEdit }) => {
         <td >{user.name}</td>
         <td >{user.email}</td>
         <td >{user.phone}</td>
-        <td >$ {user.salary}</td>
+        <td >$ {user.salary}</td> 
         <td >
           <p style={{borderRadius:'13px', background: user.status ? '#cee9d0' : '#f8d7da', color:user.status ? '#3fa27f' : 'red' }} className='fs-6 fw-normal text-center mt-3'> 
             {user.status?"Active":"Inactive"}
           </p>
         </td>
-        <td >{user.roleEntity.name}</td>
+        <td >{user.role?.name}</td>
         {
           ((permission?.find(per => per.name === 'edit-user')?.status === 1) || (permission?.find(per => per.name === 'delete-user')?.status === 1)) && (
             <td>
