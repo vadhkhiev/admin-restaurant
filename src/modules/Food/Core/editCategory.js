@@ -2,20 +2,20 @@ import axios from "axios";
 import { postImage } from "./postImage";
 import Swal from "sweetalert2";
 
-const createFood = async (foodData, token) => {
+export const editCategory = async (newCategory, oldCategories, id, token) => {
   const myHeaders = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
 
   try {
-    const response = await axios.post(`/api/foods`, foodData, {
+    const response = await axios.put(`/api/categories/${id}`, newCategory, {
       headers: myHeaders,
     });
     if (response.status === 200) {
       Swal.fire({
-        title: "Adding Food",
-        text: "Food Added",
+        title: `Change From ${oldCategories} To ${newCategory}`,
+        text: "Category Changed",
         icon: "success",
       });
     }
@@ -29,5 +29,3 @@ const createFood = async (foodData, token) => {
     }
   }
 };
-
-export { createFood };

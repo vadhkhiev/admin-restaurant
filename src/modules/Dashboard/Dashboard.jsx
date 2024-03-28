@@ -80,7 +80,7 @@ const Dashboard = () => {
               {
                 Allorders.data?.slice(0,4)?.map((order , index) => {
                   return (
-                    <div style={{ background: '#f5f5f5', height: '55px',boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}  className='d-flex justify-content-between rounded-3 align-items-center mb-1 p-2'>
+                    <div key={index} style={{ background: '#f5f5f5', height: '55px',boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}  className='d-flex justify-content-between rounded-3 align-items-center mb-1 p-2'>
                     <p className='fw-bold fs-5'>{order?.id}</p>
                     <p className={`fw-bold fs-5 px-2 ${order?.status ? 'text-danger' : 'text-success'}`}>{order?.status}</p>
                     <p className='fw-bold fs-5 ms-3'><sup>$</sup>{(order?.totalPrice)?.toFixed(2)}</p>
