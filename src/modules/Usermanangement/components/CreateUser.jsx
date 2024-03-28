@@ -25,13 +25,12 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
     name: "",
     username: "",
     gender: "Male",
-    avatar: "no image",
     email: "",
     password: "",
-    confirmPassword: "",
+    confirm_password: "",
     phone: "",
     salary: 0,
-    hireDate: "",
+    hire_date: "",
     role_id: null,
   };
 
@@ -46,7 +45,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
 
     setUserData({
       ...userData,
-      hireDate: formattedDate,
+      hire_date: formattedDate,
       role_id: roles[0].id,
     });
   }, []);
@@ -66,7 +65,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
   };
 
   const validatePassword = () => {
-    if (userData.password !== userData.confirmPassword) {
+    if (userData.password !== userData.confirm_password) {
       setError("Passwords do not match");
       return false;
     } else {
@@ -181,11 +180,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                             alt=""
                         />
                        <div className="w-100 d-flex gap-1">
-                        <div className="w-50 d-flex flex-column mt-3">
-                            <label className="text-white">Image</label>
-                          <input 
-                           className="form-control form-control-sm" id="formFileSm" type="file" />
-                        </div>
+
                         <div className="w-50 d-flex flex-column mt-3">
                           <div className="d-flex">
                             <label className="text-white">Hired Date</label>
@@ -194,7 +189,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                             className="text-center form-control form-control-sm"
                             type="date"
                             id="datetime"
-                            value={userData?.hireDate?.slice(0, 10)}
+                            value={userData?.hire_date?.slice(0, 10)}
                             onChange={(e) => {
                               const currentDate = new Date();
                               const currentTime = currentDate
@@ -310,7 +305,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                         handleInputChange("password", e.target.value)
                       }
                       action2={(e) =>
-                        handleInputChange("confirmPassword", e.target.value)
+                        handleInputChange("confirm_password", e.target.value)
                       }
                       obj={{
                         type: "password",
