@@ -6,13 +6,14 @@ import CreateTable from "./components/CreateTable";
 
 const Table = () => {
   const [tableList, setTableList] = useState([]);
-  const [refresh, setRefresh] = useState(false);
   const [paging, setPaging] = useState({});
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const [modal, setModal] = useState(false);
   const [query, setQuery] = useState("");
-
+  //Show
+  const [limit,setLimit] = useState(20);
+  const limitOptions = [10,20,30,40,50];
   // sort
   const [sortValue, setSortValue] = useState("");
   const sortOptions = ["asc", "dasc"];
@@ -44,7 +45,7 @@ const Table = () => {
     // if(query.length === 0 || query.length > 2){
     axios
       .get(
-        `/api/table?status=${filterValue}&order=${sortValue}&query=${query}&size=10&page=${page}`,
+        `/api/tables?status=${filterValue}&order=${sortValue}&query=${query}&size=${limit}&page=${page}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -58,7 +59,7 @@ const Table = () => {
       })
       .catch((err) => console.log(err));
     // }
-  }, [query, filterValue, sortValue, page]);
+  }, [query, filterValue, sortValue, page, limit]);
 
   function toggleModal() {
     setModal(!modal);
@@ -69,7 +70,7 @@ const Table = () => {
     const confirm = window.confirm("Are You Sure to delete?");
     if (confirm) {
       axios
-        .delete(`/api/table/` + id, {
+        .delete(`/api/tables/` + id, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -86,9 +87,12 @@ const Table = () => {
     <>
       {modal && <CreateTable toggleModal={toggleModal} />}
       <div>
+        <div className="d-flex justify-content-end me-5 mt-3">
+          <p className="mb-0">Total Table: <span className="text-danger">{paging.totals}</span></p>
+        </div>
         <div className="container mt-3">
           <div className="row">
-            <div className="col-4 d-flex align-item-center">
+            <div className="col-4 d-flex ">
               <span className="fw-bold fs-2 text-dark me-3">Table List</span>
               <button
                 className="btn btn-primary fs-4 fw-bold px-3"
@@ -104,14 +108,14 @@ const Table = () => {
                 placeholder="Search"
                 onChange={(e) => setQuery(e.target.value)}
               />
-              <div className="d-flex">
-                <h5 className="">Sort By: </h5>
+              <div className="d-flex me-2">
+                {/* <h5 className="">Sort By: </h5> */}
                 <select
-                  className="ps-2 pe-5 py-2 border-0 rounded-3 w-75"
+                  className="ps-1 pe-3 py-2 border-0 rounded-3 w-100"
                   onChange={(e) => setSortValue(e.target.value)}
                   value={sortValue}
                 >
-                  <option value="">Choose Sort</option>
+                  <option value="">Sort by</option>
                   {sortOptions.map((item, index) => (
                     <option value={item} key={index}>
                       {item}
@@ -119,19 +123,34 @@ const Table = () => {
                   ))}
                 </select>
               </div>
-              <h5>Filter By: </h5>
-              <select
-                style={{ width: "20%", borderRadius: "2px", height: "35px" }}
-                onChange={(e) => setFilterValue(e.target.value)}
-                value={filterValue}
-              >
-                <option value="">Choose filter</option>
-                {filterOptions.map((item, index) => (
-                  <option value={item} key={index}>
-                    {item}
-                  </option>
-                ))}
-              </select>
+              {/* <h5>Filter By: </h5> */}
+              <div className="d-flex me-2">
+                <select
+                  className="ps-1 py-2 border-0 rounded-3 w-100"
+                  onChange={(e) => setFilterValue(e.target.value)}
+                  value={filterValue}
+                >
+                  <option value="">Filter by</option>
+                  {filterOptions.map((item, index) => (
+                    <option value={item} key={index}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="d-flex me-2">
+                <select
+                  className="ps-1 py-2 border-0 rounded-3 w-100" 
+                  onChange={(e) => setLimit(e.target.value)}
+                  value={limit}
+                >
+                  {limitOptions.map((item, index) => (
+                    <option value={item} key={index}>
+                      Show {item}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
         </div>
