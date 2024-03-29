@@ -22,11 +22,6 @@ const sidebarlink = [
         link : '/table',
         icon : <MdTableBar/>
     },{
-        Id : 3,
-        title : 'Category',
-        link : '/category',
-        icon : <BiCategory/>
-    },{
         Id : 4,
         title : 'Order',
         link : '/order',

@@ -115,6 +115,19 @@ export default function AddForm({ toggle, toggleForm }) {
         </div>
 
         <div class="form-group">
+          <label for="inputDiscount">Discount</label>
+          {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Discount"
+            onChange={(e) => {
+              setValue({ ...value, discount: e.target.value });
+            }}
+          />
+        </div>
+
+        <div class="form-group">
           <label>Categories</label>
           <select
             id="inputState"
@@ -140,7 +153,7 @@ export default function AddForm({ toggle, toggleForm }) {
           </select>
         </div>
 
-        <div class="mb-2">
+        {/* <div class="mb-2">
           <label class="form-label">Food Image</label>
           <input
             class="form-control"
@@ -150,7 +163,7 @@ export default function AddForm({ toggle, toggleForm }) {
               setImageFile(e.target.files[0]);
             }}
           ></input>
-        </div>
+        </div> */}
 
         <div class="form-group">
           <label for="inputDesc">Description</label>

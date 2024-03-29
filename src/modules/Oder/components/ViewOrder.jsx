@@ -1,14 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
-import YourOrder from './YourOrder';
-import {FiTrash} from "react-icons/fi";
+import axios from 'axios';
+import getorderid from '../core/getorderid';
 const ViewOrder = () => {
   const id = useSelector((state) => state.orders.viewId); 
+  const orderinfo = useSelector((state) => state.orders.clickedorder[0]);
+  console.log(orderinfo)
   const navigate = useNavigate();
   const handleBack =()=>{
     navigate(-1)
   }
+  const token = useSelector((state) => state.currentUser.currentUser?.token) || localStorage.getItem('token');
+
+useEffect(()=>{
+  const fetchdata = async () => {
+   try {
+    const response = await getorderid(token , id)
+    console.log(response)
+   } catch (error) {
+    
+   }
+  }
+  fetchdata();
+},[])
 
 
 
@@ -25,16 +40,43 @@ const ViewOrder = () => {
         <button onClick={handleBack} className='btn text-white' style={{background:'#6c738f'}}>Back</button>
       </div>
 
-      <div className='row mt-3'>
-      <main className='p-2 border rounded-3 col-8'  style={{border:'1px solid #a5b0db' ,boxShadow: "rgba(0, 0, 0, 0.15) 1.4px 1.4px 2.2px"}}>
-        <div className='d-flex justify-content-between'>
-            <h3 className='fw-bold' style={{color: '#6c738f'}}>Order id {id}</h3>
-        </div>
+      <div className='row m-3'>
 
-        <div className='d-flex justify-content-between my-3'>
-            <h4 className='' style={{color: '#6c738f'}}>Total Amount :  </h4>
-            <h4 className='text-danger'> g</h4>
+      <main className='p-2  rounded-3 col-8'  style={{boxShadow: "rgba(0, 0, 0, 0.15) 1.4px 1.4px 2.2px"}}>
+        <div className='d-flex justify-content-between'>
+            <h3 className='fw-bold border-bottom' style={{color: '#6c738f'}}>Order id {id}</h3>
         </div>
+        <section>
+
+        </section>
+     </main>
+
+
+     <main className='p-2 rounded-3 col-4 ' >
+        <div  style={{boxShadow: "rgba(0, 0, 0, 0.15) 1.4px 1.4px 2.2px"}} className='d-flex flex-column'>
+          <p className='my-3 ms-4 ' style={{color: '#6c738f'}} ><span className='border-bottom'>More info</span></p>
+          <div className='ps-4 border-top border-bottom'>
+          <div className='d-flex justify-content-between'> 
+          <p className='fw-bold ' style={{color: '#6c738f'}}> <span className=''>Order by</span> </p>
+          <p className='pe-3 cursor-pointer' style={{color: '#6c738f'}}>edit</p>
+          </div>
+            <p className='ps-3'>{orderinfo?.userEntity?.name}</p>
+          </div>
+          <div className='ps-4 border-top border-bottom'>
+              <div className='d-flex justify-content-between'> 
+               <p className='fw-bold ' style={{color: '#6c738f'}}> <span className=''>Table</span> </p>
+               <p className='pe-3 cursor-pointer' style={{color: '#6c738f'}}>edit</p>
+              </div>
+            <p className='ps-3'>{orderinfo?.tableEntity?.name}</p>
+          </div>
+          <div className='ps-4 border-top border-bottom'>
+           <p className='fw-bold ' style={{color: '#6c738f'}}> <span className=''>Price</span> </p>
+            <p className='ps-3'><sup className='text-danger'>$</sup>{orderinfo?.totalPrice?.toFixed(2)}</p>
+          </div>
+        </div>
+        <section>
+
+        </section>
      </main>
       </div>
       
