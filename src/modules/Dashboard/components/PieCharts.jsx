@@ -20,6 +20,7 @@ const PieCharts = () => {
     const currentMonth = currentDate.getMonth() + 1; 
     const currentYear = currentDate.getFullYear();
     const [selectedMonth, setSelectedMonth] = useState(`${currentYear}-${currentMonth.toString().padStart(2, '0')}`);
+    const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     useEffect(() => {
         console.log(`selectedMonth: ${selectedMonth.substring(0, 4)}:${selectedMonth.substring(5, 7)}`)
@@ -59,7 +60,9 @@ const PieCharts = () => {
     return (
         <div style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className='mt-2 pb-2 pe-2'>
            <div className='d-flex justify-content-between'>
-            <h4 style={{ color: '#45495c' }} className='fw-bold text-center'>This Month Income</h4>
+            <h4 style={{ color: '#45495c' }} className='fw-bold text-center'>Income in {
+                month[new Date(selectedMonth).getMonth()]
+            }</h4>
             <input style={{width: '35%'}} 
            onChange={(e) => setSelectedMonth(e.target.value)}
            type="month" 

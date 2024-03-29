@@ -42,12 +42,12 @@ const RadarChart = () => {
         datasets: [
             {
                 label: `Top Food sold in ${selectedMonth ? month[new Date(selectedMonth).getMonth()] : month[new Date(defaultValue).getMonth()]}`,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)', 
-                borderColor: 'rgba(54, 162, 235, 1)', 
-                pointBackgroundColor: 'rgba(54, 162, 235, 1)', 
+                backgroundColor: 'rgba(255, 192, 203, 0.2)', // Pink color
+                borderColor: 'rgba(255, 192, 203, 1)', // Pink color
+                pointBackgroundColor: 'rgba(255, 192, 203, 1)', // Pink color
                 pointBorderColor: '#fff', 
                 pointHoverBackgroundColor: '#fff', 
-                pointHoverBorderColor: 'rgba(54, 162, 235, 1)', 
+                pointHoverBorderColor: 'rgba(255, 192, 203, 1)', // Pink color
                 data: food?.map((food) => food?.totalQuantitySold), 
             },
         ],
@@ -58,7 +58,7 @@ const RadarChart = () => {
         scale: {
             ticks: { 
                 beginAtZero: true,
-                precision: 0, // Specify the precision to 0 to remove decimal numbers
+                precision: 0, 
             },
         },
     };
@@ -66,14 +66,14 @@ const RadarChart = () => {
     return (
         <div style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.4px 1.4px 2.2px" }} className='mt-5 pb-5 p-2'>
             <div className='d-flex'>
-                <h4 className='fw-bold w-50' style={{ color: '#6c738f' }}>Most sold food on</h4>
+                <h4 className='fw-bold w-50' style={{ color: '#6c738f' }}>Most sold food in</h4>
                 <input
                     onChange={(e) => {
                         const date = new Date(e.target.value);
                         const year = date.getFullYear();
                         const month = (date.getMonth() + 1).toString().padStart(2, '0');
                         const formattedDate = `${year}:${month}`;
-                        setSelectedMonth(formattedDate); // Update selectedMonth state
+                        setSelectedMonth(formattedDate); 
                     }}
                     defaultValue={defaultValue}
                     type="month"
@@ -85,7 +85,9 @@ const RadarChart = () => {
                 {isLoading ? (
                     <p className='text-center mt-5'>Loading...</p>
                 ) : (
-                    food.length > 0 ? <Radar data={data} options={options} /> : <h4 className='text-center mt-5 text-danger'>No Data</h4>
+                    food.length > 0 ? 
+                    <Radar data={data} options={options} /> : 
+                    <h4 className='text-center mt-5 text-danger'>No Data</h4>
                 )}
             </div>
         </div>

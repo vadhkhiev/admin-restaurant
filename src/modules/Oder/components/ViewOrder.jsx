@@ -54,23 +54,23 @@ useEffect(()=>{
 
      <main className='p-2 rounded-3 col-4 ' >
         <div  style={{boxShadow: "rgba(0, 0, 0, 0.15) 1.4px 1.4px 2.2px"}} className='d-flex flex-column'>
-          <h4 className='my-3 ms-4 ' style={{color: '#6c738f'}} ><span className='border-bottom'>More info</span></h4>
+          <p className='my-3 ms-4 ' style={{color: '#6c738f'}} ><span className='border-bottom'>More info</span></p>
           <div className='ps-4 border-top border-bottom'>
           <div className='d-flex justify-content-between'> 
-          <h4 className=' ' style={{color: '#6c738f'}}> <span className=''>Order by</span> </h4>
-          <h4 className='pe-3 cursor-pointer' style={{color: '#6c738f'}}>edit</h4>
+          <p className='fw-bold ' style={{color: '#6c738f'}}> <span className=''>Order by</span> </p>
+          <p className='pe-3 cursor-pointer' style={{color: '#6c738f'}}>edit</p>
           </div>
             <p className='ps-3'>{orderinfo?.userEntity?.name}</p>
           </div>
           <div className='ps-4 border-top border-bottom'>
               <div className='d-flex justify-content-between'> 
-               <h4 className=' ' style={{color: '#6c738f'}}> <span className=''>Table</span> </h4>
-               <h4 className='pe-3 cursor-pointer' style={{color: '#6c738f'}}>edit</h4>
+               <p className='fw-bold ' style={{color: '#6c738f'}}> <span className=''>Table</span> </p>
+               <p className='pe-3 cursor-pointer' style={{color: '#6c738f'}}>edit</p>
               </div>
             <p className='ps-3'>{orderinfo?.tableEntity?.name}</p>
           </div>
           <div className='ps-4 border-top border-bottom'>
-           <h4 className=' ' style={{color: '#6c738f'}}> <span className=''>Price</span> </h4>
+           <p className='fw-bold ' style={{color: '#6c738f'}}> <span className=''>Price</span> </p>
             <p className='ps-3'><sup className='text-danger'>$</sup>{orderinfo?.totalPrice?.toFixed(2)}</p>
           </div>
         </div>
