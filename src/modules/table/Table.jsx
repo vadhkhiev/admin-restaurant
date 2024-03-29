@@ -12,14 +12,11 @@ const Table = () => {
   const [modal, setModal] = useState(false);
   const [query, setQuery] = useState("");
   //Show
-  const [limit,setLimit] = useState(20);
-  const limitOptions = [10,20,30,40,50];
+  const [limit, setLimit] = useState(20);
+  const limitOptions = [10, 20, 30, 40, 50];
   // sort
   const [sortValue, setSortValue] = useState("");
-  const sortOptions = ["asc", "dasc"];
-  // filter
-  // const [filterValue, setFilterValue] = useState("");
-  // const filterOptions = ["Available", "Booked"];
+  const sortOptions = ["asc", "desc"];
   //pagination
   const [page, setPage] = useState(1);
 
@@ -42,25 +39,25 @@ const Table = () => {
   };
 
   useEffect(() => {
-    // if(query.length === 0 || query.length > 2){
-    axios
-      .get(
-        `/api/tables?order=${sortValue}&query=${query}&size=${limit}&page=${page}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => {
-        setTableList(res.data.data);
-        setRefresh(true);
-        setPaging(res.data.paging);
-      })
-      .catch((err) => console.log(err));
-    // }
-  }, [token, refresh,query, sortValue, page, limit]);
+    if (query.length === 0 || query.length > 1) {
+      axios
+        .get(
+          `/api/tables?order=${sortValue}&query=${query}&size=${limit}&page=${page}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          setTableList(res.data.data);
+          setPaging(res.data.paging);
+          setRefresh(true);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [token, query, sortValue, page, limit, refresh]);
 
   function toggleModal() {
     setModal(!modal);
@@ -71,14 +68,14 @@ const Table = () => {
     const confirm = window.confirm("Are You Sure to delete?");
     if (confirm) {
       axios
-        .delete(`/api/tables/${id}` ,{
+        .delete(`/api/tables/${id}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          window.location.reload();
+          setRefresh(!refresh);
         })
         .catch((err) => console.log(err));
     }
@@ -89,7 +86,9 @@ const Table = () => {
       {modal && <CreateTable toggleModal={toggleModal} />}
       <div>
         <div className="d-flex justify-content-end me-5 mt-3">
-          <p className="mb-0">Total Table: <span className="text-danger">{paging.totals}</span></p>
+          <p className="mb-0">
+            Total Table: <span className="text-danger">{paging.totals}</span>
+          </p>
         </div>
         <div className="container mt-3">
           <div className="row">
@@ -98,19 +97,19 @@ const Table = () => {
               <button
                 className="btn btn-primary fs-4 fw-bold px-3"
                 onClick={toggleModal}
+                name="btn-create"
               >
                 Create
               </button>
             </div>
             <div className="col-8 d-flex align-item-center justify-content-end ">
               <input
-                className="rounded-3 py-2 ps-3 pe-4 mx-2 border-0 fs-4"
+                className="rounded-3 py-0 ps-2 pe-4 mx-2 border-0 fs-5"
                 type="text"
                 placeholder="Search"
                 onChange={(e) => setQuery(e.target.value)}
               />
               <div className="d-flex me-2">
-                {/* <h5 className="">Sort By: </h5> */}
                 <select
                   className="ps-1 pe-3 py-2 border-0 rounded-3 w-100"
                   onChange={(e) => setSortValue(e.target.value)}
@@ -124,24 +123,9 @@ const Table = () => {
                   ))}
                 </select>
               </div>
-              {/* <h5>Filter By: </h5> */}
-              {/* <div className="d-flex me-2">
-                <select
-                  className="ps-1 py-2 border-0 rounded-3 w-100"
-                  onChange={(e) => setFilterValue(e.target.value)}
-                  value={filterValue}
-                >
-                  <option value="">Filter by</option>
-                  {filterOptions.map((item, index) => (
-                    <option value={item} key={index}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
               <div className="d-flex me-2">
                 <select
-                  className="ps-1 py-2 border-0 rounded-3 w-100" 
+                  className="ps-1 py-2 border-0 rounded-3 w-100"
                   onChange={(e) => setLimit(e.target.value)}
                   value={limit}
                 >
@@ -162,7 +146,9 @@ const Table = () => {
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Status</th>
-                <th scope="col">SeatCapacity</th>
+                <th className="text-center" scope="col">
+                  SeatCapacity
+                </th>
                 <th className="text-center">Action</th>
               </tr>
             </thead>
@@ -180,11 +166,18 @@ const Table = () => {
                   >
                     {tables.status}
                   </td>
-                  <td>{tables.seatCapacity}</td>
+                  <td className="text-center">{tables.seatCapacity}</td>
                   <td className="d-flex gap-2 justify-content-center">
-                    <button className="btn btn-success" >Update</button>
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-success p-1"
+                      onClick={toggleModal}
+                      name="btn-update"
+                    >
+                      {" "}
+                      Update
+                    </button>
+                    <button
+                      className="btn btn-danger p-1"
                       onClick={(e) => handleDelete(tables.id)}
                     >
                       Delete
@@ -199,7 +192,9 @@ const Table = () => {
           <button className="btn btn-danger me-2" onClick={handlePagePrev}>
             Prev
           </button>
-          <span className="fw-bold fs-4">{page}/{paging.totalPage}</span>
+          <span className="fw-bold fs-4">
+            {page}/{paging.totalPage}
+          </span>
           <button className="btn btn-primary ms-2" onClick={handlePageNext}>
             Next
           </button>
