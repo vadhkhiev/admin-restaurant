@@ -9,6 +9,14 @@ import { Link } from "react-router-dom";
 import { FiEye } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { storeViewId } from "../core/orderSlice";
+
+
+function roundLastTwoDigits(number) {
+  return Math.round(number * 100) / 100;
+}
+
+
+
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setError] = useState(false);
@@ -198,7 +206,10 @@ function OrderList() {
               <td className="fw-normal">{order.id}</td>
               <td className="fw-normal">{order.userEntity.name}</td>
               <td className="text-center">{order.tableEntity.name}</td>
-              <td className="fw-normal">{order.totalPrice}</td>
+              <td className="fw-normal">
+                {roundLastTwoDigits(order.totalPrice)} <sub className="text-danger fs-6">$</sub>
+              </td>
+
               <td>
                 {editOrderId === order.id ? (
                   <button className=" btn btn-primary" onClick={handleSaveEdit}>
