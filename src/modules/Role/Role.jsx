@@ -14,6 +14,7 @@ const Role = () => {
     const [update,setUpdate] = useState(false);
     const [page , setPage ] = useState(1)
     const [size , setSize ] = useState(10)
+    const [paging , setPaging ] = useState(null)
     const dispatch = useDispatch(); 
     
     const handleAdd = ()=>{
@@ -27,6 +28,7 @@ const Role = () => {
           try {
             const result = await getroles(token , size , page);
             dispatch(storeRoles(result)) 
+            setPaging(result.paging)
           }
           catch (error) {
             console.error( error);
@@ -35,6 +37,7 @@ const Role = () => {
         fetchData();
       
     },[page,size])
+    console.log(paging)
     
 
   return (
@@ -69,7 +72,7 @@ const Role = () => {
                     <span>
                     </span>
                       <span className='text-nowrap text-white pe-2'>
-                          Total roles :  <span>{pagingdetails?.totals - 1 - 1}</span>
+                          Total roles :  <span>{paging?.totals - 1}</span>
                       </span>
                       <div>
                   </div>

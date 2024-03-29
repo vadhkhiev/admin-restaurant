@@ -8,7 +8,7 @@ import dateTimeFormat from "../../Role/core/dateTimeFormat";
 import { Link } from "react-router-dom";
 import { FiEye } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { storeViewId } from "../core/orderSlice";
+import { storeCLickedorder, storeViewId } from "../core/orderSlice";
 
 function roundLastTwoDigits(number) {
   return Math.round(number * 100) / 100;
@@ -33,6 +33,8 @@ function OrderList() {
   const [searchQuery, setSearchQuery] = useState(""); // State to hold search query
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
+  const [clickedorder, setClickedorder] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -88,6 +90,13 @@ function OrderList() {
     setEditedPaymentMethod(orderToEdit.paymentMethod);
     setEditedStatus(orderToEdit.status); // Set initial status value
   };
+
+  const handleIdClicked = (orderId) => {
+    dispatch(storeViewId(orderId));
+    dispatch(storeCLickedorder(orders.filter((order) => order.id === orderId)));
+    console.log(orders.filter((order) => order.id === orderId));
+  };
+
   const handleSaveEdit = async () => {
     try {
       await axios.put(
@@ -226,7 +235,7 @@ function OrderList() {
                 <Link to="/order/view">
                   <FiEye
                     className="fs-3"
-                    onClick={() => dispatch(storeViewId(order.id))}
+                    onClick={() => handleIdClicked(order.id)}
                   />
                 </Link>
               </td>

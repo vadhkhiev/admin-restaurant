@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   orders: [],
   totals : 0,
-  viewId : 0
+  viewId : 0,
+  clickedorder :[]
 };
 
 const orderSlice = createSlice({
@@ -18,9 +19,12 @@ const orderSlice = createSlice({
     },
     storeViewId: (state, action) => {
       state.viewId = action.payload
+    },
+    storeCLickedorder: (state, action) => {
+      state.clickedorder = action.payload
     }
   },
 });
 
-export const { storeorder , storeTotalorder ,storeViewId } = orderSlice.actions;
+export const { storeorder , storeTotalorder ,storeViewId , storeCLickedorder } = orderSlice.actions;
 export default orderSlice.reducer;

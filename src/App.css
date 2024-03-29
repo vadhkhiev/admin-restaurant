@@ -163,6 +163,8 @@ input[type="number"] {
   margin-left: 0; 
 }
  */
+
+
 @media (max-width: 1200px) {
   .sidebar {
     position: fixed;
