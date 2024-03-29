@@ -12,8 +12,9 @@ import Dashboard from "./modules/Dashboard/Dashboard";
 import MainOder from "./modules/Oder/MainOder";
 import MakeOrder from "./modules/Oder/components/MakeOrder"; 
 import ViewOrder from "./modules/Oder/components/ViewOrder";
-
-
+import Reports from "./modules/Reports/Reports";
+import FoodReports from "./modules/Reports/components/FoodReports";
+import SaleReports from "./modules/Reports/components/SaleReports";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -33,10 +34,12 @@ function App() {
             <Route path='order/view' element={<ViewOrder/>} />
             <Route path="table" element={<Table/>} />
             {/* <Route path="table/:id" element={<UpdateTable/>} /> */}
-            <Route path="category" element={<h1>Category</h1>} />
             <Route path="profile" element={<h1>Profile</h1>} />
             <Route path="foods" element={<Food />} />
-            <Route path="reports" element={<h1>Reports</h1>} />
+            <Route path="reports" element={<Reports/>} >
+              <Route index element={<SaleReports/>} />
+              <Route path="foods" element={<FoodReports/>} />
+            </Route>
             {/* administrator route */}
             {permission?.find((per) => per.name == "list-role")?.status ===
               1 && (
