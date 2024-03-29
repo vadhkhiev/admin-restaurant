@@ -8,7 +8,7 @@ import { login, logout } from '../auth/authSlice'
 import checkAuth from './core/getUser'
 import  { storeCurrentUser } from '../Usermanangement/core/currentuserSlice'
 import getPermission from '../Role/core/getPermission'
-import { storePermission } from '../Role/core/permissionSlice'
+import { storePermission, storeUserRoleName } from '../Role/core/permissionSlice'
 import getRoles from '../layout/core/getroles'
 import axios from 'axios'
 import getUserRole from './core/getUserRole'
@@ -76,7 +76,8 @@ useEffect(() => {
         console.log(data?.data);
         getUserRole(token, data?.data?.id)
           .then((userRoleResult) => {
-            console.log(userRoleResult?.data?.role?.name);
+            console.log('userrole' , userRoleResult)
+            dispatch(storeUserRoleName(userRoleResult?.data?.role?.name));
             getroles(token).then((result) => {
               const role = result.data?.filter((role) => role?.name === userRoleResult?.data?.role?.name);
               getPermission(token, role[0]?.id)

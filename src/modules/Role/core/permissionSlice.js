@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   permission : [],
+  userRoleName : {}
 };
 
 const permissionSlice = createSlice({
@@ -11,8 +12,11 @@ const permissionSlice = createSlice({
     storePermission: (state, action) => {
       state.permission = action.payload
     },
+    storeUserRoleName : (state, action) => {
+      state.userRoleName = action.payload
+    }
   },
 });
 
-export const {  storePermission } = permissionSlice.actions;
+export const {  storePermission , storeUserRoleName } = permissionSlice.actions;
 export default permissionSlice.reducer;

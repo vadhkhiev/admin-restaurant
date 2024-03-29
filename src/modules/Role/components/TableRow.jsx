@@ -41,33 +41,17 @@ const TableRow = ({role , index , setUpdate , page , size}) => {
   const dispatch = useDispatch()
   const token = useSelector((state) => state.currentUser.currentUser?.token) || localStorage.getItem('token');
   const id1 = useSelector((state) => state.currentUser.currentUser?.roleId)
-  const id2 = useSelector((state) => state.currentUser.currentUser?.id)
   const [roleidofuser , setroleidofuser] = useState('')
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
-  const [componentroles , setcomponentroles] = useState([])
-
-
+  const userRoleName = useSelector((state) => state.permission?.userRoleName);
 
   useEffect(() => {
-    if(id2){
-      const fetchData = async () => {
-        try {
-          const response = await getUserRole(token, id2);
-          const roleresponse = await getroles(token);
-          setroleidofuser (roleresponse.data?.filter(role => role.name === response.data?.role?.name));
-        } catch (error) {
-          console.error(error);
-        }
-      };
-  
-      fetchData();
+    if(userRoleName === 'Super-Admin'){
+      setroleidofuser(1)
     }
-  }, [id2, token]);
-  
-  const roleId =  id1 || roleidofuser.id ;
+  },[])
 
-
-
+  const roleId = id1 || roleidofuser ;
 
   
   return (

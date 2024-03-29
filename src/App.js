@@ -13,6 +13,8 @@ import MainOder from "./modules/Oder/MainOder";
 import MakeOrder from "./modules/Oder/components/MakeOrder";
 import ViewOrder from "./modules/Oder/components/ViewOrder";
 
+
+
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const permission = useSelector(
@@ -27,11 +29,9 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="order" element={<MainOder />} />
             <Route path="order/ordering" element={<MakeOrder />} />
-            <Route path="order/view" element={<ViewOrder />} />
-            <Route path="table" element={<Table />} />
-            <Route path="table" element={<Table />} />
-
-            {/* <Route path="table/:id" element={<h1>table</h1>} /> */}
+            <Route path='order/view' element={<ViewOrder/>} />
+            <Route path="table" element={<Table/>} />
+            {/* <Route path="table/:id" element={<UpdateTable/>} /> */}
             <Route path="category" element={<h1>Category</h1>} />
             <Route path="profile" element={<h1>Profile</h1>} />
             <Route path="foods" element={<Food />} />

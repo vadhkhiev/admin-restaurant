@@ -21,6 +21,7 @@ const Table = ({setUpdate , page , setPage , size}) => {
 
   return (
     <div>
+      
          <div className="table-container">
             <table style={{color:'#464d69'}} className="table bg-white fw-bold">
               <thead >

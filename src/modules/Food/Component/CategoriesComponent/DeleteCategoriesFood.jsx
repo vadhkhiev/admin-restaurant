@@ -71,7 +71,7 @@ export default function DeleteCategoriesFood() {
           refetchCategories();
         }}
       >
-        Submit form
+        Delete{" "}
       </button>
     </div>
   );
