@@ -7,7 +7,7 @@ import { MdDelete } from "react-icons/md";
 import dateTimeFormat from "../../Role/core/dateTimeFormat";
 import { Link } from "react-router-dom";
 import { FiEye } from "react-icons/fi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { storeCLickedorder, storeViewId } from "../core/orderSlice";
 
 function OrderList() {
@@ -26,7 +26,7 @@ function OrderList() {
     "Complete",
     "Cooking",
   ]); // Status options
-  const token = localStorage.getItem("token");
+  const token = useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const dispatch = useDispatch()
   const [clickedorder,setClickedorder] = useState([])
 

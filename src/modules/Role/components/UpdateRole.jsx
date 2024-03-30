@@ -66,13 +66,24 @@ const UpdateRole = ({setUpdate}) => {
         }}
         className="d-flex justify-content-center align-items-center"
       >
-        <div  className='p-3 border rounded' style={{ width: "30%",backdropFilter: "blur(10px)" }}>
-            <IoCloseCircleOutline style={{cursor:'pointer'}} onClick={()=>setUpdate(false)} className='fs-3 text-danger mb-3 me-2'/>
-            <span className='fs-4 text-white mb-3'>Update role</span>
-            <input onChange={(e)=>setRoleinfo({...roleinfo , name : e.target.value})} className='form-control my-3' placeholder={role?.name} type="text" />
-            <input onChange={(e)=>setRoleinfo({...roleinfo , code : e.target.value})} className='form-control' placeholder={role?.code} type="text" />
-            <button onClick={handleSubmit} className='btn btn-primary w-100 mt-3'>Submit</button>
-        </div>
+        {
+          id === 1 ? (
+            <div className='p-3 border rounded' style={{ width: "30%",backdropFilter: "blur(10px)" }}>
+              <IoCloseCircleOutline onClick={() => setUpdate(false)} style={{cursor:'pointer'}} className='fs-3 text-danger mb-3 me-2'/>
+             <p className='text-center text-danger fw-bold'>You can't update super admin role</p>
+            </div>
+          ) : (
+            <>
+            <div  className='p-3 border rounded' style={{ width: "30%",backdropFilter: "blur(10px)" }}>
+                <IoCloseCircleOutline style={{cursor:'pointer'}} onClick={()=>setUpdate(false)} className='fs-3 text-danger mb-3 me-2'/>
+                <span className='fs-4 text-white mb-3'>Update role</span>
+                <input onChange={(e)=>setRoleinfo({...roleinfo , name : e.target.value})} className='form-control my-3' placeholder={role?.name} type="text" />
+                <input onChange={(e)=>setRoleinfo({...roleinfo , code : e.target.value})} className='form-control' placeholder={role?.code} type="text" />
+                <button onClick={handleSubmit} className='btn btn-primary w-100 mt-3'>Submit</button>
+            </div>
+            </>
+          )
+        }
       </div>
 
       {

@@ -29,15 +29,13 @@ const User = () => {
   const [sortby , setSortby] = useState('')
   const [currpage , setCurrpage] = useState(1)
   const [orderby , setOrderby] = useState('')
-  const [limit , setLimit] = useState(10)
+  const [limit , setLimit] = useState(20)
   const [filter , setFilter] = useState(false)
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');  
   const roles = useSelector((state) => state.roles.roles);
   const dispatch = useDispatch()
   //permission
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
-  console.log(users)
-
 
 
 
@@ -116,7 +114,6 @@ const User = () => {
       setCurrpage(currpage === 1 ? 1 : currpage - 1);
     }
   }
-  console.log(users)
 
   return (
     <>

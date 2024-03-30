@@ -12,9 +12,9 @@ import RadarChart from './components/RadarChart';
 import axios from 'axios';
 
 const Dashboard = () => {
-  const token = useSelector((state) => state.currentUser.currentUser?.token) || localStorage.getItem('token');
-  const foodlist = useSelector((state) => state.foodList.foodList);
-  const Allorders = useSelector((state) => state.orders.orders);
+  const token = useSelector((state) => state.auth?.token) || localStorage.getItem('token');
+  const [foodlist , setFoodlist] = useState([]);
+  const [Allorders,setAllorders] = useState([]);
   const [recentUsers, setRecentUsers] = useState([]);
   const [roles, setRoles] = useState([]);
   useEffect(() => {
@@ -45,8 +45,39 @@ const Dashboard = () => {
     }
     fetchusers();
 
+    const fetchorder = async () => {
+      try {
+        const response = await axios.get('/api/orders', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setAllorders(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchorder();
+
+    const fetchfood = async () => {
+      try {
+        const response = await axios.get('/api/foods', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setFoodlist(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchfood();
 
   },[])
+
+
 
   return (
     <>
@@ -60,8 +91,8 @@ const Dashboard = () => {
 
             <section className='col-12 row ' style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}}>
             <Catebox title={' Users'} icon={<FaUsers />} num={recentUsers?.paging?.totals ? recentUsers?.paging?.totals : 0} color={'#6895a1'} />
-            <Catebox title={'Orders'} icon={<CiBoxes />} num={Allorders?.paging?.totals} color={'#344955'} />
-            <Catebox title={'Foods'} icon={<IoFastFoodOutline />} num={foodlist?.length} color={'#50727B'} />
+            <Catebox title={'Orders'} icon={<CiBoxes />} num={Allorders?.paging?.totals ? Allorders?.paging?.totals : 0} color={'#344955'} />
+            <Catebox title={'Foods'} icon={<IoFastFoodOutline />} num={foodlist?.data?.length ? foodlist?.data?.length : 0} color={'#50727B'} />
             <Catebox title={' Roles'} icon={<FaUsers />} num={roles?.length ? (roles?.length - 1) : 0  } color={'#78A083'} />
             </section>
             <div className="col-12 mt-3">

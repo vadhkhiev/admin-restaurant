@@ -6,44 +6,19 @@ import { Link } from 'react-router-dom';
 import { storeId } from '../core/idSlice';
 import { CiTrash } from "react-icons/ci";
 import formatDate from '../core/dateTimeFormat'
-import axios from 'axios';
+import { FaUserLock } from "react-icons/fa";
 
-const getUserRole = async (token, id) => {
-  try {
-    const response = await axios.get(`/api/user/${id}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error; 
-  }
-};
-
-const getroles = async (token) => {
-  try {
-    const response = await axios.get(`/api/roles`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;  
-  }
-};
+import DeleteRole from './DeleteRole';
 
 
-const TableRow = ({role , index , setUpdate , page , size}) => {
+const TableRow = ({role , index , setUpdate , page , size , setRefetch,refetch }) => {
   const dispatch = useDispatch()
-  const token = useSelector((state) => state.currentUser.currentUser?.token) || localStorage.getItem('token');
+  const token = useSelector((state) => state.auth?.token) || localStorage.getItem('token');
   const id1 = useSelector((state) => state.currentUser.currentUser?.roleId)
   const [roleidofuser , setroleidofuser] = useState('')
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
   const userRoleName = useSelector((state) => state.permission?.userRoleName);
+  const [deletes , setDeletes] = useState(false)
 
   useEffect(() => {
     if(userRoleName === 'Super-Admin'){
@@ -57,6 +32,9 @@ const TableRow = ({role , index , setUpdate , page , size}) => {
 
   return (
     <>
+    {
+      deletes && <DeleteRole role={role} refetch={refetch} setRefetch={setRefetch} deletes={deletes} setDeletes={setDeletes}/>
+    }
         <tr>
             <td >
               <div className='py-1'>
@@ -71,9 +49,9 @@ const TableRow = ({role , index , setUpdate , page , size}) => {
             (roleId === 1 || permission?.find(per => per.name === 'edit-role')?.status === 1 || permission?.find(per => per.name === 'delete-role')?.status === 1) && (
               <td className='d-flex'>
                 {roleId === 1 && (
-                  <Link to="/role/access" onClick={() => dispatch(storeId(role?.id))} className='fs-4 text-primary me-2' style={{ color: '#6c738f' }} type="button">
-                    <MdOutlineLockPerson />
-                  </Link>
+                  role.id !== 1 ?  <Link to="/role/access" onClick={() => dispatch(storeId(role?.id))} className='fs-4 me-2' style={{ color: '#6c738f' }} type="button">
+                  <MdOutlineLockPerson /> 
+                </Link> : <FaUserLock className='fs-4 mt-1 me-2' />
                 )}
                 {permission?.find(per => per.name === 'edit-role')?.status === 1 && (
                   <p onClick={() => {
@@ -84,8 +62,8 @@ const TableRow = ({role , index , setUpdate , page , size}) => {
                   </p>
                 )}
              {permission?.find(per => per.name === 'delete-role')?.status === 1 && (
-              <p onClick={() => dispatch(storeId(role?.id))} className='fs-4 text-danger' type="button">
-                <CiTrash />
+              <p onClick={() => dispatch(storeId(role?.id))} className={`fs-4 text-danger `} type="button">
+                <CiTrash onClick={() => setDeletes(!deletes)}/>
               </p>
             )}
          </td>

@@ -175,12 +175,14 @@ const YourOrder = () => {
                 <input onChange={selectAll}   className='form-check-input me-1' type="checkbox" checked={ticked}/>
                 Select All
             </p>
-            <FiTrash onClick={()=>{
+            <p className='border p-1 rounded cursor-pointer' onClick={()=>{
                 dispatch(deleteFood())
                 setTicked(false)
-
             }
-            } className='me-2 text-danger cursor-pointer fs-4'/>
+            }>
+            Delete
+            <FiTrash  className='ms-2 text-danger  fs-4'/>
+            </p>
         </div>
 
         <section >
