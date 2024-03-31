@@ -161,7 +161,7 @@ function OrderList() {
               <td className="fw-normal"><sup className="text-danger">$</sup>{(order.totalPrice).toFixed(2)}</td>
               <td>
               <Link to='/order/view'>
-                <FaRegEye style={{ color: "#6c738f" }} className="fs-4 " onClick={() => handleIdClicked(order.id)}/>
+                <FaRegEye style={{ color: "#6c738f" }} className="fs-4 me-2" onClick={() => handleIdClicked(order.id)}/>
                </Link>
                 <MdDelete
                   className="text-danger cursor-pointer fs-3"

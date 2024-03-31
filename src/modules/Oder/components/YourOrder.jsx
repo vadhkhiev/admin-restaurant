@@ -170,6 +170,7 @@ const YourOrder = () => {
                 </select>
             </div>
         </section>
+        
         <div className='d-flex justify-content-between'>
             <p>
                 <input onChange={selectAll}   className='form-check-input me-1' type="checkbox" checked={ticked}/>

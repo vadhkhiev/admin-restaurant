@@ -23,7 +23,7 @@ const PieCharts = () => {
     const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     useEffect(() => {
-        console.log(`selectedMonth: ${selectedMonth.substring(0, 4)}:${selectedMonth.substring(5, 7)}`)
+
         const fetchData = async () => {
             try {
                 const response = await axios.get(`/report/income?paymentStatus=Bank&month=${selectedMonth.substring(0, 4)}:${selectedMonth.substring(5, 7)}`, {
@@ -37,8 +37,9 @@ const PieCharts = () => {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
-                const bankPrice = (response.data.data[0]?.totalPrice).toFixed(2);
-                const cashPrice = (response2.data.data[0]?.totalPrice).toFixed(2);
+                const bankPrice = (response.data.data[0]?.totalPrice)?.toFixed(2);
+                const cashPrice = (response2.data.data[0]?.totalPrice)?.toFixed(2);
+                console.log(response.data);
 
                 setData([ parseFloat(cashPrice) ,parseFloat(bankPrice) ]); 
             } catch (error) {
@@ -70,7 +71,7 @@ const PieCharts = () => {
              value={selectedMonth}
               />
            </div>
-           <p className='text-end text-success mt-3 fs-3 fw-bold'> <sup>$</sup> {(data[0] + data[1])? (data[0] + data[1]).toFixed(2): 0 }</p>
+           <p className='text-end text-success mt-3 fs-3 fw-bold'> <sup>$</sup> {(data[0] + data[1])? (data[0] + data[1])?.toFixed(2): 0 }</p>
             <Pie data={income} />
             <div className='mt-3'>
                 <ul>

@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import getorderid from '../core/getorderid';
 import foodimg from '../../../assets/img/dummy.png'
-import { CiEdit } from 'react-icons/ci';
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaRegWindowClose } from "react-icons/fa";
 
 import { MdSaveAlt } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import axios from 'axios';
+import AddFood from './AddFood';
 const ViewOrder = () => {
   const id = useSelector((state) => state.orders.viewId); 
   const orderinfo = useSelector((state) => state.orders.clickedorder[0]);
@@ -23,13 +23,18 @@ const ViewOrder = () => {
   const [message , setMessage] = useState('')
   const [error , setError] = useState('')
   const statuss = ['Prepare' , 'Cooking' , 'Complete' , 'Cancel']
-  
+  const [addFood , setAddFood] = useState(false)
+  const [addmoreFood , setAddmoreFood] = useState([])
+  console.log(addmoreFood)
+
 
   useEffect(() => {
     if(selectAll === true){
       setCurrentFood(prev=> prev.map(obj=>({...obj,check:true})))
+      setAddmoreFood(prev=> prev.map(obj=>({...obj,check:true})))
     }else{
       setCurrentFood(prev=> prev.map(obj=>({...obj,check:false})))
+      setAddmoreFood(prev=> prev.map(obj=>({...obj,check:false})))
     }
   },[selectAll])
   const handleBack =()=>{
@@ -51,10 +56,11 @@ useEffect(()=>{
   }
   fetchdata();
 },[message])
-console.log(defaultorder)
+console.log(currentFood)
 
 const handleDelete = () =>{
   setCurrentFood(prev=> prev.filter(obj=> obj.check === false))
+  setAddmoreFood(prev=> prev.filter(obj=> obj.check === false))
   setSelectAll(false)
 }
 const handleChecked = (id)=>{
@@ -93,7 +99,16 @@ const handleEdit = async ()=>{
 }
 const handleReset = () => {
   setCurrentFood(defaultorder)
+  setAddmoreFood([])
   setSelectAll(false)
+}
+const handleAddmoreFood = (id) => {
+  const existingFoodIndex = addmoreFood.findIndex(food => food.id === id);
+  if (existingFoodIndex !== -1) {
+      const updatedAddmoreFood = [...addmoreFood]; 
+      updatedAddmoreFood[existingFoodIndex].check = !updatedAddmoreFood[existingFoodIndex].check; 
+      setAddmoreFood(updatedAddmoreFood); 
+  }
 }
 
 console.log(defaultStatus?.paymentMethod)
@@ -104,6 +119,7 @@ console.log(defaultStatus?.paymentMethod)
 
   return (
     <>
+    {addFood && <AddFood addmoreFood={addmoreFood} setAddmoreFood={setAddmoreFood} setAddFood={setAddFood} />}
    <div className='m-3 d-flex justify-content-between'>
    <div className='ms-1'>
           <h3 style={{color:'#45495c'}} className='fw-bold '>Viewing order</h3> 
@@ -200,8 +216,30 @@ console.log(defaultStatus?.paymentMethod)
           <div className=' p-2'>
              <div className='mt-1 d-flex justify-content-between'>
               <h4 style={{color:'#45495c'}} className='fw-bold'>Total price</h4>
-              <span className='fw-bold'><sup className='text-danger'>$</sup> {(orderinfo?.totalPrice).toFixed(2)}</span>
+              <div>
+              <span className='fw-bold me-1'><sup className='text-danger'>$</sup> {currentFood?.reduce((acc, curr) => acc + (curr.totalPrice || 0), 0)?.toFixed(2)} 
+              </span>
+              
+              <span>
+                
+                {addmoreFood.length > 0 ?  <span className='fw-bold me-1'><sup className='text-danger'>+ $</sup>{(addmoreFood?.reduce((acc, curr) => acc + (((curr.price||0) * (1 - (curr.discount||0)/100)) * (curr.quantity||1)), 0)).toFixed(2)}</span> : null}
+              </span>
+              </div>
+             
              </div>
+             {
+              addmoreFood.length > 0 ?  
+              <div className='mt-1 d-flex justify-content-end'>
+              <div>
+                <span className='fs-3 fw-bold'>
+                  =
+                <sup className='fs-5 text-danger'>$</sup> {((currentFood?.reduce((acc, curr) => acc + (curr.totalPrice || 0), 0) || 0) + 
+                (addmoreFood?.reduce((acc, curr) => acc + (((curr.price||0) * (1 - (curr.discount||0)/100)) * (curr.quantity||1)), 0) || 0)).toFixed(2)}
+                </span>
+              </div>
+             </div> 
+             : null
+             }
           </div>
           </div>
 
@@ -218,7 +256,7 @@ console.log(defaultStatus?.paymentMethod)
               Select All
             </span>
             <div>
-            <span style={{backgroundColor:'#6c738f'}} className='btn border me-3 text-white'>
+            <span onClick={()=>setAddFood(true)} style={{backgroundColor:'#6c738f'}} className='btn border me-3 text-white'>
               Add Food
             </span>
             <span onClick={handleDelete} className='btn border'>
@@ -230,7 +268,7 @@ console.log(defaultStatus?.paymentMethod)
             
      {/* card */}
      {
-      currentFood.length > 0 ?        currentFood?.map((food)=>(
+      currentFood?.length > 0 ?        currentFood?.map((food)=>(
         <div className=' mb-3 '>
         <div className='d-flex'> 
           <span className='ms-3 me-2'>
@@ -265,9 +303,47 @@ console.log(defaultStatus?.paymentMethod)
        
        )) :
        loadingscreen? <div className='text-center'>Loading...</div> :
-        <div className='text-center text-danger'>No food ordered</div>
+        (addmoreFood?.length === 0 && currentFood?.length === 0) && <div className='text-center text-danger'>Order is removed</div>
 
      }
+     {addmoreFood?.length > 0 && <h4>Newly added</h4>}
+     {
+      
+      (addmoreFood?.length > 0) && addmoreFood?.map((food)=>(
+        <div className=' mb-3 '>
+      <div className='d-flex'> 
+        <span className='ms-3 me-2'>
+        <input
+        onChange={()=>handleAddmoreFood(food.id) }
+         checked={food?.check} 
+         
+         className=' form-check-input cursor-pointer' type="checkbox" name="" id="" />
+        </span>
+      <div  className='position-relative rounded-3 w-100 overflow-hidden d-flex' style={css}>
+        <div className='w-25 overflow-hidden'>
+          <img width={'120px'} src={foodimg} alt='Food' />
+        </div>
+        <main className='ms-3 d-flex flex-row mt-2 w-75 position-relative ordercardwrapper'>
+          <aside style={{ width: '60%' }}>
+            <h4>{food?.name}</h4>
+            
+           
+          </aside>
+          <aside style={{ width: '40%' }} className=' d-flex flex-column'>
+            <div className=''>
+              <h5>Price before discount <span className='ms-2 text-danger'>${(food?.price).toFixed(2)}</span></h5>
+              <p className=''>quantity ordered : <span className='text-danger ms-2'>{food.quantity}</span></p>
+            </div>
+
+          </aside>
+        </main>
+      </div>
+      </div>
+      
+     </div> 
+      ))
+     }
+
            
           </div>
         </section>
