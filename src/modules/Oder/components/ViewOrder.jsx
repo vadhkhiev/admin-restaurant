@@ -55,6 +55,7 @@ console.log(defaultorder)
 
 const handleDelete = () =>{
   setCurrentFood(prev=> prev.filter(obj=> obj.check === false))
+  setSelectAll(false)
 }
 const handleChecked = (id)=>{
   setCurrentFood(prev=> prev.map(obj=>({...obj,check:obj.id === id ? !obj.check : obj.check})))
@@ -62,8 +63,10 @@ const handleChecked = (id)=>{
 
 
 const css = {
+  boxShadow: "rgba(0, 0, 0, 0.15) 1.4px 1.4px 2.2px",
   border: '1px solid #c0c8ff', 
   height: '80px',
+
 };
 
 
@@ -101,18 +104,19 @@ console.log(defaultStatus?.paymentMethod)
 
   return (
     <>
-    <div className='m-5 mt-3 border p-3 rounded-3 pb-5'>
-      <div className='d-flex justify-content-between '>
-        <div className='ms-1'>
+   <div className='m-3 d-flex justify-content-between'>
+   <div className='ms-1'>
           <h3 style={{color:'#45495c'}} className='fw-bold '>Viewing order</h3> 
         </div>
-        
-        <button onClick={handleBack} className='btn text-white' style={{background:'#6c738f'}}>Back</button>
-      </div>
+    <button onClick={handleBack} className='btn text-white' style={{background:'#6c738f'}}>Back</button>
+   </div>
+    <div  className='m-3 mt-3 bg-white p-3 rounded-3 pb-5'>
 
       {/* decoration here */}
-      <div className=' mb-4  mt-3 d-flex justify-content-end border-bottom pb-3'>
-
+      <div className=' mb-4  mt-3 d-flex justify-content-between border-bottom pb-3'>
+        <div>
+          <h4 style={{color:'#45495c'}} className='fw-bold border-bottom'>Order ID : {orderinfo?.id} </h4>
+        </div>
         <div className='d-flex'>
           {
             currentFood?.length > 0 ? <>
@@ -196,7 +200,7 @@ console.log(defaultStatus?.paymentMethod)
           <div className=' p-2'>
              <div className='mt-1 d-flex justify-content-between'>
               <h4 style={{color:'#45495c'}} className='fw-bold'>Total price</h4>
-              <span><sup className='text-danger'>$</sup> {(orderinfo?.totalPrice).toFixed(2)}</span>
+              <span className='fw-bold'><sup className='text-danger'>$</sup> {(orderinfo?.totalPrice).toFixed(2)}</span>
              </div>
           </div>
           </div>
@@ -214,7 +218,7 @@ console.log(defaultStatus?.paymentMethod)
               Select All
             </span>
             <div>
-            <span className='btn border me-3'>
+            <span style={{backgroundColor:'#6c738f'}} className='btn border me-3 text-white'>
               Add Food
             </span>
             <span onClick={handleDelete} className='btn border'>
@@ -236,7 +240,7 @@ console.log(defaultStatus?.paymentMethod)
            
            className=' form-check-input cursor-pointer' type="checkbox" name="" id="" />
           </span>
-        <div className='position-relative rounded-3 w-100 overflow-hidden d-flex' style={css}>
+        <div  className='position-relative rounded-3 w-100 overflow-hidden d-flex' style={css}>
           <div className='w-25 overflow-hidden'>
             <img width={'120px'} src={foodimg} alt='Food' />
           </div>

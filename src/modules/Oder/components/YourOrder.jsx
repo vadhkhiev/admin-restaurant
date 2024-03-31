@@ -121,13 +121,13 @@ const YourOrder = () => {
                     },
                 }
             );
-            setMessage(response); 
+            setMessage('Order placed successfully'); 
             bookedTable();
             setRefetch(!refetch)
             
              setTimeout(() => {
-              dispatch(clearOrderedFood());
-             navigate(-1)
+                setMessage('')
+                dispatch(clearOrderedFood());
             }, 1000);  
 
         } catch (error) {
@@ -199,7 +199,7 @@ const YourOrder = () => {
      {
     message && (
         <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-success text-white text-center p-2 rounded ">
-            {message.data.message} 
+            {message} 
         </div>
     )
 }

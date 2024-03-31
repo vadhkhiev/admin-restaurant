@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./OrderList.css";
 import loadingImg from "../../../assets/img/loading.gif";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -9,6 +8,7 @@ import { Link } from "react-router-dom";
 import { FiEye } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { storeCLickedorder, storeViewId } from "../core/orderSlice";
+import { FaRegEye } from "react-icons/fa";
 
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,15 +17,9 @@ function OrderList() {
   const [errorMessage, setErrorMessage] = useState("");
   const [editOrderId, setEditOrderId] = useState("");
   const [editedPaymentMethod, setEditedPaymentMethod] = useState("");
-  const [editedStatus, setEditedStatus] = useState(""); // Add state for edited status
+  const [editedStatus, setEditedStatus] = useState(""); 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [deleteOrderId, setDeleteOrderId] = useState(""); // Track order ID to delete
-  const [paymentMethods, setPaymentMethods] = useState(["Cash", "Bank"]); // Payment method options
-  const [statusOptions, setStatusOptions] = useState([
-    "Prepare",
-    "Complete",
-    "Cooking",
-  ]); // Status options
+  const [deleteOrderId, setDeleteOrderId] = useState(""); 
   const token = useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const dispatch = useDispatch()
   const [clickedorder,setClickedorder] = useState([])
@@ -130,9 +124,11 @@ function OrderList() {
 
   if (isLoading) {
     return (
-      <div className="h1">
+      <div className="d-flex justify-content-center">
         <p className="fs-4">Loading...</p>
-        <img width={20} src={loadingImg} alt="" />
+        <div>
+         <img width={20} src={loadingImg} alt="" />
+        </div>
       </div>
     );
   }
@@ -143,59 +139,35 @@ function OrderList() {
   
 
   return (
-    <div className="m-3">
-      <h2 className="h1">User Order</h2>
-      {deleteConfirmation && (
-        <div className="delete-confirmation form-control">
-          <p>Are you sure you want to delete this order?</p>
-          <button className="yes" onClick={() => handleDelete(deleteOrderId)}>
-            Yes
-          </button>
-          <button className="no" onClick={() => setDeleteConfirmation(false)}>
-            No
-          </button>
-        </div>
-      )}
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <div className="d-flex my-3">
+    <div  className="m-3 rounded-3">
 
-       <Link to='/order/ordering'  style={{background:'#6c738f'}} className="btn text-white ">Add Order</Link>
-      </div>
-      <table className="table-container table bg-white fw-bold">
-        <thead>
+
+      <table className="table-container table bg-white fw-bold ">
+        <thead >
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col fs-1">ID</th>
             <th scope="col">User Entity</th>
             <th scope="col">Table Name</th>
             <td scope="col">Total</td>
             <td scope="col">Action</td>
           </tr>
         </thead>
-        <tbody>
+        <tbody >
           {orders.map((order) => (
             <tr key={order.id}>
-              <td className="fw-normal">{order.id}</td>
+              <td className="">{order.id}</td>
               <td className="fw-normal">{order.userEntity.name}</td>
-              <td className="text-center">{order.tableEntity.name}</td>
-              <td className="fw-normal">{order.totalPrice}</td>
+              <td className="fw-normal">{order.tableEntity.name}</td>
+              <td className="fw-normal"><sup className="text-danger">$</sup>{(order.totalPrice).toFixed(2)}</td>
               <td>
-                {editOrderId === order.id ? (
-                  <button className=" btn btn-primary" onClick={handleSaveEdit}>
-                    Save
-                  </button>
-                ) : (
-                  <FaEdit
-                    className="edit"
-                    onClick={() => handleEdit(order.id)}
-                  />
-                )}
+              <Link to='/order/view'>
+                <FaRegEye style={{ color: "#6c738f" }} className="fs-4 " onClick={() => handleIdClicked(order.id)}/>
+               </Link>
                 <MdDelete
-                  className="delete"
+                  className="text-danger cursor-pointer fs-3"
                   onClick={() => handleDelete(order.id)}
                 />
-               <Link to='/order/view'>
-                <FiEye className="fs-3" onClick={() => handleIdClicked(order.id)}/>
-               </Link>
+              
               </td>
             </tr>
           ))}

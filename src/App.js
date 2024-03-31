@@ -15,6 +15,7 @@ import ViewOrder from "./modules/Oder/components/ViewOrder";
 import Reports from "./modules/Reports/Reports";
 import FoodReports from "./modules/Reports/components/FoodReports";
 import SaleReports from "./modules/Reports/components/SaleReports";
+import OrderList from "./modules/Oder/components/OderList";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -29,9 +30,11 @@ function App() {
         {isAuthenticated ? (
           <Route path="/" element={<Layout1 />}>
             <Route index element={<Dashboard/>} />
-            <Route path="order" element={<MainOder />} />
-            <Route path="order/ordering" element={<MakeOrder />} />
-            <Route path='order/view' element={<ViewOrder/>} />
+            <Route path="order" element={<MainOder />} >
+              <Route index element={<MakeOrder />} />
+              <Route path="list" element={<OrderList/>} />
+              <Route path='view' element={<ViewOrder/>} />
+            </Route>
             <Route path="table" element={<Table/>} />
             {/* <Route path="table/:id" element={<UpdateTable/>} /> */}
             <Route path="profile" element={<h1>Profile</h1>} />

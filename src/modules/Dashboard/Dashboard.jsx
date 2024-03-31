@@ -93,7 +93,7 @@ const Dashboard = () => {
             <Catebox title={' Users'} icon={<FaUsers />} num={recentUsers?.paging?.totals ? recentUsers?.paging?.totals : 0} color={'#6895a1'} />
             <Catebox title={'Orders'} icon={<CiBoxes />} num={Allorders?.paging?.totals ? Allorders?.paging?.totals : 0} color={'#344955'} />
             <Catebox title={'Foods'} icon={<IoFastFoodOutline />} num={foodlist?.data?.length ? foodlist?.data?.length : 0} color={'#50727B'} />
-            <Catebox title={' Roles'} icon={<FaUsers />} num={roles?.length ? (roles?.length - 1) : 0  } color={'#78A083'} />
+            <Catebox title={' Roles'} icon={<FaUsers />} num={roles?.length ? (roles?.length) : 0  } color={'#78A083'} />
             </section>
             <div className="col-12 mt-3">
             <div style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}  className='p-3'>

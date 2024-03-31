@@ -16,9 +16,6 @@ const MakeOrder = () => {
   const navigate = useNavigate() 
   const dispatch = useDispatch() 
   const [selectedCategories, setSelectedCategories] = useState('');
-  const handleBack =()=>{
-    navigate(-1)
-  }
   const handleClicked = (index)=>{
     setClickedIndex(index)
   }
@@ -34,11 +31,11 @@ const MakeOrder = () => {
   return (
     <>
 
-    <div className='m-3 border p-3 rounded-3'>
+    <div  className='m-3 border p-3 rounded-3 bg-white'>
       <div>
-      <div className='d-flex justify-content-between'>
+      <div className=''>
       <h3 style={{color:'#45495c'}} className='fw-bold '>Making order</h3>
-      <button onClick={handleBack} className='btn text-white' style={{background:'#6c738f'}}>Back</button>
+     
     </div>
     <main className='row mt-3'>
       <div className="col-12 mb-3 ">
@@ -56,7 +53,7 @@ const MakeOrder = () => {
         ))}
         </div>
       </div>
-      <div className={`mt-3 ${cartFood?.length !== 0 ? 'col-12 col-lg-8 ' : 'col-12'}`}>
+      <div className={`mt-3 border-top pt-3 ${cartFood?.length !== 0 ? 'col-12 col-lg-8 ' : 'col-12'}`}>
         {(selectedCategories ? 
           allfood?.filter((food) => 
             food.foodCategoryEntity?.name === selectedCategories

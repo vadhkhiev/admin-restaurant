@@ -82,8 +82,8 @@ return (
       <div>
       <div className='p-2'>
         {fetchedData?.map((item) => (
-          <div key={item.id} style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px',background:'#6c738f'}} className='d-flex justify-content-between  align-items-center p-2 m-2 rounded-3 bg-light'>
-            <div>{item.name}</div>
+          <div key={item.id} style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px',background:'#6c738f'}} className='d-flex justify-content-between border  align-items-center p-2 m-2 rounded-3 bg-transparent'>
+            <div style={{color:'#6c738f'}} className='fw-bold'>{item.name}</div>
             <div className='form-check form-switch'>
               <input
                 className='form-check-input'
