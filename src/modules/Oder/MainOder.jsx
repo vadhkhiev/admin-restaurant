@@ -1,12 +1,11 @@
 import React from "react";
 import OderList from "./components/OderList";
-import OderSt from "./components/OderSt";
+import Page from "./components/Page";
 
 const MainOder = () => {
   return (
     <div>
       <OderList />
-      <OderSt />
     </div>
   );
 };

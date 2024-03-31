@@ -10,30 +10,32 @@ import { FiEye } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { storeCLickedorder, storeViewId } from "../core/orderSlice";
 
+function roundLastTwoDigits(number) {
+  return Math.round(number * 100) / 100;
+}
+
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setError] = useState(false);
   const [orders, setOrders] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [currentPage, setCurrentPage] = useState(1); // Track current page
+  const [totalPages, setTotalPages] = useState(1); // Track total pages
+  const [pageSize] = useState(10); // Define page size
   const [editOrderId, setEditOrderId] = useState("");
   const [editedPaymentMethod, setEditedPaymentMethod] = useState("");
   const [editedStatus, setEditedStatus] = useState(""); // Add state for edited status
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [deleteOrderId, setDeleteOrderId] = useState(""); // Track order ID to delete
-  const [paymentMethods, setPaymentMethods] = useState(["Cash", "Bank"]); // Payment method options
-  const [statusOptions, setStatusOptions] = useState([
-    "Prepare",
-    "Complete",
-    "Cooking",
-  ]); // Status options
+  const [searchQuery, setSearchQuery] = useState(""); // State to hold search query
   const token = localStorage.getItem("token");
-  const dispatch = useDispatch()
-  const [clickedorder,setClickedorder] = useState([])
+  const dispatch = useDispatch();
+  const [clickedorder, setClickedorder] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/orders?page=1`, {
+        const response = await axios.get(`/api/orders?decs`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -44,7 +46,7 @@ function OrderList() {
         }
 
         setOrders(response.data.data);
-        console.log(response.data.data)
+        console.log(response.data.data);
       } catch (error) {
         setError(true);
         setErrorMessage("Failed to fetch orders. Please try again later.");
@@ -57,6 +59,37 @@ function OrderList() {
     }
   }, [token]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `/api/orders?page=1&size=5 ${currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.data || !response.data.data) {
+          throw new Error("Failed to fetch data");
+        }
+
+        setOrders(response.data.data);
+        setTotalPages(response.data.totalPages); // Set total pages
+        setIsLoading(false);
+      } catch (error) {
+        setError(true);
+        setErrorMessage("Failed to fetch orders. Please try again later.");
+        setIsLoading(false);
+      }
+    };
+
+    if (token) {
+      fetchData();
+    }
+  }, [token, currentPage]); // Add currentPage as a dependency
+  console.log(totalPages);
   const handleDelete = async (orderId) => {
     if (deleteConfirmation) {
       try {
@@ -79,55 +112,23 @@ function OrderList() {
     }
   };
 
-  const handleEdit = async (orderId) => {
-    setEditOrderId(orderId);
-    const orderToEdit = orders.find((order) => order.id === orderId);
-    setEditedPaymentMethod(orderToEdit.paymentMethod);
-    setEditedStatus(orderToEdit.status); // Set initial status value
-  };
-
   const handleIdClicked = (orderId) => {
     dispatch(storeViewId(orderId));
-    dispatch(storeCLickedorder(orders.filter((order) => order.id === orderId)))
-    console.log(orders.filter((order) => order.id === orderId))
+    dispatch(storeCLickedorder(orders.filter((order) => order.id === orderId)));
+    console.log(orders.filter((order) => order.id === orderId));
   };
 
-  const handleSaveEdit = async () => {
-    try {
-      await axios.put(
-        `/api/orders/payment/${editOrderId}`,
-        {
-          paymentMethod: editedPaymentMethod,
-          status: editedStatus, // Include edited status in the request
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const updatedOrders = orders.map((order) => {
-        if (order.id === editOrderId) {
-          return {
-            ...order,
-            paymentMethod: editedPaymentMethod,
-            status: editedStatus,
-          };
-        }
-        return order;
-      });
-
-      setOrders(updatedOrders);
-      setEditOrderId("");
-      setEditedPaymentMethod("");
-      setEditedStatus(""); // Reset edited status
-    } catch (error) {
-      setErrorMessage("Failed to save changes. Please try again later.");
-    }
+  // Function to filter orders based on search query
+  const filteredOrders = orders.filter((order) =>
+    order.tableEntity.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
   if (isLoading) {
     return (
       <div className="h1">
@@ -136,17 +137,26 @@ function OrderList() {
       </div>
     );
   }
-
   if (isError) {
-    return <h1>Development Error</h1>;
+    return <h1 className="h1">Development Error</h1>;
   }
-  
 
   return (
     <div className="m-3">
-      <h2 className="h1">User Order</h2>
+      <div className="d-flex form">
+        <form className="tp">
+          <input
+            className="form-control mr-sm-2"
+            type="text"
+            placeholder="Search table name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </form>
+      </div>
+      {/* <h2 className="h1">User Order</h2> */}
       {deleteConfirmation && (
-        <div className="delete-confirmation form-control">
+        <div className="delete-confirmation">
           <p>Are you sure you want to delete this order?</p>
           <button className="yes" onClick={() => handleDelete(deleteOrderId)}>
             Yes
@@ -158,8 +168,13 @@ function OrderList() {
       )}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div className="d-flex my-3">
-
-       <Link to='/order/ordering'  style={{background:'#6c738f'}} className="btn text-white ">Add Order</Link>
+        <Link
+          to="/order/ordering"
+          style={{ background: "#6c738f" }}
+          className="btn text-white "
+        >
+          Add Order
+        </Link>
       </div>
       <table className="table-container table bg-white fw-bold">
         <thead>
@@ -172,35 +187,49 @@ function OrderList() {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {filteredOrders.map((order) => (
             <tr key={order.id}>
               <td className="fw-normal">{order.id}</td>
               <td className="fw-normal">{order.userEntity.name}</td>
-              <td className="text-center">{order.tableEntity.name}</td>
-              <td className="fw-normal">{order.totalPrice}</td>
+              <td className="text-normal">{order.tableEntity.name}</td>
+              <td className="fw-normal">
+                {roundLastTwoDigits(order.totalPrice)}{" "}
+                <sub className="text-danger fs-6">$</sub>
+              </td>
+
               <td>
-                {editOrderId === order.id ? (
-                  <button className=" btn btn-primary" onClick={handleSaveEdit}>
-                    Save
-                  </button>
-                ) : (
-                  <FaEdit
-                    className="edit"
-                    onClick={() => handleEdit(order.id)}
-                  />
-                )}
                 <MdDelete
                   className="delete"
                   onClick={() => handleDelete(order.id)}
                 />
-               <Link to='/order/view'>
-                <FiEye className="fs-3" onClick={() => handleIdClicked(order.id)}/>
-               </Link>
+                <Link to="/order/view">
+                  <FiEye
+                    className="fs-3"
+                    onClick={() => handleIdClicked(order.id)}
+                  />
+                </Link>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className="pagination h1 fs-4">
+        <button
+          className=" btn btn-danger"
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+        >
+          Prev
+        </button>
+        <span>{currentPage}</span> / <span>{totalPages}</span>
+        <button
+          className="btn btn-primary"
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

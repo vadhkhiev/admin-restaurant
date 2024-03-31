@@ -10,7 +10,7 @@ import Access from "./modules/Role/components/Access";
 import Table from "./modules/table/Table";
 import Dashboard from "./modules/Dashboard/Dashboard";
 import MainOder from "./modules/Oder/MainOder";
-import MakeOrder from "./modules/Oder/components/MakeOrder"; 
+import MakeOrder from "./modules/Oder/components/MakeOrder";
 import ViewOrder from "./modules/Oder/components/ViewOrder";
 import Reports from "./modules/Reports/Reports";
 import FoodReports from "./modules/Reports/components/FoodReports";
@@ -22,13 +22,12 @@ function App() {
     (state) => state.permission?.permission?.data?.permissions
   );
 
-
   return (
     <>
       <Routes>
         {isAuthenticated ? (
           <Route path="/" element={<Layout1 />}>
-            <Route index element={<Dashboard/>} />
+            <Route index element={<Dashboard />} />
             <Route path="order" element={<MainOder />} />
             <Route path="order/ordering" element={<MakeOrder />} />
             <Route path='order/view' element={<ViewOrder/>} />

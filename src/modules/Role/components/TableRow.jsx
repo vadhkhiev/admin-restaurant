@@ -54,7 +54,6 @@ const TableRow = ({role , index , setUpdate , page , size}) => {
   const roleId = id1 || roleidofuser ;
 
   
-
   return (
     <>
         <tr>

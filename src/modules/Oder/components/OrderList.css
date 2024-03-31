@@ -39,10 +39,12 @@ th {
   color: rgb(255, 110, 110);
   font-size: 1.5rem;
   margin: 10px;
+  cursor: pointer;
 }
 .edit {
   color: rgb(110, 180, 255);
   font-size: 1.3rem;
+  cursor: pointer;
 }
 .yes {
   background-color: #333;
@@ -62,4 +64,26 @@ th {
   &:hover {
     opacity: 0.7;
   }
+}
+.form {
+  font-family: "Your Custom Font", Arial, sans-serif;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.tp {
+  position: relative;
+  bottom: -45px;
+  left: -10px;
+}
+.delete-confirmation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  z-index: 9999;
 }
