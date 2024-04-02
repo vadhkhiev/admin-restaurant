@@ -4,8 +4,10 @@ import getPermission from '../core/getPermission';
 import loadinggif from '../../../assets/img/loading.gif'
 import updatePermission from '../core/updatePermission';
 const Checkbox = () => {
+  
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
   const id = useSelector((state) => state.id?.id);
+
   const [fetchedData, setFetchedData] = useState([]);
   const [updatedData, setUpdatedData] = useState([]);
   const [loading , setLoading] = useState(true)

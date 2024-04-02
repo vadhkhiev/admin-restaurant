@@ -10,7 +10,7 @@ import Access from "./modules/Role/components/Access";
 import Table from "./modules/table/Table";
 import Dashboard from "./modules/Dashboard/Dashboard";
 import MainOder from "./modules/Oder/MainOder";
-import MakeOrder from "./modules/Oder/components/MakeOrder"; 
+import MakeOrder from "./modules/Oder/components/MakeOrder";
 import ViewOrder from "./modules/Oder/components/ViewOrder";
 import Reports from "./modules/Reports/Reports";
 import FoodReports from "./modules/Reports/components/FoodReports";
@@ -22,7 +22,6 @@ function App() {
   const permission = useSelector(
     (state) => state.permission?.permission?.data?.permissions
   );
-
 
   return (
     <>

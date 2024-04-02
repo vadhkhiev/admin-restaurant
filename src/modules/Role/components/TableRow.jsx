@@ -29,7 +29,6 @@ const TableRow = ({role , index , setUpdate , page , size , setRefetch,refetch }
   const roleId = id1 || roleidofuser ;
 
   
-
   return (
     <>
     {

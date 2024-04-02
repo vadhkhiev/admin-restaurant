@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import Table from './components/Table'
-import { useDispatch, useSelector } from 'react-redux';
-import Createrole from './components/Createrole';
-import UpdateRole from './components/UpdateRole';
-import getroles from '../layout/core/getroles';
-import { storeRoles } from '../layout/core/roleSlice';
-
-
+import React, { useEffect, useState } from "react";
+import Table from "./components/Table";
+import { useDispatch, useSelector } from "react-redux";
+import Createrole from "./components/Createrole";
+import UpdateRole from "./components/UpdateRole";
+import getroles from "../layout/core/getroles";
+import { storeRoles } from "../layout/core/roleSlice";
 
 const Role = () => {
     const pagingdetails = useSelector((state) => state.roles.paging);
@@ -46,8 +44,8 @@ const Role = () => {
 
   return (
     <>
-    {add && <Createrole setAdd={setAdd}/>}
-    {update && <UpdateRole setUpdate={setUpdate}/>}
+      {add && <Createrole setAdd={setAdd} />}
+      {update && <UpdateRole setUpdate={setUpdate} />}
 
         <div className='m-5'>
         <div className='d-flex mb-3 justify-content-between'>
@@ -87,9 +85,9 @@ const Role = () => {
         <div >
             <Table setRefetch={setRefetch} setPage={setPage} refetch={refetch} page={page} size={size}  setUpdate={setUpdate}/>
         </div>
-    </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default Role
+export default Role;

@@ -1,0 +1,89 @@
+.table-container {
+  font-family: Arial, sans-serif;
+}
+
+.table-containers table {
+  width: 150%;
+  display: flex;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.table-containers th,
+.table-containers td {
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.table-containers th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.table-containers tbody tr:hover {
+  background-color: #f5f5f5;
+}
+.h1 {
+  font-family: "Your Custom Font", Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+th {
+  padding: 25px 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+.delete {
+  color: rgb(255, 110, 110);
+  font-size: 1.5rem;
+  margin: 10px;
+  cursor: pointer;
+}
+.edit {
+  color: rgb(110, 180, 255);
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.yes {
+  background-color: #333;
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+.no {
+  background-color: #333;
+  margin: 10px;
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+.form {
+  font-family: "Your Custom Font", Arial, sans-serif;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.tp {
+  position: relative;
+  bottom: -45px;
+  left: -10px;
+}
+.delete-confirmation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  z-index: 9999;
+}

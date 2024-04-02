@@ -16,6 +16,9 @@ function OrderList() {
   const [isError, setError] = useState(false);
   const [orders, setOrders] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [currentPage, setCurrentPage] = useState(1); // Track current page
+  const [totalPages, setTotalPages] = useState(1); // Track total pages
+  const [pageSize] = useState(10); // Define page size
   const [editOrderId, setEditOrderId] = useState("");
   const [editedPaymentMethod, setEditedPaymentMethod] = useState("");
   const [editedStatus, setEditedStatus] = useState(""); 
@@ -54,7 +57,7 @@ function OrderList() {
         setPagingdetails(response.data.paging)
 
         setOrders(response.data.data);
-        console.log(response.data.data)
+        console.log(response.data.data);
       } catch (error) {
         setError(true);
         setErrorMessage("Failed to fetch orders. Please try again later.");
@@ -123,9 +126,8 @@ function OrderList() {
       </div>
     );
   }
-
   if (isError) {
-    return <h1>Development Error</h1>;
+    return <h1 className="h1">Development Error</h1>;
   }
   console.log(pagingdetails)
 
