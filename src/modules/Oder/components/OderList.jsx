@@ -141,7 +141,7 @@ function OrderList() {
       <p 
       onClick={()=>setFilterbar(!filterbar)}
        style={{backgroundColor:'#6c738f' , color:'white'}} className="cursor-pointer rounded-start mt-3 h-100 p-1 pe-3 pt-2 ps-3 ">
-       {`< Filter`}
+       {`${filterbar ? '>' : '<'} Filter`}
       </p>
       </div>
 
@@ -149,7 +149,7 @@ function OrderList() {
       
      <select
      onChange={(e)=>setStatus(e.target.value)}
-      style={{ height:'25px'}} className="form-select form-select-sm mx-4" name="" id="">
+      style={{ height:'25px'}} className="form-select form-select-sm rounded-3 mx-4" name="" id="">
         <option hidden value="">Status</option>
         <option value="">All</option>
         <option value="Prepare">Prepare</option>
@@ -160,7 +160,7 @@ function OrderList() {
       </select>
       <select
       onChange={(e)=>setPayment(e.target.value)}
-       style={{ height:'25px'}} className="form-select form-select-sm me-3 " name="" id="">
+       style={{ height:'25px'}} className="form-select form-select-sm me-3 rounded-3 " name="" id="">
         <option hidden value="">Payment</option>
         <option value="">All</option>
         <option value="Cash">Cash</option>
@@ -168,7 +168,7 @@ function OrderList() {
       </select>
       <select
       onChange={(e)=>setSize(parseInt(e.target.value))}
-       style={{ height:'25px'}} className="form-select form-select-sm me-3 " name="" id="">
+       style={{ height:'25px'}} className="form-select form-select-sm me-3  rounded-3" name="" id="">
         <option value="10">Show 10</option>
         <option selected value="20">Show 20</option>
         <option value="30">Show 30</option>
