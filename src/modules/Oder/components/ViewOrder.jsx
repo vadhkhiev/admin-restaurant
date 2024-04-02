@@ -5,6 +5,7 @@ import getorderid from '../core/getorderid';
 import foodimg from '../../../assets/img/dummy.png'
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaRegWindowClose } from "react-icons/fa";
+import updateOrder from '../core/updateOrder';
 
 import { MdSaveAlt } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
@@ -12,6 +13,7 @@ import axios from 'axios';
 import AddFood from './AddFood';
 const ViewOrder = () => {
   const id = useSelector((state) => state.orders.viewId); 
+  const foodlist = useSelector((state)=> state.foodList.foodList)
   const orderinfo = useSelector((state) => state.orders.clickedorder[0]);
   const navigate = useNavigate();
   const [currentFood , setCurrentFood] = useState([])
@@ -23,9 +25,9 @@ const ViewOrder = () => {
   const [message , setMessage] = useState('')
   const [error , setError] = useState('')
   const statuss = ['Prepare' , 'Cooking' , 'Complete' , 'Cancel']
-  const [addFood , setAddFood] = useState(false)
   const [addmoreFood , setAddmoreFood] = useState([])
-  console.log(addmoreFood)
+  const [addFood , setAddFood] = useState(false)
+
 
 
   useEffect(() => {
@@ -111,10 +113,39 @@ const handleAddmoreFood = (id) => {
   }
 }
 
-console.log(defaultStatus?.paymentMethod)
+const handleSave = async () => {
+  const curr = currentFood?.map((food) => {
+    return {
+      foodId: foodlist.find((f) => f.name === food.foodEntity.name)?.id,
+      quantity: food.quantity,
+    };
+  });
+  const add = addmoreFood?.map((food) => {
+    return {
+      foodId: foodlist.find((f) => f.name === food.name)?.id,
+      quantity: food.quantity,
+    };
+  })
 
-
-
+ if (currentFood.length === 0 && addmoreFood.length === 0) {
+   alert('deleted')
+  } 
+  const orderUpdate = {tableId : orderinfo?.tableEntity?.id, userId : orderinfo?.userEntity?.id , items: [...curr, ...add]}
+  if(orderUpdate){
+    try {
+      const result = await updateOrder(token, id, orderUpdate ); 
+      setMessage(result.message);
+      setAddmoreFood([]);
+      setTimeout(() => {
+        setMessage('');
+      },1000);
+      setError('');
+    } catch (error) {
+      console.error(error);
+      setError(error.response.data.message);
+    } 
+  }
+}
 
 
   return (
@@ -350,7 +381,7 @@ console.log(defaultStatus?.paymentMethod)
 
       </main>
       <div className='d-flex justify-content-end'>
-       <p style={{background:'#6c738f'}} className='btn text-white'>Save</p>
+       <p onClick={handleSave} style={{background:'#6c738f'}} className='btn text-white'>Save</p>
        <p onClick={handleReset} className='btn bg-danger ms-2 text-white'>Reset</p>
       </div>
 

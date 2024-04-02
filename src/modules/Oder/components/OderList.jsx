@@ -9,6 +9,7 @@ import { FiEye } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { storeCLickedorder, storeViewId } from "../core/orderSlice";
 import { FaRegEye } from "react-icons/fa";
+import ConfirmOrderDelete from "./ConfirmOrderDelete";
 
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,11 +24,25 @@ function OrderList() {
   const token = useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const dispatch = useDispatch()
   const [clickedorder,setClickedorder] = useState([])
+  const [deletealert , setDeletealert]=useState(false)
+  const [deleteId , setDeleteId] = useState('')
+  const [filterbar , setFilterbar] = useState(false)
+
+  // pagination / filter 
+  const [pagingdetails , setPagingdetails] = useState({})
+  const [page , setPage] = useState(1)
+  const [size , setSize] = useState(20)
+  const [status , setStatus] = useState('')
+  const [payment , setPayment] = useState('')
+
+  useEffect(()=>{
+    setPage(1)
+  },[size , status , payment])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/orders?page=1`, {
+        const response = await axios.get(`/api/orders?status=${status}&page=${page}&size=${size}&sort=id&paymentMethod=${payment}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -36,6 +51,7 @@ function OrderList() {
         if (!response.data || !response.data.data) {
           throw new Error("Failed to fetch data");
         }
+        setPagingdetails(response.data.paging)
 
         setOrders(response.data.data);
         console.log(response.data.data)
@@ -49,10 +65,9 @@ function OrderList() {
     if (token) {
       fetchData();
     }
-  }, [token]);
+  }, [page,size , status , payment]);
 
   const handleDelete = async (orderId) => {
-    if (deleteConfirmation) {
       try {
         await axios.delete(`/api/orders/${orderId}`, {
           headers: {
@@ -66,12 +81,14 @@ function OrderList() {
       } catch (error) {
         setErrorMessage("Failed to delete order. Please try again later.");
       }
-    } else {
-      // Ask for confirmation before deleting
-      setDeleteOrderId(orderId); // Set delete order ID
-      setDeleteConfirmation(true);
-    }
   };
+
+  const deleteAlert = (id)=>{
+    setDeleteId(id)
+    setDeletealert(true)
+  }
+
+
 
   const handleEdit = async (orderId) => {
     setEditOrderId(orderId);
@@ -86,40 +103,14 @@ function OrderList() {
     console.log(orders.filter((order) => order.id === orderId))
   };
 
-  const handleSaveEdit = async () => {
-    try {
-      await axios.put(
-        `/api/orders/payment/${editOrderId}`,
-        {
-          paymentMethod: editedPaymentMethod,
-          status: editedStatus, // Include edited status in the request
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const updatedOrders = orders.map((order) => {
-        if (order.id === editOrderId) {
-          return {
-            ...order,
-            paymentMethod: editedPaymentMethod,
-            status: editedStatus,
-          };
-        }
-        return order;
-      });
-
-      setOrders(updatedOrders);
-      setEditOrderId("");
-      setEditedPaymentMethod("");
-      setEditedStatus(""); // Reset edited status
-    } catch (error) {
-      setErrorMessage("Failed to save changes. Please try again later.");
+  const handlePagination = (paging) => {
+    window.scrollTo(0, 0);
+    if (paging === 'increase') {
+      setPage(pagingdetails.totalPage === page ? page : page + 1 );
+    } else {
+      setPage(page === 1 ? 1 : page - 1);
     }
-  };
+  }
 
 
   if (isLoading) {
@@ -136,10 +127,63 @@ function OrderList() {
   if (isError) {
     return <h1>Development Error</h1>;
   }
-  
+  console.log(pagingdetails)
 
   return (
-    <div  className="m-3 rounded-3">
+<>
+<section className="m-3 ">
+  <div className="d-flex  ">
+  <h3  style={{color:'#6c738f'}} className="text-nowrap fw-bold">Orders list</h3>
+    <div style={{height: '35px'}} className="w-100 d-flex justify-content-end">
+      <div className="d-flex align-items-center justify-content-end">
+      <p 
+      onClick={()=>setFilterbar(!filterbar)}
+       style={{backgroundColor:'#6c738f' , color:'white'}} className="cursor-pointer rounded-start mt-3 h-100 p-1 pe-3 pt-2 ps-3 ">
+       {`< Filter`}
+      </p>
+      </div>
+
+     <div style={{backgroundColor:'#6c738f' , color:'white'}} className={`${filterbar ? 'w-50' : 'd-none'} h-100 d-flex justify-content-evenly align-items-center`}>
+      
+     <select
+     onChange={(e)=>setStatus(e.target.value)}
+      style={{ height:'25px'}} className="form-select form-select-sm mx-4" name="" id="">
+        <option hidden value="">Status</option>
+        <option value="">All</option>
+        <option value="Prepare">Prepare</option>
+        <option value="Cooking">Cooking</option>
+        <option value="Complete">Complete</option>
+        <option value="Cancel">Cancel</option>
+
+      </select>
+      <select
+      onChange={(e)=>setPayment(e.target.value)}
+       style={{ height:'25px'}} className="form-select form-select-sm me-3 " name="" id="">
+        <option hidden value="">Payment</option>
+        <option value="">All</option>
+        <option value="Cash">Cash</option>
+        <option value="Bank">Bank</option>
+      </select>
+      <select
+      onChange={(e)=>setSize(parseInt(e.target.value))}
+       style={{ height:'25px'}} className="form-select form-select-sm me-3 " name="" id="">
+        <option value="10">Show 10</option>
+        <option selected value="20">Show 20</option>
+        <option value="30">Show 30</option>
+        <option value="40">Show 40</option>
+        <option value="50">Show 50</option>
+      </select>
+
+     </div>
+    </div>
+  </div>
+</section>
+
+
+<div  className="m-3 rounded-3">
+      {
+        deletealert && <ConfirmOrderDelete handleDelete={handleDelete} deleteId={deleteId} setDeletealert={setDeletealert} setDeleteConfirmation={setDeleteConfirmation} />
+      }
 
 
       <table className="table-container table bg-white fw-bold ">
@@ -153,27 +197,56 @@ function OrderList() {
           </tr>
         </thead>
         <tbody >
-          {orders.map((order) => (
-            <tr key={order.id}>
-              <td className="">{order.id}</td>
-              <td className="fw-normal">{order.userEntity.name}</td>
-              <td className="fw-normal">{order.tableEntity.name}</td>
-              <td className="fw-normal"><sup className="text-danger">$</sup>{(order.totalPrice).toFixed(2)}</td>
-              <td>
-              <Link to='/order/view'>
-                <FaRegEye style={{ color: "#6c738f" }} className="fs-4 me-2" onClick={() => handleIdClicked(order.id)}/>
-               </Link>
-                <MdDelete
-                  className="text-danger cursor-pointer fs-3"
-                  onClick={() => handleDelete(order.id)}
-                />
-              
-              </td>
-            </tr>
-          ))}
+          {
+            orders && orders.map((order) => (
+              <tr key={order.id}>
+                <td className="">{order.id}</td>
+                <td className="fw-normal">{order.userEntity.name}</td>
+                <td className="fw-normal">{order.tableEntity.name}</td>
+                <td className="fw-normal"><sup className="text-danger">$</sup>{(order.totalPrice).toFixed(2)}</td>
+                <td>
+                <Link to='/order/view'>
+                  <FaRegEye style={{ color: "#6c738f" }} className="fs-4 me-2" onClick={() => handleIdClicked(order.id)}/>
+                 </Link>
+                  <MdDelete
+                    className="text-danger cursor-pointer fs-3"
+                    onClick={() => deleteAlert(order.id )}  
+                  />
+                
+                </td>
+              </tr>
+            )) 
+          }
         </tbody>
       </table>
+      {
+        orders?.length === 0 && <p className="text-center text-danger">No Orders Found</p>
+      }
+
+      <div className='p-0 d-flex justify-content-center'>
+            <nav aria-label="Page navigation example">
+              <ul className="pagination list-unstyled d-flex justify-content-center align-items-center">
+                <li className="page-item underline-none me-4">
+                  <a onClick={() => handlePagination('decrease')} style={{ fontSize: '25px' }} className="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li className="page-item underline-none" style={{ display: 'flex', gap: '5px', width: '60px' }}>
+                  <span className="page-link" style={{ fontSize: '18px' }}>{page}</span>
+                  <span className="page-link" style={{ fontSize: '18px' }}>/</span>
+                  <span className="page-link" style={{ fontSize: '18px' }}>{pagingdetails?.totalPage ? pagingdetails?.totalPage : 1}</span>
+                </li>
+                <li className="page-item">
+                  <a onClick={() => handlePagination('increase')} style={{ fontSize: '25px' }} className="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+
+          </div>
     </div>
+</>
   );
 }
 
