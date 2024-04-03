@@ -10,7 +10,9 @@ const FoodReports = () => {
   const [pagingdetails, setPagingdetails] = useState({});
   const [loadingScreen , setLoadingScreen] = useState(true)
   const [size , setSize] = useState(20)
+  const [search , setSearch] = useState('')
   const [filterbar , setFilterbar] = useState(false)
+  const [topFood , setTopFood] = useState("")
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token')
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const FoodReports = () => {
     console.log(`${year}:${month}`);
    const fetchData = async () => {
     try {
-      const url = `/report/food?month=${year}:${month}${startDate ? '&start=' + startDate : ''}${endDate ? '&end=' + endDate : ''}&page=${currpage}&size=${size}`;
+      const url = `/report/food?month=${year}:${month}${startDate ? '&start=' + startDate : ''}${endDate ? '&end=' + endDate : ''}&page=${currpage}&size=${size}&query=${search}&foodTop5=${topFood}`;
       const headers = {
         'Authorization': `Bearer ${token}`
       };
@@ -42,7 +44,7 @@ const FoodReports = () => {
       setLoadingScreen(false);
     }
   }; fetchData();
-  }, [startDate, endDate, currpage,size]);
+  }, [startDate, endDate, currpage,size , search , topFood]);
 
  
 
@@ -69,30 +71,40 @@ const FoodReports = () => {
          <h3 style={{color:'#45495c'}} className='fw-bold mb-3'>Food Report <span className='text-primary fs-5'>
          {`${!(startDate && endDate) ? '(This Month)' : '' }`}</span></h3>
         </div>
-        <div className='d-flex'>
-          <div  style={{background:'#6c738f' , height:'35px'}} className='p-1 pb-2 rounded-start-3'>
+        <div className='d-flex jsutify-content-end'>
+
+          <div  style={{ height:'35px'}} className=' rounded-start-3 d-flex justify-content-center'>
+            <input
+            onChange={(e) => {
+              const timeoutId = setTimeout(() => {
+                setSearch(e.target.value);
+                clearTimeout(timeoutId);
+              }, 500);
+            }}
+             type="search" className='form-control rounded-start-3' placeholder="Search food..." />
             <button 
+            style={{background:'#6c738f'}}
             onClick={() => setFilterbar(!filterbar)}
-            className='btn p-1 px-3 ps-2 text-white fw-bold'> {`${filterbar ? '>' : '<'} Filter`}</button>
+            className='btn rounded-0 rounded-start text-nowrap  text-white fw-bold'> {`${filterbar ? '>' : '<'} Filter`}</button>
           </div>
-          <div style={{height:'35px',backgroundColor:'#6c738f'}} className={`${filterbar ? '' : 'd-none'} d-flex p-1 px-3`}>
+          <div style={{height:'35px',backgroundColor:'#6c738f'}} className={`${filterbar ? '' : 'd-none'} d-flex p-2 px-3`}>
           <div className='d-flex text-nowrap'>
-           <label className='p-1 text-white ' htmlFor="">Start date</label>
+           <label className=' text-white me-3' htmlFor="">Start date</label>
            <input 
            onChange={(e) => setStartDate(e.target.value)}
-            className='form-control' type="date" name="" id="" />
+            className='form-control py-0 rounded me-3' type="date" name="" id="" />
           </div>
-          <div className='d-flex text-nowrap'>
-          <label className='p-1 text-white ' htmlFor="">End date</label>
+          <div className='d-flex text-nowrap '>
+          <label className=' text-white me-3' htmlFor="">End date</label>
            <input
            onChange={(e) => setEndDate(e.target.value)}
-            className='form-control' type="date" name="" id="" />
+            className='form-control py-0 rounded' type="date" name="" id="" />
           </div>
           <div className='d-flex ms-3'>
-            <label htmlFor="" className=' text-white p-1'>Show</label>
+            <label htmlFor="" className=' text-white me-3 '>Show</label>
             <select 
             onChange={(e) => setSize(parseInt(e.target.value))}
-            className='form-select form-select-sm rounded ms-3' name="" id="">
+            className='form-select me-3 py-0'  name="" id="">
               <option value="20">
                 20
               </option>

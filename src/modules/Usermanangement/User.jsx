@@ -296,7 +296,7 @@ const User = () => {
                   users={orderby === "desc" ? users.slice().reverse() : users}
                   handleEdit={handleEdit}
                 />{" "}
-                *
+                
               </div>
             ) : (
               <div className="p-3">
