@@ -24,7 +24,7 @@ const OrderedFood = ({handleEdit , cartFood}) => {
                     <div style={{width:'33%'}}>
                         <div className='d-flex'>
                          <img className='rounded-3' width={50} src={img} alt="" />
-                         <h6 className='ms-2'>{food.name}</h6>
+                         <h6 className='ms-2 text-nowrap'>{food.name.length > 15 ? food.name.slice(0,15) + '...' : food.name}</h6>
                         
                         </div>
                             

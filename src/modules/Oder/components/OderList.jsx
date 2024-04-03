@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./OrderList.css";
 import loadingImg from "../../../assets/img/loading.gif";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import dateTimeFormat from "../../Role/core/dateTimeFormat";
 import { Link } from "react-router-dom";
 import { FiEye } from "react-icons/fi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { storeCLickedorder, storeViewId } from "../core/orderSlice";
-
-function roundLastTwoDigits(number) {
-  return Math.round(number * 100) / 100;
-}
+import { FaRegEye } from "react-icons/fa";
+import ConfirmOrderDelete from "./ConfirmOrderDelete";
 
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,18 +21,31 @@ function OrderList() {
   const [pageSize] = useState(10); // Define page size
   const [editOrderId, setEditOrderId] = useState("");
   const [editedPaymentMethod, setEditedPaymentMethod] = useState("");
-  const [editedStatus, setEditedStatus] = useState(""); // Add state for edited status
+  const [editedStatus, setEditedStatus] = useState(""); 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [deleteOrderId, setDeleteOrderId] = useState(""); // Track order ID to delete
-  const [searchQuery, setSearchQuery] = useState(""); // State to hold search query
-  const token = localStorage.getItem("token");
-  const dispatch = useDispatch();
-  const [clickedorder, setClickedorder] = useState([]);
+  const [deleteOrderId, setDeleteOrderId] = useState(""); 
+  const token = useSelector((state) => state.auth.token) || localStorage.getItem("token");
+  const dispatch = useDispatch()
+  const [clickedorder,setClickedorder] = useState([])
+  const [deletealert , setDeletealert]=useState(false)
+  const [deleteId , setDeleteId] = useState('')
+  const [filterbar , setFilterbar] = useState(false)
+
+  // pagination / filter 
+  const [pagingdetails , setPagingdetails] = useState({})
+  const [page , setPage] = useState(1)
+  const [size , setSize] = useState(20)
+  const [status , setStatus] = useState('')
+  const [payment , setPayment] = useState('')
+
+  useEffect(()=>{
+    setPage(1)
+  },[size , status , payment])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/orders?decs`, {
+        const response = await axios.get(`/api/orders?status=${status}&page=${page}&size=${size}&sort=id&paymentMethod=${payment}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -44,6 +54,7 @@ function OrderList() {
         if (!response.data || !response.data.data) {
           throw new Error("Failed to fetch data");
         }
+        setPagingdetails(response.data.paging)
 
         setOrders(response.data.data);
         console.log(response.data.data);
@@ -57,41 +68,9 @@ function OrderList() {
     if (token) {
       fetchData();
     }
-  }, [token]);
+  }, [page,size , status , payment]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `/api/orders?page=1&size=5 ${currentPage}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.data || !response.data.data) {
-          throw new Error("Failed to fetch data");
-        }
-
-        setOrders(response.data.data);
-        setTotalPages(response.data.totalPages); // Set total pages
-        setIsLoading(false);
-      } catch (error) {
-        setError(true);
-        setErrorMessage("Failed to fetch orders. Please try again later.");
-        setIsLoading(false);
-      }
-    };
-
-    if (token) {
-      fetchData();
-    }
-  }, [token, currentPage]); // Add currentPage as a dependency
-  console.log(totalPages);
   const handleDelete = async (orderId) => {
-    if (deleteConfirmation) {
       try {
         await axios.delete(`/api/orders/${orderId}`, {
           headers: {
@@ -105,132 +84,171 @@ function OrderList() {
       } catch (error) {
         setErrorMessage("Failed to delete order. Please try again later.");
       }
-    } else {
-      // Ask for confirmation before deleting
-      setDeleteOrderId(orderId); // Set delete order ID
-      setDeleteConfirmation(true);
-    }
+  };
+
+  const deleteAlert = (id)=>{
+    setDeleteId(id)
+    setDeletealert(true)
+  }
+
+
+
+  const handleEdit = async (orderId) => {
+    setEditOrderId(orderId);
+    const orderToEdit = orders.find((order) => order.id === orderId);
+    setEditedPaymentMethod(orderToEdit.paymentMethod);
+    setEditedStatus(orderToEdit.status); // Set initial status value
   };
 
   const handleIdClicked = (orderId) => {
     dispatch(storeViewId(orderId));
-    dispatch(storeCLickedorder(orders.filter((order) => order.id === orderId)));
-    console.log(orders.filter((order) => order.id === orderId));
+    dispatch(storeCLickedorder(orders.filter((order) => order.id === orderId)))
+    console.log(orders.filter((order) => order.id === orderId))
   };
 
-  // Function to filter orders based on search query
-  const filteredOrders = orders.filter((order) =>
-    order.tableEntity.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+  const handlePagination = (paging) => {
+    window.scrollTo(0, 0);
+    if (paging === 'increase') {
+      setPage(pagingdetails.totalPage === page ? page : page + 1 );
+    } else {
+      setPage(page === 1 ? 1 : page - 1);
+    }
+  }
 
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
+
   if (isLoading) {
     return (
-      <div className="h1">
+      <div className="d-flex justify-content-center">
         <p className="fs-4">Loading...</p>
-        <img width={20} src={loadingImg} alt="" />
+        <div>
+         <img width={20} src={loadingImg} alt="" />
+        </div>
       </div>
     );
   }
   if (isError) {
     return <h1 className="h1">Development Error</h1>;
   }
+  console.log(pagingdetails)
 
   return (
-    <div className="m-3">
-      <div className="d-flex form">
-        <form className="tp">
-          <input
-            className="form-control mr-sm-2"
-            type="text"
-            placeholder="Search table name..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </form>
+<>
+<section className="m-3 ">
+  <div className="d-flex  ">
+  <h3  style={{color:'#6c738f'}} className="text-nowrap fw-bold">Orders list</h3>
+    <div style={{height: '35px'}} className="w-100 d-flex justify-content-end">
+      <div className="d-flex align-items-center justify-content-end">
+      <p 
+      onClick={()=>setFilterbar(!filterbar)}
+       style={{backgroundColor:'#6c738f' , color:'white'}} className="cursor-pointer rounded-start mt-3 h-100 p-1 pe-3 pt-2 ps-3 ">
+       {`${filterbar ? '>' : '<'} Filter`}
+      </p>
       </div>
-      {/* <h2 className="h1">User Order</h2> */}
-      {deleteConfirmation && (
-        <div className="delete-confirmation">
-          <p>Are you sure you want to delete this order?</p>
-          <button className="yes" onClick={() => handleDelete(deleteOrderId)}>
-            Yes
-          </button>
-          <button className="no" onClick={() => setDeleteConfirmation(false)}>
-            No
-          </button>
-        </div>
-      )}
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <div className="d-flex my-3">
-        <Link
-          to="/order/ordering"
-          style={{ background: "#6c738f" }}
-          className="btn text-white "
-        >
-          Add Order
-        </Link>
-      </div>
-      <table className="table-container table bg-white fw-bold">
-        <thead>
+
+     <div style={{backgroundColor:'#6c738f' , color:'white'}} className={`${filterbar ? 'w-50' : 'd-none'} h-100 d-flex justify-content-evenly align-items-center`}>
+      
+     <select
+     onChange={(e)=>setStatus(e.target.value)}
+      style={{ height:'25px'}} className="form-select form-select-sm rounded-3 mx-4" name="" id="">
+        <option hidden value="">Status</option>
+        <option value="">All</option>
+        <option value="Prepare">Prepare</option>
+        <option value="Cooking">Cooking</option>
+        <option value="Complete">Complete</option>
+        <option value="Cancel">Cancel</option>
+
+      </select>
+      <select
+      onChange={(e)=>setPayment(e.target.value)}
+       style={{ height:'25px'}} className="form-select form-select-sm me-3 rounded-3 " name="" id="">
+        <option hidden value="">Payment</option>
+        <option value="">All</option>
+        <option value="Cash">Cash</option>
+        <option value="Bank">Bank</option>
+      </select>
+      <select
+      onChange={(e)=>setSize(parseInt(e.target.value))}
+       style={{ height:'25px'}} className="form-select form-select-sm me-3  rounded-3" name="" id="">
+        <option value="10">Show 10</option>
+        <option selected value="20">Show 20</option>
+        <option value="30">Show 30</option>
+        <option value="40">Show 40</option>
+        <option value="50">Show 50</option>
+      </select>
+
+     </div>
+    </div>
+  </div>
+</section>
+
+
+<div  className="m-3 rounded-3">
+      {
+        deletealert && <ConfirmOrderDelete handleDelete={handleDelete} deleteId={deleteId} setDeletealert={setDeletealert} setDeleteConfirmation={setDeleteConfirmation} />
+      }
+
+
+      <table className="table-container table bg-white fw-bold ">
+        <thead >
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col fs-1">ID</th>
             <th scope="col">User Entity</th>
             <th scope="col">Table Name</th>
             <td scope="col">Total</td>
             <td scope="col">Action</td>
           </tr>
         </thead>
-        <tbody>
-          {filteredOrders.map((order) => (
-            <tr key={order.id}>
-              <td className="fw-normal">{order.id}</td>
-              <td className="fw-normal">{order.userEntity.name}</td>
-              <td className="text-normal">{order.tableEntity.name}</td>
-              <td className="fw-normal">
-                {roundLastTwoDigits(order.totalPrice)}{" "}
-                <sub className="text-danger fs-6">$</sub>
-              </td>
-
-              <td>
-                <MdDelete
-                  className="delete"
-                  onClick={() => handleDelete(order.id)}
-                />
-                <Link to="/order/view">
-                  <FiEye
-                    className="fs-3"
-                    onClick={() => handleIdClicked(order.id)}
+        <tbody >
+          {
+            orders && orders.map((order) => (
+              <tr key={order.id}>
+                <td className="">{order.id}</td>
+                <td className="fw-normal">{order.userEntity.name}</td>
+                <td className="fw-normal">{order.tableEntity.name}</td>
+                <td className="fw-normal"><sup className="text-danger">$</sup>{(order.totalPrice).toFixed(2)}</td>
+                <td>
+                <Link to='/order/view'>
+                  <FaRegEye style={{ color: "#6c738f" }} className="fs-4 me-2" onClick={() => handleIdClicked(order.id)}/>
+                 </Link>
+                  <MdDelete
+                    className="text-danger cursor-pointer fs-3"
+                    onClick={() => deleteAlert(order.id )}  
                   />
-                </Link>
-              </td>
-            </tr>
-          ))}
+                
+                </td>
+              </tr>
+            )) 
+          }
         </tbody>
       </table>
-      <div className="pagination h1 fs-4">
-        <button
-          className=" btn btn-danger"
-          onClick={handlePrevPage}
-          disabled={currentPage === 1}
-        >
-          Prev
-        </button>
-        <span>{currentPage}</span> / <span>{totalPages}</span>
-        <button
-          className="btn btn-primary"
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      {
+        orders?.length === 0 && <p className="text-center text-danger">No Orders Found</p>
+      }
+
+      <div className='p-0 d-flex justify-content-center'>
+            <nav aria-label="Page navigation example">
+              <ul className="pagination list-unstyled d-flex justify-content-center align-items-center">
+                <li className="page-item underline-none me-4">
+                  <a onClick={() => handlePagination('decrease')} style={{ fontSize: '25px' }} className="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li className="page-item underline-none" style={{ display: 'flex', gap: '5px', width: '60px' }}>
+                  <span className="page-link" style={{ fontSize: '18px' }}>{page}</span>
+                  <span className="page-link" style={{ fontSize: '18px' }}>/</span>
+                  <span className="page-link" style={{ fontSize: '18px' }}>{pagingdetails?.totalPage ? pagingdetails?.totalPage : 1}</span>
+                </li>
+                <li className="page-item">
+                  <a onClick={() => handlePagination('increase')} style={{ fontSize: '25px' }} className="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+
+          </div>
     </div>
+</>
   );
 }
 

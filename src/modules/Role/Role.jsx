@@ -13,15 +13,19 @@ const Role = () => {
     const [add , setAdd] = useState(false);
     const [update,setUpdate] = useState(false);
     const [page , setPage ] = useState(1)
-    const [size , setSize ] = useState(10)
+    const [size , setSize ] = useState(20)
     const [paging , setPaging ] = useState(null)
     const dispatch = useDispatch(); 
+    const [refetch , setRefetch] = useState(false)
+    
+    
     
     const handleAdd = ()=>{
       setAdd(!add)
     }
 
-  // refetch data from server to make it fresh
+
+    // refetch data from server to make it fresh 
 
     useEffect(()=>{
         const fetchData = async () => {
@@ -36,9 +40,7 @@ const Role = () => {
         };
         fetchData();
       
-    },[page,size])
-    console.log(paging)
-    
+    },[page,size , refetch])
 
   return (
     <>
@@ -61,8 +63,8 @@ const Role = () => {
               <div className='d-flex justify-content-center align-items-center me-2 w-25'>Show</div>
                <span className='p-0 d-flex justify-content-center w-75'>  
                <select onChange={(e) => setSize(parseInt(e.target.value))} className="form-select form-select-sm w-100" aria-label=".form-select-sm example">
-                  <option  value="10" selected>10</option>
-                  <option value="20">20</option>
+                  <option  value="20" selected>20</option>
+                  <option value="30">30</option>
                   <option value="50">50</option>
                 </select>
                </span>
@@ -72,7 +74,7 @@ const Role = () => {
                     <span>
                     </span>
                       <span className='text-nowrap text-white pe-2'>
-                          Total roles :  <span>{paging?.totals - 1}</span>
+                          Total roles :  <span>{paging?.totals ? paging?.totals : 0 }</span>
                       </span>
                       <div>
                   </div>
@@ -81,7 +83,7 @@ const Role = () => {
             </div>
         </div>
         <div >
-            <Table setPage={setPage} page={page} size={size} setUpdate={setUpdate}/>
+            <Table setRefetch={setRefetch} setPage={setPage} refetch={refetch} page={page} size={size}  setUpdate={setUpdate}/>
         </div>
       </div>
     </>

@@ -9,7 +9,7 @@ const Filterbar = ({setSortby ,setOrderby , orderby , sortby , selectRole , setS
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await getroles(token);
+                const result = await getroles(token );
                 setRoles(result.data);
 
             } catch (error) {
@@ -78,8 +78,8 @@ const Filterbar = ({setSortby ,setOrderby , orderby , sortby , selectRole , setS
             className="form-select py-0"
             aria-label="Default select example"
             >
-            <option key={0} value="10">Show 10</option>
-            <option key={1} value="20">Show 20</option>
+            <option key={0} value="20">Show 20</option>
+            <option key={1} value="30">Show 30</option>
             <option key={2} value="50">Show 50</option>
             </select>
 
