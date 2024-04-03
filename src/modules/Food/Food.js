@@ -15,6 +15,7 @@ function YourComponent({}) {
     (state) => state.allCategory.listCategories
   );
 
+  const [selectedCategories, setSelectedCategories] = useState("");
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
@@ -27,10 +28,19 @@ function YourComponent({}) {
   }, [listFood]);
 
   useEffect(() => {
+    if (selectedCategories === "") {
+      setFood(listFood);
+      return;
+    }
+    const filterBaseOnCategories = listFood.filter((i) => {
+      return selectedCategories === i.foodCategoryEntity.name;
+    });
+    setFood(filterBaseOnCategories);
+  }, [selectedCategories]);
+
+  useEffect(() => {
     if (food.length > 0) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 400);
+      setLoading(false);
     }
   }, [food]);
 
@@ -56,12 +66,24 @@ function YourComponent({}) {
         </div>
 
         <nav className="d-flex m-2  flex-wrap justify-content-start">
+          <button
+            style={{ background: "#6b728e" }}
+            className="text-center col-2 border rounded-3"
+            onClick={() => {
+              setFood(listFood);
+            }}
+          >
+            <h5 className="text-white">All</h5>
+          </button>
           {listCategories.map(({ name, id }) => {
             return (
               <button
                 key={id}
                 style={{ background: "#6b728e" }}
                 className="text-center col-2 border rounded-3"
+                onClick={() => {
+                  setSelectedCategories(name);
+                }}
               >
                 <h5 className="text-white">{name}</h5>
               </button>
