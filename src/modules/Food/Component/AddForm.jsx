@@ -3,31 +3,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { createFood, createUser } from "../Core/createFood";
 import getAllFood from "../Core/getAllFood";
 import { storeFood } from "../Core/allFoodSlice";
+import { postImage } from "../Core/postImage";
 export default function AddForm({ toggle, toggleForm }) {
   const dispatch = useDispatch();
+  const fetchfoodList = useSelector((state) => state.foodList.foodList);
 
   //states
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-
   const token = useSelector(
     (state) => state.auth.token || localStorage.getItem("token")
   );
-  const refetchFood = async () => {
-    try {
-      const result = await getAllFood(token);
-      dispatch(storeFood(result.data));
-    } catch (error) {}
+
+  let categoryName = [];
+
+  //validation const
+  const validationObj = {
+    name: /^[a-zA-Z\s]{1,20}$/,
+    price: /^[1,9]{1,3}$/,
+    code: /^[a-zA-Z1-9]{1,6}$/,
+    description: /^[a-zA-Z1-9\s]{1,20}$/,
   };
 
-  const sendFood = async (value, token) => {
-    try {
-      refetchFood();
-      const result = await createFood(value, token);
-      refetchFood();
-    } catch {}
-  };
+  const [submitable, setSubmitable] = useState(false);
 
   const initialValue = {
     name: "",
@@ -35,13 +34,28 @@ export default function AddForm({ toggle, toggleForm }) {
     price: 0,
     discount: 10,
     description: "",
-    categoryId: 0,
-    foodImage: "x",
+    food_categoryId: 0,
   };
   const [value, setValue] = useState(initialValue);
+  const [imageFile, setImageFile] = useState(null);
   //end state
 
-  let categoryName = [];
+  const sendFood = async (value, token) => {
+    try {
+      refetchFood();
+      const result = await createFood(value, token);
+      console.log(value);
+      refetchFood();
+    } catch {}
+  };
+
+  const refetchFood = async () => {
+    try {
+      const result = await getAllFood(token);
+      dispatch(storeFood(result.data));
+    } catch (error) {}
+  };
+
   listCategories.map(({ name }) => {
     categoryName.push(name);
   });
@@ -49,9 +63,10 @@ export default function AddForm({ toggle, toggleForm }) {
   const sendDataToParent = () => {
     toggle.sendDataToParent(false);
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     sendDataToParent();
+    sendFood(value, token);
   };
 
   return (
@@ -100,6 +115,19 @@ export default function AddForm({ toggle, toggleForm }) {
         </div>
 
         <div class="form-group">
+          <label for="inputDiscount">Discount</label>
+          {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Discount"
+            onChange={(e) => {
+              setValue({ ...value, discount: e.target.value });
+            }}
+          />
+        </div>
+
+        <div class="form-group">
           <label>Categories</label>
           <select
             id="inputState"
@@ -107,10 +135,9 @@ export default function AddForm({ toggle, toggleForm }) {
             onChange={(e) => {
               listCategories.map(({ id, name }) => {
                 if (name === e.target.value) {
-                  setValue({ ...value, categoryId: id });
+                  setValue({ ...value, food_categoryId: id });
                 }
               });
-              // setValue({ ...value, category: e.target.value });
             }}
           >
             <option selected disabled hidden>
@@ -126,10 +153,17 @@ export default function AddForm({ toggle, toggleForm }) {
           </select>
         </div>
 
-        <div class="mb-2">
+        {/* <div class="mb-2">
           <label class="form-label">Food Image</label>
-          <input class="form-control" type="file" id="formFile"></input>
-        </div>
+          <input
+            class="form-control"
+            type="file"
+            id="formFile"
+            onChange={(e) => {
+              setImageFile(e.target.files[0]);
+            }}
+          ></input>
+        </div> */}
 
         <div class="form-group">
           <label for="inputDesc">Description</label>
@@ -143,16 +177,34 @@ export default function AddForm({ toggle, toggleForm }) {
           />
         </div>
 
+        {/**btn submit */}
         <div class="col-12 mt-1">
-          <button
-            class="btn btn-primary"
-            onClick={() => {
-              toggle.sendDataToParent(!toggleForm);
-              sendFood(value, token);
-            }}
-          >
-            Submit form
-          </button>
+          {!submitable ? (
+            <button
+              type="submit"
+              class="btn btn-primary"
+              onClick={() => {
+                toggle.sendDataToParent(!toggleForm);
+              }}
+            >
+              Submit form
+            </button>
+          ) : (
+            <div>
+              <h6 className="text-danger fw-bold position-absolute top-0 end-0  me-4 my-2 bg-white p-1">
+                PLEASE CHECK THE INFORMATION ENTERED !!!
+              </h6>
+              <button
+                disabled
+                class="btn btn-primary"
+                onClick={() => {
+                  toggle.sendDataToParent(!toggleForm);
+                }}
+              >
+                Submit form
+              </button>
+            </div>
+          )}
         </div>
       </form>
     </>

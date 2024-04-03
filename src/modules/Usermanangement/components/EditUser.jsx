@@ -3,18 +3,39 @@ import { MdOutlineCancel } from "react-icons/md";
 import avatar from "../../../assets/img/avatar.jpg";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import getroles from '../../layout/core/getroles';
 
 const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
-  const roles = useSelector((state) => state.roles.roles);
+  const token =
+  useSelector((state) => state.auth.token) || localStorage.getItem("token");
+  const [roles , setRoles] = useState([]);
+  console.log(editUser)
 
-  const role = roles.filter((r) => r.name === editUser.roleEntity?.name)[0];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getroles(token);
+        setRoles(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
+    fetchData();
+  }, [token]);
+
+  useEffect(() => {
+    const filteredRole = roles.find((r) => r.name === editUser?.role?.name);
+    if (filteredRole) {
+      setEditing({ ...editing, role_id: filteredRole.id });
+    }
+  }, [roles, editUser?.role?.name]);
 
 
   const [editing, setEditing] = useState({
-    avatar: editUser.avatar,
+    avatar : editUser.avatar,
     name: editUser.name,
-    role_id: role?.id, 
+    role_id: (roles.find((r) => r.name === editUser?.role?.name))?.id, 
     phone: editUser.phone,
     gender: editUser.gender,
     salary: editUser.salary,
@@ -22,10 +43,10 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
 
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const token =
-    useSelector((state) => state.auth.token) || localStorage.getItem("token");
+
   const [fileInput, setFileInput] = useState(null);
 
+  
 
   useEffect(() => {
     const handleResize = () => {
@@ -43,7 +64,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
     const formdata = new FormData();
     formdata.append("file", fileInput);
   
-    axios.post(`/api/user/${editUser.id}/profileAvatar`, formdata, {
+    axios.post(`/api/user/${editUser?.id}/profile-avatar`, formdata, {
       headers: {
         'Authorization': `Bearer ${token}`,
       }
@@ -63,7 +84,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
       const filteredData = Object.fromEntries(
         Object.entries(data).filter(([_, value]) => value !== "")
       );
-      const result = await axios.put(`/api/user/${editUser.id}`, filteredData, {
+      const result = await axios.put(`/api/user/${editUser?.id}`, filteredData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -85,8 +106,6 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
       setTimeout(() => setSuccessMessage(""), 1000);
     }
   };
-  console.log(screensize)
-
   
   return (
     <div>
@@ -174,17 +193,12 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
                       border: "none",
                     }}
                   >
-                    <option
-                      key={editUser.roleEntity.id}
-                      defaultValue={editUser.roleEntity.id}
-                    >
-                      {editUser.roleEntity.name}
+                    <option value="">
+                      {editUser?.role?.name}
                     </option>
-                    {roles
-                      .filter((role) => role.id !== editUser.roleEntity.id)
-                      .map((role) => (
-                        <option value={role.id} key={role.id}>
-                          {role.name}
+                    {roles.filter((role) => role.name !== editUser?.role?.name).map((role) => (
+                        <option value={role.id} key={role?.id}>
+                          {role?.name}
                         </option>
                       ))}
                   </select>

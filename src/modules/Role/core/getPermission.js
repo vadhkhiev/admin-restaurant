@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const getPermission = async (token , id ) => {
   try {
-    const response = await axios.get(`/api/role/${id}`, {
+    const response = await axios.get(`/api/roles/${id}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },

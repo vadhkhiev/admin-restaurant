@@ -1,4 +1,6 @@
 import axios from "axios";
+import { postImage } from "./postImage";
+import Swal from "sweetalert2";
 
 const createFood = async (foodData, token) => {
   const myHeaders = {
@@ -7,16 +9,23 @@ const createFood = async (foodData, token) => {
   };
 
   try {
-    const response = await axios.post(`/api/food`, foodData, {
+    const response = await axios.post(`/api/foods`, foodData, {
       headers: myHeaders,
     });
     if (response.status === 200) {
-      alert("Food Added");
-      return;
+      Swal.fire({
+        title: "Adding Food",
+        text: "Food Added",
+        icon: "success",
+      });
     }
   } catch (error) {
     if (error.response && error.response.status === 400) {
-      alert("Please Fill the Correct Information");
+      Swal.fire({
+        title: "Failed",
+        text: "Can't Add",
+        icon: "failure",
+      });
     }
   }
 };

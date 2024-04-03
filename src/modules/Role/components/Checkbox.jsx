@@ -4,8 +4,10 @@ import getPermission from '../core/getPermission';
 import loadinggif from '../../../assets/img/loading.gif'
 import updatePermission from '../core/updatePermission';
 const Checkbox = () => {
+  
   const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
   const id = useSelector((state) => state.id?.id);
+
   const [fetchedData, setFetchedData] = useState([]);
   const [updatedData, setUpdatedData] = useState([]);
   const [loading , setLoading] = useState(true)
@@ -43,7 +45,7 @@ const Checkbox = () => {
   useEffect(() => {
     setUpdatedData(fetchedData?.map((item)=>{
       return {
-        permissionId : item.id,
+        permission_id : item.id,
         status: item.status === 1 ? true : false
       }
     }));
@@ -80,10 +82,10 @@ return (
       <img width={25} src={loadinggif} alt="" />
       </div> : 
       <div>
-              <div className='p-2'>
+      <div className='p-2'>
         {fetchedData?.map((item) => (
-          <div key={item.id} className='d-flex justify-content-between  border align-items-center p-2 m-2'>
-            <div>{item.name}</div>
+          <div key={item.id} style={{boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} className='d-flex justify-content-between border  align-items-center p-2 m-2 rounded-3 bg-white'>
+            <div style={{color:'#6c738f'}} className='fw-bold'>{item.name}</div>
             <div className='form-check form-switch'>
               <input
                 className='form-check-input'

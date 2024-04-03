@@ -2,26 +2,23 @@ import React, { useState } from 'react'
 import TableRow from './TableRow'
 import { useSelector } from 'react-redux'
 
-const Table = ({setUpdate}) => {
+const Table = ({setUpdate , page , setPage , size ,setRefetch ,refetch}) => {
   const roles =  useSelector((state) => state.roles.roles);
   const pagingdetails = useSelector((state) => state.roles.paging);
-  const [currpage , setCurrpage] = useState(1);
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
-  console.log(roles)
-
-  
 
   const handlePagination = (paging) => {
     window.scrollTo(0, 0);
     if (paging === 'increase') {
-      setCurrpage(pagingdetails.totalPage === currpage ? currpage : currpage + 1 );
+      setPage(pagingdetails.totalPage === page ? page : page + 1 );
     } else {
-      setCurrpage(currpage === 1 ? 1 : currpage - 1);
+      setPage(page === 1 ? 1 : page - 1);
     }
   }
 
   return (
     <div>
+      
          <div className="table-container">
             <table style={{color:'#464d69'}} className="table bg-white fw-bold">
               <thead >
@@ -38,7 +35,7 @@ const Table = ({setUpdate}) => {
               </thead>
               <tbody>
 {
-                    roles?.filter((admin)=> admin.id !== 1)?.map((role ,index)=> <TableRow  setUpdate={setUpdate} key={role.id} role={role} index={index + 1}/>)
+                    roles?.map((role ,index)=> <TableRow refetch={refetch} setRefetch={setRefetch} page={page} size={size} setUpdate={setUpdate} key={role.id} role={role} index={index + 1}/>)
                 } 
               </tbody>
             </table>
@@ -53,7 +50,7 @@ const Table = ({setUpdate}) => {
                   </a>
                 </li>
                 <li className="page-item underline-none" style={{ display: 'flex', gap: '5px', width: '60px' }}>
-                  <span className="page-link" style={{ fontSize: '18px' }}>{currpage}</span>
+                  <span className="page-link" style={{ fontSize: '18px' }}>{page}</span>
                   <span className="page-link" style={{ fontSize: '18px' }}>/</span>
                   <span className="page-link" style={{ fontSize: '18px' }}>{pagingdetails.totalPage}</span>
                 </li>
