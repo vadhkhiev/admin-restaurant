@@ -38,7 +38,7 @@ const RadarChart = () => {
     }, [selectedMonth, token]);
 
     const data = {
-        labels: food?.map((food) => food.foodEntity.name),
+        labels: food?.map((food) => food.foodEntity?.name),
         datasets: [
             {
                 label: `Top Food sold in ${selectedMonth ? month[new Date(selectedMonth).getMonth()] : month[new Date(defaultValue).getMonth()]}`,

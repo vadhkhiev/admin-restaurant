@@ -30,7 +30,7 @@ const LineChart = () => {
   
   
   const chartData = {
-    labels: staffData.map(item => item.userEntity.name),
+    labels: staffData.map(item => item.cashier?.name),
     datasets: [
       {
         label: 'Top sellers this month',

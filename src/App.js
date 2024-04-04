@@ -7,6 +7,7 @@ import User from "./modules/Usermanangement/User";
 import Food from "./modules/Food/Food";
 import Role from "./modules/Role/Role";
 import Access from "./modules/Role/components/Access";
+import Profile from "./modules/profile/Profile";
 import Table from "./modules/table/Table";
 import Dashboard from "./modules/Dashboard/Dashboard";
 import MainOder from "./modules/Oder/MainOder";
@@ -36,7 +37,7 @@ function App() {
             </Route>
             <Route path="table" element={<Table/>} />
             {/* <Route path="table/:id" element={<UpdateTable/>} /> */}
-            <Route path="profile" element={<h1>Profile</h1>} />
+            <Route path="profile" element={<Profile/>} />
             <Route path="foods" element={<Food />} />
             <Route path="reports" element={<Reports/>} >
               <Route index element={<SaleReports/>} />
