@@ -31,7 +31,7 @@ const YourOrder = () => {
         items : 
                cartFood?.map((food)=>{
                 return {
-                    foodId : food?.id,
+                    food_id : food?.id,
                     quantity : food?.quantity
                 }
             })

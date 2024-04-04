@@ -55,7 +55,7 @@ function OrderList() {
           throw new Error("Failed to fetch data");
         }
         setPagingdetails(response.data.paging)
-
+        console.log(response.data.data);
         setOrders(response.data.data);
         console.log(response.data.data);
       } catch (error) {
@@ -205,10 +205,10 @@ function OrderList() {
           {
             orders && orders.map((order) => (
               <tr key={order.id}>
-                <td className="">{order.id}</td>
-                <td className="fw-normal">{order.userEntity.name}</td>
-                <td className="fw-normal">{order.tableEntity.name}</td>
-                <td className="fw-normal"><sup className="text-danger">$</sup>{(order.totalPrice).toFixed(2)}</td>
+                <td className="">{order?.id}</td>
+                <td className="fw-normal">{order.user?.name}</td>
+                <td className="fw-normal">{order.table?.name}</td>
+                <td className="fw-normal"><sup className="text-danger">$</sup>{(order?.total_Price)?.toFixed(2)}</td>
                 <td>
                 <Link to='/order/view'>
                   <FaRegEye style={{ color: "#6c738f" }} className="fs-4 me-2" onClick={() => handleIdClicked(order.id)}/>

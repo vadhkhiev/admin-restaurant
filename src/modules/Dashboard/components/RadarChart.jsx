@@ -28,6 +28,7 @@ const RadarChart = () => {
                     },
                 });
                 setFood(result.data.data);
+                console.log(result.data.data);
                 setIsLoading(false);
             } catch (error) {
                 console.error(error);
@@ -38,16 +39,16 @@ const RadarChart = () => {
     }, [selectedMonth, token]);
 
     const data = {
-        labels: food?.map((food) => food.foodEntity.name),
+        labels: food?.map((food) => food?.food?.name),
         datasets: [
             {
                 label: `Top Food sold in ${selectedMonth ? month[new Date(selectedMonth).getMonth()] : month[new Date(defaultValue).getMonth()]}`,
-                backgroundColor: 'rgba(255, 192, 203, 0.2)', // Pink color
-                borderColor: 'rgba(255, 192, 203, 1)', // Pink color
-                pointBackgroundColor: 'rgba(255, 192, 203, 1)', // Pink color
+                backgroundColor: 'rgba(255, 192, 203, 0.2)', 
+                borderColor: 'rgba(255, 192, 203, 1)', 
+                pointBackgroundColor: 'rgba(255, 192, 203, 1)', 
                 pointBorderColor: '#fff', 
                 pointHoverBackgroundColor: '#fff', 
-                pointHoverBorderColor: 'rgba(255, 192, 203, 1)', // Pink color
+                pointHoverBorderColor: 'rgba(255, 192, 203, 1)', 
                 data: food?.map((food) => food?.totalQuantitySold), 
             },
         ],
