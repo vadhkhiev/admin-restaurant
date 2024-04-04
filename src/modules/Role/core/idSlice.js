@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   id: null,
+  page : 1,
 
 };
 
@@ -11,6 +12,9 @@ const idSlice = createSlice({
   reducers: {
     storeId: (state, action) => {
       state.id = action.payload;
+    },
+    storePage: (state, action) => {
+      state.page = action.payload;
     },
 
   },

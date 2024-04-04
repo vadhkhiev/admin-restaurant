@@ -31,7 +31,7 @@ const YourOrder = () => {
         items : 
                cartFood?.map((food)=>{
                 return {
-                    foodId : food?.id,
+                    food_id : food?.id,
                     quantity : food?.quantity
                 }
             })
@@ -121,13 +121,13 @@ const YourOrder = () => {
                     },
                 }
             );
-            setMessage(response); 
+            setMessage('Order placed successfully'); 
             bookedTable();
             setRefetch(!refetch)
             
              setTimeout(() => {
-              dispatch(clearOrderedFood());
-             navigate(-1)
+                setMessage('')
+                dispatch(clearOrderedFood());
             }, 1000);  
 
         } catch (error) {
@@ -170,17 +170,20 @@ const YourOrder = () => {
                 </select>
             </div>
         </section>
+        
         <div className='d-flex justify-content-between'>
             <p>
                 <input onChange={selectAll}   className='form-check-input me-1' type="checkbox" checked={ticked}/>
                 Select All
             </p>
-            <FiTrash onClick={()=>{
+            <p className='border p-1 rounded cursor-pointer' onClick={()=>{
                 dispatch(deleteFood())
                 setTicked(false)
-
             }
-            } className='me-2 text-danger cursor-pointer fs-4'/>
+            }>
+            Delete
+            <FiTrash  className='ms-2 text-danger  fs-4'/>
+            </p>
         </div>
 
         <section >
@@ -197,7 +200,7 @@ const YourOrder = () => {
      {
     message && (
         <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-success text-white text-center p-2 rounded ">
-            {message.data.message} 
+            {message} 
         </div>
     )
 }

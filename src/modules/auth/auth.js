@@ -20,7 +20,6 @@ const getAuth = async (username, password) => {
       }
     );
 
-    console.log("Response:", response.data);
     return response.data;
   } catch (error) {
     if (error.response) {

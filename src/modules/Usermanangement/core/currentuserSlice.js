@@ -10,10 +10,13 @@ const currentUserSlice = createSlice({
   reducers: {
     storeCurrentUser: (state, action) => {
       state.currentUser = action.payload;
+    },
+    removeCurrentUser: (state) => {
+      state.currentUser = {};
     }
   }
 });
 
-export const { storeCurrentUser } = currentUserSlice.actions;
+export const { storeCurrentUser ,removeCurrentUser} = currentUserSlice.actions;
 
 export default currentUserSlice.reducer;

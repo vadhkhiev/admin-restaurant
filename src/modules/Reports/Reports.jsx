@@ -13,11 +13,6 @@ const Reports = () => {
                 </Link>
               <Link style={{color:'#495057'}} to='/reports/foods' className={`p-2 cursor-pointer text-decoration-none ${selectedTab === 1 ? 'borderbottom' : ''}`} onClick={() => setSelectedTab(1)}>Food<MdOutlineFastfood className='mb-1 ms-1' /></Link>
             </span>
-            <div>
-                  <p className=''>
-                  Total <span style={{color:'#3d7dda'}}> {selectedTab === '' ? 'Sales' : 'Foods'}</span> : 0
-                </p>
-            </div>
           </div>
           <div>
             <Outlet />

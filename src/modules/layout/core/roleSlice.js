@@ -13,8 +13,12 @@ const roleSlice = createSlice({
       state.roles = action.payload.data;
       state.paging = action.payload.paging;
     },
+    removeRoles: (state) => {
+      state.roles = [];
+      state.paging = {};
+    },
   },
 });
 
-export const { storeRoles  } = roleSlice.actions;
+export const { storeRoles ,removeRoles  } = roleSlice.actions;
 export default roleSlice.reducer;
