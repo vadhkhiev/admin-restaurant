@@ -10,7 +10,7 @@ const LineChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/report/staff?month=2024:03`, {
+        const response = await axios.get(`/report/staff?staffTop5=top`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -33,7 +33,7 @@ const LineChart = () => {
     labels: staffData.map(item => item.userEntity.name),
     datasets: [
       {
-        label: 'Staff Income $',
+        label: 'Top sellers this month',
         backgroundColor: staffData.map(() => generateRandomColor()), // Generate random color for each bar
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
