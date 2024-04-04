@@ -15,7 +15,6 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
     const fetchData = async () => {
       try {
         const result = await getroles(token);
-        console.log(result.data)
         setRoles(result.data);
       } catch (error) {
         console.error(error);
@@ -41,12 +40,6 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
     gender: editUser.gender,
     salary: editUser.salary,
   });
-
-
-
-
-  console.log(editing)
-
 
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");

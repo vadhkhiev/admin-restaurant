@@ -2,13 +2,10 @@ import React, { useState } from 'react'
 import TableRow from './TableRow'
 import { useSelector } from 'react-redux'
 
-const Table = ({setUpdate , page , setPage , size}) => {
+const Table = ({setUpdate , page , setPage , size ,setRefetch ,refetch}) => {
   const roles =  useSelector((state) => state.roles.roles);
   const pagingdetails = useSelector((state) => state.roles.paging);
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
-  console.log(page)
-
-  
 
   const handlePagination = (paging) => {
     window.scrollTo(0, 0);
@@ -38,7 +35,7 @@ const Table = ({setUpdate , page , setPage , size}) => {
               </thead>
               <tbody>
 {
-                    roles?.filter((admin)=> admin.id !== 1)?.map((role ,index)=> <TableRow page={page} size={size} setUpdate={setUpdate} key={role.id} role={role} index={index + 1}/>)
+                    roles?.map((role ,index)=> <TableRow refetch={refetch} setRefetch={setRefetch} page={page} size={size} setUpdate={setUpdate} key={role.id} role={role} index={index + 1}/>)
                 } 
               </tbody>
             </table>

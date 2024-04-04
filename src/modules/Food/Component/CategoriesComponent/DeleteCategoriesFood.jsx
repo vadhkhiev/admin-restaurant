@@ -13,8 +13,8 @@ export default function DeleteCategoriesFood() {
   );
   const [categoryNames, setCategoryNames] = useState([]);
   const dispatch = useDispatch();
-  const [selectedId, setSelectedId] = useState();
-  const [selectedCategories, setSelectedCategories] = useState();
+  const [selectedId, setSelectedId] = useState(0);
+  const [selectedCategories, setSelectedCategories] = useState("");
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
 
@@ -32,7 +32,7 @@ export default function DeleteCategoriesFood() {
     };
     refetchCategories();
     getCategoryNames();
-  }, [listCategories]);
+  }, []);
 
   return (
     <div>
