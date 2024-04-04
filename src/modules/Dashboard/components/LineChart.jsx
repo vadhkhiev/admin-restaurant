@@ -15,7 +15,7 @@ const LineChart = () => {
             'Authorization': `Bearer ${token}`
           }
         });
-        setStaffData(response.data.data);
+        setStaffData(response.data?.data);
         console.log(response.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -37,7 +37,7 @@ const LineChart = () => {
         backgroundColor: staffData.map(() => generateRandomColor()), // Generate random color for each bar
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
-        data: staffData.map(item => item.totalPrice)
+        data: staffData.map(item => item?.totalPrice)
       }
     ]
   };
