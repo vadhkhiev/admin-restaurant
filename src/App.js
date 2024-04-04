@@ -37,7 +37,7 @@ function App() {
             </Route>
             <Route path="table" element={<Table/>} />
             {/* <Route path="table/:id" element={<UpdateTable/>} /> */}
-            <Route path="profile" element={<h1>Profile</h1>} />
+            <Route path="profile" element={<Profile/>} />
             <Route path="foods" element={<Food />} />
             <Route path="reports" element={<Reports/>} >
               <Route index element={<SaleReports/>} />
