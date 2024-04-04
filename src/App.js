@@ -33,7 +33,6 @@ function App() {
             <Route path="order/ordering" element={<MakeOrder />} />
             <Route path='order/view' element={<ViewOrder/>} />
             <Route path="table" element={<Table/>} />
-            {/* <Route path="table/:id" element={<UpdateTable/>} /> */}
             <Route path="profile" element={<h1>Profile</h1>} />
             <Route path="foods" element={<Food />} />
             <Route path="reports" element={<Reports/>} >

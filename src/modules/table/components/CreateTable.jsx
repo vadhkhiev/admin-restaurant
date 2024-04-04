@@ -4,7 +4,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
-const CreateTable = ({ toggleModal }) => {
+const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
   const [values, setValues] = useState({
     id: "",
     name: "",
@@ -29,7 +29,8 @@ const CreateTable = ({ toggleModal }) => {
       })
       .then((res) => {
         console.log(res);
-        toggleModal();
+        setRefresh(!refresh);
+        setCreate(false);
       })
       .catch((err) => console.log(err));
   };
@@ -53,7 +54,7 @@ const CreateTable = ({ toggleModal }) => {
         >
           <IoCloseCircleOutline
             style={{ cursor: "pointer" }}
-            onClick={toggleModal}
+            onClick={Create}
             className="fs-3 text-danger mb-3 me-2"
           />{" "}
           <br />
