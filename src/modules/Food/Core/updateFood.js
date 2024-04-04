@@ -1,14 +1,14 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
 
-const updateFood = async (foodData, token) => {
+const updateFood = async (id, foodData, token) => {
+  console.log(foodData);
   const myHeaders = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
 
   try {
-    const response = await axios.put(`api/food/{foodData.id}`, foodData, {
+    const response = await axios.put(`api/foods/${id}`, foodData, {
       headers: myHeaders,
     });
     if (response.status == 200) {

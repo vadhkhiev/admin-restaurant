@@ -5,13 +5,27 @@ import getAllFood from "../Core/getAllFood";
 import { storeFood } from "../Core/allFoodSlice";
 import { updateFood } from "../Core/updateFood";
 import { storeEditToggle } from "../Core/allFoodSlice";
+import getFoodById from "../Core/getFoodById";
+import { editCategory } from "../Core/editCategory";
 
-export default function AddForm() {
+export default function EditForm() {
   const dispatch = useDispatch();
 
+  const initialValue = {
+    name: "",
+    code: "",
+    price: 0,
+    discount: 10,
+    description: "",
+    food_categoryId: 0,
+    food_image: null,
+  };
+
+  const editId = useSelector((state) => state.foodList.idEdit);
   const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
 
   //states
+  const [oldFood, setOldFood] = useState({});
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
@@ -27,21 +41,18 @@ export default function AddForm() {
     } catch (error) {}
   };
 
+  const getEditingFood = async () => {
+    try {
+      const result = await getFoodById(token, editId);
+      return result.data;
+    } catch {}
+  };
+
   const Food = async (value, token) => {
     try {
       const result = await createFood(value, token);
       refetchFood();
     } catch {}
-  };
-
-  const initialValue = {
-    name: "",
-    code: "",
-    price: 0,
-    discount: 10,
-    description: "",
-    categoryId: 0,
-    foodImage: "x",
   };
   const [value, setValue] = useState(initialValue);
   //end state
@@ -53,7 +64,20 @@ export default function AddForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    updateFood(editId, value, token);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const editingFood = await getEditingFood();
+        setOldFood(editingFood);
+      } catch (error) {
+        console.error("Error fetching editing food:", error);
+      }
+    };
+    fetchData();
+  }, [editId]);
 
   return (
     <>
@@ -70,12 +94,12 @@ export default function AddForm() {
         >
           X
         </button>
-        <div class="form-group">
-          <label for="inputName">Food Name</label>
+        <div className="form-group">
+          <label for="inputName">Enter The New Food Name</label>
           <input
             type="text"
             className="form-control"
-            placeholder="Food Name"
+            placeholder={oldFood ? oldFood.name : "Old Food"}
             onChange={(e) => {
               setValue({ ...value, name: e.target.value });
             }}
@@ -83,12 +107,12 @@ export default function AddForm() {
         </div>
 
         <div class="form-group">
-          <label for="inputPrice">Price</label>
+          <label for="inputPrice">New Price</label>
           {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
           <input
             type="text"
             className="form-control"
-            placeholder="Price"
+            placeholder={oldFood ? `$ ${oldFood.price}.00` : "old price"}
             onChange={(e) => {
               setValue({ ...value, price: parseInt(e.target.value) });
             }}
@@ -101,7 +125,7 @@ export default function AddForm() {
           <input
             type="text"
             className="form-control"
-            placeholder="Code"
+            placeholder={oldFood ? oldFood.code : "Old Code"}
             onChange={(e) => {
               setValue({ ...value, code: e.target.value });
             }}
@@ -145,7 +169,7 @@ export default function AddForm() {
           <input
             type="text"
             className="form-control"
-            placeholder="Description"
+            placeholder={oldFood ? oldFood.description : "Description"}
             onChange={(e) => {
               setValue({ ...value, description: e.target.value });
             }}
@@ -153,12 +177,7 @@ export default function AddForm() {
         </div>
 
         <div class="col-12 mt-1">
-          <button
-            class="btn btn-primary"
-            onClick={() => {
-              updateFood(value, token);
-            }}
-          >
+          <button class="btn btn-primary" onClick={() => {}}>
             Submit form
           </button>
         </div>

@@ -1,8 +1,7 @@
 import axios from "axios";
-
-const checkAuth = async (token) => {
+const getFoodById = async (token, id) => {
   try {
-    const response = await axios.get("/api/user/profile", {
+    const response = await axios.get(`/api/foods/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -14,4 +13,4 @@ const checkAuth = async (token) => {
   }
 };
 
-export default checkAuth;
+export default getFoodById;

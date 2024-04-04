@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   foodList: [],
   toggleEdit: false,
+  idEdit: null,
 };
 
 const foodsSlice = createSlice({
@@ -15,9 +16,13 @@ const foodsSlice = createSlice({
     storeEditToggle: (state, action) => {
       state.toggleEdit = action.payload;
     },
+    storeIdEdit: (state, action) => {
+      state.idEdit = action.payload;
+    },
   },
 });
 
 export const { storeFood } = foodsSlice.actions;
 export const { storeEditToggle } = foodsSlice.actions;
+export const { storeIdEdit } = foodsSlice.actions;
 export default foodsSlice.reducer;
