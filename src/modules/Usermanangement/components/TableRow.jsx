@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 /* const formatDate = (inputString) => {
   const [datePart, timePart] = inputString.split('T');
-
+  
   const [year, month, day] = datePart.split('-');
   const formattedDate = `${day}/${month}/${year.slice(0,4)}`;
 

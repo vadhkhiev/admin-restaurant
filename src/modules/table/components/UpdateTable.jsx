@@ -1,39 +1,45 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
-const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
-  const [values, setValues] = useState({
-    id: "",
-    name: "",
-    status: [{}],
-    seat_Capacity: "",
-  });
-  const options = [
-    {value:"Booked"},
-    {value:"Available"},
-  ]
+const UpdateTable = ({ Update,pid ,setRefresh , refresh , setUpdate}) => {
+  const options = [{ value: "Booked" }, { value: "Available" }];
+  const [data, setData] = useState([]);
+
+  console.log(refresh)
+  
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
-
-  const handleCreate = (e) => {
-    e.preventDefault();
+  useEffect(() => {
     axios
-      .post("/api/tables", values, {
+      .get(`/api/tables/${pid}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        console.log(res);
-        setRefresh(!refresh);
-        setCreate(false);
+        setData(res.data.data);
+        
       })
       .catch((err) => console.log(err));
-  };
+  }, [ token,pid]);
+
+    const handleUpdate = (e) =>{
+      e.preventDefault();
+      axios.put(`/api/tables/${pid}`, data,{
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setRefresh(!refresh)
+        setUpdate(false)
+      })
+    }
   return (
     <>
       <div
@@ -54,27 +60,37 @@ const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
         >
           <IoCloseCircleOutline
             style={{ cursor: "pointer" }}
-            onClick={Create}
+            onClick={Update}
             className="fs-3 text-danger mb-3 me-2"
           />{" "}
           <br />
           <div className="">
             <label className="fs-4 w-25 " htmlFor="">
-              Name:{" "}
+              Names:{" "}
             </label>
             <input
               className="ps-2 pe-5 py-2 border-0 rounded-3 w-75"
               type="text"
               name="name"
               placeholder="Table Name"
-              onChange={(e) => setValues({ ...values, name: e.target.value })}
+              value={data.name}
+              onChange={(e) => setData({ ...data, name: e.target.value })}
             />
             <br /> <br />
-            <label className="fs-4 w-25 "  htmlFor="">Status:</label>
-            <select className="ps-2 pe-5 py-2 border-0 rounded-3 w-75" name="status" id="" onChange={(e) => setValues({ ...values, status: e.target.value })}>
+            <label className="fs-4 w-25 " htmlFor="">
+              Status:
+            </label>
+            <select
+              className="ps-2 pe-5 py-2 border-0 rounded-3 w-75"
+              name="status"
+              id=""
+              onChange={(e) => setData({ ...data, status: e.target.value })}
+            >
               <option value="">Choose Status</option>
-              {options.map((option,index) => (
-                <option value={option.value} key={index}>{option.value}</option>
+              {options.map((option, index) => (
+                <option value={option.value} key={index}>
+                  {option.value}
+                </option>
               ))}
             </select>
             <br /> <br />
@@ -86,14 +102,15 @@ const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
               type="text"
               name="seatCapacity"
               placeholder="SeatCapacity"
+              value={data.seat_Capacity}
               onChange={(e) =>
-                setValues({ ...values, seat_Capacity: e.target.value })
+                setData({ ...data, seat_Capacity: e.target.value })
               }
             />
           </div>
           <div className="d-flex justify-content-center">
-            <button onClick={handleCreate} className="btn btn-primary w-25 mt-4 fw-bold">
-              Create
+            <button onClick={handleUpdate}  className="btn btn-primary w-25 mt-4 fw-bold">
+              Update
             </button>
           </div>
         </div>
@@ -102,4 +119,4 @@ const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
   );
 };
 
-export default CreateTable;
+export default UpdateTable;
