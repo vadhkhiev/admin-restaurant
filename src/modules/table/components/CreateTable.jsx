@@ -9,7 +9,7 @@ const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
     id: "",
     name: "",
     status: [{}],
-    seatCapacity: "",
+    seat_Capacity: "",
   });
   const options = [
     {value:"Booked"},
@@ -87,7 +87,7 @@ const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
               name="seatCapacity"
               placeholder="SeatCapacity"
               onChange={(e) =>
-                setValues({ ...values, seatCapacity: e.target.value })
+                setValues({ ...values, seat_Capacity: e.target.value })
               }
             />
           </div>

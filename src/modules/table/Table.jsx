@@ -3,8 +3,6 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import CreateTable from "./components/CreateTable";
 import UpdateTable from "./components/UpdateTable";
-// import { GrCaretNext } from "react-icons/gr";
-// import { GrCaretPrevious } from "react-icons/gr";
 
 const Table = () => {
   const [tableList, setTableList] = useState([]);
@@ -92,7 +90,6 @@ const Table = () => {
       {loading ? (
         <div className="d-flex flex-row justify-content-center align-items-center">
           <h4 className="mt-5">Loading...</h4>
-          <span>{/* <img src={} width={20} alt="" /> */}</span>
         </div>
       ) : (
         <>
@@ -244,7 +241,6 @@ const Table = () => {
           </div>
         </>
       )}
-      ,
     </>
   );
 };

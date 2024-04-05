@@ -25,7 +25,7 @@ const UpdateTable = ({ Update,pid ,setRefresh , refresh , setUpdate}) => {
         
       })
       .catch((err) => console.log(err));
-  }, [ token]);
+  }, [ token,pid]);
 
     const handleUpdate = (e) =>{
       e.preventDefault();
@@ -104,7 +104,7 @@ const UpdateTable = ({ Update,pid ,setRefresh , refresh , setUpdate}) => {
               placeholder="SeatCapacity"
               value={data.seat_Capacity}
               onChange={(e) =>
-                setData({ ...data, seatCapacity: e.target.value })
+                setData({ ...data, seat_Capacity: e.target.value })
               }
             />
           </div>
