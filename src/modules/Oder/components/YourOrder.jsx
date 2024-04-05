@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 const YourOrder = () => {
     const cartFood = useSelector((state) => state.foodCart?.orderedFood)
-    const currentUser = useSelector((state) => state.currentUser.currentUser)
+    const currentUser = useSelector((state) => state.currentUser?.currentUser)
     const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
     const [refetch , setRefetch] = useState(false)
     const [table , setTable ] = useState([])	
@@ -21,17 +21,15 @@ const YourOrder = () => {
     const [edit , setEdit] = useState(false);
     const navigate = useNavigate();
     const [ticked , setTicked] = useState(false)
-  
-
 
     const [postData , setPostData] = useState({
-        userId :currentUser?.id,
-        tableId : null,
+        user_Id :currentUser?.id,
+        table_Id : null,
         paymentMethod : '',
         items : 
                cartFood?.map((food)=>{
                 return {
-                    food_id : food?.id,
+                    food_Id : food?.id,
                     quantity : food?.quantity
                 }
             })
@@ -40,13 +38,13 @@ const YourOrder = () => {
     
     useEffect(() => {
         setPostData({
-            userId :currentUser?.id,
-            tableId : null,
+            user_Id :currentUser?.id,
+            table_Id : null,
             paymentMethod : '',
             items : 
                    cartFood?.map((food)=>{
                     return {
-                        foodId : food?.id,
+                        food_Id : food?.id,
                         quantity : food?.quantity
                     }
             })
@@ -54,10 +52,12 @@ const YourOrder = () => {
         
     }, [cartFood])
     useEffect(() => {
-        setTableData(table?.find(table => table?.id === postData?.tableId))
+        setTableData(table?.find(table => table?.id === postData?.table_Id))
+
+        
     },[postData])
     
-    
+    console.log(postData)
     
 
     const handleEdit = ()=>{
@@ -92,11 +92,11 @@ const YourOrder = () => {
 
     const bookedTable = () => {
         try {
-            axios.put('/api/tables/' + postData.tableId ,
+            axios.put('/api/tables/' + postData?.table_Id ,
             {
                 status: 'Booked',
-                name: table?.find(table => table.id === postData.tableId).name,
-                seatCapacity: tableData?.seatCapacity
+                name: table?.find(table => table.id === postData?.table_Id).name,
+                seatCapacity: tableData?.seat_Capacity
             },
          {
                 headers: {
@@ -108,6 +108,8 @@ const YourOrder = () => {
             console.log(error)
         }
     }
+
+    console.log(tableData)
 
     const handleAdd = async () => {
         try {
@@ -151,7 +153,7 @@ const YourOrder = () => {
         <section  className='my-3 d-flex justify-content-between border rounded-3 p-1 '>
             <div className='d-flex w-50'>
                 <span className='w-25 text-center'>Select </span>
-                <select   onChange={(e)=>setPostData({...postData , tableId : parseInt(e.target.value)})}  className="form-select py-0 w-75" aria-label="Default select example">
+                <select   onChange={(e)=>setPostData({...postData , table_Id : parseInt(e.target.value)})}  className="form-select py-0 w-75" aria-label="Default select example">
                     <option disabled selected>table</option>
                     {
                         table?.map((table , index)=>(

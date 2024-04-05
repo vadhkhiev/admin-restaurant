@@ -1,10 +1,10 @@
 const dateTimeFormat = (inputString) => {
-    const [datePart, timePart] = inputString.split('T');
+    const [datePart, timePart] = inputString?.split('T');
   
-    const [year, month, day] = datePart.split('-');
-    const formattedDate = `${day}/${month}/${year.slice(0,4)}`;
+    const [year, month, day] = datePart?.split('-');
+    const formattedDate = `${day}/${month}/${year?.slice(0,4)}`;
   
-    const [hour, minute] = timePart.slice(0, -1).split(':');
+    const [hour, minute] = timePart?.slice(0, -1)?.split(':');
     const utcOffset = 7; // UTC+7
     const adjustedHour = parseInt(hour, 10) + utcOffset;
     

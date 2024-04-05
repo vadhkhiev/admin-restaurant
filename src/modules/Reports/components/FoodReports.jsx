@@ -144,8 +144,8 @@ const FoodReports = () => {
             
             {reportData.map((report, index) => (
               <tr key={index}>
-                <td className='fw-bold '>{report?.foodEntity?.id}</td>
-                <td className='fw-bold '>{report?.foodEntity?.name}</td>
+                <td className='fw-bold '>{report?.food?.id}</td>
+                <td className='fw-bold '>{report?.food?.name}</td>
                 <td className='fw-bold '><sup className='text-danger'>$</sup>{(report?.unitPrice).toFixed(2)}</td>
                 <td className='fw-bold'>{report?.totalQuantitySold} unit</td>
                 <td className='fw-bold'>
