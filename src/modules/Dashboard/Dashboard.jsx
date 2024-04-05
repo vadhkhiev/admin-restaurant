@@ -136,9 +136,9 @@ const Dashboard = () => {
                   return (
                     <div key={index} style={{ background: '#f5f5f5', height: '55px',boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}  className='d-flex justify-content-between rounded-3 align-items-center mb-1 p-2'>
                     <p className='fw-bold fs-5 w-25'>{order?.id}</p>
-                    <p className={`fw-bold fs-5 px-2 w-25 text-center text-info`}>{order?.userEntity?.name}</p>
-                    <p className='fw-bold fs-5 ms-3 w-25 text-success'><sup className=''>$</sup>{(order?.totalPrice)?.toFixed(2)}</p>
-                    <p className='fw-bold fs-5 ms-3 w-25 text-danger'>{order?.tableEntity?.name}</p>
+                    <p className={`fw-bold fs-5 px-2 w-25 text-center text-info`}>{order?.user?.name}</p>
+                    <p className='fw-bold fs-5 ms-3 w-25 text-success'><sup className=''>$</sup>{(order?.total_Price)?.toFixed(2)}</p>
+                    <p className='fw-bold fs-5 ms-3 w-25 text-danger'>{order?.table?.name}</p>
                    </div>
                  
 

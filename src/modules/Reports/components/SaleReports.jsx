@@ -59,14 +59,14 @@ const SaleReports = () => {
     <>
       <div className="container d-flex justify-content-between px-0 py-2">
           <div className="d-flex align-item-enter p-0">
-            <span className="fw-bold">Start Date:</span>
+            <span className="fw-bold mt-2">Start Date:</span>
               <input
                 className="rounded-3 border-0 px-2 mx-1"
                 type="date"
                 name="startDate"
                 onChange={(e) => setStartDate(e.target.value)}
               />
-              <span className="fw-bold">End Date:</span>
+              <span className="fw-bold mt-2">End Date:</span>
               <input
                 className="ms-1 rounded-3 border-0 px-2 mx-1"
                 type="date"
@@ -119,7 +119,7 @@ const SaleReports = () => {
             <tbody>
               {sale.map((sales, index) => (
                 <tr key={index}>
-                  <td>{sales.cashier.name}</td>
+                  <td>{sales.cashier?.name}</td>
 
                   <td className="text-center text-danger">
                     $ {sales.totalPrice.toFixed(2)}
