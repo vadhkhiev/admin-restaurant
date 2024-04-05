@@ -5,17 +5,39 @@ import getAllFood from "../Core/getAllFood";
 import { storeFood } from "../Core/allFoodSlice";
 import { updateFood } from "../Core/updateFood";
 import { storeEditToggle } from "../Core/allFoodSlice";
+import getFoodById from "../Core/getFoodById";
+import { editCategory } from "../Core/editCategory";
 
-export default function AddForm() {
+export default function EditForm() {
   const dispatch = useDispatch();
 
-  const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
+  //   {
+  //     "name":"Han",
+  //     "code": "C0090",
+  //     "foodImage": null,
+  //     "price": 10,
+  //     "discount": 10,
+  //     "description":"Personally, I think Peking duck is the best way to eat duck",
+  //     "food_categoryId": 31
+  // }
+  const initialValue = {
+    name: "",
+    code: "",
+    foodImage: null,
+    price: 0,
+    discount: 10,
+    description: "",
+    food_categoryId: 0,
+  };
 
   //states
+  const editId = useSelector((state) => state.foodList.idEdit);
+  const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
+  const [oldFood, setOldFood] = useState({});
+  const [value, setValue] = useState(initialValue);
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-
   const token = useSelector(
     (state) => state.auth.token || localStorage.getItem("token")
   );
@@ -26,6 +48,12 @@ export default function AddForm() {
       dispatch(storeFood(result.data));
     } catch (error) {}
   };
+  const getEditingFood = async () => {
+    try {
+      const result = await getFoodById(token, editId);
+      return result.data;
+    } catch {}
+  };
 
   const Food = async (value, token) => {
     try {
@@ -33,17 +61,6 @@ export default function AddForm() {
       refetchFood();
     } catch {}
   };
-
-  const initialValue = {
-    name: "",
-    code: "",
-    price: 0,
-    discount: 10,
-    description: "",
-    categoryId: 0,
-    foodImage: "x",
-  };
-  const [value, setValue] = useState(initialValue);
   //end state
 
   let categoryName = [];
@@ -53,7 +70,22 @@ export default function AddForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    updateFood(editId, value, token);
+    dispatch(storeEditToggle(false));
+    Food();
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const editingFood = await getEditingFood();
+        setOldFood(editingFood);
+      } catch (error) {
+        console.error("Error fetching editing food:", error);
+      }
+    };
+    fetchData();
+  }, [editId]);
 
   return (
     <>
@@ -70,12 +102,12 @@ export default function AddForm() {
         >
           X
         </button>
-        <div class="form-group">
-          <label for="inputName">Food Name</label>
+        <div className="form-group">
+          <label for="inputName">Enter The New Food Name</label>
           <input
             type="text"
             className="form-control"
-            placeholder="Food Name"
+            placeholder={oldFood ? oldFood.name : "Old Food"}
             onChange={(e) => {
               setValue({ ...value, name: e.target.value });
             }}
@@ -83,12 +115,12 @@ export default function AddForm() {
         </div>
 
         <div class="form-group">
-          <label for="inputPrice">Price</label>
+          <label for="inputPrice">New Price</label>
           {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
           <input
             type="text"
             className="form-control"
-            placeholder="Price"
+            placeholder={oldFood ? `$ ${oldFood.price}.00` : "old price"}
             onChange={(e) => {
               setValue({ ...value, price: parseInt(e.target.value) });
             }}
@@ -101,7 +133,7 @@ export default function AddForm() {
           <input
             type="text"
             className="form-control"
-            placeholder="Code"
+            placeholder={oldFood ? oldFood.code : "Old Code"}
             onChange={(e) => {
               setValue({ ...value, code: e.target.value });
             }}
@@ -116,7 +148,7 @@ export default function AddForm() {
             onChange={(e) => {
               listCategories.map(({ id, name }) => {
                 if (name === e.target.value) {
-                  setValue({ ...value, categoryId: id });
+                  setValue({ ...value, food_categoryId: id });
                 }
               });
               // setValue({ ...value, category: e.target.value });
@@ -145,7 +177,7 @@ export default function AddForm() {
           <input
             type="text"
             className="form-control"
-            placeholder="Description"
+            placeholder={oldFood ? oldFood.description : "Description"}
             onChange={(e) => {
               setValue({ ...value, description: e.target.value });
             }}
@@ -153,14 +185,7 @@ export default function AddForm() {
         </div>
 
         <div class="col-12 mt-1">
-          <button
-            class="btn btn-primary"
-            onClick={() => {
-              updateFood(value, token);
-            }}
-          >
-            Submit form
-          </button>
+          <button class="btn btn-primary">Submit form</button>
         </div>
       </form>
     </>

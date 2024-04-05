@@ -18,6 +18,8 @@ function YourComponent({}) {
   const [selectedCategories, setSelectedCategories] = useState("");
   const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [searchedFood, setSearchedFood] = useState([]);
   const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
   const toggleAction = useSelector((state) => state.allCategory.toggleAction);
   const dispatch = useDispatch();
@@ -38,6 +40,10 @@ function YourComponent({}) {
     setFood(filterBaseOnCategories);
   }, [selectedCategories]);
 
+  const matchFood = (search) => {
+    const tempFood = listFood.filter((food) => food.name.includes(search));
+    setFood(tempFood);
+  };
   useEffect(() => {
     if (food.length > 0) {
       setLoading(false);
@@ -63,6 +69,15 @@ function YourComponent({}) {
               <p className="p-0 m-0">Actions</p>
             </button>
           </span>
+          <input
+            type="text"
+            class="mt-2 form-control form-input"
+            placeholder="Search anything..."
+            onChange={(e) => {
+              setSearch(e.target.value);
+              matchFood(e.target.value);
+            }}
+          ></input>
         </div>
 
         <nav className="d-flex m-2  flex-wrap justify-content-start">
@@ -73,7 +88,7 @@ function YourComponent({}) {
               setFood(listFood);
             }}
           >
-            <h5 className="text-white">All</h5>
+            <h6 className="text-white">All</h6>
           </button>
           {listCategories.map(({ name, id }) => {
             return (
@@ -85,7 +100,7 @@ function YourComponent({}) {
                   setSelectedCategories(name);
                 }}
               >
-                <h5 className="text-white">{name}</h5>
+                <h6 className="text-white">{name}</h6>
               </button>
             );
           })}

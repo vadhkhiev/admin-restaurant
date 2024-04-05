@@ -43,6 +43,7 @@ export default function EditCategoriesFood() {
         <label className="fw-bold mt-1">
           Select The Categories You Want To Delete
         </label>
+
         <select
           id="inputState"
           className="form-control"
