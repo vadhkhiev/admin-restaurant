@@ -11,25 +11,33 @@ import { editCategory } from "../Core/editCategory";
 export default function EditForm() {
   const dispatch = useDispatch();
 
+  //   {
+  //     "name":"Han",
+  //     "code": "C0090",
+  //     "foodImage": null,
+  //     "price": 10,
+  //     "discount": 10,
+  //     "description":"Personally, I think Peking duck is the best way to eat duck",
+  //     "food_categoryId": 31
+  // }
   const initialValue = {
     name: "",
     code: "",
+    foodImage: null,
     price: 0,
     discount: 10,
     description: "",
     food_categoryId: 0,
-    food_image: null,
   };
 
+  //states
   const editId = useSelector((state) => state.foodList.idEdit);
   const toggleEdit = useSelector((state) => state.foodList.toggleEdit);
-
-  //states
   const [oldFood, setOldFood] = useState({});
+  const [value, setValue] = useState(initialValue);
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-
   const token = useSelector(
     (state) => state.auth.token || localStorage.getItem("token")
   );
@@ -40,7 +48,6 @@ export default function EditForm() {
       dispatch(storeFood(result.data));
     } catch (error) {}
   };
-
   const getEditingFood = async () => {
     try {
       const result = await getFoodById(token, editId);
@@ -54,7 +61,6 @@ export default function EditForm() {
       refetchFood();
     } catch {}
   };
-  const [value, setValue] = useState(initialValue);
   //end state
 
   let categoryName = [];
@@ -65,6 +71,8 @@ export default function EditForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     updateFood(editId, value, token);
+    dispatch(storeEditToggle(false));
+    Food();
   };
 
   useEffect(() => {
@@ -140,7 +148,7 @@ export default function EditForm() {
             onChange={(e) => {
               listCategories.map(({ id, name }) => {
                 if (name === e.target.value) {
-                  setValue({ ...value, categoryId: id });
+                  setValue({ ...value, food_categoryId: id });
                 }
               });
               // setValue({ ...value, category: e.target.value });
@@ -177,9 +185,7 @@ export default function EditForm() {
         </div>
 
         <div class="col-12 mt-1">
-          <button class="btn btn-primary" onClick={() => {}}>
-            Submit form
-          </button>
+          <button class="btn btn-primary">Submit form</button>
         </div>
       </form>
     </>
