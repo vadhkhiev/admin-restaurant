@@ -56,6 +56,17 @@ const PieCharts = () => {
             backgroundColor: [getRandomColor(), getRandomColor()]
         }]
     };
+    const options = {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true
+              }
+            }
+          ]
+        }
+      };
 
 
     return (
@@ -72,7 +83,7 @@ const PieCharts = () => {
               />
            </div>
            <p className='text-end text-success mt-3 fs-3 fw-bold'> <sup>$</sup> {(data[0] + data[1])? (data[0] + data[1])?.toFixed(2): 0 }</p>
-            <Pie data={income} />
+            <Pie data={income} options={options} />
             <div className='mt-3'>
                 <ul>
                     <li className='fw-bold list-unstyled mb-1'>Cash : <sup>$</sup><span className='fw-bold'>{data[0]}</span></li>

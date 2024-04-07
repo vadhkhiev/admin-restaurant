@@ -27,6 +27,7 @@ const ViewOrder = () => {
   const statuss = ['Prepare' , 'Cooking' , 'Complete' , 'Cancel']
   const [addmoreFood , setAddmoreFood] = useState([])
   const [addFood , setAddFood] = useState(false)
+  console.log(currentFood)
 
 
 
@@ -50,7 +51,7 @@ useEffect(()=>{
     const response = await getorderid(token , id)
     setCurrentFood(prev=> response.data.map(obj=>({...obj,check:false})))
     setDefaultorder(prev=> response.data.map(obj=>({...obj,check:false})))
-    setDefaultStatus(prev=> response.data[0]?.orderEntity )
+    setDefaultStatus(prev=> response.data[0]?.order )
     setLoadingscreen(false)
    } catch (error) {
     setLoadingscreen(false)
@@ -99,6 +100,7 @@ const handleEdit = async ()=>{
 
   
 }
+
 const handleReset = () => {
   setCurrentFood(defaultorder)
   setAddmoreFood([])
@@ -116,21 +118,22 @@ const handleAddmoreFood = (id) => {
 const handleSave = async () => {
   const curr = currentFood?.map((food) => {
     return {
-      foodId: foodlist.find((f) => f.name === food.foodEntity.name)?.id,
+      food_Id: foodlist.find((f) => f.name === food?.food?.name)?.id,
       quantity: food.quantity,
     };
   });
   const add = addmoreFood?.map((food) => {
     return {
-      foodId: foodlist.find((f) => f.name === food.name)?.id,
+      food_Id: foodlist.find((f) => f.name === food?.name)?.id,
       quantity: food.quantity,
     };
   })
+  
 
  if (currentFood.length === 0 && addmoreFood.length === 0) {
    alert('deleted')
   } 
-  const orderUpdate = {tableId : orderinfo?.tableEntity?.id, userId : orderinfo?.userEntity?.id , items: [...curr, ...add]}
+  const orderUpdate = {table_Id : orderinfo?.table?.id, user_Id : orderinfo?.user?.id , items: [...curr, ...add]}
   if(orderUpdate){
     try {
       const result = await updateOrder(token, id, orderUpdate ); 
@@ -173,7 +176,7 @@ const handleSave = async () => {
               </label>
               <span className='ms-1 text-danger'>
                {showEdit ? <select onChange={(e)=>setDefaultStatus(prev=>({...prev,paymentMethod:e.target.value}))} className='form-select form-select-sm rounded-3' name="" id="">
-                 {currentFood[0]?.orderEntity?.paymentMethod === 'Cash' ?
+                 {currentFood[0]?.order?.paymentMethod === 'Cash' ?
                   <>
                   <option  key={1} value="Cash" selected>Cash</option>
                   <option key={2} value="Bank">Bank</option>
@@ -184,7 +187,7 @@ const handleSave = async () => {
                  </>
                  }
 
-               </select> : defaultStatus ? defaultStatus?.paymentMethod : currentFood[0]?.orderEntity?.paymentMethod}
+               </select> : defaultStatus ? defaultStatus?.paymentMethod : currentFood[0]?.order?.paymentMethod}
               </span>
              </div>
 
@@ -194,9 +197,9 @@ const handleSave = async () => {
               <label style={{color:'#45495c'}} htmlFor="" className='text-nowrap '>Order Status : </label>
               <span className='ms-1 text-danger'>
                 {showEdit ? <select onChange={(e)=>setDefaultStatus(prev=>({...prev,status:e.target.value}))} className='form-select form-select-sm rounded-3' name="" id="">
-                  <option value={currentFood[0]?.orderEntity?.status}>{currentFood[0]?.orderEntity?.status}</option>
-                 {statuss.filter(status => status !== currentFood[0]?.orderEntity?.status).map((status,index)=> <option key={index} value={status}>{status}</option>)}
-                </select> :defaultStatus ? defaultStatus?.status : currentFood[0]?.orderEntity?.status}
+                  <option value={currentFood[0]?.order?.status}>{currentFood[0]?.order?.status}</option>
+                 {statuss.filter(status => status !== currentFood[0]?.order?.status).map((status,index)=> <option key={index} value={status}>{status}</option>)}
+                </select> :defaultStatus ? defaultStatus?.status : currentFood[0]?.order?.status}
                 </span>
             </div>
            </span>
@@ -222,11 +225,11 @@ const handleSave = async () => {
              <h4 style={{color:'#45495c'}} className='fw-bold'>Table entity</h4>
              <div className='mt-1 d-flex justify-content-between'>
               <h5 style={{color:'#45495c'}} className=''>Name</h5>
-              <span>{orderinfo?.tableEntity?.name}</span>
+              <span>{orderinfo?.table?.name}</span>
              </div>
              <div className='mt-1 d-flex justify-content-between'>
               <h5 style={{color:'#45495c'}} className=''>ID</h5>
-              <span>{orderinfo?.tableEntity?.id}</span>
+              <span>{orderinfo?.table?.id}</span>
              </div>
     
 
@@ -235,11 +238,11 @@ const handleSave = async () => {
              <h4 style={{color:'#45495c'}} className='fw-bold'>Ordered by</h4>
              <div className='mt-1 d-flex justify-content-between'>
               <h5 style={{color:'#45495c'}} className=''>Name</h5>
-              <span>{orderinfo?.userEntity?.name}</span>
+              <span>{orderinfo?.user?.name}</span>
              </div>
              <div className='mt-1 d-flex justify-content-between'>
               <h5 style={{color:'#45495c'}} className=''>ID</h5>
-              <span>{orderinfo?.userEntity?.id}</span>
+              <span>{orderinfo?.user?.id}</span>
              </div>
 
           </div>
@@ -248,12 +251,12 @@ const handleSave = async () => {
              <div className='mt-1 d-flex justify-content-between'>
               <h4 style={{color:'#45495c'}} className='fw-bold'>Total price</h4>
               <div>
-              <span className='fw-bold me-1'><sup className='text-danger'>$</sup> {currentFood?.reduce((acc, curr) => acc + (curr.totalPrice || 0), 0)?.toFixed(2)} 
+              <span className='fw-bold me-1'><sup className='text-danger'>$</sup> {currentFood?.reduce((acc, curr) => acc + (curr?.total_Price || 0), 0)?.toFixed(2)} 
               </span>
               
               <span>
                 
-                {addmoreFood.length > 0 ?  <span className='fw-bold me-1'><sup className='text-danger'>+ $</sup>{(addmoreFood?.reduce((acc, curr) => acc + (((curr.price||0) * (1 - (curr.discount||0)/100)) * (curr.quantity||1)), 0)).toFixed(2)}</span> : null}
+                {addmoreFood.length > 0 ?  <span className='fw-bold me-1'><sup className='text-danger'>+ $</sup>{(addmoreFood?.reduce((acc, curr) => acc + (((curr.price||0) * (1 - (curr.discount||0)/100)) * (curr.quantity||1)), 0))?.toFixed(2)}</span> : null}
               </span>
               </div>
              
@@ -264,8 +267,8 @@ const handleSave = async () => {
               <div>
                 <span className='fs-3 fw-bold'>
                   =
-                <sup className='fs-5 text-danger'>$</sup> {((currentFood?.reduce((acc, curr) => acc + (curr.totalPrice || 0), 0) || 0) + 
-                (addmoreFood?.reduce((acc, curr) => acc + (((curr.price||0) * (1 - (curr.discount||0)/100)) * (curr.quantity||1)), 0) || 0)).toFixed(2)}
+                <sup className='fs-5 text-danger'>$</sup> {((currentFood?.reduce((acc, curr) => acc + (curr.total_Price || 0), 0) || 0) + 
+                (addmoreFood?.reduce((acc, curr) => acc + (((curr.price||0) * (1 - (curr.discount||0)/100)) * (curr.quantity||1)), 0) || 0))?.toFixed(2)}
                 </span>
               </div>
              </div> 
@@ -315,13 +318,13 @@ const handleSave = async () => {
           </div>
           <main className='ms-3 d-flex flex-row mt-2 w-75 position-relative ordercardwrapper'>
             <aside style={{ width: '60%' }}>
-              <h4>{food.foodEntity.name}</h4>
+              <h4>{food.food?.name}</h4>
               
              
             </aside>
             <aside style={{ width: '40%' }} className=' d-flex flex-column'>
               <div className=''>
-                <h5>Price before discount <span className='ms-2 text-danger'>${(food?.foodEntity?.price).toFixed(2)}</span></h5>
+                <h5>Price before discount <span className='ms-2 text-danger'>${(food?.food?.price)?.toFixed(2)}</span></h5>
                 <p className=''>quantity ordered : <span className='text-danger ms-2'>{food.quantity}</span></p>
               </div>
 
@@ -362,7 +365,7 @@ const handleSave = async () => {
           </aside>
           <aside style={{ width: '40%' }} className=' d-flex flex-column'>
             <div className=''>
-              <h5>Price before discount <span className='ms-2 text-danger'>${(food?.price).toFixed(2)}</span></h5>
+              <h5>Price before discount <span className='ms-2 text-danger'>${(food?.price)?.toFixed(2)}</span></h5>
               <p className=''>quantity ordered : <span className='text-danger ms-2'>{food.quantity}</span></p>
             </div>
 

@@ -8,9 +8,13 @@ const LineChart = () => {
   const [staffData, setStaffData] = useState([]);
 
   useEffect(() => {
+    const date = new Date();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    console.log(month , year)
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/report/staff?staffTop5=top`, {
+        const response = await axios.get(`/report/staff?month=${year}:${month}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

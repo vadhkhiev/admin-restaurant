@@ -138,9 +138,6 @@ function OrderList() {
   <h3  style={{color:'#6c738f'}} className="text-nowrap fw-bold">Orders list</h3>
     <div style={{height: '35px'}} className="w-100 d-flex justify-content-end ">
       <div className="d-flex align-items-center justify-content-end">
-      <p>
-        Top 5 food
-      </p>
       <p 
       onClick={()=>setFilterbar(!filterbar)}
        style={{backgroundColor:'#6c738f' , color:'white'}} className="cursor-pointer rounded-start mt-3 h-100 p-1 pe-3 pt-2 ps-3 ">
