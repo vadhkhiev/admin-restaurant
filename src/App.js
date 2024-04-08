@@ -4,7 +4,7 @@ import Layout1 from "./modules/layout/Layout1";
 import { useSelector } from "react-redux";
 import Login from "./modules/login/Login";
 import User from "./modules/usermanangement/User";
-import Food from "./modules/Food/Food";
+import Food from "./modules/Food/Component/Food";
 import Role from "./modules/role/Role";
 import Access from "./modules/role/components/Access";
 import Profile from "./modules/profile/Profile";

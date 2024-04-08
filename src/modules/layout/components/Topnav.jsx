@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../auth/authSlice'
 import profileImg from '../../../assets/img/avatar.jpg'
-import { removeCurrentUser } from '../../usermanangement/core/currentuserSlice'
+import { removeCurrentUser } from '../../profile/core/reducer'
 import { removeRoles } from '../core/roleSlice'
 import { removePermission } from '../../role/core/permissionSlice'
 const Topnav = ({toggle}) => {
     const dispatch = useDispatch()
-    const currentUser = useSelector((state) => state.currentUser.currentUser)
-
+    const currentUser = useSelector((state) => state.currentUser.currentUser);
+    console.log(currentUser)
 
     const handleLogout = () =>{
       dispatch(logout())

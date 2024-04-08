@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux';
-import "./Profile.css";
+import './css/Profile.css';
 import Editprofile from './components/Editprofile';
 import profileImg from '../../assets/img/avatar.jpg'
 import { IoMdMail } from "react-icons/io";
@@ -11,35 +11,27 @@ import { IoMdFemale } from "react-icons/io";
 import { FaCalendarAlt } from "react-icons/fa";
 import { PiIdentificationCardFill } from "react-icons/pi";
 import { FaPhone, FaSackDollar } from "react-icons/fa6";
-import axios from 'axios';
+import useCurrentUser from './core/action';
 const Profile = () => {
-    const [profile, SetProfile] = useState({});
+    const {getCurrentUser} = useCurrentUser(); 
     const [popupedit , setPopupedit] = useState(false)
-    const [ refetch , setRefetch] = useState(false)
+    const profile = useSelector((state) => state.currentUser.currentUser);
     
   useEffect(() => {  
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('/api/user/profile');
-        SetProfile(response.data.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    fetchData();
-  }, [refetch]);
+    getCurrentUser();
+  }, []);
 
 
   return (
     <div >
       <h3 className='ms-4 mt-3 fw-bold' style={{color:'#45495c'}}>User Profile</h3>
       {
-        popupedit ? <Editprofile setRefetch={setRefetch} refetch={refetch} setPopupedit={setPopupedit} profile={profile}/> : null 
+        popupedit ? <Editprofile  setPopupedit={setPopupedit} profile={profile}/> : null 
       }
       <form style={{boxShadow: "rgba(0, 0, 0, 0.35) 2px 2px 2px"}} className='container border rounded-3 pb-4 mt-5 p-2 emp-profile'>
         <div className='row'>
           < div className="col-md-4">
-            <img className="image border"src={profile?.avatar?.length > 50 ? profile?.avatar : profileImg} alt=""/>
+            <img className="imagezz border"src={profile?.avatar?.length > 50 ? profile?.avatar : profileImg} alt=""/>
           </div>
           <div className='col-md-6 mt-5'>
             <div className='profile-head'>

@@ -1,4 +1,4 @@
-.text{
+.textzz{
     color: #3048a5;
     font-size: 2rem;
 }
@@ -21,7 +21,7 @@ h5{
     flex-direction: column;
     gap: 15px;
 }
-.input{
+.inputzz{
     display: flex;
     margin: auto;
     width: 350px;
@@ -29,7 +29,7 @@ h5{
     background: #eaeaea;
     border-radius: 6px;
 }
-.input input{
+.inputzz input{
     height: 20px;
     width: 500px;
     background: transparent;
@@ -39,7 +39,7 @@ h5{
     font-size: 17px;
     margin: 10px 10px 10px 10px;
 }
-.submit{
+.submitzz{
     display: flex;
     justify-content: center;
     align-items: center;

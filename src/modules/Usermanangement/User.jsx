@@ -13,7 +13,7 @@ import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { BsPeople } from "react-icons/bs";
 
 const User = () => {
-  const [users, setUsers] = useState([]);
+  const { users } = useSelector((state) => state.users);
   const [loading, setLoading] = useState(true);
   const [confirm, setConfirm] = useState("");
   const [selectRole, setSelectRole] = useState("");
@@ -53,7 +53,6 @@ const User = () => {
           limit
         );
         dispatch(storeUsers(result.data));
-        setUsers(result.data);
         setPagingdetails(result.paging);
         setLoading(false);
       } catch (error) {
@@ -75,8 +74,6 @@ const User = () => {
       if (confirm) {
         const id = confirm.id;
         await axios.delete(`/api/user/${id}`);
-        const updatedUsers = users.filter((user) => user.id !== id);
-        setUsers(updatedUsers);
       }
     } catch (error) {
       console.error("Error deleting user:", error);
