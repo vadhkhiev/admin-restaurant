@@ -2,11 +2,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 export const deleteCategories = async (categories, token, id) => {
-  console.log("====================================");
-  console.log(categories + "www");
-  console.log(id + "eee");
-  console.log("====================================");
-
   try {
     if (categories === "") {
       return;
