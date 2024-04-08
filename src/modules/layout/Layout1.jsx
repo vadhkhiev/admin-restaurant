@@ -7,14 +7,16 @@ import getroles from "./core/getroles";
 import { useDispatch, useSelector } from "react-redux";
 import { storeRoles } from "./core/roleSlice";
 
-
 //
-import { storeFood} from "../Food/Core/slice";
+import { storeFood } from "../Food/Core/slice";
 import getAllFood from "../Food/Core/getAllFood";
 import { storeCategories } from "../Food/Core/allCategoriesSlice";
 import getFoodCategories from "../Food/Core/getFoodCategories";
 import getUsers from "../Usermanangement/core/getUsers";
-import { storeRecentUsers, storeTotalUsers } from "../Usermanangement/core/allusersSlice";
+import {
+  storeRecentUsers,
+  storeTotalUsers,
+} from "../Usermanangement/core/allusersSlice";
 import axios from "axios";
 import { storeorder } from "../Oder/core/orderSlice";
 const Layout1 = () => {
@@ -23,7 +25,7 @@ const Layout1 = () => {
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const dispatch = useDispatch();
 
-  //fetch role & total users , recentUsers & orders 
+  //fetch role & total users , recentUsers & orders
   useEffect(() => {
     const fetchroles = async () => {
       try {
@@ -34,31 +36,29 @@ const Layout1 = () => {
       }
     };
     fetchroles();
-    
 
     const totalUser = async () => {
-        try {
-          const result = await getUsers();
-          dispatch(storeTotalUsers(result.paging.totals)) 
-          dispatch(storeRecentUsers((result.data).slice(0,5)))
-          console.log(result)
-        } catch (error) {
-          console.error('Error in component:', error);
-        }
-      } 
+      try {
+        const result = await getUsers();
+        dispatch(storeTotalUsers(result.paging.totals));
+        dispatch(storeRecentUsers(result.data.slice(0, 5)));
+        console.log(result);
+      } catch (error) {
+        console.error("Error in component:", error);
+      }
+    };
 
-      totalUser();
+    totalUser();
 
     const totalOrder = async () => {
-       try {
+      try {
         const response = await axios.get(`/api/orders?page=1`);
-        dispatch(storeorder(response.data))
+        dispatch(storeorder(response.data));
       } catch (error) {
         console.error(error);
       }
-    }
+    };
     totalOrder();
-
   }, []);
 
   //fetch food
