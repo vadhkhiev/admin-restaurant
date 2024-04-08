@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 const Filterbar = ({setSortby ,setOrderby , orderby , sortby , selectRole , setSelectRole , setLimit  }) => {
     const [roles , setRoles] = useState([])
-    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
 
     useEffect(() => {
         const fetchData = async () => {

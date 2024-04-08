@@ -4,7 +4,7 @@ import { PiNotePencilThin } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { storeId } from '../core/idSlice';
-import { CiTrash } from "react-icons/ci";
+import { GoTrash } from "react-icons/go";
 import formatDate from '../core/dateTimeFormat'
 import { FaUserLock } from "react-icons/fa";
 
@@ -13,7 +13,6 @@ import DeleteRole from './DeleteRole';
 
 const TableRow = ({role , index , setUpdate , page , size , setRefetch,refetch }) => {
   const dispatch = useDispatch()
-  const token = useSelector((state) => state.auth?.token) || localStorage.getItem('token');
   const id1 = useSelector((state) => state.currentUser.currentUser?.roleId)
   const [roleidofuser , setroleidofuser] = useState('')
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
@@ -62,7 +61,7 @@ const TableRow = ({role , index , setUpdate , page , size , setRefetch,refetch }
                 )}
              {permission?.find(per => per.name === 'delete-role')?.status === 1 && (
               <p onClick={() => dispatch(storeId(role?.id))} className={`fs-4 text-danger `} type="button">
-                <CiTrash onClick={() => setDeletes(!deletes)}/>
+                <GoTrash onClick={() => setDeletes(!deletes)}/>
               </p>
             )}
          </td>

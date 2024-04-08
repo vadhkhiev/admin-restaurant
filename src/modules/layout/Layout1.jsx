@@ -38,7 +38,7 @@ const Layout1 = () => {
 
     const totalUser = async () => {
         try {
-          const result = await getUsers(token);
+          const result = await getUsers();
           dispatch(storeTotalUsers(result.paging.totals)) 
           dispatch(storeRecentUsers((result.data).slice(0,5)))
           console.log(result)

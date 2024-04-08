@@ -11,23 +11,24 @@ import { IoMdFemale } from "react-icons/io";
 import { FaCalendarAlt } from "react-icons/fa";
 import { PiIdentificationCardFill } from "react-icons/pi";
 import { FaPhone, FaSackDollar } from "react-icons/fa6";
+import axios from 'axios';
 const Profile = () => {
     const [profile, SetProfile] = useState({});
     const [popupedit , setPopupedit] = useState(false)
-    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
     const [ refetch , setRefetch] = useState(false)
     
   useEffect(() => {  
-    fetch('/api/user/profile')
-    .then(response => { return response.json()})
-    .then(data => {
-      console.log(data.data)
-      SetProfile(data.data)
-    }
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/user/profile');
+        SetProfile(response.data.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchData();
+  }, [refetch]);
 
-    )
-    .catch(error => console.error('Error:', error));
-  }, [refetch]); 
 
   return (
     <div >

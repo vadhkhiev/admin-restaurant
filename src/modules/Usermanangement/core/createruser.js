@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 const createUser = async (userData) => {
 
   try {

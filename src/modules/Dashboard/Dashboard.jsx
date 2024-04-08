@@ -32,7 +32,6 @@ const Dashboard = () => {
       try {
         const response = await axios.get('/api/user');
         setRecentUsers(response.data);
-        console.log(response.data)
       } catch (error) {
         console.error(error);
       }
@@ -43,7 +42,6 @@ const Dashboard = () => {
       try {
         const response = await axios.get('/api/orders');
         setAllorders(response.data);
-        console.log(response.data)
       } catch (error) {
         console.error(error);
       }
@@ -54,7 +52,6 @@ const Dashboard = () => {
       try {
         const response = await axios.get('/api/foods');
         setFoodlist(response.data);
-        console.log(response.data)
       } catch (error) {
         console.error(error);
       }
@@ -133,10 +130,6 @@ const Dashboard = () => {
               }
               </div>
             </section>
-
-
-            
-
            </aside>
 
            <aside className="col-12 col-md-4 row ">

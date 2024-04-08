@@ -3,6 +3,9 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import CreateTable from "./components/CreateTable";
 import UpdateTable from "./components/UpdateTable";
+import { GoTrash } from "react-icons/go";
+import { FiEdit } from "react-icons/fi";
+import { PiNotePencilThin } from "react-icons/pi";
 
 const Table = () => {
   const [tableList, setTableList] = useState([]);
@@ -42,16 +45,28 @@ const Table = () => {
   };
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/tables?order=${sortValue}&query=${query}&size=${limit}&page=${page}`
-      )
-      .then((res) => {
-        setTableList(res.data.data);
-        setPaging(res.data.paging);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/tables', {
+          params: {
+            order: sortValue,
+            query: query,
+            size: limit,
+            page: page
+          },
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setTableList(response.data.data);
+        setPaging(response.data.paging);
         setLoading(false);
-      })
-      .catch((err) => console.log(err));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, [token, query, sortValue, page, limit, refresh]);
 
   function Create() {
@@ -168,10 +183,10 @@ const Table = () => {
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Status</th>
-                        <th className="text-center" scope="col">
+                        <th scope="col">
                           SeatCapacity
                         </th>
-                        <th className="text-center">Action</th>
+                        <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -188,22 +203,16 @@ const Table = () => {
                           >
                             {tables.status}
                           </td>
-                          <td className="text-center">{tables.seat_Capacity}</td>
-                          <td className="d-flex gap-2 justify-content-center">
-                            <button
-                              style={{ background: "#6c738f" }}
-                              className="btn btn-success p-1"
-                              onClick={() => Update(tables.id)}
-                            >
-                              {" "}
-                              Update
-                            </button>
-                            <button
-                              className="btn btn-danger p-1"
-                              onClick={(e) => handleDelete(tables.id)}
-                            >
-                              Delete
-                            </button>
+                          <td >{tables.seat_Capacity}</td>
+                          <td >
+
+                            <PiNotePencilThin 
+                            className="text-primary fs-3 me-2"
+                             onClick={() => Update(tables.id)}
+                            />
+                            <GoTrash 
+                            onClick={(e) => handleDelete(tables.id)}
+                            className="text-danger fs-4" />
                           </td>
                         </tr>
                       ))}
@@ -211,13 +220,13 @@ const Table = () => {
                   </table>
                 </div>
                 <div className="d-flex justify-content-center text-primary">
-                  <span className="page-item fs-2 " onClick={handlePagePrev}>
+                  <span className="page-item fs-2 cursor-pointer" onClick={handlePagePrev}>
                     &laquo;
                   </span>
                   <span className="mt-2 mx-4" style={{ fontSize: "18px" }}>
                     {page}/{paging.totalPage}
                   </span>
-                  <span className="page-item fs-2" onClick={handlePageNext}>
+                  <span className="page-item fs-2 cursor-pointer" onClick={handlePageNext}>
                     &raquo;
                   </span>
                 </div>

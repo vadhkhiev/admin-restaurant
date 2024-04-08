@@ -28,8 +28,7 @@ const User = () => {
   const [currpage , setCurrpage] = useState(1)
   const [orderby , setOrderby] = useState('')
   const [limit , setLimit] = useState(20)
-  const [filter , setFilter] = useState(false)
-  const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');  
+  const [filter , setFilter] = useState(false) 
   const roles = useSelector((state) => state.roles.roles);
   const dispatch = useDispatch();
   //permission
@@ -47,7 +46,6 @@ const User = () => {
     const fetchData = async () => {
       try {
         const result = await getusers(
-          token,
           currpage,
           selectRole,
           query,
@@ -67,9 +65,6 @@ const User = () => {
 
   const handleDelete = (user) => {
     if (user.id === 1) {
-      alert(
-        `You can not delete Admin Account : \u{1F621}\u{1F621}\u{1F621}\u{1F621}\u{1F621}`
-      );
       return;
     }
     setConfirm(user);
@@ -77,10 +72,9 @@ const User = () => {
 
   const confirmDelete = async () => {
     try {
-      if (token && confirm) {
+      if (confirm) {
         const id = confirm.id;
         await axios.delete(`/api/user/${id}`);
-        // Update the user list after deletion
         const updatedUsers = users.filter((user) => user.id !== id);
         setUsers(updatedUsers);
       }
@@ -97,9 +91,7 @@ const User = () => {
   };
   const handleEdit = (editid) => {
     if (editid === 1) {
-      alert(
-        `You can not edit Admin Account : \u{1F621}\u{1F621}\u{1F621}\u{1F621}\u{1F621}`
-      );
+      return
     } else {
       setEdit(!edit);
       setEditUser(users.find((user) => user.id === editid));
