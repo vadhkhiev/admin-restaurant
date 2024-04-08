@@ -64,7 +64,7 @@ const Dashboard = () => {
 
   return (
     <>
-    <div className='m-3 '>
+    <div className='m-3 ' >
     <section>
        <h3 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center '>Dashboard</h3>
       </section>

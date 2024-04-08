@@ -4,7 +4,7 @@ import getusers from "./core/getUsers";
 import loadingImg from "../../assets/img/loading.gif";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { storeUsers } from "./core/allusersSlice";
+import { storeUsers } from "./core/reducer";
 import Confirm from "./components/Confirm";
 import EditUser from "./components/EditUser";
 import CreateUser from "./components/CreateUser";

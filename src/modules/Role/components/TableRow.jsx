@@ -3,7 +3,7 @@ import { MdOutlineLockPerson } from "react-icons/md";
 import { PiNotePencilThin } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { storeId } from '../core/idSlice';
+import { storeId } from '../core/reducer';
 import { GoTrash } from "react-icons/go";
 import formatDate from '../core/dateTimeFormat'
 import { FaUserLock } from "react-icons/fa";

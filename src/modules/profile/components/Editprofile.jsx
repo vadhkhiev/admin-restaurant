@@ -4,7 +4,7 @@ import axios from 'axios';
 import "./Editprofile.css";
 import { useSelector } from 'react-redux';
 import profileImg from '../../../assets/img/avatar.jpg'
-import useCurrentUser from '../../Usermanangement/core/action';
+import useCurrentUser from '../../usermanangement/core/action';
 
 const Editprofile = ({ setPopupedit, profile, setRefetch}) => {
   const [editedProfile, setEditedProfile] = useState({

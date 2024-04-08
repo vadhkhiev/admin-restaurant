@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../auth/authSlice'
 import profileImg from '../../../assets/img/avatar.jpg'
-import { removeCurrentUser } from '../../Usermanangement/core/currentuserSlice'
+import { removeCurrentUser } from '../../usermanangement/core/currentuserSlice'
 import { removeRoles } from '../core/roleSlice'
-import { removePermission } from '../../Role/core/permissionSlice'
+import { removePermission } from '../../role/core/permissionSlice'
 const Topnav = ({toggle}) => {
     const dispatch = useDispatch()
     const currentUser = useSelector((state) => state.currentUser.currentUser)
@@ -22,7 +22,7 @@ const Topnav = ({toggle}) => {
     
   return (
     <>
-         <nav style={{background:'#6c738f '}} className="navbar navbar-expand ">
+         <nav style={{backgroundColor:'#090f0f',borderBottom:'1px solid rgba(252,253,255,0.2)' ,borderLeft:'1px solid rgba(252,253,255,0.2)'}} className="navbar navbar-expand rounded-3"  >
             <a onClick={toggle} className="sidebar-toggle js-sidebar-toggle">
                 <i className="hamburger align-self-center"></i>
             </a>

@@ -1,19 +1,23 @@
 /* sidebar link element  */
-
+body{
+  background-color: #09090b;
+}
 .sidebar-link.active {
   border-radius: 0.25rem;
-  background-color: #6c738f;
+  background-color: #09090b;
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   padding: 0.75rem 1rem;
   color: #fff;
-  border-left: 3px solid red;
+  border: rgba(255, 255, 255, 0.467) solid 1px;
+  border-left: 3px solid red; /* Moved below the border property */
 }
+
 .loading {
   height: 100%;
   width: 100%;
-  background-color: #233243;
+  background-color: #09090b;
 }
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -39,7 +43,7 @@ input[type="number"] {
   padding: 4px;
   margin: 0;
   font-size: 14px;
-  color: #3e4057;
+  color: #09090b;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -64,7 +68,7 @@ input[type="number"] {
   text-decoration: underline;
 }
 .main {
-  background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  background: #09090b;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
   display: flex;
@@ -98,21 +102,23 @@ input[type="number"] {
   bottom: 0;
   left: 0;
   width: 260px;
+  border: rgba(255, 255, 255, 0.467) solid 1px;
 }
 .sidebar-content {
   overflow-y: scroll;
   height: 100vh;
-  background-color: #3e4057;
+  background-color: #09090b;
 }
 
 .sidebar,
 .sidebar-content {
-  background: #3e4057;
+  background: #09090b;
   position: fixed;
   top: 0; /* You may adjust this to set the top position */
   bottom: 0; /* You may adjust this to set the bottom position */
   left: 0; /* You may adjust this to set the left position */
   width: 260px; /* You may adjust this to set the width of the sidebar */
+
 }
 .sidebar-show {
   margin-left: 260px;
