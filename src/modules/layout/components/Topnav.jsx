@@ -22,7 +22,7 @@ const Topnav = ({toggle}) => {
     
   return (
     <>
-         <nav style={{backgroundColor:'#090f0f',borderBottom:'1px solid rgba(252,253,255,0.2)' ,borderLeft:'1px solid rgba(252,253,255,0.2)'}} className="navbar navbar-expand rounded-3"  >
+         <nav style={{backgroundColor:'#090f0f',borderBottom:'1px solid rgba(252,253,255,0.2)' }} className="navbar navbar-expand rounded-3"  >
             <a onClick={toggle} className="sidebar-toggle js-sidebar-toggle">
                 <i className="hamburger align-self-center"></i>
             </a>

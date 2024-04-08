@@ -28,7 +28,7 @@ const Profile = () => {
       {
         popupedit ? <Editprofile  setPopupedit={setPopupedit} profile={profile}/> : null 
       }
-      <form style={{boxShadow: "rgba(0, 0, 0, 0.35) 2px 2px 2px"}} className='container border rounded-3 pb-4 mt-5 p-2 emp-profile'>
+      <form style={{boxShadow: "rgba(0, 0, 0, 0.35) 2px 2px 2px"}} className='container custom-border rounded-3 pb-4 mt-5 p-2 emp-profile'>
         <div className='row'>
           < div className="col-md-4">
             <img className="imagezz border"src={profile?.avatar?.length > 50 ? profile?.avatar : profileImg} alt=""/>

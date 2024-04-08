@@ -4,13 +4,13 @@ body{
 }
 .sidebar-link.active {
   border-radius: 0.25rem;
-  background-color: #09090b;
+  background-color: #27272a;
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   padding: 0.75rem 1rem;
   color: #fff;
-  border: rgba(255, 255, 255, 0.467) solid 1px;
+  border: 1px solid rgba(252,253,255,0.3);
   border-left: 3px solid red; /* Moved below the border property */
 }
 
@@ -77,6 +77,10 @@ input[type="number"] {
   min-width: 0;
   overflow: hidden;
   width: 100%;
+  border: 1px solid rgba(252,253,255,0.3);
+}
+.custom-border{
+  border: 1px solid rgba(252,253,255,0.3);
 }
 
 ::-webkit-scrollbar {
@@ -102,7 +106,7 @@ input[type="number"] {
   bottom: 0;
   left: 0;
   width: 260px;
-  border: rgba(255, 255, 255, 0.467) solid 1px;
+  border: 1px solid rgba(252,253,255,0.3);
 }
 .sidebar-content {
   overflow-y: scroll;

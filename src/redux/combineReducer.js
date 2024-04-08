@@ -9,7 +9,7 @@ import idReducer from "../modules/role/core/reducer";
 import permissionReducer from "../modules/role/core/permissionSlice";
 import foodCartReducer from "../modules/order/core/slice";
 import orderReducer from "../modules/order/core/orderSlice";
-
+import foodReportsReducer from "../modules/reports/core/reducer";
 export const rootReducers = combineReducers({
     auth: authReducer, // auth
     roles: roleReducer, // all roles
@@ -21,6 +21,7 @@ export const rootReducers = combineReducers({
     permission: permissionReducer, // permission
     foodCart: foodCartReducer, //  food order cart
     orders: orderReducer, //  Order list
+    foodReports : foodReportsReducer,
 
     /* Add other reducers here  */
 });
