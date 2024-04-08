@@ -8,7 +8,7 @@ import { storeRoles } from "./core/roleSlice";
 
 
 //
-import { storeFood} from "../Food/Core/allFoodSlice";
+import { storeFood} from "../Food/Core/slice";
 import getAllFood from "../Food/Core/getAllFood";
 import { storeCategories } from "../Food/Core/allCategoriesSlice";
 import getFoodCategories from "../Food/Core/getFoodCategories";
