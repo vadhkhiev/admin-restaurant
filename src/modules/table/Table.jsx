@@ -44,13 +44,7 @@ const Table = () => {
   useEffect(() => {
     axios
       .get(
-        `/api/tables?order=${sortValue}&query=${query}&size=${limit}&page=${page}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `/api/tables?order=${sortValue}&query=${query}&size=${limit}&page=${page}`
       )
       .then((res) => {
         setTableList(res.data.data);
@@ -72,12 +66,7 @@ const Table = () => {
     const confirm = window.confirm("Are You Sure to delete?");
     if (confirm) {
       axios
-        .delete(`/api/tables/${id}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .delete(`/api/tables/${id}`)
         .then((res) => {
           setRefresh(true);
         })

@@ -2,11 +2,8 @@ import axios from 'axios';
 
 const getUserRole = async (token , id) => {
   try {
-    const response = await axios.get(`/api/user/${id}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(`/api/user/${id}`
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);

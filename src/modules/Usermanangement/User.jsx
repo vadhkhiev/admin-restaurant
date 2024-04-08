@@ -79,11 +79,7 @@ const User = () => {
     try {
       if (token && confirm) {
         const id = confirm.id;
-        await axios.delete(`/api/user/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axios.delete(`/api/user/${id}`);
         // Update the user list after deletion
         const updatedUsers = users.filter((user) => user.id !== id);
         setUsers(updatedUsers);

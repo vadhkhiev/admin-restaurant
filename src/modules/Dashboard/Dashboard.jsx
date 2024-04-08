@@ -3,7 +3,6 @@ import Catebox from './components/Catebox'
 import { FaUsers } from "react-icons/fa";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { CiBoxes } from "react-icons/ci";
-import { useSelector } from 'react-redux';
 import PieCharts from './components/PieCharts';
 import profile from '../../assets/img/avatar.jpg';	
 import LineChart from './components/LineChart';
@@ -12,7 +11,6 @@ import RadarChart from './components/RadarChart';
 import axios from 'axios';
 
 const Dashboard = () => {
-  const token = useSelector((state) => state.auth?.token) || localStorage.getItem('token');
   const [foodlist , setFoodlist] = useState([]);
   const [Allorders,setAllorders] = useState([]);
   const [recentUsers, setRecentUsers] = useState([]);
@@ -20,7 +18,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchroles = async () => {
       try {
-        const response = await getroles(token);
+        const response = await getroles();
         setRoles(response.data);
 
 
@@ -32,11 +30,7 @@ const Dashboard = () => {
 
     const fetchusers = async () => {
       try {
-        const response = await axios.get('/api/user', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await axios.get('/api/user');
         setRecentUsers(response.data);
         console.log(response.data)
       } catch (error) {
@@ -47,11 +41,7 @@ const Dashboard = () => {
 
     const fetchorder = async () => {
       try {
-        const response = await axios.get('/api/orders', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await axios.get('/api/orders');
         setAllorders(response.data);
         console.log(response.data)
       } catch (error) {
@@ -62,11 +52,7 @@ const Dashboard = () => {
 
     const fetchfood = async () => {
       try {
-        const response = await axios.get('/api/foods', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await axios.get('/api/foods');
         setFoodlist(response.data);
         console.log(response.data)
       } catch (error) {

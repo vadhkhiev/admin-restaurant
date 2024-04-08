@@ -45,11 +45,7 @@ function OrderList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/orders?status=${status}&page=${page}&size=${size}&sort=id&paymentMethod=${payment}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(`/api/orders?status=${status}&page=${page}&size=${size}&sort=id&paymentMethod=${payment}`);
 
         if (!response.data || !response.data.data) {
           throw new Error("Failed to fetch data");
@@ -72,12 +68,7 @@ function OrderList() {
 
   const handleDelete = async (orderId) => {
       try {
-        await axios.delete(`/api/orders/${orderId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
+        await axios.delete(`/api/orders/${orderId}`);
         setOrders(orders.filter((order) => order.id !== orderId));
         setDeleteConfirmation(false);
         setDeleteOrderId(""); // Reset delete order ID

@@ -26,12 +26,7 @@ const UpdateRole = ({setUpdate}) => {
         try {
             const response = await axios.put(
                 '/api/roles/'+id,
-                roleinfo,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                }
+                roleinfo
             );
             setMessage('Successfully updated role');
             refetch();
@@ -44,7 +39,7 @@ const UpdateRole = ({setUpdate}) => {
     }
     const refetch = async ()=>{
         try {
-            const result = await getroles(token);
+            const result = await getroles();
             dispatch(storeRoles(result))
         }
         catch (error) {

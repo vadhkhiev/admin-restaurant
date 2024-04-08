@@ -3,18 +3,13 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 const DeleteRole = ({deletes , setDeletes , role , setRefetch , refetch}) => {
-    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
     const [message , setMessage] = useState('')
     const [error , setError] = useState('')
     
 
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`/api/roles/${role.id}`, {
-              headers: {
-                'Authorization': `Bearer ${token}`,
-              },
-            });
+            const response = await axios.delete(`/api/roles/${role.id}`);
             setMessage('Role deleted successfully')
             setRefetch(!refetch)
             setTimeout(() => {

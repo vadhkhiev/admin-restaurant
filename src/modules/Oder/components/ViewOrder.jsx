@@ -43,12 +43,11 @@ const ViewOrder = () => {
   const handleBack =()=>{
     navigate(-1)
   }
-  const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
 
 useEffect(()=>{
   const fetchdata = async () => {
    try {
-    const response = await getorderid(token , id)
+    const response = await getorderid( id)
     setCurrentFood(prev=> response.data.map(obj=>({...obj,check:false})))
     setDefaultorder(prev=> response.data.map(obj=>({...obj,check:false})))
     setDefaultStatus(prev=> response.data[0]?.order )
@@ -82,8 +81,8 @@ const css = {
 const handleEdit = async ()=>{
     try {
       const response = await axios.put(`/api/orders/payment/${id}`,{paymentMethod : defaultStatus?.paymentMethod}
-      ,{headers: {Authorization: `Bearer ${token}`}})
-      await axios.put(`/api/orders/status/${id}`,{status : defaultStatus?.status},{headers: {Authorization: `Bearer ${token}`}})
+      )
+      await axios.put(`/api/orders/status/${id}`,{status : defaultStatus?.status})
       setShowEdit(!showEdit)
       setMessage(response.data.message)
       setTimeout(() => {
@@ -136,7 +135,7 @@ const handleSave = async () => {
   const orderUpdate = {table_Id : orderinfo?.table?.id, user_Id : orderinfo?.user?.id , items: [...curr, ...add]}
   if(orderUpdate){
     try {
-      const result = await updateOrder(token, id, orderUpdate ); 
+      const result = await updateOrder( id, orderUpdate ); 
       setMessage(result.message);
       setAddmoreFood([]);
       setTimeout(() => {

@@ -19,7 +19,7 @@ const Checkbox = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getPermission(token, id);
+        const result = await getPermission( id);
         setFetchedData(result.data.permissions);
         setDefaultData(result.data.permissions);
         console.log(result.data.permissions);

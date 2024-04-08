@@ -18,11 +18,7 @@ const Profile = () => {
     const [ refetch , setRefetch] = useState(false)
     
   useEffect(() => {  
-    fetch('/api/user/profile', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    fetch('/api/user/profile')
     .then(response => { return response.json()})
     .then(data => {
       console.log(data.data)

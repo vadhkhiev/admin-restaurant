@@ -97,12 +97,8 @@ const YourOrder = () => {
                 status: 'Booked',
                 name: table?.find(table => table.id === postData?.table_Id).name,
                 seatCapacity: tableData?.seat_Capacity
-            },
-         {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-        })
+            }
+        )
             
         } catch (error) {
             console.log(error)
@@ -116,12 +112,7 @@ const YourOrder = () => {
             
             const response = await axios.post(
                 '/api/orders',
-                postData,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                }
+                postData
             );
             setMessage('Order placed successfully'); 
             bookedTable();

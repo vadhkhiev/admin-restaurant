@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 const LineChart = () => {
-  const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
+
   const [staffData, setStaffData] = useState([]);
 
   useEffect(() => {
@@ -14,11 +14,7 @@ const LineChart = () => {
     console.log(month , year)
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/report/staff?month=${year}:${month}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await axios.get(`/report/staff?month=${year}:${month}`);
         setStaffData(response.data?.data);
         console.log(response.data.data);
       } catch (error) {

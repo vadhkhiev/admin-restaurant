@@ -43,12 +43,7 @@ const SaleReports = () => {
   },[startDate,endDate])
   useEffect(() => {
     axios
-      .get(`/report/staff?query=${query}&order=${sortValue}&size=${limit}&page=${page}&${startDate ? 'start=' + startDate : ''}${endDate ? '&end=' + endDate : ''}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`/report/staff?query=${query}&order=${sortValue}&size=${limit}&page=${page}&${startDate ? 'start=' + startDate : ''}${endDate ? '&end=' + endDate : ''}`)
       .then((res) => {
         setSale(res.data.data);
         setPaging(res.data.paging);

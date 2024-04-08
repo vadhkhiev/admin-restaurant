@@ -9,12 +9,14 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
   const token =
   useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const [roles , setRoles] = useState([]);
-  console.log(editUser)
+  const [toggleChange, setToggleChange] = useState(false)
+
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getroles(token);
+        const result = await getroles();
         setRoles(result.data);
       } catch (error) {
         console.error(error);
@@ -41,6 +43,11 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
     salary: editUser.salary,
   });
 
+  const [passwordChange , setPasswordChange] = useState({
+    password: "",
+    confirm_password: ""
+  })
+
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -64,11 +71,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
     const formdata = new FormData();
     formdata.append("file", fileInput);
   
-    axios.post(`/api/user/${editUser?.id}/profile-avatar`, formdata, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      }
-    })
+    axios.post(`/api/user/${editUser?.id}/profile-avatar`, formdata)
     .then(response => {
  
       
@@ -78,17 +81,15 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
     });
   };
 
+
   const handleChange = async () => {	
     try {
       const data = { ...editing, username: editUser.username };
       const filteredData = Object.fromEntries(
         Object.entries(data).filter(([_, value]) => value !== "")
       );
-      const result = await axios.put(`/api/user/${editUser?.id}`, filteredData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const result = await axios.put(`/api/user/${editUser?.id}`, filteredData
+      );
 
       if (fileInput) {
         await handleUpload();
@@ -133,7 +134,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
             <div >
                 <MdOutlineCancel onClick={handleEdit} className='fs-3 text-danger m-2'/>
               </div>
-              <div >
+              <div  className={`${toggleChange ? "d-none" : "d-block"}`}>
               <div className=' rounded-3'  >
                 <h3  className=' text-center p-1'>Editing
                 <span className='text-primary'> {editUser.name}</span> 
@@ -248,12 +249,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
                   </select>
                 </p>
               </div>
-              {/*                <div className='m-3' style={{color: '#495057'}}>
-                <p className='fs-4 p-2 d-flex justify-content-between'>
-                    <span className='w-25 text-center'>Salary to: </span>
-                    <input onChange={(e)=> setEditing({ ...editing, salary: parseInt(e.target.value) })} className='w-75 p-1' style={{color: '#495057',backgroundColor: '#eff0f1',borderRadius:'5px',border:'none'}}  type='number' placeholder={editUser.salary} />
-                  </p>
-                </div> */}
+
               {error && (
                 <div
                   className="position-fixed top-0 start-50 translate-middle"
@@ -284,6 +280,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
                   {successMessage}
                 </div>
               )}
+              <p onClick={()=>setToggleChange(!toggleChange)} className="fs-5 cursor-pointer pb-2 text-center text-primary underline">Change Password ?</p>
               <div className="d-flex justify-content-center pb-3">
                 <button
                   onClick={handleChange}
@@ -294,6 +291,39 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
               </div>
             </div>
           </div>
+
+          <div className='w-100' style={{display: toggleChange ? "block" : "none"}}>
+            <div className='w-100 mb-3 d-flex flex-column gap-3 text-nowrap justify-content-center '>
+               <div>
+                <p  className='fs-4 text-center'>Reset <span className='text-primary'>{editUser?.name}'s</span> Password</p>
+               </div>
+                <div className='input'>
+                  <h5>New Password:</h5>
+                  <input
+                   type="text"
+                   onChange={(e) =>setPasswordChange({
+                    ...passwordChange,
+                    password: e.target.value
+                   })}
+                    name="password"  />
+                </div>
+                <div className='input'>
+                  <h5>Confirm Password:</h5>
+                  <input
+                  onChange={(e) =>setPasswordChange({
+                    ...passwordChange,
+                    confirm_password: e.target.value
+                  })}
+                   type="text" name="confirm_password"  />
+                </div>
+                <div className='d-flex justify-content-center'>
+                <button className='btn btn-primary w-25 p-2'  >Save</button>
+                </div>
+
+            </div>
+             <p className='text-primary text-decoration-underline text-center cursor-pointer' onClick={() => setToggleChange(!toggleChange)}>Back ?</p>
+          </div>
+          
         </main>
       </div>
     </div>

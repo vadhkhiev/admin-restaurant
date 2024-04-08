@@ -23,12 +23,8 @@ const Createrole = ({setAdd}) => {
             
             const response = await axios.post(
                 '/api/roles',
-                roleinfo,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                }
+                roleinfo
+
             );
             setMessage('Successfully created role');
             refetch();
@@ -43,7 +39,7 @@ const Createrole = ({setAdd}) => {
 
     const refetch = async ()=>{
         try {
-            const result = await getroles(token);
+            const result = await getroles();
             dispatch(storeRoles(result))
         }
         catch (error) {

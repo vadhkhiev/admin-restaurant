@@ -1,16 +1,9 @@
 import axios from "axios";
 
 const updateFood = async (id, foodData, token) => {
-  console.log(foodData);
-  const myHeaders = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
 
   try {
-    const response = await axios.put(`api/foods/${id}`, foodData, {
-      headers: myHeaders,
-    });
+    const response = await axios.put(`api/foods/${id}`, foodData);
     if (response.status == 200) {
       alert("Editing Success");
       return;

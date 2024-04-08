@@ -27,7 +27,7 @@ const Layout1 = () => {
   useEffect(() => {
     const fetchroles = async () => {
       try {
-        const result = await getroles(token);
+        const result = await getroles();
         dispatch(storeRoles(result));
       } catch (error) {
         console.error(error);
@@ -51,11 +51,7 @@ const Layout1 = () => {
 
     const totalOrder = async () => {
        try {
-        const response = await axios.get(`/api/orders?page=1`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(`/api/orders?page=1`);
         dispatch(storeorder(response.data))
       } catch (error) {
         console.error(error);
