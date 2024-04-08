@@ -127,6 +127,11 @@ export default function AddForm({ toggle, toggleForm }) {
           />
         </div>
 
+        <div class="mb-2">
+          <label class="form-label">Food Image</label>
+          <input class="form-control" type="file" id="formFile"></input>
+        </div>
+
         <div class="form-group">
           <label>Categories</label>
           <select
