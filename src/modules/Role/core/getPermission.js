@@ -1,12 +1,8 @@
 import axios from 'axios';
 
-const getPermission = async (token , id ) => {
+const getPermission = async (id ) => {
   try {
-    const response = await axios.get(`/api/roles/${id}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(`/api/roles/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);

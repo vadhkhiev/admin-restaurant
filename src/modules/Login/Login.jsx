@@ -13,6 +13,7 @@ import getRoles from '../layout/core/getroles'
 import axios from 'axios'
 import getUserRole from './core/getUserRole'
 import getroles from '../layout/core/getroles'
+import { setAuth } from '../auth/authHelper'
 
 
 
@@ -20,33 +21,23 @@ const Login = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [check , setCheck] = useState(true)
     const dispatch = useDispatch()
     const [error, setError] = useState(null);
     const [loading ,setLoading ] = useState(true)
-    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
 
 
 
-    
-
-    const handleCheckboxChange = () => {
-      setCheck(!check);
-    };
 
     const handleLogin = async () => {
       if (!username || !password) {
         setError('Please enter a username and password');
         return;
       }
-    
       try {
         const result = await getAuth(username, password);
-        if (check) {
-          localStorage.setItem('token', result.data.token);
-        }
+        setAuth(result.data.token);
         try {
-          const permissionResult = await getPermission(result.data.token, result.data.user.id);
+          const permissionResult = await getPermission(result.data.user.id);
           dispatch(storePermission(permissionResult));
         } catch (permissionError) {
           console.error('Error fetching permissions:', permissionError);
@@ -73,14 +64,12 @@ useEffect(() => {
     setLoading(true);
     checkAuth(token)
       .then((data) => {
-        console.log(data?.data);
         getUserRole(token, data?.data?.id)
           .then((userRoleResult) => {
-            console.log('userrole' , userRoleResult)
             dispatch(storeUserRoleName(userRoleResult?.data?.role?.name));
-            getroles(token).then((result) => {
+            getroles().then((result) => {
               const role = result.data?.filter((role) => role?.name === userRoleResult?.data?.role?.name);
-              getPermission(token, role[0]?.id)
+              getPermission( role[0]?.id)
               .then((permissionResult) => {
                 dispatch(storePermission(permissionResult));
                 dispatch(login(data));
@@ -94,8 +83,6 @@ useEffect(() => {
           .catch((error) => {
             console.error('Error fetching user data:', error);
           });
-
-
 
         dispatch(storeCurrentUser(data?.data));
         console.log(data?.data);
@@ -161,21 +148,8 @@ useEffect(() => {
                         />
                       </div>
                       <div>
-                        <div className="form-check align-items-center">
-                          <input
-                            id="customControlInline"
-                            type="checkbox"
-                            className="form-check-input"
-                            onChange={handleCheckboxChange}
-                            defaultChecked
-                            name="remember-me"
-                          />
-                          <label className="form-check-label text-small text-white-50" >
-                            Remember me
-                          </label>
-                        </div>
                       </div>
-                      <div className="d-grid gap-2 mt-3">
+                      <div className="d-grid gap-2 mt-4">
                         <span onClick={handleLogin}
                         tabIndex="0"
                         role='button'
@@ -185,7 +159,7 @@ useEffect(() => {
                           }
                          }}                   
                         className="btn btn-lg btn-primary">
-                          Sign in
+                          Log in
                         </span>
                       </div>
                     </form>

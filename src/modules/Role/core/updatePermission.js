@@ -5,10 +5,6 @@ const updatePermission = async (token , id , updatedData ) => {
     const response = await axios.put(`/api/roles/permission`, {
         "role_id": id,
         "permissions": updatedData
-    }, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      }
     });
     return response.data;
   } catch (error) {

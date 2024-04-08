@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Confirm = ({confirmDelete ,cancelDelete , confirm }) => {
+  console.log(confirm)
   return (
     <div>
         <div

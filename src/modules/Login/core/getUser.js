@@ -2,11 +2,7 @@ import axios from "axios";
 
 const checkAuth = async (token) => {
   try {
-    const response = await axios.get("/api/user/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get("/api/user/profile");
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);

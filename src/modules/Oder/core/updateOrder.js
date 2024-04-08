@@ -1,12 +1,8 @@
 import axios from 'axios';
 
-const updateOrder = async (token,id, data  ) => {
+const updateOrder = async (id, data  ) => {
   try {
-    const response = await axios.put(`/api/orders/${id}`, data, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+    const response = await axios.put(`/api/orders/${id}`, data);
     return response.data;
   } catch (error) {
     console.error('Error updating order:', error);

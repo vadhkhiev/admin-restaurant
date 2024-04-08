@@ -1,25 +1,19 @@
 import React, { useState } from 'react'
 import { IoCloseCircleOutline } from "react-icons/io5";
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 const DeleteRole = ({deletes , setDeletes , role , setRefetch , refetch}) => {
-    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
     const [message , setMessage] = useState('')
     const [error , setError] = useState('')
     
 
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`/api/roles/${role.id}`, {
-              headers: {
-                'Authorization': `Bearer ${token}`,
-              },
-            });
+            const response = await axios.delete(`/api/roles/${role.id}`);
             setMessage('Role deleted successfully')
             setRefetch(!refetch)
             setTimeout(() => {
               setDeletes(!deletes);
-            }, 700);
+            }, 1000);
           } catch (error) {
             console.error(error);
             setError(error.response.data.message);    
@@ -33,7 +27,7 @@ const DeleteRole = ({deletes , setDeletes , role , setRefetch , refetch}) => {
       <div
         style={{
           position: "fixed",
-          top: 0,
+          top: 0, 
           left: 0,
           width: "100%",
           height: "100%",
@@ -51,15 +45,26 @@ const DeleteRole = ({deletes , setDeletes , role , setRefetch , refetch}) => {
               </div>
             ) : (
               <>
-              <IoCloseCircleOutline onClick={() => setDeletes(!deletes)} style={{cursor:'pointer'}} className='fs-3 text-danger mb-3 me-2'/>
-              <span className='fs-4 text-white mb-3'>Delete role</span>
-              <p className='text-white text-center fw-normal my-3 '>Are you sure you want to delete <span className='text-danger '>{role?.name}</span>?</p>
-              <div className='d-flex justify-content-center'>
-                  <div  className='d-flex justify-content-between w-50'>
-                   <button onClick={() => setDeletes(!deletes)} style={{background:'#6c738f'}}  className='btn text-white w-25 mt-3'>No</button>
-                   <button onClick={handleDelete} className='btn btn-danger w-25 mt-3'>Yes</button>
-                  </div>
-              </div>
+               <div className='p-3 rounded text-center'>
+            <p>
+              Are you sure you want to{' '}
+              <span className='text-danger'>delete</span>{' '}
+              <b className='text-primary'>{role?.name}</b> from the list?
+            </p>
+            <div className='d-flex justify-content-center'>
+              <button
+                onClick={handleDelete}
+                className='btn btn-danger mx-3'
+              >
+                Delete
+              </button>
+              <button  
+              onClick={() => setDeletes(!deletes)}
+              className='btn btn-primary mx-3'>
+                Cancel
+              </button>
+            </div>
+          </div>
               </>
             )
           }

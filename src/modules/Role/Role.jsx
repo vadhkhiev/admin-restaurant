@@ -30,7 +30,7 @@ const Role = () => {
     useEffect(()=>{
         const fetchData = async () => {
           try {
-            const result = await getroles(token , size , page);
+            const result = await getroles( size , page);
             dispatch(storeRoles(result)) 
             setPaging(result.paging)
           }

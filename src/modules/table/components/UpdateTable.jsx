@@ -14,12 +14,7 @@ const UpdateTable = ({ Update,pid ,setRefresh , refresh , setUpdate}) => {
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   useEffect(() => {
     axios
-      .get(`/api/tables/${pid}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`/api/tables/${pid}`)
       .then((res) => {
         setData(res.data.data);
         
@@ -29,12 +24,7 @@ const UpdateTable = ({ Update,pid ,setRefresh , refresh , setUpdate}) => {
 
     const handleUpdate = (e) =>{
       e.preventDefault();
-      axios.put(`/api/tables/${pid}`, data,{
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      axios.put(`/api/tables/${pid}`, data)
       .then((res) => {
         setRefresh(!refresh)
         setUpdate(false)

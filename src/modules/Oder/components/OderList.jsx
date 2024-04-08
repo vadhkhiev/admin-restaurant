@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import loadingImg from "../../../assets/img/loading.gif";
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import dateTimeFormat from "../../Role/core/dateTimeFormat";
 import { Link } from "react-router-dom";
-import { FiEye } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { storeCLickedorder, storeViewId } from "../core/orderSlice";
 import { FaRegEye } from "react-icons/fa";
 import ConfirmOrderDelete from "./ConfirmOrderDelete";
+import { GoTrash } from "react-icons/go";
 
 function OrderList() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setError] = useState(false);
   const [orders, setOrders] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  const [currentPage, setCurrentPage] = useState(1); // Track current page
-  const [totalPages, setTotalPages] = useState(1); // Track total pages
   const [pageSize] = useState(10); // Define page size
   const [editOrderId, setEditOrderId] = useState("");
   const [editedPaymentMethod, setEditedPaymentMethod] = useState("");
@@ -45,11 +40,7 @@ function OrderList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/orders?status=${status}&page=${page}&size=${size}&sort=id&paymentMethod=${payment}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(`/api/orders?status=${status}&page=${page}&size=${size}&sort=id&paymentMethod=${payment}`);
 
         if (!response.data || !response.data.data) {
           throw new Error("Failed to fetch data");
@@ -72,12 +63,7 @@ function OrderList() {
 
   const handleDelete = async (orderId) => {
       try {
-        await axios.delete(`/api/orders/${orderId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
+        await axios.delete(`/api/orders/${orderId}`);
         setOrders(orders.filter((order) => order.id !== orderId));
         setDeleteConfirmation(false);
         setDeleteOrderId(""); // Reset delete order ID
@@ -192,7 +178,7 @@ function OrderList() {
         <thead >
           <tr>
             <th scope="col fs-1">ID</th>
-            <th scope="col">User Entity</th>
+            <th scope="col ">User Entity</th>
             <th scope="col">Table Name</th>
             <td scope="col">Total</td>
             <td scope="col">Action</td>
@@ -202,18 +188,19 @@ function OrderList() {
           {
             orders && orders.map((order) => (
               <tr key={order.id}>
-                <td className="">{order?.id}</td>
-                <td className="fw-normal">{order.user?.name}</td>
-                <td className="fw-normal">{order.table?.name}</td>
-                <td className="fw-normal"><sup className="text-danger">$</sup>{(order?.total_Price)?.toFixed(2)}</td>
+                <td className="fw-bold">{order?.id}</td>
+                <td className="fw-bold">{order.user?.name}</td>
+                <td className="fw-bold">{order.table?.name}</td>
+                <td className="fw-bold"><sup className="text-danger">$</sup>{(order?.total_Price)?.toFixed(2)}</td>
                 <td>
                 <Link to='/order/view'>
                   <FaRegEye style={{ color: "#6c738f" }} className="fs-4 me-2" onClick={() => handleIdClicked(order.id)}/>
                  </Link>
-                  <MdDelete
-                    className="text-danger cursor-pointer fs-3"
+                  <GoTrash
+                    className="text-danger cursor-pointer fs-4"
                     onClick={() => deleteAlert(order.id )}  
                   />
+                  
                 
                 </td>
               </tr>
@@ -234,9 +221,9 @@ function OrderList() {
                   </a>
                 </li>
                 <li className="page-item underline-none" style={{ display: 'flex', gap: '5px', width: '60px' }}>
-                  <span className="page-link" style={{ fontSize: '18px' }}>{page}</span>
-                  <span className="page-link" style={{ fontSize: '18px' }}>/</span>
-                  <span className="page-link" style={{ fontSize: '18px' }}>{pagingdetails?.totalPage ? pagingdetails?.totalPage : 1}</span>
+                  <span className="page-link" >{page}</span>
+                  <span className="page-link" >/</span>
+                  <span className="page-link" >{pagingdetails?.totalPage ? pagingdetails?.totalPage : 1}</span>
                 </li>
                 <li className="page-item">
                   <a onClick={() => handlePagination('increase')} style={{ fontSize: '25px' }} className="page-link" aria-label="Next">

@@ -4,7 +4,7 @@ import axios from 'axios';
 import "./Editprofile.css";
 import { useSelector } from 'react-redux';
 import profileImg from '../../../assets/img/avatar.jpg'
-import useCurrentUser from '../../Usermanangement/core/userCustom';
+import useCurrentUser from '../../Usermanangement/core/action';
 
 const Editprofile = ({ setPopupedit, profile, setRefetch}) => {
   const [editedProfile, setEditedProfile] = useState({
@@ -55,12 +55,7 @@ const Editprofile = ({ setPopupedit, profile, setRefetch}) => {
       try {
         const response = await axios.patch(
           '/api/user/password/reset',
-          password,
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          }
+          password
         );
         setMessage('Password changed successfully');
         setPassword({
@@ -83,12 +78,7 @@ const Editprofile = ({ setPopupedit, profile, setRefetch}) => {
   const handleImg = () => {
     const formData = new FormData();
     formData.append('file', img);
-    axios.post('/api/user/profile-avatar/token', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    axios.post('/api/user/profile-avatar/token', formData)
       .then(response => {
         console.log(response.data);
         setRefetch(prev => !prev); // Toggle refetch state
@@ -105,12 +95,7 @@ const Editprofile = ({ setPopupedit, profile, setRefetch}) => {
       await handleImg();
     }
     try {
-      const response = await axios.put(`/api/user/profile`, editedProfile,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+      const response = await axios.put(`/api/user/profile`, editedProfile);
       setRefetch(prev => !prev); 
       setMessage('Profile updated successfully');
       
