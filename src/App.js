@@ -1,22 +1,22 @@
 import {Navigate, Route, Routes} from "react-router-dom";
 import "./App.css";
 import Layout1 from "./modules/layout/Layout1";
-import {useSelector} from "react-redux";
-import Login from "./modules/Login/Login";
-import User from "./modules/Usermanangement/User";
+import { useSelector } from "react-redux";
+import Login from "./modules/login/Login";
+import User from "./modules/usermanangement/User";
 import Food from "./modules/Food/Component/Food";
-import Role from "./modules/Role/Role";
-import Access from "./modules/Role/components/Access";
+import Role from "./modules/role/Role";
+import Access from "./modules/role/components/Access";
 import Profile from "./modules/profile/Profile";
 import Table from "./modules/table/Table";
-import Dashboard from "./modules/Dashboard/Dashboard";
-import MainOder from "./modules/Oder/MainOder";
-import MakeOrder from "./modules/Oder/components/MakeOrder";
-import ViewOrder from "./modules/Oder/components/ViewOrder";
-import Reports from "./modules/Reports/Reports";
-import FoodReports from "./modules/Reports/components/FoodReports";
-import SaleReports from "./modules/Reports/components/SaleReports";
-import OrderList from "./modules/Oder/components/OderList";
+import Dashboard from "./modules/dashboard/Dashboard";
+import MainOder from "./modules/order/MainOder";
+import MakeOrder from "./modules/order/components/MakeOrder";
+import ViewOrder from "./modules/order/components/ViewOrder";
+import Reports from "./modules/reports/Reports";
+import FoodReports from "./modules/reports/components/FoodReports";
+import SaleReports from "./modules/reports/components/SaleReports";
+import OrderList from "./modules/order/components/OderList";
 
 
 function App() {

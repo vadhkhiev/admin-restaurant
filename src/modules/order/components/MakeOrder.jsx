@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import OrderingCard from './OrderingCard'
 import {  useNavigate } from 'react-router-dom'
-import { clearOrderedFood, storeOrderedFood } from '../core/foodCartSlice'
+import { clearOrderedFood, storeOrderedFood } from '../core/slice'
 import YourOrder from './YourOrder'
 import { all } from 'axios'
 

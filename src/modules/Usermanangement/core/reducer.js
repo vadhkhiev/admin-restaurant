@@ -3,7 +3,16 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   users: [],
   total: 0,
+  paging: {},
   recent: [],
+  params: {
+    query: '',
+    page: 1,
+    size: 20,
+    sort: '',
+    order: 'desc',
+    roleId: ''
+  }
 };
 
 const usersSlice = createSlice({
@@ -18,9 +27,15 @@ const usersSlice = createSlice({
     },
     storeRecentUsers: (state, action) => {
       state.recent = action.payload
+    },
+    storeParams: (state, action) => {
+      state.params = {...state.params, ...action.payload}
+    },
+    storePaging: (state, action) => {
+      state.paging = action.payload
     }
   },
 });
 
-export const { storeUsers, storeTotalUsers, storeRecentUsers } = usersSlice.actions;
+export const { storeUsers, storeTotalUsers, storeRecentUsers ,storeParams , storePaging } = usersSlice.actions;
 export default usersSlice.reducer;
