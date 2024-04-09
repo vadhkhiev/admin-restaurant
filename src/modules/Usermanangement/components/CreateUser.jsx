@@ -5,7 +5,7 @@ import Inputfield from "./Inputfield";
 import useUsers from "../core/action";
 const CreateUser = ({ setCreate }) => {
   const roles = useSelector((state) => state.roles.roles);
-  const { handleCreate} = useUsers();
+  const { createUser } = useUsers();
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const CreateUser = ({ setCreate }) => {
     }));
   };
   const handleSubmit = async () => {
-    handleCreate(userData , setCreate)
+    createUser(userData , setCreate)
   };
 
   return (

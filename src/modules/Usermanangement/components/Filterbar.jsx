@@ -1,5 +1,5 @@
-import  getroles  from '../../layout/core/getroles';
-import React, { useEffect, useState } from 'react'
+
+import React from 'react'
 import { useSelector } from 'react-redux';
 import useUsers from '../core/action';
 
@@ -11,8 +11,13 @@ const Filterbar = () => {
     const collectParams = (e) => {
         const value = e.target.value
         const name = e.target.name
-        setParams( {[name] : value})
+        let newParams = { ...params, [name]: value }
+        if (name === 'roleId') {
+            newParams = { ...newParams, page: 1 }
+        }
+        setParams(newParams) 
     }
+
 
   return (
     <>
@@ -25,7 +30,7 @@ const Filterbar = () => {
                 name='sort'
                 onChange={(e) => { collectParams(e) }}
                 >
-                <option key={0} hidden value="">Sort by</option>
+                <option key={0}  value="">Sort by</option>
                 <option key={1} value="name">Name</option>
                 <option key={2} value="salary" >Salary</option>
                 <option key={3} value="email">Email</option>
@@ -53,8 +58,9 @@ const Filterbar = () => {
              }}
              name="roleId" className="form-select py-0" id="">
                 <option key={0} hidden value="">Role</option>
+                <option key={1} value="">All</option>
                 {roles.map((role) => (
-                    <option key={role.id} selected={params.roleId == role.id} value={role.id}>
+                    <option key={role.id + 1} selected={params.roleId == role.id} value={role.id}>
                         {role.name}
                     </option>
                 ))}

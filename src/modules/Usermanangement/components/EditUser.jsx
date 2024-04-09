@@ -1,39 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { MdOutlineCancel } from "react-icons/md";
-import avatar from "../../../assets/img/avatar.jpg";
-import { useSelector } from "react-redux";
-import axios from "axios";
-import getroles from '../../layout/core/getroles';
+import { useSelector } from 'react-redux';
+import useUsers from '../core/action';
 
-const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
-  const token =
-  useSelector((state) => state.auth.token) || localStorage.getItem("token");
-  const [roles , setRoles] = useState([]);
-  const [toggleChange, setToggleChange] = useState(false)
+const EditUser = ({ handleEdit, editUser }) => {
+  const roles = useSelector((state) => state.roles.roles);
+  const { updateUser } = useUsers();
 
-
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getroles();
-        setRoles(result.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchData();
-  }, [token]);
-
-  useEffect(() => {
-    const filteredRole = roles.find((r) => r.name === editUser?.role?.name);
-    if (filteredRole) {
-      setEditing({ ...editing, role_id: filteredRole.id });
-    }
-  }, [roles, editUser?.role?.name]);
-
-
+  const [passwordChange , setPasswordChange] = useState({
+    password: "",
+    confirm_password: ""
+  })
   const [editing, setEditing] = useState({
     avatar : editUser.avatar,
     name: editUser.name,
@@ -42,37 +19,17 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
     gender: editUser.gender,
     salary: editUser.salary,
   });
-
-  const [passwordChange , setPasswordChange] = useState({
-    password: "",
-    confirm_password: ""
-  })
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [fileInput, setFileInput] = useState(null);
+  const [toggleChange, setToggleChange] = useState(false)
 
-  
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreensize(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  
-  const [screensize , setScreensize] = useState(window.innerWidth);
-
-
-/*     const formdata = new FormData();
-    formdata.append("file", fileInput);
-  
-     axios.post(`/api/user/${editUser?.id}/profile-avatar`, formdata)  */
-
-
-
+  const handleUpdate = () =>{
+    const formdata = new FormData();
+    if(fileInput){
+      formdata.append("file", fileInput);
+    }
+    updateUser(editing , editUser.id , fileInput ? formdata : null)
+    
+  }
   
   return (
     <div>
@@ -86,15 +43,14 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
             width: '100%',
             height: '100%',
             backgroundColor: "rgba(62,64,87, 0.35)",
-            zIndex: 9999,
+            zIndex: 10,
             borderRadius: '10px 0 0 10px',
             transition: 'all 0.3s ease-in-out',
             
           }} 
         >
-          <main className='rounded-3 border' style={{
+          <main className='rounded-3 border col-12 col-md-6' style={{
             backdropFilter: 'blur(5px)',
-            width: screensize < 768 ? '100%' : '45%',
           }}
           >
             <div >
@@ -216,40 +172,11 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
                 </p>
               </div>
 
-              {error && (
-                <div
-                  className="position-fixed top-0 start-50 translate-middle"
-                  style={{
-                    background: "#f8d7da",
-                    color: "#721c24",
-                    border: "1px solid #f5c6cb",
-                    borderRadius: "0.25rem",
-                    padding: "0.75rem 1.25rem",
-                    margin: "1rem 0",
-                  }}
-                >
-                  {error}
-                </div>
-              )}
-              {successMessage && (
-                <div
-                  className="position-fixed top-0 start-50 translate-middle"
-                  style={{
-                    background: "#d4edda",
-                    color: "#155724",
-                    border: "1px solid #f5c6cb",
-                    borderRadius: "0.25rem",
-                    padding: "0.75rem 1.25rem",
-                    margin: "1rem 0",
-                  }}
-                >
-                  {successMessage}
-                </div>
-              )}
               <p onClick={()=>setToggleChange(!toggleChange)} className="fs-5 cursor-pointer pb-2 text-center text-primary underline">Change Password ?</p>
               <div className="d-flex justify-content-center pb-3">
                 <button
                   className="btn btn-primary w-25 p-2"
+                  onClick={handleUpdate}
                 >
                   Save
                 </button>

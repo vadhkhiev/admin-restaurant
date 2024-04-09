@@ -3,9 +3,8 @@ import TableRow from './TableRow';
 import '../../../assets/css/tablecss.css'; 
 import { useSelector } from 'react-redux';
 
-const Table = ({ users, handleDelete ,handleEdit }) => {
+const Table = ({ users ,handleEdit }) => {
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions); 
-  console.log(users)
   return (
     <>
       {users?.length > 0 ? (
@@ -28,7 +27,7 @@ const Table = ({ users, handleDelete ,handleEdit }) => {
               </thead>
               <tbody>
                 {users.map((user, index) => (
-                  <TableRow handleEdit={handleEdit} handleDelete={handleDelete} key={user.id} index={index + 1} user={user} />
+                  <TableRow handleEdit={handleEdit}  key={user.id} index={index + 1} user={user} />
                 ))}
               </tbody>
             </table>

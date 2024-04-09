@@ -1,6 +1,6 @@
 
 import { useDispatch , useSelector } from "react-redux";
-import { reqUsers , createUser } from "./request";
+import { reqUsers , reqUpdateUser, reqCreateUser, reqUploadImage, reqDeleteUser } from "./request";
 import { storePaging, storeParams, storeUsers } from "./reducer";
 import { useEffect } from "react";
 import { alertConfirm , alertError , alertSuccess } from "../../utils/alert";
@@ -8,25 +8,21 @@ import { alertConfirm , alertError , alertSuccess } from "../../utils/alert";
 
 const useUsers = () => {
     const dispatch = useDispatch(); 
-    const { params , paging } = useSelector((state) => state.users);
-    const setParams = (param) => {
-        dispatch(storeParams({
-            ...params,
-            ...param
-        })) 
+    const { params } = useSelector((state) => state.users);
+
+    const setParams = (params) => {
+        dispatch(storeParams(params));
     }
 
     const getUsers = async () => {
-        await reqUsers(params).then((response) => {
+       await reqUsers(params).then((response) => {
             dispatch(storeUsers(response.data.data));
             dispatch(storePaging(response.data.paging));
         })
     }
 
-
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const handleCreate = async (payload , setCreate) => {
+    const createUser = async (payload , setCreate) => {
         const payloadKeys = Object.keys(payload);
         const payloadValues = Object.values(payload);
         const isAllFilled = payloadKeys.length === 10 && payloadValues.every(value => value !== "");
@@ -34,10 +30,10 @@ const useUsers = () => {
 
         if (isAllFilled && isEmailValid) {
             try {
-                await createUser(payload);
+               await reqCreateUser(payload);
                 alertSuccess("User Created");
-                setCreate(false)
                 getUsers();
+                setCreate(false)
             } catch (error) {
                 alertError(error.response.data.message);
             } 
@@ -49,20 +45,44 @@ const useUsers = () => {
             }
         }
     };
-    
-    useEffect(() => {
-        getUsers();
-    }, [params]);
 
 
-    //pagination
-    const handlePagination = (para) => {
-        window.scrollTo(0, 0);
-        const newPage = para === "increase" && params.page < paging?.totalPage ? params.page + 1 : params.page - 1;
-        if (newPage >= 1) setParams({ ...params, page: newPage });
+    const updateUser = async (payload , id ,img ) => {
+        if(img){
+           await  reqUploadImage(img , id).then((response) => {
+            }).catch((error) => {
+                alertError(error.response.data.message);
+            })
+        }
+        await reqUpdateUser(payload , id).then((response) => {
+            getUsers()
+            alertSuccess(response.data.message);
+        }).catch((error) => {
+            alertError(error.response.data.message);
+        })
+    }
+
+    const deleteUser = async (user, id) => {
+        if (id === 1) {
+            alertError("You cannot delete the admin user");
+            return;
+        }
+        const confirmed = await alertConfirm(`Are you sure you want to delete ${user}?`);
+        if (confirmed.isConfirmed) {
+            try {
+                await reqDeleteUser(id);
+                alertSuccess("User Deleted");
+                getUsers();
+            } catch (error) {
+                console.error(error);
+            }
+        }
     };
 
-    return {getUsers ,setParams ,handlePagination , handleCreate};
+    
+   
+
+    return {getUsers ,setParams , createUser , updateUser , deleteUser} ;
 };
 
 export default useUsers;

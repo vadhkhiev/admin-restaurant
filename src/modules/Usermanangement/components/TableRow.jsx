@@ -4,10 +4,12 @@ import { GoTrash } from "react-icons/go";
 import '../../../assets/css/tablecss.css'; 
 import avatar from '../../../assets/img/avatar.jpg'
 import { useSelector } from 'react-redux';
+import useUsers from '../core/action';
 
 
-const TableRow = ({ user,handleDelete ,handleEdit }) => {
+const TableRow = ({ user ,handleEdit }) => {
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
+  const { deleteUser } = useUsers()
 
   return (
     <>
@@ -32,7 +34,7 @@ const TableRow = ({ user,handleDelete ,handleEdit }) => {
                 </a>
               )}
               {permission?.find(per => per.name === 'delete-user')?.status === 1 && (
-                <a className='fs-4 text-danger' style={{ color: '#6c738f' }} onClick={() => handleDelete(user)} type="button">
+                <a className='fs-4 text-danger' style={{ color: '#6c738f' }} onClick={() => deleteUser(user.name ,user.id)} type="button">
                   <GoTrash />
                 </a>
               )}

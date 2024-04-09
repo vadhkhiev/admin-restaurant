@@ -1,68 +1,40 @@
 import React, { useEffect, useState } from "react";
 import Table from "./components/Table";
-import loadingImg from "../../assets/img/loading.gif";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import Confirm from "./components/Confirm";
 import EditUser from "./components/EditUser";
 import CreateUser from "./components/CreateUser";
 import Filterbar from "./components/Filterbar";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { BsPeople } from "react-icons/bs";
 import useUsers from "./core/action";
+import { useSelector } from "react-redux";
 
 const User = () => {
   const { users , params } = useSelector((state) => state.users);
   const pagingdetails = useSelector((state) =>state.users.paging)
   const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
   const roles = useSelector((state) => state.roles.roles);
-  const { getUsers , setParams , handlePagination} = useUsers();
-  const [confirm, setConfirm] = useState("");
+  const { getUsers , setParams } = useUsers();
   const [selectRole, setSelectRole] = useState("");
   const [edit, setEdit] = useState(false);
 
   const [editUser, setEditUser] = useState({});
   const [create, setCreate] = useState(false);
   const [filter , setFilter] = useState(false) 
-  console.log(params.page)
 
-  
+
 
 
   useEffect(() => {
     getUsers()
-  }, []);
+  }, [params]);
 
   const collectParams = (e) => {
     const value = e.target.value
     const name = e.target.name
-    setParams( {[name] : value})
+    setParams( {...params,[name] : value})
   }
 
-  const handleDelete = (user) => {
-    if (user.id === 1) {
-      return;
-    }
-    setConfirm(user);
-  };
 
-  const confirmDelete = async () => {
-    try {
-      if (confirm) {
-        const id = confirm.id;
-        await axios.delete(`/api/user/${id}`);
-      }
-    } catch (error) {
-      console.error("Error deleting user:", error);
-    } finally {
-      // Close the confirm/modal after deletion
-      setConfirm("");
-    }
-  };
-
-  const cancelDelete = () => {
-    setConfirm("");
-  };
   const handleEdit = (editid) => {
     if (editid === 1) {
       return
@@ -74,21 +46,19 @@ const User = () => {
   const handleCreate = () => {
     setCreate(true);
   };
-   const handlePage = (paging) => {
-    handlePagination(paging)
 
-  } 
+  //pagination
+  const handlePage = (para) => {
+    window.scrollTo(0, 0);
+    const newPage = para === "increase" ? params.page + 1 : params.page - 1;
+    if (newPage >= 1 && newPage <= pagingdetails?.totalPage) {
+      setParams({ ...params, page: newPage });
+    }
+  };
 
   return (
     <>
       {/* Modal */}
-      {confirm && (
-        <Confirm
-          confirmDelete={confirmDelete}
-          confirm={confirm}
-          cancelDelete={cancelDelete}
-        />
-      )}
 
       {edit && (
         <>
@@ -123,17 +93,17 @@ const User = () => {
               >
                 <span
                   className={`me-3 cursor-pointer p-2 ${
-                    selectRole === "" ? "borderbottom" : ""
+                    params.roleId === "" ? "borderbottom" : ""
                   }`}
-                  onClick={() => setSelectRole("")}
+                  onClick={() => setParams({ ...params, roleId: "" })}
                 >
                   All <BsPeople className="mb-1" />
                 </span>
                 <span
                   className={`p-2 cursor-pointer ${
-                    selectRole === 1 ? "borderbottom" : ""
+                    params.roleId === 1 ? "borderbottom" : ""
                   }`}
-                  onClick={() => setSelectRole(1)}
+                  onClick={() => setParams({ ...params, roleId: 1 , page: 1 })}
                 >
                   Admin <MdOutlineAdminPanelSettings />
                 </span>
@@ -141,15 +111,6 @@ const User = () => {
               <div>
                 <p className="">
                   Total{" "}
-                  <span style={{ color: "#3d7dda" }}>
-                    {" "}
-                    {selectRole === ""
-                      ? "All"
-                      : selectRole === 1
-                      ? "Admin"
-                      : roles.find((role) => role.id === parseInt(selectRole))
-                          ?.name}
-                  </span>{" "}
                   : {pagingdetails.totals}
                 </p>
               </div>
@@ -233,7 +194,6 @@ const User = () => {
             {users.length > 0 ? (
               <div className="p-3">
                 <Table
-                  handleDelete={handleDelete}
                   handleEdit={handleEdit}
                   users={users}
                 />{" "}
