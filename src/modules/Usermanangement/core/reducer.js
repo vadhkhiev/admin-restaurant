@@ -11,7 +11,7 @@ const initialState = {
     size: 20,
     sort: '',
     order: 'desc',
-    roleId: ''
+    roleId: null
   }
 };
 

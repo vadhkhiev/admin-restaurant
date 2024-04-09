@@ -160,7 +160,7 @@ const CreateUser = ({ setCreate }) => {
                           aria-label=".form-select-sm "
 
                         >
-                          <option selected disabled>Role</option>
+                          <option selected hidden>Role</option>
                           {roles.map((role) => (
                             <option key={role.id} value={role.id}>
                               {role.name}

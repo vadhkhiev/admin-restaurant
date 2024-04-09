@@ -5,21 +5,8 @@ import useUsers from '../core/action';
 
 const Filterbar = () => {
     const { setParams } = useUsers()
-    const [roles , setRoles] = useState([])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const result = await getroles( );
-                setRoles(result.data);
-
-            } catch (error) {
-                console.error('Error in component:', error);
-            }
-        }
-        fetchData();
-
-    },[])
+    const roles = useSelector((state) => state.roles.roles)
+    const {params} = useSelector((state) => state.users)
 
     const collectParams = (e) => {
         const value = e.target.value
@@ -38,7 +25,7 @@ const Filterbar = () => {
                 name='sort'
                 onChange={(e) => { collectParams(e) }}
                 >
-                <option key={0} value="">Sort by</option>
+                <option key={0} hidden value="">Sort by</option>
                 <option key={1} value="name">Name</option>
                 <option key={2} value="salary" >Salary</option>
                 <option key={3} value="email">Email</option>
@@ -54,26 +41,26 @@ const Filterbar = () => {
             className="form-select py-0"
             aria-label="Default select example"
             >
-            <option key={0} value="">Order by</option>
+            <option key={0} hidden value="">Order by</option>
             <option key={1} value="asc" >Ascending</option>
             <option key={2} value="desc" >Descending</option>
             </select>
         </div>
-{/*         <div className='me-3'>
+        <div className='me-3'>
             <select
              onChange={(e) => {
                collectParams(e)
              }}
-             name="" className="form-select py-0" id="">
-                <option key={0} value="">Role</option>
-                {
-                    roles.map((r) => {
-                        return <option key={r.id} value={r.id} {...(selectRole === r.id && {selected: true})}>{r.name}</option>
-                    })
-                }
+             name="roleId" className="form-select py-0" id="">
+                <option key={0} hidden value="">Role</option>
+                {roles.map((role) => (
+                    <option key={role.id} selected={params.roleId == role.id} value={role.id}>
+                        {role.name}
+                    </option>
+                ))}
             </select>
 
-        </div> */}
+        </div> 
         {/* show 10 */}
         <div>
             <select
@@ -83,10 +70,11 @@ const Filterbar = () => {
             name='size'
             className="form-select py-0"
             aria-label="Default select example"
+
             >
-            <option key={0} value="20">Show 20</option>
-            <option key={1} value="30">Show 30</option>
-            <option key={2} value="50">Show 50</option>
+            <option key={0} value="20" selected={params.size == '20'}>Show 20</option>
+            <option key={1} value="30" selected={params.size  === '30'}>Show 30</option>
+            <option key={2} value="50" selected={params.size  === '50'}>Show 50</option> 
             </select>
 
         </div>
