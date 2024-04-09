@@ -30,7 +30,7 @@ const useCurrentUser = () => {
                 alertError("Can not Update Avatar")
             })
           }
-          const handleChangePw = (payload) => {
+          const handleChangePw = (payload ) => {
             if (payload.old_password && payload.password && payload.confirm_password) {
                 changePw(payload)
                     .then((response) => {
@@ -45,10 +45,13 @@ const useCurrentUser = () => {
             }
         };
         
-        const handleEditProfile = (payload) => {
+        const handleEditProfile = (payload,img) => {
             editProfile(payload).then((response) => {
                 getCurrentUser();
-                alertSuccess("Profile Updated")
+                if(!img){
+                    alertSuccess("Profile Updated")
+                }
+                
             }).catch((error) => {
                 alertError("Can not Update Profile")
                 console.log(error)

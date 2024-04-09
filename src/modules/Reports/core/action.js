@@ -11,7 +11,7 @@ const useReports = () => {
 
     const addParams = (key, value) => {
         dispatch(storeParams({
-            ...params,  // Merge the new parameter with existing parameters
+            ...params, 
             [key]: value
         }));
     };

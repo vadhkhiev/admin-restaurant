@@ -10,7 +10,6 @@ body{
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   padding: 0.75rem 1rem;
   color: #fff;
-  border: 1px solid rgba(252,253,255,0.3);
   border-left: 3px solid red; /* Moved below the border property */
 }
 

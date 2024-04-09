@@ -6,29 +6,12 @@ import useReports from '../core/action'
 const FoodReports = () => {
   const {foodReports , params , pagingdetails } = useSelector(state => state.foodReports)
   const {fetchFoodReports , addParams} = useReports()
-
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
   const [currpage, setCurrpage] = useState(1);
   const [filterbar, setFilterbar] = useState(false);
-
-  console.log(params)
-
-  useEffect(() => {
-      if (startDate === '' || endDate === '') {
-          return;
-      }
-      setStartDate(startDate.replace(/-/g, ':'));
-      setEndDate(endDate.replace(/-/g, ':'));
-  }, [startDate, endDate]);
-
 
   useEffect(() => {
     fetchFoodReports();
   }, []);
-  useEffect(() => {
-    
-  },[])
 
   const collectParam = (key, value) => {
     const formattedValue = (key === 'start' || key === 'end') 
@@ -46,8 +29,6 @@ const FoodReports = () => {
       }
   };
   
-  console.log(startDate,endDate)
-
 
   return (
     <>
@@ -56,7 +37,7 @@ const FoodReports = () => {
       <div style={{height:'35px'}} className='d-flex justify-content-between mb-3'>
         <div>
          <h3 style={{color:'#45495c'}} className='fw-bold mb-3'>Food Report <span className='text-primary fs-5'>
-         {`${!(startDate && endDate) ? '(This Month)' : '' }`}</span></h3>
+         {`${(!(params.start)  || !(params.end)) ? '(This Month)' : '' }`}</span></h3>
         </div>
         <div className='d-flex jsutify-content-end'>
 

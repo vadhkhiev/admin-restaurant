@@ -67,7 +67,7 @@ const Editprofile = ({ setPopupedit, profile}) => {
       handleImg(img);
     }
     try {
-      handleEditProfile(editedProfile);
+      handleEditProfile(editedProfile , img);
       setTimeout(() => {
         setPopupedit(false);
       }, 1000);

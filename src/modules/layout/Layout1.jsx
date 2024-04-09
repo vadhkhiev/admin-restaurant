@@ -5,15 +5,10 @@ import Topnav from "./components/Topnav";
 import getroles from "./core/getroles";
 import { useDispatch, useSelector } from "react-redux";
 import { storeRoles } from "./core/roleSlice";
-
-
-//
 import { storeFood} from "../Food/Core/slice";
 import getAllFood from "../Food/Core/getAllFood";
 import { storeCategories } from "../Food/Core/allCategoriesSlice";
 import getFoodCategories from "../Food/Core/getFoodCategories";
-import getUsers from "../usermanangement/core/getUsers";
-import { storeRecentUsers, storeTotalUsers } from "../usermanangement/core/reducer";
 import axios from "axios";
 import { storeorder } from "../order/core/orderSlice";
 const Layout1 = () => {
@@ -34,19 +29,6 @@ const Layout1 = () => {
     };
     fetchroles();
     
-
-    const totalUser = async () => {
-        try {
-          const result = await getUsers();
-          dispatch(storeTotalUsers(result.paging.totals)) 
-          dispatch(storeRecentUsers((result.data).slice(0,5)))
-          console.log(result)
-        } catch (error) {
-          console.error('Error in component:', error);
-        }
-      } 
-
-      totalUser();
 
     const totalOrder = async () => {
        try {
