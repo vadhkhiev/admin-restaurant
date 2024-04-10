@@ -1,67 +1,43 @@
 import React, { useEffect, useState } from "react";
 import Table from "./components/Table";
-import getusers from "./core/getUsers";
 import loadingImg from "../../assets/img/loading.gif";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { storeUsers } from "./core/allusersSlice";
 import Confirm from "./components/Confirm";
 import EditUser from "./components/EditUser";
 import CreateUser from "./components/CreateUser";
 import Filterbar from "./components/Filterbar";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { BsPeople } from "react-icons/bs";
+import useUsers from "./core/action";
 
 const User = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { users , params } = useSelector((state) => state.users);
+  const pagingdetails = useSelector((state) =>state.users.paging)
+  const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
+  const roles = useSelector((state) => state.roles.roles);
+  const { getUsers , setParams , handlePagination} = useUsers();
   const [confirm, setConfirm] = useState("");
   const [selectRole, setSelectRole] = useState("");
   const [edit, setEdit] = useState(false);
-  const [refresh, setRefresh] = useState(false);
+
   const [editUser, setEditUser] = useState({});
   const [create, setCreate] = useState(false);
-  //filtering
-  const [pagingdetails, setPagingdetails] = useState({});
-  const [query , setQuery] = useState('')
-  const [sortby , setSortby] = useState('')
-  const [currpage , setCurrpage] = useState(1)
-  const [orderby , setOrderby] = useState('')
-  const [limit , setLimit] = useState(20)
   const [filter , setFilter] = useState(false) 
-  const roles = useSelector((state) => state.roles.roles);
-  const dispatch = useDispatch();
-  //permission
-  const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
+  console.log(params.page)
 
+  
 
-
-  //solved no user when we make change on other pages > 1
 
   useEffect(() => {
-    setCurrpage(1);
-  }, [limit, selectRole]);
+    getUsers()
+  }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getusers(
-          currpage,
-          selectRole,
-          query,
-          sortby,
-          limit
-        );
-        dispatch(storeUsers(result.data));
-        setUsers(result.data);
-        setPagingdetails(result.paging);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error in component:", error);
-      }
-    };
-    fetchData();
-  }, [selectRole, edit, refresh, currpage, query, sortby, limit]);
+  const collectParams = (e) => {
+    const value = e.target.value
+    const name = e.target.name
+    setParams( {[name] : value})
+  }
 
   const handleDelete = (user) => {
     if (user.id === 1) {
@@ -75,8 +51,6 @@ const User = () => {
       if (confirm) {
         const id = confirm.id;
         await axios.delete(`/api/user/${id}`);
-        const updatedUsers = users.filter((user) => user.id !== id);
-        setUsers(updatedUsers);
       }
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -100,16 +74,10 @@ const User = () => {
   const handleCreate = () => {
     setCreate(true);
   };
-  const handlePagination = (paging) => {
-    window.scrollTo(0, 0);
-    if (paging === "increase") {
-      setCurrpage(
-        pagingdetails.totalPage === currpage ? currpage : currpage + 1
-      );
-    } else {
-      setCurrpage(currpage === 1 ? 1 : currpage - 1);
-    }
-  }
+   const handlePage = (paging) => {
+    handlePagination(paging)
+
+  } 
 
   return (
     <>
@@ -136,8 +104,6 @@ const User = () => {
         <>
           <CreateUser
             setCreate={setCreate}
-            setRefresh={setRefresh}
-            refresh={refresh}
           />
         </>
       )}
@@ -145,14 +111,7 @@ const User = () => {
       {/* End of Modal */}
 
       <div className="container rounded  my-1">
-        {loading ? (
-          <div className="d-flex flex-row justify-content-center align-items-center">
-            <h4>Loading...</h4>
-            <span>
-              <img src={loadingImg} width={20} alt="" />
-            </span>
-          </div>
-        ) : (
+      
           <div>
             <div className="p-4 px-3 d-flex justify-content-between">
               <span
@@ -233,9 +192,10 @@ const User = () => {
                         type="text"
                         className="form-control p-2 w-100"
                         placeholder="Search user..."
+                        name="query"
                         onChange={(e) => {
                           const timeoutId = setTimeout(
-                            () => setQuery(e.target.value),
+                            () => collectParams(e),
                             500
                           );
                           return () => clearTimeout(timeoutId);
@@ -264,13 +224,6 @@ const User = () => {
                   >
                     {filter && (
                       <Filterbar
-                        setSortby={setSortby}
-                        setOrderby={setOrderby}
-                        orderby={orderby}
-                        sortby={sortby}
-                        setSelectRole={setSelectRole}
-                        selectRole={selectRole}
-                        setLimit={setLimit}
                       />
                     )}
                   </div>
@@ -281,8 +234,8 @@ const User = () => {
               <div className="p-3">
                 <Table
                   handleDelete={handleDelete}
-                  users={orderby === "desc" ? users.slice().reverse() : users}
                   handleEdit={handleEdit}
+                  users={users}
                 />{" "}
                 
               </div>
@@ -300,7 +253,7 @@ const User = () => {
                   <ul className="pagination list-unstyled d-flex justify-content-center align-items-center">
                     <li className="page-item underline-none me-4">
                       <a
-                        onClick={() => handlePagination("decrease")}
+                         onClick={() => handlePage("decrease")} 
                         style={{ fontSize: "25px" }}
                         className="page-link"
                         aria-label="Previous"
@@ -313,18 +266,18 @@ const User = () => {
                       style={{ display: "flex", gap: "5px", width: "60px" }}
                     >
                       <span className="page-link" style={{ fontSize: "18px" }}>
-                        {currpage}
+                        {params?.page}
                       </span>
                       <span className="page-link" style={{ fontSize: "18px" }}>
                         /
                       </span>
                       <span className="page-link" style={{ fontSize: "18px" }}>
-                        {pagingdetails.totalPage}
+                        {pagingdetails?.totalPage}
                       </span>
                     </li>
                     <li className="page-item">
                       <a
-                        onClick={() => handlePagination("increase")}
+                         onClick={() => handlePage("increase")} 
                         style={{ fontSize: "25px" }}
                         className="page-link"
                         aria-label="Next"
@@ -337,7 +290,7 @@ const User = () => {
               </div>
             )}
           </div>
-        )}
+        
       </div>
     </>
   );

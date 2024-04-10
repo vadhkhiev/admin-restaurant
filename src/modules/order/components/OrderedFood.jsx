@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import img from '../../../assets/img/dummy.png'
-import { quantity, tickedFood } from '../core/foodCartSlice'
+import { quantity, tickedFood } from '../core/slice'
 
 
 const OrderedFood = ({handleEdit , cartFood}) => {

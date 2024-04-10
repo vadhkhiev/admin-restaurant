@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import OderList from "./components/OderList";
 import { CiBoxList } from "react-icons/ci";
 import { TbTruckDelivery } from "react-icons/tb";
 import { Link, Outlet } from "react-router-dom";

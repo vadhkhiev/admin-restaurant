@@ -47,10 +47,8 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
     password: "",
     confirm_password: ""
   })
-
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
   const [fileInput, setFileInput] = useState(null);
 
   
@@ -67,46 +65,14 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
   
   const [screensize , setScreensize] = useState(window.innerWidth);
 
-  const handleUpload = async () => {
-    const formdata = new FormData();
+
+/*     const formdata = new FormData();
     formdata.append("file", fileInput);
   
-    axios.post(`/api/user/${editUser?.id}/profile-avatar`, formdata)
-    .then(response => {
- 
-      
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  };
+     axios.post(`/api/user/${editUser?.id}/profile-avatar`, formdata)  */
 
 
-  const handleChange = async () => {	
-    try {
-      const data = { ...editing, username: editUser.username };
-      const filteredData = Object.fromEntries(
-        Object.entries(data).filter(([_, value]) => value !== "")
-      );
-      const result = await axios.put(`/api/user/${editUser?.id}`, filteredData
-      );
 
-      if (fileInput) {
-        await handleUpload();
-      }
-
-      setError('');
-      setSuccessMessage('Update successful');
-      setTimeout(() => {
-        setEdit(!edit);
-        setSuccessMessage("");
-      }, 1000);
-    } catch (error) {
-      setError("error");
-      console.log(error);
-      setTimeout(() => setSuccessMessage(""), 1000);
-    }
-  };
   
   return (
     <div>
@@ -170,7 +136,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
                       border: "none",
                     }}
                     type="text"
-                    placeholder={editUser.name}
+                    value={editing.name}
                   />
                 </p>
               </div>
@@ -222,7 +188,7 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
                       border: "none",
                     }}
                     type="number"
-                    placeholder={editUser.phone}
+                    value={editing.phone}
                   />
                 </p>
               </div>
@@ -283,7 +249,6 @@ const EditUser = ({ handleEdit, editUser, setEdit, edit }) => {
               <p onClick={()=>setToggleChange(!toggleChange)} className="fs-5 cursor-pointer pb-2 text-center text-primary underline">Change Password ?</p>
               <div className="d-flex justify-content-center pb-3">
                 <button
-                  onClick={handleChange}
                   className="btn btn-primary w-25 p-2"
                 >
                   Save

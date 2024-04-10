@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
 import Topnav from "./components/Topnav";
-import Pathbtn from "./components/Pathbtn";
 import getroles from "./core/getroles";
 import { useDispatch, useSelector } from "react-redux";
 import { storeRoles } from "./core/roleSlice";
+<<<<<<< HEAD
 
 //
 import { storeFood } from "../Food/Core/slice";
@@ -17,8 +17,14 @@ import {
   storeRecentUsers,
   storeTotalUsers,
 } from "../Usermanangement/core/allusersSlice";
+=======
+import { storeFood} from "../Food/Core/slice";
+import getAllFood from "../Food/Core/getAllFood";
+import { storeCategories } from "../Food/Core/allCategoriesSlice";
+import getFoodCategories from "../Food/Core/getFoodCategories";
+>>>>>>> a83ec910c3c2559048a65e0a0e79b213022f6c38
 import axios from "axios";
-import { storeorder } from "../Oder/core/orderSlice";
+import { storeorder } from "../order/core/orderSlice";
 const Layout1 = () => {
   const [open, setOpen] = useState(true);
   const token =
@@ -37,6 +43,7 @@ const Layout1 = () => {
     };
     fetchroles();
 
+<<<<<<< HEAD
     const totalUser = async () => {
       try {
         const result = await getUsers();
@@ -50,6 +57,8 @@ const Layout1 = () => {
 
     totalUser();
 
+=======
+>>>>>>> a83ec910c3c2559048a65e0a0e79b213022f6c38
     const totalOrder = async () => {
       try {
         const response = await axios.get(`/api/orders?page=1`);
@@ -93,21 +102,19 @@ const Layout1 = () => {
 
   return (
     <>
-      <div className="wrapper">
+      <div className="wrapper" style={{background:'#09090b'}}>
         <div className={`sidebar ${open ? "" : "sidebar-hide"}`}>
           <Sidebar toggle={toggle} />
         </div>
         <div
           style={{
-            background: "#eff0f1",
             boxShadow:
               "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em",
-            border: "1px solid rgba(90, 125, 188, 0.1)",
           }}
           className={`main ${open ? "sidebar-show" : ""}`}
         >
           <Topnav toggle={toggle} />
-          <div>
+          <div  >
             <Outlet />
           </div>
         </div>

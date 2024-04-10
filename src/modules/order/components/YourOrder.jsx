@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import OrderedFood from './OrderedFood'
 import { FaRegEdit } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
-import { clearOrderedFood, deleteFood, selection } from '../core/foodCartSlice';
+import { clearOrderedFood, deleteFood, selection } from '../core/slice';
 import { FiTrash } from "react-icons/fi";
 import fetchTable from '../core/fetchTable';
 import axios from 'axios';

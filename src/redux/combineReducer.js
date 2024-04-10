@@ -1,15 +1,15 @@
 import {combineReducers} from "redux";
 import authReducer from "../modules/auth/authSlice";
 import roleReducer from "../modules/layout/core/roleSlice";
-import allusersReducer from "../modules/Usermanangement/core/allusersSlice";
-import currentUserReducer from "../modules/Usermanangement/core/currentuserSlice";
+import allusersReducer from "../modules/usermanangement/core/reducer";
+import currentUserReducer from "../modules/profile/core/reducer";
 import foodReducer from "../modules/Food/Core/slice";
 import categoriesReducer from "../modules/Food/Core/allCategoriesSlice";
-import idReducer from "../modules/Role/core/idSlice";
-import permissionReducer from "../modules/Role/core/permissionSlice";
-import foodCartReducer from "../modules/Oder/core/foodCartSlice";
-import orderReducer from "../modules/Oder/core/orderSlice";
-
+import idReducer from "../modules/role/core/reducer";
+import permissionReducer from "../modules/role/core/permissionSlice";
+import foodCartReducer from "../modules/order/core/slice";
+import orderReducer from "../modules/order/core/orderSlice";
+import foodReportsReducer from "../modules/reports/core/reducer";
 export const rootReducers = combineReducers({
     auth: authReducer, // auth
     roles: roleReducer, // all roles
@@ -21,6 +21,7 @@ export const rootReducers = combineReducers({
     permission: permissionReducer, // permission
     foodCart: foodCartReducer, //  food order cart
     orders: orderReducer, //  Order list
+    foodReports : foodReportsReducer,
 
     /* Add other reducers here  */
 });

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const updatePermission = async (token , id , updatedData ) => {
+const updatePermission = async ( id , updatedData ) => {
   try {
     const response = await axios.put(`/api/roles/permission`, {
         "role_id": id,

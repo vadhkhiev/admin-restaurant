@@ -2,129 +2,31 @@ import React, { useEffect, useState } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import Inputfield from "./Inputfield";
-import { createUser } from "../core/createruser";
-import kiloit from "../../../assets/img/avatar.jpg";
-
-const CreateUser = ({ refresh, setCreate, setRefresh }) => {
-  const tokens = useSelector((state) => state.auth.token);
+import useUsers from "../core/action";
+const CreateUser = ({ setCreate }) => {
   const roles = useSelector((state) => state.roles.roles);
-  useEffect(() => {
-    const handleResize = () => {
-      setScreensize(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  
-  const [screensize , setScreensize] = useState(window.innerWidth);
-
-
-  const initialUserData = {
-    name: "",
-    username: "",
-    gender: "Male",
-    email: "",
-    password: "",
-    confirm_password: "",
-    phone: "",
-    salary: 0,
-    hire_date: "",
-    role_id: null,
-  };
-
-  const [userData, setUserData] = useState(initialUserData);
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+  const { handleCreate} = useUsers();
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     const currentDateTime = new Date();
-    const formattedDate = currentDateTime?.toISOString();
-
-    setUserData({
-      ...userData,
+    const formattedDate = (currentDateTime?.toISOString() )?.slice(0, -5) + 'Z'
+    setUserData(prevUserData => ({
+      ...prevUserData,
       hire_date: formattedDate,
-      role_id: roles[0].id,
-    });
+      role_id: null,
+    }));
   }, []);
 
-
   const handleInputChange = (field, value) => {
-    setUserData({
-      ...userData,
+    setUserData(prevUserData => ({
+      ...prevUserData,
       [field]: value,
-    });
+    }));
   };
-
-  const isEmailValid = (email) => {
-    // Regular expression for basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const handleSubmit = async () => {
+    handleCreate(userData , setCreate)
   };
-
-  const validatePassword = () => {
-    if (userData.password !== userData.confirm_password) {
-      setError("Passwords do not match");
-      return false;
-    } else {
-      setError("");
-      return true;
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    /* checking condition */
-    for (const key in userData) {
-      if (userData[key] === "") {
-        setError(`Please fill in all the required fields.`);
-        return;
-      }
-    }
-
-    if (!isEmailValid(userData.email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    if (!validatePassword()) {
-      return;
-    }
-    /* end of checking condition */
-
-    try {
-      const token = tokens || localStorage.getItem("token");
-      const response = await createUser(userData, token);
-      setSuccessMessage(response.data);
-      setRefresh(!refresh);
-      setTimeout(() => {
-        setCreate(false);
-      }, 1000);
-
-      // Reset the form after successful submission
-      resetForm();
-    } catch (error) {
-      // Handle error (e.g., display an error message)
-      setError("Failed to create user. Please try again.");
-      console.error(error);
-    }
-  };
-
-  const resetForm = () => {
-    setUserData({
-      ...initialUserData,
-      email: "",
-    });
-    setSuccessMessage("User created successfully!");
-    setError("");
-    setUserData(initialUserData);
-    setTimeout(() => {
-      setSuccessMessage("");
-    }, 1000);
-  };
-
 
   return (
     <div >
@@ -136,7 +38,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
           width: "100%",
           height: "100%",
           backgroundColor: "rgba(62,64,87, 0.35)",
-          zIndex: 9999,
+          zIndex: 10,
         }}
         className="d-flex justify-content-center align-items-center"
       >
@@ -146,7 +48,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
             boxShadow: 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset',
             borderRadius: "0.5rem",
             backdropFilter:'blur(5px)',
-            width: screensize < 992 ? (screensize < 768 ? "100%" : "70%") : "45%",
+            width:  "50%",
           
           }}
           className="position-relative p-5 border"
@@ -172,21 +74,14 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                 <div>
                   <div >
                     <div>
-                      <img
-                          className="avatar rounded-circle"
-                            src={kiloit}
-                            width={50}
-                            height={50}
-                            alt=""
-                        />
                        <div className="w-100 d-flex gap-1">
 
-                        <div className="w-50 d-flex flex-column mt-3">
+                        <div className="w-100 d-flex flex-column mt-3">
                           <div className="d-flex">
                             <label className="text-white">Hired Date</label>
                           </div>
                           <input
-                            className="text-center form-control form-control-sm"
+                            className="text-center form-control"
                             type="date"
                             id="datetime"
                             value={userData?.hire_date?.slice(0, 10)}
@@ -265,7 +160,7 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                           aria-label=".form-select-sm "
 
                         >
-                          <option selected disabled>Role</option>
+                          <option selected hidden>Role</option>
                           {roles.map((role) => (
                             <option key={role.id} value={role.id}>
                               {role.name}
@@ -328,68 +223,6 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
                         label2: "Phone",
                       }}
                     />
-                    {error && (
-                      <div
-                        className="custom-alert custom-alert-danger"
-                        role="alert"
-                      >
-                        {error}
-                        <button
-                          type="button"
-                          style={{
-                            marginLeft: "10px",
-                            marginTop: "-10px",
-                            marginBottom: "-10px",
-                            padding: "5px 10px",
-                            fontSize: "1rem",
-                            color: "red",
-                            borderRadius: "50%",
-                            cursor: "pointer",
-                            position: "absolute",
-                            top: "0",
-                            right: "0",
-                            zIndex: "1",
-                          }}
-                          className="custom-btn-close"
-                          aria-label="Close"
-                          onClick={() => setError(null)}
-                        >
-                          &times;
-                        </button>
-                      </div>
-                    )}
-
-                    {successMessage && (
-                      <div
-                        className="custom-alert custom-alert-success"
-                        role="alert"
-                      >
-                        {successMessage}
-                        <button
-                          type="button"
-                          style={{
-                            marginLeft: "10px",
-                            marginTop: "-10px",
-                            marginBottom: "-10px",
-                            padding: "5px 10px",
-                            fontSize: "1rem",
-                            color: "green",
-                            borderRadius: "50%",
-                            cursor: "pointer",
-                            position: "absolute",
-                            top: "0",
-                            right: "0",
-                            zIndex: "1",
-                          }}
-                          className="custom-btn-close"
-                          aria-label="Close"
-                          onClick={() => setSuccessMessage(null)}
-                        >
-                          &times;
-                        </button>
-                      </div>
-                    )}
-
                     <div className="d-flex justify-content-center mt-3">
                       <button
                         type="button"
@@ -412,11 +245,3 @@ const CreateUser = ({ refresh, setCreate, setRefresh }) => {
 
 export default CreateUser;
 
-{
-  /* <button
-              
-className='btn btn-danger mx-3'
->
-Delete
-</button> */
-}
