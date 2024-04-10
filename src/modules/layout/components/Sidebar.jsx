@@ -7,7 +7,8 @@ import { BsPersonGear } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
 
 const Sidebar = ({toggle}) => {
-    const permission = useSelector((state) => state.permission?.permission?.data?.permissions)
+    const {userPermission} = useSelector((state) => state.auth)
+    const {user} = useSelector((state) => state.auth);
   return (
     <>
 	 <nav  >
@@ -30,9 +31,12 @@ const Sidebar = ({toggle}) => {
 
 
 
-         {( ((permission?.find((per) => per.name == 'list-role'))?.status === 1) || ((permission?.find((per) => per.name == 'list-user'))?.status === 1) ) && <li className='m-3 text-white-50 ' key="administrator-title">Administrator</li>}
+         {( user.id === 1 ||
+           ((userPermission?.find((per) => per.name == 'list-role'))?.status === 1 ||
+            (userPermission?.find((per) => per.name == 'list-user'))?.status === 1)) &&
+         <li className='m-3 text-white-50 ' key="administrator-title">Administrator</li>}
          {
-        ( (permission?.find((per) => per.name == 'list-user'))?.status === 1 ) &&
+        (user.id === 1 || (userPermission?.find((per) => per.name == 'list-user'))?.status === 1 ) &&
         <>
           <li className="sidebar-item" >
                 <NavLink to='/users' className="sidebar-link" >
@@ -43,7 +47,7 @@ const Sidebar = ({toggle}) => {
         </>
         }
 
-        {( (permission?.find((per) => per.name == 'list-role'))?.status === 1 ) &&
+        {(user.id === 1 || (userPermission?.find((per) => per.name == 'list-role'))?.status === 1 ) &&
         <>
           <li className="sidebar-item" >
                 <NavLink to='/role' className="sidebar-link" >

@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Table from "./components/Table";
-import { useDispatch, useSelector } from "react-redux";
-import Createrole from "./components/Createrole";
-import UpdateRole from "./components/UpdateRole";
-import getroles from "../layout/core/getroles";
-import { storeRoles } from "../layout/core/roleSlice";
+import Table from "./Table";
+import { useSelector } from "react-redux";
+import Createrole from "./Createrole";
+import UpdateRole from "./UpdateRole";
+import useRoles from "../core/action";
 
 const Role = () => {
     const pagingdetails = useSelector((state) => state.roles.paging);
-    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
     const permission = useSelector((state) => state.permission?.permission?.data?.permissions); 
+    const { getRoles } = useRoles();
     const [add , setAdd] = useState(false);
     const [update,setUpdate] = useState(false);
     const [page , setPage ] = useState(1)
-    const [size , setSize ] = useState(20)
-    const [paging , setPaging ] = useState(null)
-    const dispatch = useDispatch(); 
-    const [refetch , setRefetch] = useState(false)
     
     
     
@@ -24,23 +19,9 @@ const Role = () => {
       setAdd(!add)
     }
 
-
-    // refetch data from server to make it fresh 
-
     useEffect(()=>{
-        const fetchData = async () => {
-          try {
-            const result = await getroles( size , page);
-            dispatch(storeRoles(result)) 
-            setPaging(result.paging)
-          }
-          catch (error) {
-            console.error( error);
-          }
-        };
-        fetchData();
-      
-    },[page,size , refetch])
+      getRoles()
+    },[])
 
   return (
     <>
@@ -62,7 +43,9 @@ const Role = () => {
               <div style={{width:'120px'}} className='d-flex justify-content-center align-items-center me-3'>
               <div className='d-flex justify-content-center align-items-center me-2 w-25'>Show</div>
                <span className='p-0 d-flex justify-content-center w-75'>  
-               <select onChange={(e) => setSize(parseInt(e.target.value))} className="form-select form-select-sm w-100" aria-label=".form-select-sm example">
+               <select
+                /* onChange={(e) => setSize(parseInt(e.target.value))}  */
+                className="form-select form-select-sm w-100" aria-label=".form-select-sm example">
                   <option  value="20" selected>20</option>
                   <option value="30">30</option>
                   <option value="50">50</option>
@@ -74,7 +57,7 @@ const Role = () => {
                     <span>
                     </span>
                       <span className='text-nowrap text-white pe-2'>
-                          Total roles :  <span>{paging?.totals ? paging?.totals : 0 }</span>
+                          Total roles :  <span>{pagingdetails?.totals ? pagingdetails?.totals : 0 }</span>
                       </span>
                       <div>
                   </div>
@@ -83,7 +66,7 @@ const Role = () => {
             </div>
         </div>
         <div >
-            <Table setRefetch={setRefetch} setPage={setPage} refetch={refetch} page={page} size={size}  setUpdate={setUpdate}/>
+            <Table  setPage={setPage}  page={page}   setUpdate={setUpdate}/>
         </div>
       </div>
     </>

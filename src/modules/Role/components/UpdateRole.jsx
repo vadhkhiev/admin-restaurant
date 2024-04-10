@@ -3,12 +3,9 @@ import React, { useState } from 'react'
 import { IoCloseCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import getroles from '../../layout/core/getroles';
-import { storeRoles } from '../../layout/core/roleSlice';
 
 const UpdateRole = ({setUpdate}) => {
 
-    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
     const id = useSelector((state) => state.id.id);
     const role = useSelector((state) => state.roles.roles)?.find((role)=>role.id == id);
     const [roleinfo , setRoleinfo] = useState({
@@ -29,7 +26,6 @@ const UpdateRole = ({setUpdate}) => {
                 roleinfo
             );
             setMessage('Successfully updated role');
-            refetch();
             setTimeout(() => {
             setUpdate(false);
             }, 700);
@@ -37,15 +33,7 @@ const UpdateRole = ({setUpdate}) => {
             setError(error.response.data.message);
         }
     }
-    const refetch = async ()=>{
-        try {
-            const result = await getroles();
-            dispatch(storeRoles(result))
-        }
-        catch (error) {
-            console.error( error);
-        }
-    }
+
 
   return (
     <div>

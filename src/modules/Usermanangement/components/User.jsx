@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
-import Table from "./components/Table";
-import EditUser from "./components/EditUser";
-import CreateUser from "./components/CreateUser";
-import Filterbar from "./components/Filterbar";
+import Table from "./Table";
+import EditUser from "./EditUser";
+import CreateUser from "./CreateUser";
+import Filterbar from "./Filterbar";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { BsPeople } from "react-icons/bs";
-import useUsers from "./core/action";
+import useUsers from "../core/action";
 import { useSelector } from "react-redux";
 
 const User = () => {
   const { users , params } = useSelector((state) => state.users);
   const pagingdetails = useSelector((state) =>state.users.paging)
-  const permission = useSelector((state) => state.permission?.permission?.data?.permissions);
+  const {userPermission} = useSelector((state) => state.auth);
   const roles = useSelector((state) => state.roles.roles);
   const { getUsers , setParams } = useUsers();
-  const [selectRole, setSelectRole] = useState("");
   const [edit, setEdit] = useState(false);
 
   const [editUser, setEditUser] = useState({});
@@ -124,7 +123,7 @@ const User = () => {
                 >
                   Members
                 </h3>
-                {permission?.find((per) => per.name == "create-user")
+                {userPermission?.find((per) => per.name == "create-user")
                   ?.status === 1 && (
                   <>
                     <button

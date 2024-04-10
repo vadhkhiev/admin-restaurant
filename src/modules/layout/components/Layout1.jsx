@@ -1,33 +1,25 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
-import Topnav from "./components/Topnav";
-import getroles from "./core/getroles";
+import Topnav from "./Topnav";
 import { useDispatch, useSelector } from "react-redux";
-import { storeRoles } from "./core/roleSlice";
-import { storeFood} from "../Food/Core/slice";
-import getAllFood from "../Food/Core/getAllFood";
-import { storeCategories } from "../Food/Core/allCategoriesSlice";
-import getFoodCategories from "../Food/Core/getFoodCategories";
+import { storeFood} from "../../Food/Core/slice";
+import getAllFood from "../../Food/Core/getAllFood";
+import { storeCategories } from "../../Food/Core/allCategoriesSlice";
+import getFoodCategories from "../../Food/Core/getFoodCategories";
 import axios from "axios";
-import { storeorder } from "../order/core/orderSlice";
+import { storeorder } from "../../order/core/orderSlice";
+import useRoles from "../../role/core/action";
 const Layout1 = () => {
   const [open, setOpen] = useState(true);
+  const {getRoles } = useRoles()
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const dispatch = useDispatch();
 
   //fetch role & total users , recentUsers & orders 
   useEffect(() => {
-    const fetchroles = async () => {
-      try {
-        const result = await getroles();
-        dispatch(storeRoles(result));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchroles();
+    getRoles()
     
 
     const totalOrder = async () => {

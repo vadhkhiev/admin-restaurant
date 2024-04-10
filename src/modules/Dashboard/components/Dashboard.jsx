@@ -1,32 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import Catebox from './components/Catebox'
+import Catebox from './Catebox'
 import { FaUsers } from "react-icons/fa";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { CiBoxes } from "react-icons/ci";
-import PieCharts from './components/PieCharts';
-import profile from '../../assets/img/avatar.jpg';	
-import LineChart from './components/LineChart';
-import getroles from '../layout/core/getroles'
-import RadarChart from './components/RadarChart';
+import PieCharts from './PieCharts';
+import profile from '../../../assets/img/avatar.jpg';	
+import LineChart from './LineChart';
+import RadarChart from './RadarChart';
 import axios from 'axios';
+import useRoles from '../../role/core/action';
+import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
   const [foodlist , setFoodlist] = useState([]);
   const [Allorders,setAllorders] = useState([]);
   const [recentUsers, setRecentUsers] = useState([]);
-  const [roles, setRoles] = useState([]);
+  const { getRoles } = useRoles();
+  const {roles } = useSelector((state) => state.roles);
+
   useEffect(() => {
-    const fetchroles = async () => {
-      try {
-        const response = await getroles();
-        setRoles(response.data);
-
-
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchroles();
+    getRoles();
 
     const fetchusers = async () => {
       try {

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { IoCloseCircleOutline } from "react-icons/io5";
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import getroles from '../../layout/core/getroles';
-import { storeRoles } from '../../layout/core/roleSlice';
+import { useDispatch } from 'react-redux';
+
 
 
 const Createrole = ({setAdd}) => {
@@ -14,20 +13,18 @@ const Createrole = ({setAdd}) => {
     })
     const [message , setMessage] = useState('')
     const [error , setError] = useState('')
-    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
     const dispatch = useDispatch(); 
 
 
     const handleSubmit = async ()=>{
         try {
             
-            const response = await axios.post(
+             await axios.post(
                 '/api/roles',
                 roleinfo
 
             );
             setMessage('Successfully created role');
-            refetch();
             setTimeout(() => {
                 setAdd(false);
             }, 700);
@@ -37,15 +34,7 @@ const Createrole = ({setAdd}) => {
         }
     }
 
-    const refetch = async ()=>{
-        try {
-            const result = await getroles();
-            dispatch(storeRoles(result))
-        }
-        catch (error) {
-            console.error( error);
-        }
-    }
+
 
 
   return (

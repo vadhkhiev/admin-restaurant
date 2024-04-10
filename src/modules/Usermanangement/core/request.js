@@ -16,8 +16,12 @@ const reqUploadImage = async (payload, id) => {
   return await axios.post(`/api/user/${id}/profile-avatar`, payload);
 };
 
+const reqUserbyId = async (id) => {
+  return await axios.get(`/api/user/${id}`);
+};
+
 const reqDeleteUser = async (id) => {
    return await axios.delete(`/api/user/${id}`);
 };
 
-export { reqUsers, reqCreateUser, reqUploadImage, reqUpdateUser, reqDeleteUser };
+export { reqUsers, reqCreateUser, reqUploadImage, reqUpdateUser, reqDeleteUser ,reqUserbyId };

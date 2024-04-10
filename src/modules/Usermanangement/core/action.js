@@ -1,6 +1,6 @@
 
 import { useDispatch , useSelector } from "react-redux";
-import { reqUsers , reqUpdateUser, reqCreateUser, reqUploadImage, reqDeleteUser } from "./request";
+import { reqUsers , reqUpdateUser, reqCreateUser, reqUploadImage, reqDeleteUser, reqUserbyId } from "./request";
 import { storePaging, storeParams, storeUsers } from "./reducer";
 import { useEffect } from "react";
 import { alertConfirm , alertError , alertSuccess } from "../../utils/alert";
@@ -18,6 +18,12 @@ const useUsers = () => {
        await reqUsers(params).then((response) => {
             dispatch(storeUsers(response.data.data));
             dispatch(storePaging(response.data.paging));
+        })
+    }
+    const getUserbyId = async (id) => {
+        await reqUserbyId(id).then((response) => {
+            console.log(response.data)
+            return response.data
         })
     }
 
@@ -82,7 +88,7 @@ const useUsers = () => {
     
    
 
-    return {getUsers ,setParams , createUser , updateUser , deleteUser} ;
+    return {getUsers ,setParams , createUser , updateUser , deleteUser , getUserbyId} ;
 };
 
 export default useUsers;
