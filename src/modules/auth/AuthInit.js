@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useAuth from "./core/action";
 import {useSelector} from "react-redux"
-import useRoles from "../role/core/action";
+import useRoles from "../Role/core/action";
 
 const AuthInit = ({children}) => {
     const {getUser} = useAuth();

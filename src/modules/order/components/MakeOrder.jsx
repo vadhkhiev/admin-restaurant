@@ -9,9 +9,7 @@ import { all } from 'axios'
 
 
 const MakeOrder = () => {
-  const allfood = useSelector((state) => state.foodList.foodList)
   const cartFood = useSelector((state) => state.foodCart?.orderedFood)
-  const foodcategory = useSelector((state) => state.allCategory.listCategories)
   const [clickedIndex , setClickedIndex] = useState(0) 
   const navigate = useNavigate() 
   const dispatch = useDispatch() 
