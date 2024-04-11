@@ -7,7 +7,7 @@ import useRoles from "../core/action";
 
 const Role = () => {
     const pagingdetails = useSelector((state) => state.roles.paging);
-    const permission = useSelector((state) => state.permission?.permission?.data?.permissions); 
+    const {userPermission} = useSelector((state) => state.auth); 
     const { getRoles } = useRoles();
     const [add , setAdd] = useState(false);
     const [update,setUpdate] = useState(false);
@@ -33,7 +33,7 @@ const Role = () => {
             <div className='d-flex'>
               <h3 style={{color:'#45495c'}} className='fw-bold d-flex align-items-center me-3'>Roles</h3>
               {
-                (permission ?.find((per) => per.name == 'create-role'))?.status === 1 
+                (userPermission ?.find((per) => per.name == 'create-role'))?.status === 1 
                 && 
                 <button onClick={handleAdd} className='btn text-white' style={{background:'#6c738f'}}>Add</button>
               }

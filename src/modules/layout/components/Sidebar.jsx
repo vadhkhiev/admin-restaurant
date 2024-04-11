@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { IoClose } from "react-icons/io5";
 import { BsPersonGear } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
+import { SlLogout } from "react-icons/sl";
 
 const Sidebar = ({toggle}) => {
     const {userPermission} = useSelector((state) => state.auth)
@@ -58,6 +59,10 @@ const Sidebar = ({toggle}) => {
         </>}
         
         </ul>
+      </div>
+      <div>
+        <SlLogout className='fs-3 text-white-50 p-2' />
+        
       </div>
      </nav>
     </>

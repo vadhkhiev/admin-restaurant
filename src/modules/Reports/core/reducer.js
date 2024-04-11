@@ -8,6 +8,7 @@ const getCurrentDate = () => {
 
 const initialState = {
   foodReports: {},
+  saleReports : {},
   pagingdetails : {},
   params : {
     month : getCurrentDate(),

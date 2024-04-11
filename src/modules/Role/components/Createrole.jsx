@@ -2,36 +2,18 @@ import React, { useState } from 'react'
 import { IoCloseCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import useRoles from '../core/action';
 
 
 
 const Createrole = ({setAdd}) => {
-
+  const {createRole} = useRoles();
     const [roleinfo , setRoleinfo] = useState({
         name : '',
         code : ''
     })
-    const [message , setMessage] = useState('')
-    const [error , setError] = useState('')
-    const dispatch = useDispatch(); 
-
-
     const handleSubmit = async ()=>{
-        try {
-            
-             await axios.post(
-                '/api/roles',
-                roleinfo
-
-            );
-            setMessage('Successfully created role');
-            setTimeout(() => {
-                setAdd(false);
-            }, 700);
-
-        } catch (error) {
-            setError(error.response.data.message);
-        }
+      createRole(roleinfo , setAdd)
     }
 
 
@@ -59,17 +41,6 @@ const Createrole = ({setAdd}) => {
             <button onClick={handleSubmit} className='btn btn-primary w-100 mt-3'>Submit</button>
         </div>
       </div>
-      {
-          message && <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-success text-white text-center p-2 rounded ">
-                Successfully Created role!
-              </div>
-      }
-      {
-          error && <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-danger text-white text-center p-2 rounded ">
-                {error}
-         </div>
-      }
-
     </div>
   )
 }

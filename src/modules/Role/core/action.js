@@ -1,11 +1,11 @@
-import { storeRoles } from "./reducer"
-import { reqDeleteRole, reqRoles } from "./request"
+import { storeRolePermissions, storeRoles } from "./reducer"
+import { reqCreateRole, reqDeleteRole, reqRolebyId, reqRoles, reqUpdatePermission, reqUpdateRole } from "./request"
 import {useSelector , useDispatch} from "react-redux"
 import { alertConfirm, alertError , alertSuccess } from '../../utils/alert'
+import { useEffect } from "react"
 const useRoles = () => {
     const {params } = useSelector((state) => state.roles);
     const dispatch = useDispatch ();
-
     
 
     const getRoles = async () =>{
@@ -13,6 +13,17 @@ const useRoles = () => {
         .then((res)=> dispatch(storeRoles(res.data)))
         .catch((err)=>console.log(err)) 
     }
+
+    const createRole = async (payload, setAdd) => {
+        try {
+            await reqCreateRole(payload);
+            alertSuccess("Role created successfully");
+            setAdd(false);
+            getRoles();
+        } catch (err) {
+            alertError(err.response.data.message);
+        }
+    };
 
     
     const deleteRole = async (role) => {
@@ -35,11 +46,41 @@ const useRoles = () => {
         }
     };
 
+    const updateRole = async (payload, setUpdate , id) => {
+        try {
+            await reqUpdateRole(payload, id);
+            alertSuccess("Role updated successfully");
+            setUpdate(false);
+            getRoles();
+        } catch (err) {
+            alertError(err.response.data.message);
+        }
+    };
+    const getRolebyId = async (id) =>{
+        try{
+            const res = await reqRolebyId(id);
+            return res.data;
+        }catch(err){
+            console.log(err);
+            return null;
+        }
+    }
+
+    const updateRolePermissions = async (payload) => {
+        try {
+            await reqUpdatePermission(payload);
+            alertSuccess("Role updated successfully");
+            getRoles();
+        } catch (err) {
+            alertError(err.response.data.message);
+
+        }
+    };
 
 
 
 
-  return {getRoles , deleteRole }
+  return {getRoles , deleteRole ,createRole ,updateRole ,getRolebyId ,updateRolePermissions }
 }
 
 export default useRoles

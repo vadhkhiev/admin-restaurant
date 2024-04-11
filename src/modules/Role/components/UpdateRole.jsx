@@ -3,36 +3,24 @@ import React, { useState } from 'react'
 import { IoCloseCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import useRoles from '../core/action';
 
 const UpdateRole = ({setUpdate}) => {
 
     const id = useSelector((state) => state.id.id);
     const role = useSelector((state) => state.roles.roles)?.find((role)=>role.id == id);
+    const { updateRole} = useRoles();
     const [roleinfo , setRoleinfo] = useState({
         name : role?.name,
         code : role?.code
     })
-    const [message , setMessage] = useState('')
-    const [error , setError] = useState('')
-    const dispatch = useDispatch(); 
+    console.log(id)
 
 
-
-    const handleSubmit = async ()=>{
-        
-        try {
-            const response = await axios.put(
-                '/api/roles/'+id,
-                roleinfo
-            );
-            setMessage('Successfully updated role');
-            setTimeout(() => {
-            setUpdate(false);
-            }, 700);
-        } catch (error) {
-            setError(error.response.data.message);
-        }
-    }
+   const handleSubmit = async ()=>{
+      updateRole(roleinfo , setUpdate , id)
+    } 
+  
 
 
   return (
@@ -60,25 +48,14 @@ const UpdateRole = ({setUpdate}) => {
             <div  className='p-3 border rounded' style={{ width: "30%",backdropFilter: "blur(10px)" }}>
                 <IoCloseCircleOutline style={{cursor:'pointer'}} onClick={()=>setUpdate(false)} className='fs-3 text-danger mb-3 me-2'/>
                 <span className='fs-4 text-white mb-3'>Update role</span>
-                <input onChange={(e)=>setRoleinfo({...roleinfo , name : e.target.value})} className='form-control my-3' placeholder={role?.name} type="text" />
-                <input onChange={(e)=>setRoleinfo({...roleinfo , code : e.target.value})} className='form-control' placeholder={role?.code} type="text" />
+                <input onChange={(e)=>setRoleinfo({...roleinfo , name : e.target.value})} className='form-control my-3' value={roleinfo?.name} type="text" />
+                <input onChange={(e)=>setRoleinfo({...roleinfo , code : e.target.value})} className='form-control' value={roleinfo?.code} type="text" />
                 <button onClick={handleSubmit} className='btn btn-primary w-100 mt-3'>Submit</button>
             </div>
             </>
           )
         }
       </div>
-
-      {
-          message && <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-success text-white text-center p-2 rounded ">
-                Successfully updated role!
-              </div>
-      }
-      {
-          error && <div style={{position:'fixed', top:'20px', left:'50%', transform:'translateX(-50%)', zIndex:4}} className="w-25 bg-danger text-white text-center p-2 rounded ">
-                {error}
-         </div>
-      }
     </div>
   )
 }

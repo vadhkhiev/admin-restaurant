@@ -24,7 +24,7 @@ const Login = () => {
 
   return (
     <>
-    <main style={{background:'#222E3C'}} className="d-flex w-100">
+    <main style={{background:'#09090b'}} className="d-flex w-100">
       <div className="container d-flex flex-column">
         <div className="row vh-100">
           <div className="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100">
@@ -34,7 +34,7 @@ const Login = () => {
                 <h1 className="h2 text-white">Welcome back!</h1>
               </div>
 
-              <div style={{background:'#233245'}} className="card">
+              <div style={{background:'#09090b'}} className="card custom-border">
                 <div className="card-body">
                   <div className="m-sm-3">
                     <form>
@@ -72,7 +72,7 @@ const Login = () => {
                             handleLogin();
                           }
                          }}                   
-                        className="btn btn-lg btn-primary">
+                        className="btn btn-lg custom-btn text-white custom-border">
                           Log in
                         </span>
                       </div>

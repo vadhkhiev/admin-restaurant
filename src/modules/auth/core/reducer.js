@@ -3,7 +3,7 @@ import { getAuth } from '../authHelper';
 
 const initialState = {
   user : {},
-  userPermission : [],
+  userPermission : [],   
   isAuth : getAuth()
 
 };

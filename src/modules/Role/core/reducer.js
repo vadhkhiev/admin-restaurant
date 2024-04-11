@@ -28,9 +28,12 @@ const roleSlice = createSlice({
     },
     storeId : (state, action) => {
       state.id = action.payload
+    },
+    storeRolePermissions : (state, action) => {
+      state.rolePermissions = action.payload.data.permissions
     }
   },
 });
 
-export const { storeRoles ,removeRoles ,storeParams ,storeId  } = roleSlice.actions;
+export const { storeRoles ,removeRoles ,storeParams ,storeId ,storeRolePermissions } = roleSlice.actions;
 export default roleSlice.reducer;
