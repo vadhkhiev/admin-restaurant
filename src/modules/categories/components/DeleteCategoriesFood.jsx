@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCategories } from "../../Core/deleteCategories";
-import getFoodCategories from "../../Core/getFoodCategories";
+import { deleteCategories } from "../../Food/Core/deleteCategories";
+import getFoodCategories from "../../Food/Core/getFoodCategories";
 import {
   storeCategories,
   storeToggleAction,
-} from "../../Core/allCategoriesSlice";
-import { editCategory } from "../../Core/editCategory";
+} from "../../Food/Core/allCategoriesSlice";
 
-export default function EditCategoriesFood() {
+export default function DeleteCategoriesFood() {
   const listCategories = useSelector(
     (state) => state.allCategory.listCategories
   );
-  const initNewCategory = { name: "" };
   const [categoryNames, setCategoryNames] = useState([]);
   const dispatch = useDispatch();
-  const [selectedId, setSelectedId] = useState();
-  const [selectedCategories, setSelectedCategories] = useState();
-  const [newCategory, setNewCategories] = useState(initNewCategory);
+  const [selectedId, setSelectedId] = useState(0);
+  const [selectedCategories, setSelectedCategories] = useState("");
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
 
@@ -35,7 +32,7 @@ export default function EditCategoriesFood() {
     };
     refetchCategories();
     getCategoryNames();
-  }, [listCategories]);
+  }, []);
 
   return (
     <div>
@@ -43,7 +40,6 @@ export default function EditCategoriesFood() {
         <label className="fw-bold mt-1">
           Select The Categories You Want To Delete
         </label>
-
         <select
           id="inputState"
           className="form-control"
@@ -66,30 +62,16 @@ export default function EditCategoriesFood() {
           ))}
         </select>
       </div>
-
-      <div className="form-group">
-        <label for="inputPrice fw-bold">New Categories</label>
-        {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
-        <input
-          type="text"
-          className="form-control"
-          placeholder="New Categories"
-          onChange={(e) => {
-            setNewCategories({ ...newCategory, name: e.target.value });
-          }}
-        />
-      </div>
-
       <button
-        className=" mt-1 btn btn-primary"
+        className=" mt-1 btn btn-primary bg-danger border"
         onClick={() => {
           refetchCategories();
-          editCategory(newCategory, selectedCategories, selectedId, token);
+          deleteCategories(selectedCategories, token, selectedId);
           dispatch(storeToggleAction(false));
           refetchCategories();
         }}
       >
-        Submit Changes
+        Delete{" "}
       </button>
     </div>
   );

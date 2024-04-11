@@ -1,4 +1,4 @@
-import {Navigate, Route, Routes} from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout1 from "./modules/layout/components/Layout1";
 import { useSelector } from "react-redux";
@@ -17,7 +17,6 @@ import Reports from "./modules/Reports/components/Reports";
 import FoodReports from "./modules/Reports/components/FoodReports";
 import SaleReports from "./modules/Reports/components/SaleReports";
 import OrderList from "./modules/order/components/OderList";
-
 
 function App() {
     const {isAuth , user , userPermission} = useSelector((state) => state.auth);
