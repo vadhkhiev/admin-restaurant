@@ -4,7 +4,7 @@ const initialState = {
   foodList: [],
   toggleEdit: false,
   toggleView: false,
-  food: null
+  food: null,
 };
 
 const foodsSlice = createSlice({
@@ -22,10 +22,15 @@ const foodsSlice = createSlice({
     },
     setFood: (state, action) => {
       state.food = action.payload;
-    }
+    },
   },
 });
 
-
-export const { storeFood, setFood, storeToggleView, storeIdEdit, storeEditToggle } = foodsSlice.actions;
+export const {
+  storeFood,
+  setFood,
+  storeToggleView,
+  storeIdEdit,
+  storeEditToggle,
+} = foodsSlice.actions;
 export default foodsSlice.reducer;
