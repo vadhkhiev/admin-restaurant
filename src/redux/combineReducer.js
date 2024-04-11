@@ -3,12 +3,12 @@ import authReducer from "../modules/auth/core/reducer";
 import roleReducer from "../modules/role/core/reducer";
 import allusersReducer from "../modules/Usermanangement/core/reducer";
 import currentUserReducer from "../modules/profile/core/reducer";
-import foodReducer from "../modules/food/Core/slice";
+import foodReducer from "../modules/Food/Core/slice";
 import idReducer from "../modules/role/core/reducer";
 import permissionReducer from "../modules/auth/core/reducer";
 import foodCartReducer from "../modules/order/core/slice";
 import orderReducer from "../modules/order/core/orderSlice";
-import foodReportsReducer from "../modules/Report/core/reducer";
+import foodReportsReducer from "../modules/Reports/core/reducer";
 import categoriesReducer from "../modules/categories/core/slice";
 export const rootReducers = combineReducers({
   auth: authReducer, // auth
