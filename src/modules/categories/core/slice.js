@@ -24,11 +24,17 @@ const categoriesSlice = createSlice({
     storeToggleAddCategory: (state, action) => {
       state.toggleAddCategory = action.payload;
     },
-    storeDeleteCategory: (state, action) => [
+    storeToggleDeleteCategory: (state, action) => [
       (state.toggleDeleteCategory = action.payload),
     ],
   },
 });
 
-export const { storeCategories, storeToggleAction } = categoriesSlice.actions;
+export const {
+  storeCategories,
+  storeToggleAction,
+  storeToggleAddCategory,
+  storeToggleEditCategory,
+  storeToggleDeleteCategory,
+} = categoriesSlice.actions;
 export default categoriesSlice.reducer;

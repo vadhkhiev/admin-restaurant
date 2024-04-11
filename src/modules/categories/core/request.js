@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const reqGetCategories = async (id = "") => {
-  return await axios.get(`api/categories/${id}`);
+export const reqGetCategories = async () => {
+  return await axios.get(`api/categories`);
 };
 export const reqCreateCategory = async (payload) => {
   return await axios.post(`api/categories`, payload);

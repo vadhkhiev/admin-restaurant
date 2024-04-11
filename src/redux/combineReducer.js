@@ -1,14 +1,14 @@
 import { combineReducers } from "redux";
 import authReducer from "../modules/auth/authSlice";
 import roleReducer from "../modules/layout/core/roleSlice";
-import allusersReducer from "../modules/usermanangement/core/reducer";
+import allusersReducer from "../modules/usermanagement/core/reducer";
 import currentUserReducer from "../modules/profile/core/reducer";
-import foodReducer from "../modules/Food/Core/slice";
+import foodReducer from "../modules/food/Core/slice";
 import idReducer from "../modules/role/core/reducer";
 import permissionReducer from "../modules/role/core/permissionSlice";
 import foodCartReducer from "../modules/order/core/slice";
 import orderReducer from "../modules/order/core/orderSlice";
-import foodReportsReducer from "../modules/reports/core/reducer";
+import foodReportsReducer from "../modules/report/core/reducer";
 import categoriesReducer from "../modules/categories/core/slice";
 export const rootReducers = combineReducers({
   auth: authReducer, // auth
