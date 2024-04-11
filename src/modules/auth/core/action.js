@@ -1,6 +1,6 @@
 
-import useUsers from "../../usermanangement/core/action";
-import { reqUserbyId } from "../../usermanangement/core/request";
+import useUsers from "../../Usermanangement/core/action";
+import { reqUserbyId } from "../../Usermanangement/core/request";
 import {  getAuth, removeAuth} from "../authHelper";
 import {  login, logout, rememberAuth, storePermission } from "./reducer";
 import { reqGetUser,  reqRoles,  reqUserPermission } from "./request"

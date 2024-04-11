@@ -3,7 +3,7 @@ import "./App.css";
 import Layout1 from "./modules/layout/components/Layout1";
 import { useSelector } from "react-redux";
 import Login from "./modules/login/Login";
-import User from "./modules/usermanangement/components/User";
+import User from "./modules/Usermanangement/components/User";
 import Food from "./modules/Food/Component/Food";
 import Role from "./modules/role/components/Role";
 import Access from "./modules/role/components/Access";
@@ -13,9 +13,9 @@ import Dashboard from "./modules/dashboard/components/Dashboard";
 import MainOder from "./modules/order/components/MainOder";
 import MakeOrder from "./modules/order/components/MakeOrder";
 import ViewOrder from "./modules/order/components/ViewOrder";
-import Reports from "./modules/reports/components/Reports";
-import FoodReports from "./modules/reports/components/FoodReports";
-import SaleReports from "./modules/reports/components/SaleReports";
+import Reports from "./modules/Reports/components/Reports";
+import FoodReports from "./modules/Reports/components/FoodReports";
+import SaleReports from "./modules/Reports/components/SaleReports";
 import OrderList from "./modules/order/components/OderList";
 
 

@@ -2,7 +2,6 @@
 import { useDispatch , useSelector } from "react-redux";
 import { reqUsers , reqUpdateUser, reqCreateUser, reqUploadImage, reqDeleteUser, reqUserbyId } from "./request";
 import { storePaging, storeParams, storeUsers } from "./reducer";
-import { useEffect } from "react";
 import { alertConfirm , alertError , alertSuccess } from "../../utils/alert";
 
 
