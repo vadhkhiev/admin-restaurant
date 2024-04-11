@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCategories } from "../../Core/deleteCategories";
-import getFoodCategories from "../../Core/getFoodCategories";
+import { deleteCategories } from "../../Food/Core/deleteCategories";
+import getFoodCategories from "../../Food/Core/getFoodCategories";
 import {
   storeCategories,
   storeToggleAction,
-} from "../../Core/allCategoriesSlice";
+} from "../../Food/Core/allCategoriesSlice";
 
 export default function DeleteCategoriesFood() {
   const listCategories = useSelector(

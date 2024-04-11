@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addCategories } from "../../Core/addCategories";
-import getFoodCategories from "../../Core/getFoodCategories";
+import { addCategories } from "../../Food/Core/addCategories";
+import getFoodCategories from "../../Food/Core/getFoodCategories";
 import {
   storeCategories,
   storeToggleAction,
-} from "../../Core/allCategoriesSlice";
+} from "../../Food/Core/allCategoriesSlice";
 
 export default function AddCategoriesFood() {
   //initial state

@@ -5,7 +5,7 @@ import Topnav from "./components/Topnav";
 import getroles from "./core/getroles";
 import { useDispatch, useSelector } from "react-redux";
 import { storeRoles } from "./core/roleSlice";
-import { storeFood} from "../Food/Core/slice";
+import { storeFood } from "../Food/Core/slice";
 import getAllFood from "../Food/Core/getAllFood";
 import { storeCategories } from "../Food/Core/allCategoriesSlice";
 import getFoodCategories from "../Food/Core/getFoodCategories";
@@ -17,7 +17,7 @@ const Layout1 = () => {
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const dispatch = useDispatch();
 
-  //fetch role & total users , recentUsers & orders 
+  //fetch role & total users , recentUsers & orders
   useEffect(() => {
     const fetchroles = async () => {
       try {
@@ -28,18 +28,16 @@ const Layout1 = () => {
       }
     };
     fetchroles();
-    
 
     const totalOrder = async () => {
-       try {
+      try {
         const response = await axios.get(`/api/orders?page=1`);
-        dispatch(storeorder(response.data))
+        dispatch(storeorder(response.data));
       } catch (error) {
         console.error(error);
       }
-    }
+    };
     totalOrder();
-
   }, []);
 
   //fetch food
@@ -74,7 +72,7 @@ const Layout1 = () => {
 
   return (
     <>
-      <div className="wrapper" style={{background:'#09090b'}}>
+      <div className="wrapper" style={{ background: "#09090b" }}>
         <div className={`sidebar ${open ? "" : "sidebar-hide"}`}>
           <Sidebar toggle={toggle} />
         </div>
@@ -86,7 +84,7 @@ const Layout1 = () => {
           className={`main ${open ? "sidebar-show" : ""}`}
         >
           <Topnav toggle={toggle} />
-          <div  >
+          <div>
             <Outlet />
           </div>
         </div>
