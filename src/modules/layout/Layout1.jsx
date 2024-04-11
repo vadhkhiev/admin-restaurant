@@ -5,10 +5,7 @@ import Topnav from "./components/Topnav";
 import getroles from "./core/getroles";
 import { useDispatch, useSelector } from "react-redux";
 import { storeRoles } from "./core/roleSlice";
-import { storeFood } from "../Food/Core/slice";
-import getAllFood from "../Food/Core/getAllFood";
-import { storeCategories } from "../Food/Core/allCategoriesSlice";
-import getFoodCategories from "../Food/Core/getFoodCategories";
+import { storeFood } from "../food/Core/slice";
 import axios from "axios";
 import { storeorder } from "../order/core/orderSlice";
 const Layout1 = () => {
@@ -38,32 +35,6 @@ const Layout1 = () => {
       }
     };
     totalOrder();
-  }, []);
-
-  //fetch food
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllFood(token, "/api/foods");
-        dispatch(storeFood(result.data));
-      } catch (error) {
-        console.error("Error in  component:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  // fetch food categories
-  useEffect(() => {
-    const fetchFood = async () => {
-      try {
-        const result = await getFoodCategories(token, "/api/categories");
-        dispatch(storeCategories(result.data));
-      } catch (error) {
-        console.error("Error in component:", error);
-      }
-    };
-    fetchFood();
   }, []);
 
   const toggle = () => {

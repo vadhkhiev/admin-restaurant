@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import getFoodById from "../core/getFoodById";
-import { storeToggleView } from "../core/slice";
+import { useFoods } from "../Core/action";
+import { storeToggleView } from "../Core/slice";
 
 function ViewFoodCard() {
   const token =
@@ -9,9 +9,10 @@ function ViewFoodCard() {
   const idEdit = useSelector((state) => state.foodList.idEdit);
   const [viewFood, setViewFood] = useState({});
   const dispatch = useDispatch();
+  const { fetchList } = useFoods();
   const getEditingFood = async () => {
     try {
-      const result = await getFoodById(token, idEdit);
+      const result = await fetchList();
       return result.data;
     } catch {}
   };
@@ -19,8 +20,7 @@ function ViewFoodCard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const viewFoodCore = await getEditingFood();
-        setViewFood(viewFoodCore);
+        const viewFoodCore = await setViewFood(viewFoodCore);
         console.log(viewFood);
       } catch {}
     };

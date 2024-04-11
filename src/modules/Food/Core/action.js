@@ -5,6 +5,8 @@ import {
   reqCreateFood,
   reqUpdateFood,
   reqDeleteFood,
+  reqGetFoodByName,
+  reqGetFoodByCategory,
 } from "./request";
 import { alertError, alertSuccess } from "../../utils/alert";
 
@@ -18,6 +20,22 @@ const useFoods = () => {
     } catch (error) {
       console.error("Error in  component:", error);
     }
+  };
+
+  const searchFood = async (name) => {
+    try {
+      const result = await reqGetFoodByName(name);
+      dispatch(storeFood(result.data.data));
+    } catch (error) {
+      console.log("Error in component: ", error);
+    }
+  };
+
+  const filterByCategory = async (payload) => {
+    try {
+      const result = await reqGetFoodByCategory(payload);
+      dispatch(storeFood(result.data.data));
+    } catch {}
   };
 
   const createFood = (payload) => {
@@ -59,7 +77,15 @@ const useFoods = () => {
 
   const onSetEditFood = (food) => dispatch(setFood(food));
 
-  return { fetchList, createFood, onSetEditFood, updateFood, deleteFood };
+  return {
+    fetchList,
+    searchFood,
+    createFood,
+    onSetEditFood,
+    updateFood,
+    deleteFood,
+    filterByCategory,
+  };
 };
 
 export { useFoods };
