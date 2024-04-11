@@ -8,7 +8,7 @@ import profile from '../../../assets/img/avatar.jpg';
 import LineChart from './LineChart';
 import RadarChart from './RadarChart';
 import axios from 'axios';
-import useRoles from '../../role/core/action';
+import useRoles from '../../Role/core/action';
 import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
