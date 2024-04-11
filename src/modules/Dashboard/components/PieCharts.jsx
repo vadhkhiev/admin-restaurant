@@ -30,7 +30,6 @@ const PieCharts = () => {
                 const response2 = await axios.get(`/report/income?paymentStatus=Cash&month=${selectedMonth.substring(0, 4)}:${selectedMonth.substring(5, 7)}`);
                 const bankPrice = (response.data.data[0]?.totalPrice)?.toFixed(2);
                 const cashPrice = (response2.data.data[0]?.totalPrice)?.toFixed(2);
-                console.log(response.data);
 
                 setData([ parseFloat(cashPrice) ,parseFloat(bankPrice) ]); 
             } catch (error) {

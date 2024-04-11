@@ -11,12 +11,10 @@ const LineChart = () => {
     const date = new Date();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    console.log(month , year)
     const fetchData = async () => {
       try {
         const response = await axios.get(`/report/staff?month=${year}:${month}`);
         setStaffData(response.data?.data);
-        console.log(response.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
