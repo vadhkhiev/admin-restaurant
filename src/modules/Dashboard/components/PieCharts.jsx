@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { Chart as ChartJS } from 'chart.js/auto';
 
 const getRandomColor = () => {
     const letters = '0123456789ABCDEF';

@@ -1,15 +1,18 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom';
 import {sidebarlink} from '../../../assets/data/sidebarlink';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IoClose } from "react-icons/io5";
 import { BsPersonGear } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
 import { SlLogout } from "react-icons/sl";
+import { logout } from '../../auth/core/reducer';
+
 
 const Sidebar = ({toggle}) => {
     const {userPermission} = useSelector((state) => state.auth)
     const {user} = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
   return (
     <>
 	 <nav  >
@@ -17,6 +20,7 @@ const Sidebar = ({toggle}) => {
                 <div className='d-flex justify-content-between'>
                 <Link className="sidebar-brand align-items-center" to='/'>
                     <span >KiloIT</span>
+                    
                 </Link>
                 <span className="d-xl-none fs-3 text-white-50 p-2" onClick={toggle}><IoClose /></span>
                 </div>
@@ -58,12 +62,13 @@ const Sidebar = ({toggle}) => {
             </li>
         </>}
         
-        </ul>
-      </div>
-      <div>
-        <SlLogout className='fs-3 text-white-50 p-2' />
         
+        </ul>
+        <div className='custom-btn cursor-pointer' onClick={() => dispatch(logout())}>
+        <button className='btn '> <SlLogout  className='fs-4 fw-bold text-white' /> <span className='ms-3 text-white'>Log out</span></button>
+        </div>
       </div>
+
      </nav>
     </>
   )

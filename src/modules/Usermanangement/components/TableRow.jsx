@@ -5,6 +5,7 @@ import '../../../assets/css/tablecss.css';
 import avatar from '../../../assets/img/avatar.jpg'
 import { useSelector } from 'react-redux';
 import useUsers from '../core/action';
+import { Dropdown } from 'react-bootstrap';
 
 
 const TableRow = ({ user ,handleEdit }) => {
@@ -24,6 +25,7 @@ const TableRow = ({ user ,handleEdit }) => {
             {user.status?"Active":"Inactive"}
           </p>
         </td>
+
         <td >{user.role?.name}</td>
         {
           ((userPermission?.find(per => per.name === 'edit-user')?.status === 1) || (userPermission?.find(per => per.name === 'delete-user')?.status === 1)) && (

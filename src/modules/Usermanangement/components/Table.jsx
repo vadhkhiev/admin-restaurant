@@ -4,7 +4,7 @@ import '../../../assets/css/tablecss.css';
 import { useSelector } from 'react-redux';
 
 const Table = ({ users ,handleEdit }) => {
-  const permission = useSelector((state) => state.permission?.permission?.data?.permissions); 
+  const {userPermission} = useSelector((state) => state.auth); 
   return (
     <>
       {users?.length > 0 ? (
@@ -21,7 +21,7 @@ const Table = ({ users ,handleEdit }) => {
                   <th scope="col">Status</th>
                   <th scope='col'>Roles</th>
                   {
-                    ((permission?.find((per) => per.name == 'edit-user'))?.status === 1 || (permission?.find((per) => per.name == 'delete-user'))?.status === 1) &&<th scope='col'>Actions</th>
+                    ((userPermission?.find((per) => per.name == 'edit-user'))?.status === 1 || (userPermission?.find((per) => per.name == 'delete-user'))?.status === 1) &&<th scope='col'>Actions</th>
                   }
                 </tr>
               </thead>

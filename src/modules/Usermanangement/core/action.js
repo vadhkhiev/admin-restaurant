@@ -9,8 +9,8 @@ const useUsers = () => {
     const dispatch = useDispatch(); 
     const { params } = useSelector((state) => state.users);
 
-    const setParams = (params) => {
-        dispatch(storeParams(params));
+    const handleFilter = (name , value) => {
+        dispatch(storeParams({ [name]: value }));
     }
 
     const getUsers = async () => {
@@ -84,10 +84,9 @@ const useUsers = () => {
         }
     };
 
-    
-   
 
-    return {getUsers ,setParams , createUser , updateUser , deleteUser , getUserbyId} ;
+
+    return {getUsers ,handleFilter , createUser , updateUser , deleteUser , getUserbyId} ;
 };
 
 export default useUsers;

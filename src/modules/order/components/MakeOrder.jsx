@@ -14,22 +14,21 @@ const MakeOrder = () => {
   const navigate = useNavigate() 
   const dispatch = useDispatch() 
   const [selectedCategories, setSelectedCategories] = useState('');
-  const handleClicked = (index)=>{
+/*   const handleClicked = (index)=>{
     setClickedIndex(index)
   }
   const toggleCart = (id) =>{
      dispatch(storeOrderedFood(allfood.find(food => food.id === id))) 
 
-  }
+  } */
 
 
-  console.log(allfood)
   
 
   return (
     <>
 
-    <div  className='m-3 border p-3 rounded-3 bg-white'>
+{/*     <div  className='m-3 border p-3 rounded-3 bg-white'>
       <div>
       <div className=''>
       <h3 style={{color:'#45495c'}} className='fw-bold '>Making order</h3>
@@ -72,13 +71,12 @@ const MakeOrder = () => {
         }
         
       </div>
-      {/* checkout part  */}
       <aside className={`mt-3 ${cartFood?.length !== 0 ? 'col-12 col-lg-4  ' : 'd-none'}`}>
         <YourOrder/>
       </aside> 
     </main>
       </div>
-    </div>
+    </div> */}
 
     </>
   )
