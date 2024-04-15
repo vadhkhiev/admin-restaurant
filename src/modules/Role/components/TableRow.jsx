@@ -7,6 +7,8 @@ import { GoTrash } from "react-icons/go";
 import { FaUserLock } from "react-icons/fa";
 import { storeId } from '../core/reducer';
 import useRoles from '../core/action';
+import { alertError } from '../../utils/alert';
+
 
 const dateTimeFormat = (inputString) => {
   const [datePart, timePart] = inputString?.split('T');
@@ -28,48 +30,47 @@ const dateTimeFormat = (inputString) => {
 };
 
 
-
-const TableRow = ({role , index , setUpdate , page , size  }) => {
+const TableRow = ({role , setUpdate , index }) => {
   const dispatch = useDispatch()
   const {userPermission , user} = useSelector((state) => state.auth);
+  const { params} = useSelector((state) => state.roles);
   const {deleteRole} = useRoles();
+  console.log(params)
 
-  
 
   const handleDelete = (role) => {
     deleteRole(role)
   }
-  const handleEdit = (role) => {
-
-  }
-
 
   
   return (
     <>
-        <tr>
-            <td >
-              <div className='py-1'>
-               { page > 1 ? (page * size) - size + index :  index }
-              </div>
+        <tr className='hover-effect '>
+            <td className=' text-white'  >
+              {params.page === 1 ? index : (params.page - 1) * (params.size) + index }
             </td>
-            <td >{role?.name}</td>
-            <td >{role?.createdBy.name}</td>
-            <td >{dateTimeFormat(role?.createdDate)}</td>
-            <td >{dateTimeFormat(role?.updateDate)}</td>
+            <td className=' text-white'>{role?.name}</td>
+            <td className=' text-white'>{role?.createdBy.name}</td>
+            <td className=' text-white'>{dateTimeFormat(role?.createdDate)}</td>
+            <td className=' text-white'>{dateTimeFormat(role?.updateDate)}</td>
             {
             (user.id === 1 || userPermission?.find(per => per.name === 'edit-role')?.status === 1 || userPermission?.find(per => per.name === 'delete-role')?.status === 1) && (
-              <td className='d-flex'>
+              <td className='d-flex  text-white'>
                 {user.id === 1 && (
-                  role.id !== 1 ?  <Link to="/role/access"  onClick={() => dispatch(storeId(role?.id))}  className='fs-4 me-2' style={{ color: '#6c738f' }} type="button">
+                  role.id !== 1 ?  <Link to="/role/access"  onClick={() => dispatch(storeId(role?.id))}  className='fs-4 me-2 text-white'  type="button">
                   <MdOutlineLockPerson /> 
                 </Link> : <FaUserLock className='fs-4 mt-1 me-2' />
                 )}
                 {userPermission?.find(per => per.name === 'edit-role')?.status === 1 && (
                   <p  onClick={() => {
+                    if (role?.id === 1) {
+                      alertError('You can not edit this role');
+                      return;
+                    }
                      dispatch(storeId(role?.id)); 
+
                     setUpdate(true);
-                  }}  className='fs-4 me-2' style={{ color: '#6c738f' }} type="button">
+                  }}  className='fs-4 me-2 text-white'  type="button">
                     <PiNotePencilThin />
                   </p>
                 )}

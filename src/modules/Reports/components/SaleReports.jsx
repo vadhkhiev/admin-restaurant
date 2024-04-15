@@ -7,7 +7,7 @@ const SaleReports = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const token =
-    useSelector((state) => state.auth.token) || localStorage.getItem("token");
+    useSelector((state) => state.auth.token) || localStorage.getItem("token"); 
     //Search
     const [query, setQuery] = useState("");
     //Show

@@ -67,5 +67,3 @@ const foodCartSlice = createSlice({
 export const { storeOrderedFood , clearOrderedFood , quantity ,tickedFood ,selection ,deleteFood } = foodCartSlice.actions;
 export default foodCartSlice.reducer;
 
-
-// .includes is an array method used to check if the payload is already inside the orderdFood array

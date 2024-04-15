@@ -9,9 +9,6 @@ const initialState = {
     query: '',
     page: 1,
     size: 20,
-    sort: '',
-    order: 'desc',
-    roleId: null
   }
 };
 

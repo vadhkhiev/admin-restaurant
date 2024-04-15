@@ -18,6 +18,7 @@ const CreateUser = ({ setCreate }) => {
     }));
   }, []);
 
+
   const handleInputChange = (field, value) => {
     setUserData(prevUserData => ({
       ...prevUserData,
@@ -37,7 +38,7 @@ const CreateUser = ({ setCreate }) => {
           left: 0,
           width: "100%",
           height: "100%",
-          backgroundColor: "rgba(62,64,87, 0.35)",
+          backgroundColor: "rgba(10,10,10, 0.5)",
           zIndex: 10,
         }}
         className="d-flex justify-content-center align-items-center"
@@ -45,14 +46,14 @@ const CreateUser = ({ setCreate }) => {
         <div
           style={{
 
-            boxShadow: 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset',
             borderRadius: "0.5rem",
             backdropFilter:'blur(5px)',
             width:  "50%",
           
           }}
-          className="position-relative p-5 border"
+          className="position-relative p-3 border"
         >
+          <h3 className="text-white my-2 mt-3">Create User</h3>
           <div
             style={{
               background: "rgba(239,240,241 1)",
@@ -72,32 +73,7 @@ const CreateUser = ({ setCreate }) => {
             <div>
               <form style={{ background: "rgba(239,240,241 1)" }}>
                 <div>
-                  <div >
-                    <div>
-                       <div className="w-100 d-flex gap-1">
-
-                        <div className="w-100 d-flex flex-column mt-3">
-                          <div className="d-flex">
-                            <label className="text-white">Hired Date</label>
-                          </div>
-                          <input
-                            className="text-center form-control"
-                            type="date"
-                            id="datetime"
-                            value={userData?.hire_date?.slice(0, 10)}
-                            onChange={(e) => {
-                              const currentDate = new Date();
-                              const currentTime = currentDate
-                                ?.toISOString()
-                                .slice(11, 19); // Extract time part from ISO string
-                              const formattedDateTime =
-                                e.target.value + "T" + currentTime + "Z";
-                              handleInputChange("hireDate", formattedDateTime);
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
+                  <div className="p-0" >
 
                     {/* name and username */}
 
@@ -112,23 +88,14 @@ const CreateUser = ({ setCreate }) => {
                     {/* email */}
 
                     <div className="input-group flex-nowrap gap-3 mt-3">
-                      <div className="w-100 d-flex flex-column position-relative">
-                        <span
-                          style={{
-                            top: "-10px",
-                            left: "10px",
-                            zIndex: "1",
-                            fontSize: "12px",
-                          }}
-
-                        >
-                        </span>
+                      <div className="w-100  d-flex flex-column position-relative">
                         <input
+                        style={{background:'#09090b'}}
                           onChange={(e) =>
                             handleInputChange("email", e.target.value)
                           }
                           type="text"
-                          className="form-control p-2 rounded-3"
+                          className="form-control p-2 rounded-3 custom-border"
                           placeholder="Email"
                           required
                         />
@@ -138,17 +105,6 @@ const CreateUser = ({ setCreate }) => {
                     {/* role */}
 
                     <div className="w-100 mt-3 d-flex gap-1">
-                      <div className="w-50 position-relative">
-                        <div
-                          style={{
-                            top: "-10px",
-                            left: "10px",
-                            zIndex: "1",
-                            fontSize: "12px",
-                          }}
-                        
-                        >
-                        </div>
                         <select
                           onChange={(e) =>
                             handleInputChange(
@@ -156,8 +112,8 @@ const CreateUser = ({ setCreate }) => {
                               parseInt(e.target.value)
                             )
                           }
-                          className="form-select form-select-md"
-                          aria-label=".form-select-sm "
+                          className="form-select form-select-md p-2 custom-border"
+                          style={{ background:'#09090b' , color: 'rgb(50, 50, 50)' }}
 
                         >
                           <option selected hidden>Role</option>
@@ -168,24 +124,15 @@ const CreateUser = ({ setCreate }) => {
                           ))}
                         </select>
 
-                      </div>
-                      <div className="w-50 d-flex flex-column position-relative">
-                        <span
-                          className=""
-                          style={{
-                            top: "-10px",
-                            left: "10px",
-                            zIndex: "1",
-                            fontSize: "12px",
-                          }}
-                        >
-                        </span>
+                    </div>
+                    <div className="w-100 mt-3 d-flex gap-1">
+                    <div className="w-100 d-flex flex-column ">
                         <select
+                        style={{ background:'#09090b' , color: 'rgb(50, 50, 50)' }}
                           onChange={(e) =>
                             handleInputChange("gender", e.target.value)
                           }
-                          className="form-select form-select-md "
-                          aria-label=".form-select-sm "
+                          className="form-select form-select-md p-2 custom-border"
                         >
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
@@ -194,7 +141,7 @@ const CreateUser = ({ setCreate }) => {
                     </div>
 
                     {/* password */}
-
+                    
                     <Inputfield
                       action1={(e) =>
                         handleInputChange("password", e.target.value)
@@ -227,7 +174,7 @@ const CreateUser = ({ setCreate }) => {
                       <button
                         type="button"
                         onClick={handleSubmit}
-                        className="btn btn-primary"
+                        className="btn custom-border custom-btn text-white" 
                       >
                         Submit
                       </button>

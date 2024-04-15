@@ -68,8 +68,6 @@ input[type="number"] {
 }
 .main {
   background: #09090b;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -166,18 +164,6 @@ input[type="number"] {
 .custom-btn:hover {
   background-color: #38383c;
 }
-/* .sidebar {
-  position: fixed;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-}
-
-.sidebar-show {
-  margin-left: 0; 
-}
- */
 
 @media (max-width: 1200px) {
   .sidebar {
@@ -264,3 +250,35 @@ input[type="number"] {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
+
+
+.hover-effect:hover {
+  background-color: #18181a; /* Change the background color on hover */
+}
+.square-btn {
+  display: flex;
+  justify-content: center; /* Center the icon horizontally */
+  align-items: center; /* Center the icon vertically */
+  width: 30px;
+  height: 30px;
+  padding: 0; /* Remove any padding to ensure the button size matches the width and height */
+}
+
+.square-btn svg {
+  width: 20px; /* Adjust the size of the icon to fit within the button */
+  height: 20px; /* Adjust the size of the icon to fit within the button */
+}
+.form-select {
+  color: white; /* Set the text color to white */
+}
+
+.form-select option {
+  background-color: black; /* Set the background color of options */
+  color: white; /* Set the text color of options */
+}
+
+.form-select option:checked {
+  background-color: blue; /* Set the background color of the selected option */
+  color: white; /* Set the text color of the selected option */
+}
+

@@ -24,6 +24,7 @@ const authSlice = createSlice({
       state.user = {}
       state.userPermission = []
       state.isAuth = false
+      localStorage.removeItem('token')
     },
     storePermission : (state , action) => {
       state.userPermission = action.payload

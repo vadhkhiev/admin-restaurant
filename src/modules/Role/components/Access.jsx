@@ -57,8 +57,8 @@ const Access = () => {
           <img width={25} height={25} src={loadingscreen} alt="loading" />
         </div>
       ) : (
-        <div>
-          <div className='p-2 px-3 d-flex justify-content-between'>
+        <div className=' py-3 rounded-3 custom-border'  >
+          <div className='p-2 px-3 d-flex justify-content-between '>
             <div>
               <span className='p-2 custom-border rounded-3'>
                 <a style={{ textDecoration: 'none' }} className={`p-2 text-white borderbottom`}>Access <GrUserAdmin className='pb-1' /></a>
@@ -69,39 +69,39 @@ const Access = () => {
             </div>
           </div>
           <h4 className='text-white d-flex align-items-center ms-3 mb-3'>Permission of <span className='text-primary ms-2'>{role.name}</span></h4>
-          <main className='rounded-3 custom-border mx-3 px-4 py-3'>
-            <table className='table table-borderless'>
-              <thead>
-                <tr className='py-3'>
-                  <th className='border-bottom border-dark text-white-50'># Permission</th>
-                  <th className='border-bottom border-dark text-white-50 d-flex justify-content-end'>Check</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rolePermissions?.map((permission, index) => (
-                  <tr key={index}>
-                    <td className='border-bottom border-dark custom-text text-white-50 fs-5'>{index + 1}{'. '}{permission.name}</td>
-                    <td className='border-bottom border-dark custom-text d-flex justify-content-end'>
-                      <input 
-                        type="checkbox" 
-                        className='form-check-input cursor-pointer' 
-                        style={{ width: '1.15rem', height: '1.15rem' }} 
-                        checked={permission.status === 1} 
-                        onChange={(e) => {
-                          const newValue = permission.status === 1 ? 0 : 1;
-                          const newPermission = { ...permission, status: newValue };
-                          const newValueState = rolePermissions.map((p) => (
-                            p.id === permission.id ? newPermission : p
-                          ));
-                          setPermissions(newValueState);
-                        }}
-                      />
-                      <GrUserAdmin className='fs-4 mt-1 ms-2 text-white-50' />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <main className='rounded-3 custom-border mx-3'>
+          <table className='table table-borderless'>
+  <thead>
+    <tr className='py-3'>
+      <th className='border-bottom border-dark text-white-50'># Permission</th>
+      <th className='border-bottom border-dark text-white-50 d-flex justify-content-end'>Check</th>
+    </tr>
+  </thead>
+  <tbody>
+    {rolePermissions?.map((permission, index) => (
+      <tr key={index} className="hover-effect"> 
+        <td className='border-bottom border-dark custom-text text-white-50 fs-5'>{index + 1}{'. '}{permission.name}</td>
+        <td className='border-bottom border-dark custom-text d-flex justify-content-end'>
+          <input 
+            type="checkbox" 
+            className='form-check-input cursor-pointer' 
+            style={{ width: '1.15rem', height: '1.15rem' }} 
+            checked={permission.status === 1} 
+            onChange={(e) => {
+              const newValue = permission.status === 1 ? 0 : 1;
+              const newPermission = { ...permission, status: newValue };
+              const newValueState = rolePermissions.map((p) => (
+                p.id === permission.id ? newPermission : p
+              ));
+              setPermissions(newValueState);
+            }}
+          />
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
 
           </main>
           <div className='d-flex justify-content-end me-3 mt-3'>

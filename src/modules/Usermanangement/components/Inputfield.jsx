@@ -5,10 +5,10 @@ const Inputfield = ({obj , action1,action2}) => {
     <>
         <div className="input-group flex-column flex-nowrap gap-3 mt-3">
               <div className='w-100 d-flex text-white' >
-                <input  onChange={action1} type={obj.type} className="form-control p-2" placeholder={obj.label1}   required />
+                <input style={{background:'#09090b'}}  onChange={action1} type={obj.type} className="form-control form-control-lg custom-border" placeholder={obj.label1}   required />
               </div>
               <div className='w-100 d-flex flex-column'>
-                 <input onChange={action2} type={obj.type} className="form-control p-2" placeholder={obj.label2} required />
+                 <input  style={{background:'#09090b'}} onChange={action2} type={obj.type} className="form-control form-control-lg  custom-border" placeholder={obj.label2} required />
              </div>
           </div>
     </>
