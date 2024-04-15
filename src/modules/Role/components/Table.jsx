@@ -11,17 +11,17 @@ const Table = ({setUpdate}) => {
   return (
     <div>
       
-         <div className=" custom-border rounded-3">
-            <table style={{color:'white'}} className="table table-borderless bg-transparent ">
+         <div className=" custom-border rounded-3" style={{overflowX:'scroll'}}>
+            <table style={{color:'white',background:'#09090b'}} className="table table-borderless  ">
               <thead >
                 <tr className="border-bottom border-dark">
-                  <th scope="col" className='text-white-50'>No</th>
-                  <th scope='col' className='text-white-50'>Roles</th>
-                  <th scope="col" className='text-white-50'>Created by</th>
-                  <th scope='col' className='text-white-50'>Created Date</th>
-                  <th scope='col' className='text-white-50'>Updated Date</th>
+                  <th scope="col" className='text-white'>No</th>
+                  <th scope='col' className='text-white'>Roles</th>
+                  <th scope="col" className='text-white'>Created by</th>
+                  <th scope='col' className='text-white'>Created Date</th>
+                  <th scope='col' className='text-white'>Updated Date</th>
                   {
-                    ((userPermission?.find((per) => per.name == 'edit-role'))?.status === 1 || (userPermission ?.find((per) => per.name == 'delete-role'))?.status === 1) && <th scope='col' className='text-white-50'>Action</th>
+                    ((userPermission?.find((per) => per.name == 'edit-role'))?.status === 1 || (userPermission ?.find((per) => per.name == 'delete-role'))?.status === 1) && <th scope='col' className='text-white'>Action</th>
                   }
                 </tr>
               </thead>

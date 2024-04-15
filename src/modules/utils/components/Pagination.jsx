@@ -1,11 +1,8 @@
 import React from 'react';
 import { MdKeyboardDoubleArrowLeft, MdKeyboardArrowLeft, MdKeyboardArrowRight, MdKeyboardDoubleArrowRight } from 'react-icons/md';
 
-const Pagination = ({ params, pagingdetails , handleFilter }) => {
-  console.log(pagingdetails , params)
-
+const Pagination = ({ params, pagingdetails, handleFilter }) => {
   const handlePagination = (paging) => {
-    window.scrollTo(0, 0);
     let newPage = params.page;
     if (paging === 'increase') {
       if (params.page < pagingdetails.totalPage) {
@@ -18,13 +15,12 @@ const Pagination = ({ params, pagingdetails , handleFilter }) => {
   };
 
   return (
-    <div className='p-0 d-flex justify-content-between mt-3'>
-      <div className='d-flex text-white'>
-        <p>Totals :</p> 
-        <span className='ms-2 fw-bold'>{pagingdetails.totals}</span>
+    <div className='p-0 d-flex flex-column flex-sm-row justify-content-between mt-3'>
+      <div className='d-flex flex-column flex-sm-row text-white mb-2 mb-sm-0'>
+        <p className='text-nowrap'>Totals : {pagingdetails.totals}</p> 
       </div>
-      <div className='d-flex'>
-        <section className='d-flex me-5 mt-1'>
+      <div className='d-flex flex-column flex-sm-row'>
+        <section className='d-flex me-2 me-sm-5 mt-1'>
           <p className='fw-bold text-white me-2'>Rows per page </p>
           <div>
             <select
@@ -44,25 +40,26 @@ const Pagination = ({ params, pagingdetails , handleFilter }) => {
             </select>
           </div>
         </section>
-        <section>
-          <p className='fw-bold text-white me-5 mt-1'>Page {params.page} of {pagingdetails.totalPage}</p>
+        <section className='me-2 me-sm-5 mt-1'>
+          <p className='fw-bold text-white'>Page {params.page} of {pagingdetails.totalPage}</p>
         </section>
-        <p className={`btn custom-btn text-white custom-border square-btn me-2 ${params.page === 1 ? 'disabled' : ''}`} onClick={() => handleFilter('page',1)}>
-          <MdKeyboardDoubleArrowLeft />
-        </p>
-        <p className={`btn custom-btn text-white custom-border square-btn me-2 ${params.page === 1 ? 'disabled' : ''}`} onClick={() => handlePagination('decrease')}>
-          <MdKeyboardArrowLeft />
-        </p>
-        <p className={`btn custom-btn text-white custom-border square-btn me-2 ${params.page >= pagingdetails.totalPage ? 'disabled' : ''}`} onClick={() => handlePagination('increase')}>
-          <MdKeyboardArrowRight />
-        </p>
-        <p className={`btn custom-btn text-white custom-border square-btn ${params.page === pagingdetails.totalPage ? 'disabled' : ''}`} onClick={() => handleFilter('page',pagingdetails.totalPage)}>
-          <MdKeyboardDoubleArrowRight />
-        </p>
+        <div className='d-flex'>
+          <p className={`btn custom-btn text-white custom-border square-btn me-2 ${params.page === 1 ? 'disabled' : ''}`} onClick={() => handleFilter('page',1)}>
+            <MdKeyboardDoubleArrowLeft />
+          </p>
+          <p className={`btn custom-btn text-white custom-border square-btn me-2 ${params.page === 1 ? 'disabled' : ''}`} onClick={() => handlePagination('decrease')}>
+            <MdKeyboardArrowLeft />
+          </p>
+          <p className={`btn custom-btn text-white custom-border square-btn me-2 ${params.page >= pagingdetails.totalPage ? 'disabled' : ''}`} onClick={() => handlePagination('increase')}>
+            <MdKeyboardArrowRight />
+          </p>
+          <p className={`btn custom-btn text-white custom-border square-btn ${params.page === pagingdetails.totalPage ? 'disabled' : ''}`} onClick={() => handleFilter('page',pagingdetails.totalPage)}>
+            <MdKeyboardDoubleArrowRight />
+          </p>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Pagination;
-

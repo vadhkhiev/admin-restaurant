@@ -23,5 +23,8 @@ const reqUserbyId = async (id) => {
 const reqDeleteUser = async (id) => {
    return await axios.delete(`/api/user/${id}`);
 };
+const reqChangePassword = async (payload, id) => {
+  return await axios.patch(`/api/user/${id}/password`, payload);
+};
 
-export { reqUsers, reqCreateUser, reqUploadImage, reqUpdateUser, reqDeleteUser ,reqUserbyId };
+export { reqUsers, reqCreateUser, reqUploadImage, reqUpdateUser, reqDeleteUser ,reqUserbyId ,reqChangePassword };

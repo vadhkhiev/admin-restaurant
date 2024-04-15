@@ -5,6 +5,7 @@ import Createrole from "./Createrole";
 import useRoles from "../core/action";
 import Pagination from "../../utils/components/Pagination";
 import SearchBar from "../../utils/components/SearchBar";
+import Reset from "../../utils/components/Reset";
 const Role = () => {
     const pagingdetails = useSelector((state) => state.roles.paging);
     const {userPermission} = useSelector((state) => state.auth); 
@@ -26,13 +27,14 @@ const Role = () => {
       {add && <Createrole setAdd={setAdd} action={'create'}/>}
       {update && <Createrole setUpdate={setUpdate} action = {'update'} />}
 
-        <div className='m-3 custom-border p-3 rounded-3'>
+        <div className='m-3 custom-border p-3 rounded-3'  >
           <h2 className="text-white fw-bold">Role list</h2>
           <p className="text-white-50">Here are the list of roles</p>
         <div className=' mb-3 d-flex'>
-              <div className="w-50 ">
+            <div className="w-50 d-flex">
                 <SearchBar params={params} handleFilter={handleFilter} />
-              </div>
+                <Reset params={params} handleFilter={handleFilter} />
+            </div>
             <div className='d-flex justify-content-end w-50'>
             {
                 (userPermission ?.find((per) => per.name == 'create-role'))?.status === 1 

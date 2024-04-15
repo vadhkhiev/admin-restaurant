@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import Table from "./Table";
 import EditUser from "./EditUser";
 import CreateUser from "./CreateUser";
-import { MdOutlineAdminPanelSettings } from "react-icons/md";
-import { BsPeople } from "react-icons/bs";
 import useUsers from "../core/action";
 import { useSelector } from "react-redux";
 import SearchBar from "../../utils/components/SearchBar";
 import Pagination from "../../utils/components/Pagination";
+import Sortby from "../../utils/components/Sortby";
+import Reset from "../../utils/components/Reset";
 
 const User = () => {
   const { users , params } = useSelector((state) => state.users);
@@ -63,12 +63,15 @@ const User = () => {
       <div className='m-3 custom-border p-3 rounded-3'>
           <h2 className="text-white fw-bold">Member list</h2>
           <p className="text-white-50">Here are the list of Members</p>
-          <div>
+          <div >
             <div className="d-flex justify-content-between">
-              <div className="w-50">
-                <SearchBar params={params} handleFilter={handleFilter} />
+              <div className="w-50 d-flex">
+                <SearchBar  params={params} handleFilter={handleFilter} />
+                  <Sortby params={params} options={["name", "email" , "salary" , "phone"]} handleFilter={handleFilter} />
+                  <Reset params={params} handleFilter={handleFilter} />
               </div>
-                {userPermission?.find((per) => per.name == "create-user")
+              <div className="w-50 d-flex justify-content-end">
+              {userPermission?.find((per) => per.name == "create-user")
                   ?.status === 1 && (
                   <>
                     <button
@@ -80,23 +83,18 @@ const User = () => {
                   </>
                 )}
               </div>
-
-
+              </div>
+             
 
             </div>
-            {users.length > 0 ? (
-              <div className="p-3">
+              <div className="mt-3">
                 <Table
                   handleEdit={handleEdit}
                   users={users}
                 />{" "}
                 
               </div>
-            ) : (
-              <div className="p-3">
-                <p className="text-center text-danger">No users found</p>
-              </div>
-            )}
+            
 
             {/* pagination */}
             <Pagination params={params} pagingdetails={pagingdetails} handleFilter={handleFilter} />

@@ -1,6 +1,6 @@
 
 import { useDispatch , useSelector } from "react-redux";
-import { reqUsers , reqUpdateUser, reqCreateUser, reqUploadImage, reqDeleteUser, reqUserbyId } from "./request";
+import { reqUsers , reqUpdateUser, reqCreateUser, reqUploadImage, reqDeleteUser, reqUserbyId, reqChangePassword } from "./request";
 import { storePaging, storeParams, storeUsers } from "./reducer";
 import { alertConfirm , alertError , alertSuccess } from "../../utils/alert";
 
@@ -52,16 +52,19 @@ const useUsers = () => {
     };
 
 
-    const updateUser = async (payload , id ,img ) => {
+    const updateUser = async (payload , id ,img ,handleEdit ) => {
+        let newPayload = {...payload}
         if(img){
            await  reqUploadImage(img , id).then((response) => {
+                newPayload.avatar = response.data.data;
             }).catch((error) => {
                 alertError(error.response.data.message);
             })
         }
-        await reqUpdateUser(payload , id).then((response) => {
+        await reqUpdateUser(newPayload , id).then((response) => {
             getUsers()
             alertSuccess(response.data.message);
+            handleEdit(false)
         }).catch((error) => {
             alertError(error.response.data.message);
         })
@@ -84,9 +87,16 @@ const useUsers = () => {
         }
     };
 
+    const changePassword = async (payload , id) => {
+        await reqChangePassword(payload , id).then((response) => {
+            alertSuccess(response.data.message);
+        }).catch((error) => {
+            alertError(error.response.data.message);
+        })
+    }
 
 
-    return {getUsers ,handleFilter , createUser , updateUser , deleteUser , getUserbyId} ;
+    return {getUsers ,handleFilter , createUser , updateUser , deleteUser , getUserbyId ,changePassword} ;
 };
 
 export default useUsers;

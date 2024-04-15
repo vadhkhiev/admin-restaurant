@@ -5,31 +5,39 @@ import useUsers from '../core/action';
 
 const EditUser = ({ handleEdit, editUser }) => {
   const roles = useSelector((state) => state.roles.roles);
-  const { updateUser } = useUsers();
+  const { updateUser , changePassword   } = useUsers();
 
   const [passwordChange , setPasswordChange] = useState({
     password: "",
     confirm_password: ""
   })
+  console.log(passwordChange)
   const [editing, setEditing] = useState({
-    avatar : editUser.avatar,
     name: editUser.name,
     role_id: (roles.find((r) => r.name === editUser?.role?.name))?.id, 
     phone: editUser.phone,
     gender: editUser.gender,
     salary: editUser.salary,
+    avatar : editUser.avatar
   });
   const [fileInput, setFileInput] = useState(null);
   const [toggleChange, setToggleChange] = useState(false)
 
-  const handleUpdate = () =>{
+  const handleUpdate = async () =>{
     const formdata = new FormData();
     if(fileInput){
       formdata.append("file", fileInput);
     }
-    updateUser(editing , editUser.id , fileInput ? formdata : null)
-    
+   updateUser(editing , editUser.id , fileInput ? formdata : null ,handleEdit)
+   
   }
+
+  const handlePassword = async () =>{
+   await changePassword(passwordChange ,editUser.id)
+   handleEdit(false)
+}
+  
+
   
   return (
     <div>
@@ -42,54 +50,50 @@ const EditUser = ({ handleEdit, editUser }) => {
             right: 0,
             width: '100%',
             height: '100%',
-            backgroundColor: "rgba(62,64,87, 0.35)",
+            backgroundColor: "rgba(10,10,10, 0.5)",
             zIndex: 10,
             borderRadius: '10px 0 0 10px',
             transition: 'all 0.3s ease-in-out',
             
           }} 
         >
-          <main className='rounded-3 border col-12 col-md-6' style={{
+          <main className='rounded-3 border col-12 col-md-5' style={{
             backdropFilter: 'blur(5px)',
           }}
           >
             <div >
-                <MdOutlineCancel onClick={handleEdit} className='fs-3 text-danger m-2'/>
+                <MdOutlineCancel onClick={handleEdit} className='fs-3 text-danger m-2 cursor-pointer'/>
               </div>
-              <div  className={`${toggleChange ? "d-none" : "d-block"}`}>
-              <div className=' rounded-3'  >
-                <h3  className=' text-center p-1'>Editing
+              <div  className={`${toggleChange ? "d-none" : "d-block"} mx-3`}>
+              <div className=' rounded-3 w-100 d-flex  justify-content-center'  >
+                <div className='d-flex flex-row '>
+                <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={editUser?.avatar} width={60} height={60}  alt="" className='rounded-circle ' />
+                <h4  className=' text-white  w-50 ms-2 text-nowrap'>Editing
                 <span className='text-primary'> {editUser.name}</span> 
-                </h3>
+                </h4>
+                </div>
               </div>
               
-              <div className=' p-1 rounded-3' >
+              <div className='  rounded-3' >
 
               <div  className='d-flex my-3 justify-content-between'> 
-              <div className='w-25 d-flex justify-content-center'>
-                <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={editUser.avatar} width={65} height={65}  alt="" className='rounded-circle ' />
-              </div>
-               <div className='w-75 d-flex justify-content-start m-3'>
-               <div>
-                <input  onChange={(e) => setFileInput(e.target.files[0])} className="form-control  " id="formFileSm" type="file"/>
-               </div>
+               <div className='w-100  '>
+                <input style={{background:'#09090b'}} onChange={(e) => setFileInput(e.target.files[0])} className="form-control  rounded-3 custom-border text-white"  type="file"/>
                </div>
               </div>
 
               {/* name */}
-              <div className="m-3" style={{ color: "#495057" }}>
-                <p className="fs-4 text-dark p-1 d-flex justify-content-between">
-                  <span className="w-25 text-center">Name : </span>
+              <div className="" style={{ color: "#495057" }}>
+                <p className="fs-5 text-dark  ">
                   <input
+
                     onChange={(e) =>
                       setEditing({ ...editing, name: e.target.value })
                     }
-                    className="w-75 p-1"
+                    className="w-100 p-2 custom-border rounded-3 text-white"
                     style={{
                       color: "#495057",
-                      backgroundColor: "#eff0f1",
-                      borderRadius: "5px",
-                      border: "none",
+                      backgroundColor: "#09090b",
                     }}
                     type="text"
                     value={editing.name}
@@ -98,9 +102,8 @@ const EditUser = ({ handleEdit, editUser }) => {
               </div>
 
               {/* role */}
-              <div className="m-3" style={{ color: "#495057" }}>
-                <p className="fs-4 text-dark p-1 d-flex justify-content-between">
-                  <span className="w-25 text-center">Role : </span>
+              <div className="" style={{ color: "#495057" }}>
+                <p className="fs-5 text-dark ">
                   <select
                     onChange={(e) =>
                       setEditing({
@@ -108,12 +111,10 @@ const EditUser = ({ handleEdit, editUser }) => {
                         role_id: parseInt(e.target.value),
                       })
                     }
-                    className="w-75 p-1"
+                    className="w-100 p-2 custom-border  rounded-3 text-white"
                     style={{
                       color: "#495057",
-                      backgroundColor: "#eff0f1",
-                      borderRadius: "5px",
-                      border: "none",
+                      backgroundColor: "#09090b",
                     }}
                   >
                     <option value="">
@@ -129,19 +130,16 @@ const EditUser = ({ handleEdit, editUser }) => {
               </div>
 
               {/* phone */}
-              <div className="m-3" style={{ color: "#495057" }}>
-                <p className="fs-4 text-dark p-1 d-flex justify-content-between">
-                  <span className="w-25 text-center">Phone : </span>
+              <div >
+                <p className="fs-5 text-dark ">
                   <input
                     onChange={(e) =>
                       setEditing({ ...editing, phone: e.target.value })
                     }
-                    className="w-75 p-1"
+                    className="w-100 p-2 rounded custom-border rounded-3 text-white"
                     style={{
                       color: "#495057",
-                      backgroundColor: "#eff0f1",
-                      borderRadius: "5px",
-                      border: "none",
+                      backgroundColor: "#09090b",
                     }}
                     type="number"
                     value={editing.phone}
@@ -150,19 +148,17 @@ const EditUser = ({ handleEdit, editUser }) => {
               </div>
 
               {/* gender */}
-              <div className="m-3" style={{ color: "#495057" }}>
-                <p className="fs-4 text-dark p-1 d-flex justify-content-between">
-                  <span className="w-25 text-center">Gender : </span>
+              <div >
+                <p className="fs-5 text-dark ">
                   <select
                     onChange={(e) =>
                       setEditing({ ...editing, gender: e.target.value })
                     }
-                    className="w-75 p-1"
+                    className="w-100 p-2  custom-border rounded text-white" 
                     style={{
                       color: "#495057",
-                      backgroundColor: "#eff0f1",
-                      borderRadius: "5px",
-                      border: "none",
+                      backgroundColor: "#09090b",
+
                     }}
                     defaultValue={editing.gender}
                   >
@@ -172,48 +168,54 @@ const EditUser = ({ handleEdit, editUser }) => {
                 </p>
               </div>
 
-              <p onClick={()=>setToggleChange(!toggleChange)} className="fs-5 cursor-pointer pb-2 text-center text-primary underline">Change Password ?</p>
+              <p onClick={()=>setToggleChange(!toggleChange)} className="fs-5 cursor-pointer  text-center text-primary underline">Change Password ?</p>
               <div className="d-flex justify-content-center pb-3">
                 <button
-                  className="btn btn-primary w-25 p-2"
+                  className="btn custom-btn custom-border p-2 text-white"
                   onClick={handleUpdate}
                 >
-                  Save
+                  Submit
                 </button>
               </div>
             </div>
           </div>
 
           <div className='w-100' style={{display: toggleChange ? "block" : "none"}}>
-            <div className='w-100 mb-3 d-flex flex-column gap-3 text-nowrap justify-content-center '>
+            <div className='w-100 mb-3 p-3 d-flex flex-column gap-3 text-nowrap justify-content-center '>
                <div>
-                <p  className='fs-4 text-center'>Reset <span className='text-primary'>{editUser?.name}'s</span> Password</p>
+                <p  className='fs-4 text-center text-white'>Reset <span className='text-primary'>{editUser?.name}'s</span> Password</p>
                </div>
-                <div className='input'>
-                  <h5>New Password:</h5>
-                  <input
+               <div className=''>
+               <input
                    type="text"
+                   className='w-100 custom-border p-2 rounded-3 mb-3 text-white'
+                   style={{background:'#09090b'}} 
+                   placeholder='Enter New Password'
                    onChange={(e) =>setPasswordChange({
                     ...passwordChange,
                     password: e.target.value
                    })}
                     name="password"  />
-                </div>
-                <div className='input'>
-                  <h5>Confirm Password:</h5>
-                  <input
+                    <br />
+                     <input
+                  className='w-100 custom-border p-2 rounded-3 text-white'
+                  style={{background:'#09090b'}}
+                  placeholder='Confirm Password'
                   onChange={(e) =>setPasswordChange({
                     ...passwordChange,
                     confirm_password: e.target.value
                   })}
                    type="text" name="confirm_password"  />
-                </div>
+                
+
+               </div>
+                <p className='text-primary text-decoration-underline text-center cursor-pointer mb-2' onClick={() => setToggleChange(!toggleChange)}>Back ?</p>
                 <div className='d-flex justify-content-center'>
-                <button className='btn btn-primary w-25 p-2'  >Save</button>
+                <button className='btn p-2 custom-btn custom-border text-white' onClick={handlePassword}  >Save</button>
                 </div>
 
             </div>
-             <p className='text-primary text-decoration-underline text-center cursor-pointer' onClick={() => setToggleChange(!toggleChange)}>Back ?</p>
+
           </div>
           
         </main>

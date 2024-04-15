@@ -46,16 +46,16 @@ const TableRow = ({role , setUpdate , index }) => {
   return (
     <>
         <tr className='hover-effect '>
-            <td className='border-bottom border-dark text-white'  >
+            <td className=' text-white'  >
               {params.page === 1 ? index : (params.page - 1) * (params.size) + index }
             </td>
-            <td className='border-bottom border-dark text-white'>{role?.name}</td>
-            <td className='border-bottom border-dark text-white'>{role?.createdBy.name}</td>
-            <td className='border-bottom border-dark text-white'>{dateTimeFormat(role?.createdDate)}</td>
-            <td className='border-bottom border-dark text-white'>{dateTimeFormat(role?.updateDate)}</td>
+            <td className=' text-white'>{role?.name}</td>
+            <td className=' text-white'>{role?.createdBy.name}</td>
+            <td className=' text-white'>{dateTimeFormat(role?.createdDate)}</td>
+            <td className=' text-white'>{dateTimeFormat(role?.updateDate)}</td>
             {
             (user.id === 1 || userPermission?.find(per => per.name === 'edit-role')?.status === 1 || userPermission?.find(per => per.name === 'delete-role')?.status === 1) && (
-              <td className='d-flex border-bottom border-dark text-white'>
+              <td className='d-flex  text-white'>
                 {user.id === 1 && (
                   role.id !== 1 ?  <Link to="/role/access"  onClick={() => dispatch(storeId(role?.id))}  className='fs-4 me-2 text-white'  type="button">
                   <MdOutlineLockPerson /> 
