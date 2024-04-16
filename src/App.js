@@ -8,7 +8,7 @@ import Food from "./modules/Food/Component/Food";
 import Role from "./modules/Role/components/Role";
 import Access from "./modules/Role/components/Access";
 import Profile from "./modules/profile/Profile";
-import Table from "./modules/table/Table";
+import Table from "./modules/table/components/Table";
 import Dashboard from "./modules/Dashboard/components/Dashboard";
 import MainOder from "./modules/order/components/MainOder";
 import MakeOrder from "./modules/order/components/MakeOrder";
@@ -20,7 +20,6 @@ import OrderList from "./modules/order/components/OderList";
 
 function App() {
     const {isAuth , user , userPermission} = useSelector((state) => state.auth);
-    console.log(userPermission)
 
     return (
         <>

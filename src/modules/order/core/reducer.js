@@ -2,10 +2,18 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   orderedFood: [],
+  orders : [],
+  viewOrder : {},
+  viewId : null,
+  params : {
+    page : 1,
+    size : 20,
+    query : '',
+  }
 };
 
-const foodCartSlice = createSlice({
-  name: 'orderedFood',
+const orders = createSlice({
+  name: 'orders',
   initialState,
   reducers: {
     storeOrderedFood: (state, action) => {
@@ -61,9 +69,20 @@ const foodCartSlice = createSlice({
     clearOrderedFood: (state) => {
       state.orderedFood = [];
     },
+    storeParams : (state , action) => {
+      state.params = {...state.params, ...action.payload}
+    },
+    storeOrders : (state , action) => {
+      state.orders = action.payload
+    },storeViewId : (state , action) => {
+      state.viewId = action.payload
+    },
+    storeViewOrder : (state , action) => {
+      state.viewOrder = action.payload
+    }
   },
 });
 
-export const { storeOrderedFood , clearOrderedFood , quantity ,tickedFood ,selection ,deleteFood } = foodCartSlice.actions;
-export default foodCartSlice.reducer;
+export const { storeOrderedFood ,storeViewOrder, clearOrderedFood , quantity ,tickedFood ,selection ,deleteFood , storeParams , storeOrders , storeViewId } = orders.actions;
+export default orders.reducer;
 

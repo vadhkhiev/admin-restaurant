@@ -6,8 +6,8 @@ import useUsers from "../core/action";
 import { useSelector } from "react-redux";
 import SearchBar from "../../utils/components/SearchBar";
 import Pagination from "../../utils/components/Pagination";
-import Sortby from "../../utils/components/Sortby";
 import Reset from "../../utils/components/Reset";
+import Filter from "../../utils/components/Filter";
 
 const User = () => {
   const { users , params } = useSelector((state) => state.users);
@@ -67,7 +67,8 @@ const User = () => {
             <div className="d-flex justify-content-between">
               <div className="w-50 d-flex">
                 <SearchBar  params={params} handleFilter={handleFilter} />
-                  <Sortby params={params} options={["name", "email" , "salary" , "phone"]} handleFilter={handleFilter} />
+                  <Filter params={params} options={["name", "email" , "salary" , "phone"]} action={'sort'} handleFilter={handleFilter} />
+                  <Filter params={params} options={["asc" , "desc"]} action={'order'} handleFilter={handleFilter} />
                   <Reset params={params} handleFilter={handleFilter} />
               </div>
               <div className="w-50 d-flex justify-content-end">
