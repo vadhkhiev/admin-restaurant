@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 const SaleReports = () => {
   const [sale, setSale] = useState([]);
   const [paging, setPaging] = useState({});
@@ -59,6 +60,7 @@ const SaleReports = () => {
                 className="rounded-3 border-0 px-2 mx-1"
                 type="date"
                 name="startDate"
+                value={useParams.start}
                 onChange={(e) => setStartDate(e.target.value)}
               />
               <span className="fw-bold mt-2">End Date:</span>
@@ -66,6 +68,7 @@ const SaleReports = () => {
                 className="ms-1 rounded-3 border-0 px-2 mx-1"
                 type="date"
                 name="endDate"
+                value={useParams.end}
                 onChange={(e) => setEndDate(e.target.value)}
               />
           </div>

@@ -12,7 +12,7 @@ const Filter = ({ options, handleFilter, params, action }) => {
       value={params[action]}
       onChange={(e) => handleSort(e.target.value)}
     >
-      <option value="" disabled hidden>{action}</option>
+      <option value="" hidden>{action}</option>
       {options.map((option, index) => (
         <option key={index} value={option}>{option}</option>
       ))}

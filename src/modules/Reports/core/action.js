@@ -1,19 +1,16 @@
 import { reqFoodReports } from "./request"
 import { useSelector , useDispatch } from 'react-redux'
-import { storeParams, storefoodReports ,storePaging } from "./reducer"
+import { storeParams, storefoodReports ,storePaging, setLoading } from "./reducer"
 import { useEffect } from "react";
 
 
 const useReports = () => {
     const { params } = useSelector(state => state.foodReports); 
     const dispatch = useDispatch();
-    console.log(params);
 
-    const addParams = (key, value) => {
-        dispatch(storeParams({
-            ...params, 
-            [key]: value
-        }));
+
+    const handleFilter = (name, value) => {
+        dispatch(storeParams({ [name]: value }));
     };
 
     const fetchFoodReports = async () => {
@@ -21,6 +18,7 @@ const useReports = () => {
             const response = await reqFoodReports(params);
             dispatch(storefoodReports(response.data.data));
             dispatch(storePaging(response.data.paging));
+            dispatch(setLoading(false))
         } catch (error) {
             console.log(error);
         }
@@ -31,7 +29,7 @@ const useReports = () => {
         fetchFoodReports();
     }, [params]);
 
-    return { fetchFoodReports, addParams };
+    return { fetchFoodReports, handleFilter };
 };
 
 export default useReports;

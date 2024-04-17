@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import {  useSelector } from 'react-redux'
 import OrderingCard from './OrderingCard'
-import {  useNavigate } from 'react-router-dom'
-import { storeOrderedFood } from '../core/slice'
 import YourOrder from './YourOrder'
 import { useFoods } from '../../Food/Core/action'
 import { useCategories } from '../../categories/core/action'
+import useTable from '../../table/core/action'
 
 
 
 
 const MakeOrder = () => {
-  const [clickedIndex , setClickedIndex] = useState(0) 
-  const navigate = useNavigate() 
+  const [clickedIndex , setClickedIndex] = useState(0)  
   const {orderedFood} = useSelector((state) => state.orders)
   const {foodList} = useSelector((state) => state.foodList)
   const {categories} = useSelector((state) => state.category)
   const {fetchList} = useFoods();
   const {fetchCategories} = useCategories();
+  const {getTableList } = useTable();
   const [selectedCategories, setSelectedCategories] = useState('');
 
   useEffect(() => {
     fetchList();
     fetchCategories();
+    getTableList();
   },[])
   const handleClicked = (index)=>{
     setClickedIndex(index)

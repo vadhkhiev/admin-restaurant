@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   roles: [],
   paging : {},
+  createToggle : false,
+  updateToggle : false , 
   id : null
   ,
   params : {
@@ -32,9 +34,23 @@ const roleSlice = createSlice({
     },
     storeRolePermissions : (state, action) => {
       state.rolePermissions = action.payload.data.permissions
+    },
+    storeUpdateToggle : (state, action) => {
+      state.updateToggle = action.payload
+    },
+    storeCreateToggle : (state, action) => {
+      state.createToggle = action.payload
     }
   },
 });
 
-export const { storeRoles ,removeRoles ,storeParams ,storeId ,storeRolePermissions } = roleSlice.actions;
+export const { 
+  storeRoles ,
+  removeRoles ,
+  storeParams ,
+  storeId ,
+  storeRolePermissions ,
+   storeUpdateToggle ,
+   storeCreateToggle,
+   } = roleSlice.actions;
 export default roleSlice.reducer;

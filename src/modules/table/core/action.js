@@ -1,15 +1,18 @@
-import React from 'react'
+
 import { reqCreateTable, reqDeleteTable, reqTables, reqUpdateTable } from './request'
 import { useDispatch, useSelector } from 'react-redux'
-import { storeCreateToggle, storeParams, storeTableList, storeUpdateToggle } from './reducer';
+import { setLoading, storeCreateToggle, storeParams, storeTableList, storeUpdateToggle } from './reducer';
 import { alertConfirm, alertError, alertSuccess } from '../../utils/alert';
 
 const useTable = () => {
     const dispatch = useDispatch();
-    const { params} = useSelector((state)=>state.tableList)
+    const { params } = useSelector((state)=>state.tableList)
 
     const getTableList = async () => {
-        await reqTables(params).then((res)=> dispatch(storeTableList(res.data)) ).catch((err)=>console.log(err))
+        await reqTables(params).then((res)=> {
+          dispatch(storeTableList(res.data))
+          dispatch(setLoading(false))
+        } ).catch((err)=>console.log(err))
     }
 
     const createTable = async (payload) => {

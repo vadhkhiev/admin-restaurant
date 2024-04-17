@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Inputfield from "./Inputfield";
 import useUsers from "../core/action";
-const CreateUser = ({ setCreate }) => {
+import { setCreateToggle } from "../core/reducer";
+const CreateUser = () => {
   const roles = useSelector((state) => state.roles.roles);
   const { createUser } = useUsers();
   const [userData, setUserData] = useState({});
-
+  const dispatch = useDispatch()
   useEffect(() => {
     const currentDateTime = new Date();
     const formattedDate = (currentDateTime?.toISOString() )?.slice(0, -5) + 'Z'
@@ -26,7 +27,7 @@ const CreateUser = ({ setCreate }) => {
     }));
   };
   const handleSubmit = async () => {
-    createUser(userData , setCreate)
+    createUser(userData )
   };
 
   return (
@@ -66,7 +67,7 @@ const CreateUser = ({ setCreate }) => {
           >
             <IoCloseCircleOutline
               style={{ cursor: "pointer" }}
-              onClick={() => setCreate(false)}
+              onClick={() => dispatch(setCreateToggle(false ))}
             />
           </div>
           <div >

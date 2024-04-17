@@ -30,7 +30,7 @@ function App() {
                         <Route path="order" element={<MainOder/>}>
                             <Route index element={<MakeOrder/>}/>
                             <Route path="list" element={<OrderList/>}/>
-                            <Route path='view' element={<ViewOrder/>}/>
+                            <Route path='view/:id' element={<ViewOrder/>}/>
                         </Route>
                         <Route path="table" element={<Table/>}/>
                         <Route path="profile" element={<Profile/>}/>

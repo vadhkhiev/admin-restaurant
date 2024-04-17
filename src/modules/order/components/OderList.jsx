@@ -1,79 +1,95 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import loadingImg from "../../../assets/img/loading.gif";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { FaRegEye } from "react-icons/fa";
 import { GoTrash } from "react-icons/go";
 import useOrders from "../core/action";
-import { storeViewId } from "../core/reducer";
+import { storeOrderTableId } from "../core/reducer";
+import SearchBar from "../../utils/components/SearchBar";
+import Reset from "../../utils/components/Reset";
+import Pagination from "../../utils/components/Pagination";
 
 function OrderList() {
-  const {orders} = useSelector((state) => state.orders)
-  const {getOrders} = useOrders();
+  const { orders, params, paging, loading } = useSelector((state) => state.orders);
+  const { getOrders, deleteOrder, handleFilter } = useOrders();
   const dispatch = useDispatch();
-  console.log(orders)
 
   useEffect(() => {
-    getOrders()
-  },[])
+    getOrders();
+  }, [params]);
 
   return (
     <>
-      <section className="m-3 ">
-        <div className="d-flex  ">
-          <h3 className="text-nowrap fw-bold text-white">
-            Orders list
-          </h3>
+      {loading ? (
+        <div style={{ height: '80vh' }} className="d-flex justify-content-center align-items-center">
+          <img width={40} src={loadingImg} alt="" />
         </div>
-      </section>
+      ) : (
+        <>
+          <section className="m-3 ">
+            <div className="d-flex  ">
+              <h3 className="text-nowrap fw-bold text-white">
+                Orders list
+              </h3>
+            </div>
+            <p className="text-white-50">Here is the list of orders</p>
+            <div className="d-flex">
+              <SearchBar params={params} handleFilter={handleFilter} />
+              <Reset params={params} handleFilter={handleFilter} />
+            </div>
+          </section>
 
-      <div className="m-3 rounded-3 custom-border p-3">
+          <div className="m-3 rounded-3 custom-border p-3">
 
-
-        <table className=" table bg-white fw-bold ">
-          <thead>
-            <tr>
-              <th scope="col fs-1">ID</th>
-              <th scope="col ">User Entity</th>
-              <th scope="col">Table Name</th>
-              <td scope="col">Total</td>
-              <td scope="col">Action</td>
-            </tr>
-          </thead>
-          <tbody>
-            {orders &&
-              orders.map((order) => (
-                <tr key={order.id}>
-                  <td className="fw-bold">{order?.id}</td>
-                  <td className="fw-bold">{order.user?.name}</td>
-                  <td className="fw-bold">{order.table?.name}</td>
-                  <td className="fw-bold">
-                    <sup className="text-danger">$</sup>
-                    {order?.total_Price?.toFixed(2)}
-                  </td>
-                  <td>
-                    <Link
-                    onClick={()=>dispatch(storeViewId(order?.id))} 
-                    to="/order/view">
-                      
-                      <FaRegEye
-                        style={{ color: "#6c738f" }}
-                        className="fs-4 me-2"
-                      />
-                    </Link>
-                    <GoTrash
-                      className="text-danger cursor-pointer fs-4"
-                      
-                    />
-                  </td>
+            <table className=" table bg-transparent table-borderless  ">
+              <thead>
+                <tr className="border-bottom border-dark ">
+                  <th scope="col" className="text-white fw-bold">ID</th>
+                  <th scope="col " className="text-white fw-bold">User Entity</th>
+                  <th scope="col" className="text-white fw-bold">Table Name</th>
+                  <td scope="col" className="text-white fw-bold">Total</td>
+                  <td scope="col" className="text-white fw-bold">Action</td>
                 </tr>
-              ))}
-          </tbody>
-        </table>
-        {orders?.length === 0 && (
-          <p className="text-center text-danger">No Orders Found</p>
-        )}
-      </div>
+              </thead>
+              <tbody>
+                {orders &&
+                  orders.map((order) => (
+                    <tr className="hover-effect " key={order.id}>
+                      <td className=" text-white">{order?.id}</td>
+                      <td className=" text-white">{order.user?.name}</td>
+                      <td className=" text-white">{order.table?.name}</td>
+                      <td className=" text-white">
+                        <sup className="text-danger">$</sup>
+                        {order?.total_Price?.toFixed(2)}
+                      </td>
+                      <td>
+                        <Link
+                          onClick={() => dispatch(storeOrderTableId(order.table?.id))}
+                          to={`/order/view/${order?.id}`}>
+                          <FaRegEye
+                            style={{ color: "#6c738f" }}
+                            className="fs-4 me-2"
+                          />
+                        </Link>
+                        <GoTrash
+                          onClick={() => deleteOrder(order?.id)}
+                          className="text-danger cursor-pointer fs-4"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+            {orders?.length === 0 && (
+              <p className="text-center text-white">No Result.</p>
+            )}
+          </div>
+          <div className="mx-3">
+            <Pagination params={params} handleFilter={handleFilter} pagingdetails={paging} />
+          </div>
+        </>
+      )}
     </>
   );
 }

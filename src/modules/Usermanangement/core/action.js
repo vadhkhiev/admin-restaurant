@@ -1,8 +1,8 @@
 
 import { useDispatch , useSelector } from "react-redux";
-import { reqUsers , reqUpdateUser, reqCreateUser, reqUploadImage, reqDeleteUser, reqUserbyId, reqChangePassword } from "./request";
-import { storePaging, storeParams, storeUsers } from "./reducer";
+import { setCreateToggle, setLoading, storePaging, storeParams, storeUsers } from "./reducer";
 import { alertConfirm , alertError , alertSuccess } from "../../utils/alert";
+import { reqUsers , reqUpdateUser, reqCreateUser, reqUploadImage, reqDeleteUser, reqUserbyId, reqChangePassword } from "./request";
 
 
 const useUsers = () => {
@@ -17,6 +17,7 @@ const useUsers = () => {
        await reqUsers(params).then((response) => {
             dispatch(storeUsers(response.data.data));
             dispatch(storePaging(response.data.paging));
+            dispatch(setLoading(false));
         })
     }
     const getUserbyId = async (id) => {
@@ -27,7 +28,7 @@ const useUsers = () => {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const createUser = async (payload , setCreate) => {
+    const createUser = async (payload ) => {
         const payloadKeys = Object.keys(payload);
         const payloadValues = Object.values(payload);
         const isAllFilled = payloadKeys.length === 10 && payloadValues.every(value => value !== "");
@@ -38,7 +39,7 @@ const useUsers = () => {
                await reqCreateUser(payload);
                 alertSuccess("User Created");
                 getUsers();
-                setCreate(false)
+                dispatch(setCreateToggle(false))
             } catch (error) {
                 alertError(error.response.data.message);
             } 

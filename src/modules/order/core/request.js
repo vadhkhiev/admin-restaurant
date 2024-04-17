@@ -13,8 +13,18 @@ const reqAddOrder = async (payload) => {
     return await axios.post('/api/orders', payload);
 }
 
+const reqUpdateOrder = async (payload, id) => {
+    return await axios.put(`/api/orders/${id}`, payload);
+}
+
+const reqDeleteOrder = async (id) => {
+    return await axios.delete(`/api/orders/${id}`);
+}
+
 export {
      reqOrders,
     reqOrderbyId,
-    reqAddOrder
+    reqAddOrder,
+    reqUpdateOrder,
+    reqDeleteOrder
  }

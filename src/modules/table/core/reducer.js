@@ -6,7 +6,7 @@ const initialState = {
   updateToggle : false,
   createToggle : false,
   paging: {},
-  loading: false,
+  loading: true,
   params : {
     page : 1,
     size : 20,

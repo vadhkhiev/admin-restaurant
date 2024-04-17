@@ -4,19 +4,37 @@ import { useDispatch, useSelector } from 'react-redux';
 import {  deleteFood, selection } from '../core/reducer';
 import { FiTrash } from "react-icons/fi";
 import useOrders from '../core/action';
+import useCurrentUser from '../../profile/core/action';
+
 
 
 const YourOrder = () => {
-    const {orderedFood} = useSelector((state) => state.orders)
-    const { addOrder } = useOrders();
     const dispatch = useDispatch()
+    const {orderedFood} = useSelector((state) => state.orders)
+    const {tableList} = useSelector((state) => state.tableList)
+    const {currentUser} = useSelector((state) => state.currentUser)
+    const { addOrder } = useOrders();
+    const {getCurrentUser} = useCurrentUser();
     const [tick , setTick] = useState(false)
+    const [payload, setPayload] = useState({});
+
+    useEffect(() => {
+        getCurrentUser()
+    }, [])
+    
+    useEffect(() => {
+        setPayload({
+            user_Id: currentUser.id,
+            table_Id: null,
+            items: orderedFood.map((item) => ({
+                food_Id: item.id,
+                quantity: item.quantity
+            }))
+        })
+    }, [orderedFood])
 
     const handleAdd = async () => {
-        const payload = {
-            orderedFood
-        }
-        addOrder()
+      addOrder(payload) 
     }
 
 
@@ -31,8 +49,11 @@ const YourOrder = () => {
         <section  className='my-3 d-flex justify-content-between border rounded-3 p-1 '>
             <div className='d-flex w-50'>
                 <span className='w-25 text-center text-white'>Select </span>
-                <select    className="form-select py-0 w-75 bg-transparent" >
-                    <option disabled selected>table</option>
+                <select onChange={(e)=>setPayload({...payload , table_Id : e.target.value})}   className="form-select py-0 w-75 bg-transparent" >
+                    <option hidden selected>table</option>
+                    {tableList?.map((table, index) => (
+                        <option key={index} value={table.id}>{table.name}</option>
+                    ))}
 
                 </select>
             </div>
@@ -78,7 +99,7 @@ const YourOrder = () => {
             <h4 className='text-white'> <sup className='text-danger'>$</sup> {orderedFood.reduce((total, food)=>total+((food.price)*(1-(food.discount/100))* food.quantity ),0).toFixed(2)}</h4>
         </div>
         <div>
-            <button  className='btn custom-btn custom-border w-100 text-white fw-bold' >Add Order</button>
+            <button onClick={handleAdd}  className='btn custom-btn custom-border w-100 text-white fw-bold' >Add Order</button>
         </div>
      </main>
 

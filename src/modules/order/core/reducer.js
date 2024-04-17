@@ -2,9 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   orderedFood: [],
+  paging : {},
   orders : [],
-  viewOrder : {},
-  viewId : null,
+  viewOrder : [],
+  orderTableId : null,
+  addFoodToggle : false,
+  loading : true ,
   params : {
     page : 1,
     size : 20,
@@ -73,16 +76,25 @@ const orders = createSlice({
       state.params = {...state.params, ...action.payload}
     },
     storeOrders : (state , action) => {
-      state.orders = action.payload
-    },storeViewId : (state , action) => {
-      state.viewId = action.payload
+      state.orders = action.payload.data
+      state.paging = action.payload.paging
     },
     storeViewOrder : (state , action) => {
       state.viewOrder = action.payload
+    },
+    storeOrderTableId : (state , action) => {
+      state.orderTableId = action.payload
+    },
+    storeAddFoodToggle : (state , action) => {
+      state.addFoodToggle = action.payload
+    },
+    setLoading : (state , action) => {
+      state.loading = action.payload
     }
+
   },
 });
 
-export const { storeOrderedFood ,storeViewOrder, clearOrderedFood , quantity ,tickedFood ,selection ,deleteFood , storeParams , storeOrders , storeViewId } = orders.actions;
+export const { storeOrderedFood ,storeViewOrder, clearOrderedFood , quantity ,tickedFood  ,selection ,deleteFood , storeOrderTableId , storeParams , storeOrders ,storeAddFoodToggle , setLoading  } = orders.actions;
 export default orders.reducer;
 
