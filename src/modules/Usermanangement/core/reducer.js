@@ -2,7 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   users: [],
+  loading : true ,
   total: 0,
+  editToggle: false,
+  createToggle : false,
   paging: {},
   recent: [],
   params: {
@@ -30,9 +33,18 @@ const usersSlice = createSlice({
     },
     storePaging: (state, action) => {
       state.paging = action.payload
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload
+    },
+    setEditToggle : (state , action) => {
+      state.editToggle = action.payload
+    },
+    setCreateToggle : (state , action) => {
+      state.createToggle = action.payload
     }
   },
 });
 
-export const { storeUsers, storeTotalUsers, storeRecentUsers ,storeParams , storePaging } = usersSlice.actions;
+export const { storeUsers, storeTotalUsers, storeRecentUsers,setCreateToggle ,storeParams , storePaging ,setLoading ,setEditToggle } = usersSlice.actions;
 export default usersSlice.reducer;

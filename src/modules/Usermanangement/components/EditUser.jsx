@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { MdOutlineCancel } from "react-icons/md";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useUsers from '../core/action';
+import { setEditToggle } from '../core/reducer';
 
 const EditUser = ({ handleEdit, editUser }) => {
   const roles = useSelector((state) => state.roles.roles);
   const { updateUser , changePassword   } = useUsers();
-
+  const dispatch = useDispatch()
   const [passwordChange , setPasswordChange] = useState({
     password: "",
     confirm_password: ""
   })
-  console.log(passwordChange)
+
   const [editing, setEditing] = useState({
     name: editUser.name,
     role_id: (roles.find((r) => r.name === editUser?.role?.name))?.id, 
@@ -62,14 +63,14 @@ const EditUser = ({ handleEdit, editUser }) => {
           }}
           >
             <div >
-                <MdOutlineCancel onClick={handleEdit} className='fs-3 text-danger m-2 cursor-pointer'/>
+                <MdOutlineCancel onClick={() => dispatch(setEditToggle(false))} className='fs-3 text-danger m-2 cursor-pointer'/>
               </div>
               <div  className={`${toggleChange ? "d-none" : "d-block"} mx-3`}>
               <div className=' rounded-3 w-100 d-flex  justify-content-center'  >
                 <div className='d-flex flex-row '>
                 <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={editUser?.avatar} width={60} height={60}  alt="" className='rounded-circle ' />
                 <h4  className=' text-white  w-50 ms-2 text-nowrap'>Editing
-                <span className='text-primary'> {editUser.name}</span> 
+                <span className='text-primary'> {editUser?.name}</span> 
                 </h4>
                 </div>
               </div>

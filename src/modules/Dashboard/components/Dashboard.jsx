@@ -80,7 +80,7 @@ const Dashboard = () => {
 
               <div className='col-12  col-lg-5 mt-4 rounded-3 '>
                 <div className='custom-border rounded-3 p-3 ms-2'>
-                  <h3 className='text-white'>Recent users</h3>
+                  <h3 className='text-white'>Some users</h3>
                   <p className='text-white-50'>there are a total of {paging?.totals} users</p>
                   {
                     users.slice(0, 5)?.map((user , index) => (

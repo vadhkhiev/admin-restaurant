@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Table from "./Table";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Createrole from "./Createrole";
 import useRoles from "../core/action";
 import Pagination from "../../utils/components/Pagination";
 import SearchBar from "../../utils/components/SearchBar";
 import Reset from "../../utils/components/Reset";
+import { storeCreateToggle } from "../core/reducer";
 const Role = () => {
     const pagingdetails = useSelector((state) => state.roles.paging);
     const {userPermission} = useSelector((state) => state.auth); 
     const {params } = useSelector((state) => state.roles);
     const { getRoles , handleFilter } = useRoles();
-    const [add , setAdd] = useState(false);
-    const [update,setUpdate] = useState(false);
+    const {createToggle , updateToggle } = useSelector((state) => state.roles);
+    const dispatch = useDispatch();
+    console.log(createToggle,updateToggle)
 
-    const handleAdd = ()=>{
-      setAdd(!add)
-    }
     
     useEffect(()=>{
       getRoles()
@@ -24,12 +23,11 @@ const Role = () => {
 
   return (
     <>
-      {add && <Createrole setAdd={setAdd} action={'create'}/>}
-      {update && <Createrole setUpdate={setUpdate} action = {'update'} />}
-
+        {createToggle && <Createrole  action={'create'}/>}
+        {updateToggle && <Createrole  action = {'update'} />}
         <div className='m-3 custom-border p-3 rounded-3'  >
           <h2 className="text-white fw-bold">Role list</h2>
-          <p className="text-white-50">Here are the list of roles</p>
+          <p className="text-white-50">Here is the list of roles</p>
         <div className=' mb-3 d-flex'>
             <div className="w-50 d-flex">
                 <SearchBar params={params} handleFilter={handleFilter} />
@@ -39,13 +37,13 @@ const Role = () => {
             {
                 (userPermission ?.find((per) => per.name == 'create-role'))?.status === 1 
                 && 
-                <button onClick={handleAdd} className='btn custom-btn text-white custom-border' >Add</button>
+                <button onClick={()=>dispatch(storeCreateToggle(true))} className='btn custom-btn text-white custom-border' >Add</button>
               }
 
             </div>
         </div>
         <div >
-            <Table  setUpdate={setUpdate}/>
+            <Table/>
             
             {/* pagination */}
             <Pagination params={params} pagingdetails={pagingdetails} handleFilter={handleFilter} />

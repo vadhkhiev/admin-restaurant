@@ -1,35 +1,31 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import useTable from "../core/action";
+import { storeUpdateToggle } from "../core/reducer";
 
-const UpdateTable = ({ Update,pid ,setRefresh , refresh , setUpdate}) => {
+const UpdateTable = () => {
+  const {updateData} = useSelector((state)=>state.tableList)
+  const {updateTable} = useTable();
+  const dispatch = useDispatch();
   const options = [{ value: "Booked" }, { value: "Available" }];
-  const [data, setData] = useState([]);
 
-  console.log(refresh)
-  
-  const token =
-    useSelector((state) => state.auth.token) || localStorage.getItem("token");
+  const [data, setData] = useState({
+    ...updateData
+  });
+
   useEffect(() => {
-    axios
-      .get(`/api/tables/${pid}`)
-      .then((res) => {
-        setData(res.data.data);
-        
-      })
-      .catch((err) => console.log(err));
-  }, [ token,pid]);
+   
 
-    const handleUpdate = (e) =>{
-      e.preventDefault();
-      axios.put(`/api/tables/${pid}`, data)
-      .then((res) => {
-        setRefresh(!refresh)
-        setUpdate(false)
-      })
-    }
+  }, []);
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    const { id, ...restData } = data; 
+    const payload = {...restData };
+   updateTable(payload , updateData.id); 
+  };
   return (
     <>
       <div
@@ -39,7 +35,7 @@ const UpdateTable = ({ Update,pid ,setRefresh , refresh , setUpdate}) => {
           left: 0,
           width: "100%",
           height: "100%",
-          backgroundColor: "rgba(62,64,87, 0.35)",
+          backgroundColor: "rgba(10,10,10, 0.35)",
           zIndex: 3,
         }}
         className="d-flex justify-content-center align-items-center"
@@ -48,18 +44,17 @@ const UpdateTable = ({ Update,pid ,setRefresh , refresh , setUpdate}) => {
           className="p-3 border rounded"
           style={{ width: "30%", backdropFilter: "blur(10px)" }}
         >
+          <div className="d-flex mb-2">
           <IoCloseCircleOutline
             style={{ cursor: "pointer" }}
-            onClick={Update}
-            className="fs-3 text-danger mb-3 me-2"
+            onClick={()=>{dispatch(storeUpdateToggle(false))}}
+            className="fs-3 text-danger  me-2"
           />{" "}
-          <br />
+            <h3 className="text-white ms-2 mt-2">Update Table</h3>
+          </div>
           <div className="">
-            <label className="fs-4 w-25 " htmlFor="">
-              Names:{" "}
-            </label>
             <input
-              className="ps-2 pe-5 py-2 border-0 rounded-3 w-75"
+              className="ps-2 pe-5 py-2 custom-border bg-transparent rounded-3 w-100 text-white"
               type="text"
               name="name"
               placeholder="Table Name"
@@ -67,28 +62,21 @@ const UpdateTable = ({ Update,pid ,setRefresh , refresh , setUpdate}) => {
               onChange={(e) => setData({ ...data, name: e.target.value })}
             />
             <br /> <br />
-            <label className="fs-4 w-25 " htmlFor="">
-              Status:
-            </label>
             <select
-              className="ps-2 pe-5 py-2 border-0 rounded-3 w-75"
+              className="form-select form-select-lg bg-transparent fw-normal text-white-50 custom-border rounded-3 w-100"
               name="status"
               id=""
               onChange={(e) => setData({ ...data, status: e.target.value })}
             >
-              <option value="">Choose Status</option>
               {options.map((option, index) => (
                 <option value={option.value} key={index}>
                   {option.value}
                 </option>
               ))}
             </select>
-            <br /> <br />
-            <label className="fs-4 w-25" htmlFor="">
-              SeatCapacity:{" "}
-            </label>
+            <br />
             <input
-              className="ps-2 pe-5 py-2 border-0 rounded-3 w-75"
+              className="ps-2 pe-5 py-2 custom-border bg-transparent rounded-3 w-100 text-white"
               type="text"
               name="seatCapacity"
               placeholder="SeatCapacity"
@@ -99,7 +87,7 @@ const UpdateTable = ({ Update,pid ,setRefresh , refresh , setUpdate}) => {
             />
           </div>
           <div className="d-flex justify-content-center">
-            <button onClick={handleUpdate}  className="btn btn-primary w-25 mt-4 fw-bold">
+            <button onClick={handleUpdate}  className="btn custom-btn custom-border text-white w-25 mt-4 fw-bold">
               Update
             </button>
           </div>

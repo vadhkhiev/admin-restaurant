@@ -5,13 +5,16 @@ const getCurrentDate = () => {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     return `${year}:${month}`;
 }
-
 const initialState = {
   foodReports: {},
   saleReports : {},
+  loading : true,
   pagingdetails : {},
   params : {
     month : getCurrentDate(),
+    size : 20,
+    page : 1,
+    query : '',
   }
 };
 
@@ -27,10 +30,13 @@ const foodReportsSlice = createSlice({
     },
     storeParams : (state, action) => {
       return {...state, params: {...state.params, ...action.payload}};
+    },
+    setLoading : (state , action) => {
+      state.loading = action.payload
     }
   }
 });
 
-export const { storefoodReports ,removefoodReports , storePaging ,storeParams} = foodReportsSlice.actions;
+export const { storefoodReports ,removefoodReports , storePaging ,storeParams , setLoading} = foodReportsSlice.actions;
 
 export default foodReportsSlice.reducer;

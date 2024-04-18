@@ -28,12 +28,12 @@ const TableRow = ({ user, handleEdit }) => {
           ((userPermission?.find(per => per.name === 'edit-user')?.status === 1) || (userPermission?.find(per => per.name === 'delete-user')?.status === 1)) && (
             <td>
               {userPermission?.find(per => per.name === 'edit-user')?.status === 1 && (
-                <a onClick={() => handleEdit(user.id)} className='fs-4 text-primary me-2' style={{ color: '#6c738f' }} type="button">
+                <a onClick={() => handleEdit(user.id)} className='fs-4 text-white me-2' style={{ color: '#6c738f' }} type="button">
                   <PiNotePencilThin />
                 </a>
               )}
               {userPermission?.find(per => per.name === 'delete-user')?.status === 1 && (
-                <a className='fs-4 text-danger' style={{ color: '#6c738f' }} onClick={() => deleteUser(user.name, user.id)} type="button">
+                <a className='fs-4 text-danger'  onClick={() => deleteUser(user.name, user.id)} type="button">
                   <GoTrash />
                 </a>
               )}

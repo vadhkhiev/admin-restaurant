@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GoTrash } from "react-icons/go";
 import { FaUserLock } from "react-icons/fa";
-import { storeId } from '../core/reducer';
+import { storeId, storeUpdateToggle } from '../core/reducer';
 import useRoles from '../core/action';
 import { alertError } from '../../utils/alert';
 
@@ -30,12 +30,12 @@ const dateTimeFormat = (inputString) => {
 };
 
 
-const TableRow = ({role , setUpdate , index }) => {
+const TableRow = ({role , index }) => {
   const dispatch = useDispatch()
   const {userPermission , user} = useSelector((state) => state.auth);
   const { params} = useSelector((state) => state.roles);
   const {deleteRole} = useRoles();
-  console.log(params)
+
 
 
   const handleDelete = (role) => {
@@ -69,7 +69,7 @@ const TableRow = ({role , setUpdate , index }) => {
                     }
                      dispatch(storeId(role?.id)); 
 
-                    setUpdate(true);
+                    dispatch(storeUpdateToggle(true));
                   }}  className='fs-4 me-2 text-white'  type="button">
                     <PiNotePencilThin />
                   </p>

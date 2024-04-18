@@ -1,7 +1,8 @@
-import { storeParams, storeRolePermissions, storeRoles } from "./reducer"
+import { storeCreateToggle, storeParams, storeRolePermissions, storeRoles, storeUpdateToggle } from "./reducer"
 import { reqCreateRole, reqDeleteRole, reqRolebyId, reqRoles, reqUpdatePermission, reqUpdateRole } from "./request"
 import {useSelector , useDispatch} from "react-redux"
 import { alertConfirm, alertError , alertSuccess } from '../../utils/alert'
+
 const useRoles = () => {
     const {params } = useSelector((state) => state.roles);
     const dispatch = useDispatch ();
@@ -13,11 +14,11 @@ const useRoles = () => {
         .catch((err)=>console.log(err)) 
     }
 
-    const createRole = async (payload, setAdd) => {
+    const createRole = async (payload) => {
         try {
             await reqCreateRole(payload);
             alertSuccess("Role created successfully");
-            setAdd(false);
+            dispatch(storeCreateToggle(false));
             getRoles();
         } catch (err) {
             alertError(err.response.data.message);
@@ -45,7 +46,7 @@ const useRoles = () => {
         }
     };
 
-    const updateRole = async (payload, setUpdate , id) => {
+    const updateRole = async (payload, id) => {
         try {
             if (id === 1) {
                 alertError("You can not edit this role");
@@ -53,7 +54,7 @@ const useRoles = () => {
             }
             await reqUpdateRole(payload, id);
             alertSuccess("Role updated successfully");
-            setUpdate(false);
+            dispatch(storeUpdateToggle(false));
             getRoles();
         } catch (err) {
             const errorMessage = err.response?.data?.message ?? err.message;
