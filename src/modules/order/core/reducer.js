@@ -2,10 +2,21 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   orderedFood: [],
+  paging : {},
+  orders : [],
+  viewOrder : [],
+  orderTableId : null,
+  addFoodToggle : false,
+  loading : true ,
+  params : {
+    page : 1,
+    size : 20,
+    query : '',
+  }
 };
 
-const foodCartSlice = createSlice({
-  name: 'orderedFood',
+const orders = createSlice({
+  name: 'orders',
   initialState,
   reducers: {
     storeOrderedFood: (state, action) => {
@@ -61,9 +72,29 @@ const foodCartSlice = createSlice({
     clearOrderedFood: (state) => {
       state.orderedFood = [];
     },
+    storeParams : (state , action) => {
+      state.params = {...state.params, ...action.payload}
+    },
+    storeOrders : (state , action) => {
+      state.orders = action.payload.data
+      state.paging = action.payload.paging
+    },
+    storeViewOrder : (state , action) => {
+      state.viewOrder = action.payload
+    },
+    storeOrderTableId : (state , action) => {
+      state.orderTableId = action.payload
+    },
+    storeAddFoodToggle : (state , action) => {
+      state.addFoodToggle = action.payload
+    },
+    setLoading : (state , action) => {
+      state.loading = action.payload
+    }
+
   },
 });
 
-export const { storeOrderedFood , clearOrderedFood , quantity ,tickedFood ,selection ,deleteFood } = foodCartSlice.actions;
-export default foodCartSlice.reducer;
+export const { storeOrderedFood ,storeViewOrder, clearOrderedFood , quantity ,tickedFood  ,selection ,deleteFood , storeOrderTableId , storeParams , storeOrders ,storeAddFoodToggle , setLoading  } = orders.actions;
+export default orders.reducer;
 

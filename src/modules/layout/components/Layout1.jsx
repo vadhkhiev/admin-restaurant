@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import Topnav from "./Topnav";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { storeorder } from "../../order/core/orderSlice";
+import { useDispatch} from "react-redux";
+
+
 import useRoles from "../../Role/core/action";
 const Layout1 = () => {
   const [open, setOpen] = useState(true);
@@ -13,17 +13,7 @@ const Layout1 = () => {
 
   useEffect(() => {
     getRoles()
-    
-
-    const totalOrder = async () => {
-       try {
-        const response = await axios.get(`/api/orders?page=1`);
-        dispatch(storeorder(response.data))
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    totalOrder();
+  
 
   }, []);
 

@@ -1,12 +1,14 @@
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import useTable from "../core/action";
+import { storeCreateToggle } from "../core/reducer";
+import { useDispatch } from "react-redux";
 
-const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
+const CreateTable = () => {
+  const {createTable} = useTable();
+  const dispatch = useDispatch();
   const [values, setValues] = useState({
-    id: "",
     name: "",
     status: [{}],
     seat_Capacity: "",
@@ -15,19 +17,11 @@ const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
     {value:"Booked"},
     {value:"Available"},
   ]
-  const token =
-    useSelector((state) => state.auth.token) || localStorage.getItem("token");
 
   const handleCreate = (e) => {
     e.preventDefault();
-    axios
-      .post("/api/tables", values)
-      .then((res) => {
-        console.log(res);
-        setRefresh(!refresh);
-        setCreate(false);
-      })
-      .catch((err) => console.log(err));
+    createTable( values );
+  
   };
   return (
     <>
@@ -38,7 +32,7 @@ const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
           left: 0,
           width: "100%",
           height: "100%",
-          backgroundColor: "rgba(62,64,87, 0.35)",
+          backgroundColor: "rgba(10,10,10, 0.35)",
           zIndex: 3,
         }}
         className="d-flex justify-content-center align-items-center"
@@ -47,37 +41,32 @@ const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
           className="p-3 border rounded"
           style={{ width: "30%", backdropFilter: "blur(10px)" }}
         >
+          <div className="d-flex mb-2">
           <IoCloseCircleOutline
             style={{ cursor: "pointer" }}
-            onClick={Create}
-            className="fs-3 text-danger mb-3 me-2"
+            onClick={()=>{dispatch(storeCreateToggle(false))}}
+            className="fs-3 text-danger  me-2"
           />{" "}
-          <br />
+            <h3 className="text-white ms-2 mt-2">Create Table</h3>
+          </div>
           <div className="">
-            <label className="fs-4 w-25 " htmlFor="">
-              Name:{" "}
-            </label>
             <input
-              className="ps-2 pe-5 py-2 border-0 rounded-3 w-75"
+              className="ps-2 pe-5 py-2 custom-border rounded-3 w-100 bg-transparent text-white"
               type="text"
               name="name"
               placeholder="Table Name"
               onChange={(e) => setValues({ ...values, name: e.target.value })}
             />
             <br /> <br />
-            <label className="fs-4 w-25 "  htmlFor="">Status:</label>
-            <select className="ps-2 pe-5 py-2 border-0 rounded-3 w-75" name="status" id="" onChange={(e) => setValues({ ...values, status: e.target.value })}>
+            <select className="ps-2 pe-5 py-2 text-white-50 custom-border rounded-3 w-100 form-select bg-transparent" name="status" id="" onChange={(e) => setValues({ ...values, status: e.target.value })}>
               <option value="">Choose Status</option>
               {options.map((option,index) => (
                 <option value={option.value} key={index}>{option.value}</option>
               ))}
             </select>
-            <br /> <br />
-            <label className="fs-4 w-25" htmlFor="">
-              SeatCapacity:{" "}
-            </label>
+            <br /> 
             <input
-              className="ps-2 pe-5 py-2 border-0 rounded-3 w-75"
+              className="ps-2 pe-5 py-2  custom-border rounded-3 w-100 bg-transparent text-white"
               type="text"
               name="seatCapacity"
               placeholder="SeatCapacity"
@@ -87,7 +76,7 @@ const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
             />
           </div>
           <div className="d-flex justify-content-center">
-            <button onClick={handleCreate} className="btn btn-primary w-25 mt-4 fw-bold">
+            <button onClick={handleCreate} className="btn custom-border custom-btn text-white w-25 mt-4 fw-bold">
               Create
             </button>
           </div>

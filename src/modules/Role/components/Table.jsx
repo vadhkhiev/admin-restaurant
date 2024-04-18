@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import TableRow from './TableRow'
 import { useSelector } from 'react-redux'
 
-const Table = ({setUpdate}) => {
+const Table = () => {
   const roles =  useSelector((state) => state.roles.roles);
   const {userPermission} = useSelector((state) => state.auth);
 
@@ -27,7 +27,7 @@ const Table = ({setUpdate}) => {
               </thead>
               <tbody>
                 {
-                   roles.length > 0 ?  roles?.map((role ,index)=> <TableRow index={index + 1}   setUpdate={setUpdate} key={role.id} role={role} />) : <tr><td colSpan={6} className='text-white text-center '>No Results.</td></tr>
+                   roles.length > 0 ?  roles?.map((role ,index)=> <TableRow index={index + 1} key={role.id} role={role} />) : <tr><td colSpan={6} className='text-white text-center '>No Results.</td></tr>
                 } 
               </tbody>
             </table>
