@@ -221,7 +221,7 @@ const AddFood = ({handleAddtionalFood}) => {
                             <h4 className='text-danger'> <sup>$</sup>{ (addFood?.reduce((acc, curr) => acc + (((curr.price * curr.quantity) * (1 - (curr.discount / 100)))), 0)).toFixed(2)}</h4>
                         </div>
                         <div>
-                            <button onClick={handleAddOrder}  style={{background: '#6c738f'}} className='btn w-100 text-white fw-bold' >Add Order</button>
+                            <button onClick={handleAddOrder}  className='btn custom-btn custom-border w-100 text-white fw-bold' >Add Order</button>
                         </div>
                     </section>
                 }

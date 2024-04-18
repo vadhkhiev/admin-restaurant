@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { MdOutlineCancel } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
 import useUsers from '../core/action';
@@ -33,9 +33,9 @@ const EditUser = ({ handleEdit, editUser }) => {
    
   }
 
-  const handlePassword = async () =>{
-   await changePassword(passwordChange ,editUser.id)
-   handleEdit(false)
+  const handlePassword =  () =>{
+    changePassword(passwordChange ,editUser.id)
+    dispatch(setEditToggle(false))
 }
   
 

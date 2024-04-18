@@ -54,7 +54,7 @@ const MakeOrder = () => {
         ))}
         </section>
       </div>
-      <div className={`mt-3 border-top pt-3 ${orderedFood?.length !== 0 ? 'col-12 col-lg-8 ' : 'col-12'}`}>
+      <div className={`mt-3 border-top border-dark pt-3 ${orderedFood?.length !== 0 ? 'col-12 col-lg-8 ' : 'col-12'}`}>
       {(selectedCategories ? 
           foodList?.filter((food) => 
             food.foodCategoryEntity?.name === selectedCategories
