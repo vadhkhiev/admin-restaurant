@@ -20,7 +20,7 @@ const FoodReports = () => {
 
   return (
     <>
-      <div className='mx-3 p-3 custom-border rounded-3'>
+      <div className='m-3 p-3 custom-border rounded-3'>
         {/* start of div */}
         <div style={{ height: '35px' }} className='d-flex justify-content-between mb-3'>
           <div>

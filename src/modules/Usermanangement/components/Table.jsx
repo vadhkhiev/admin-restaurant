@@ -1,8 +1,6 @@
 import React from 'react';
 import TableRow from './TableRow';
-import '../../../assets/css/tablecss.css';
 import { useSelector } from 'react-redux';
-
 const Table = ({ users, handleEdit }) => {
   const { userPermission } = useSelector((state) => state.auth);
   return (

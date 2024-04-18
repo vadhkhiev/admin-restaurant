@@ -19,7 +19,6 @@ const User = () => {
   const dispatch = useDispatch()
   const [editUser, setEditUser] = useState({});
 
-
   useEffect(() => {
     getUsers();
   }, [params]);

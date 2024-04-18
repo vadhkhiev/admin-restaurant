@@ -67,11 +67,11 @@ const Table = () => {
             <table className="table rounded table-borderless">
               <thead className="border-bottom border-dark">
                 <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">SeatCapacity</th>
-                  <th scope="col">Action</th>
+                  <th scope="col" className="text-white">ID</th>
+                  <th scope="col" className="text-white">Name</th>
+                  <th scope="col" className="text-white">Status</th>
+                  <th scope="col" className="text-white">SeatCapacity</th>
+                  <th scope="col" className="text-white">Action</th>
                 </tr>
               </thead>
               <tbody className="">

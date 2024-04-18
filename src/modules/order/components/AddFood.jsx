@@ -10,7 +10,7 @@ const AddFood = ({handleAddtionalFood}) => {
     const [listFood , setListFood] = useState(foodList)
     const {categories} = useSelector((state) => state.category)
     const {fetchCategories} = useCategories();
-    const [selectedCategories , setSelectedCategories] = useState('')
+    const [selectedCategories , setSelectedCategories] = useState('defualt')
     const [addFood , setAddFood] = useState([])
     const [selectAll , setSelectAll] = useState(false)
     const dispatch = useDispatch()
@@ -132,7 +132,7 @@ const AddFood = ({handleAddtionalFood}) => {
                 {
                     <div className='row'>
     {listFood.length === 0 ? (
-        <div className='text-danger text-center'>No food was found matching the selected category</div>
+        <div className='text-danger text-center'>No Result.</div>
     ) : (
       listFood?.map((food, index) => (
             <div key={index} className='col-md-12 col-lg-6 mb-3'>

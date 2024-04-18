@@ -62,10 +62,10 @@ const useUsers = () => {
                 alertError(error.response.data.message);
             })
         }
-        await reqUpdateUser(newPayload , id).then((response) => {
+        await reqUpdateUser(newPayload , id ).then((response) => {
             getUsers()
             alertSuccess(response.data.message);
-            handleEdit(false)
+            handleEdit()
         }).catch((error) => {
             alertError(error.response.data.message);
         })

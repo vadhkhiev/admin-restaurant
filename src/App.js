@@ -13,10 +13,10 @@ import Dashboard from "./modules/Dashboard/components/Dashboard";
 import MainOder from "./modules/order/components/MainOder";
 import MakeOrder from "./modules/order/components/MakeOrder";
 import ViewOrder from "./modules/order/components/ViewOrder";
-import Reports from "./modules/Reports/components/Reports";
 import FoodReports from "./modules/Reports/components/FoodReports";
-import SaleReports from "./modules/Reports/components/SaleReports";
+import SaleReports from "./modules/income/components/SaleReports";
 import OrderList from "./modules/order/components/OderList";
+import Main from "./modules/income/components/Main";
 
 function App() {
     const {isAuth , user , userPermission} = useSelector((state) => state.auth);
@@ -36,9 +36,9 @@ function App() {
                         <Route path="profile" element={<Profile/>}/>
                         <Route path="profile" element={<h1>Profile</h1>}/>
                         <Route path="foods" element={<Food/>}/>
-                        <Route path="reports" element={<Reports/>}>
+                        <Route path="foodreports" element={<FoodReports/>} />     
+                        <Route path="income" element={<Main/>}>
                             <Route index element={<SaleReports/>}/>
-                            <Route path="foods" element={<FoodReports/>}/>
                         </Route>
                         {/* administrator route */}
                         {((userPermission?.find((per) => per.name == "list-role")?.status ===
