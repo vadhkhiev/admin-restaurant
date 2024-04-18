@@ -1,28 +1,18 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import {  useSelector , useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { logout } from '../../auth/authSlice'
 import profileImg from '../../../assets/img/avatar.jpg'
-import { removeCurrentUser } from '../../Usermanangement/core/currentuserSlice'
-import { removeRoles } from '../core/roleSlice'
-import { removePermission } from '../../Role/core/permissionSlice'
+import { logout } from '../../auth/core/reducer'
+import { removeAuth } from '../../auth/authHelper'
+import useAuth from '../../auth/core/action'
+
 const Topnav = ({toggle}) => {
-    const dispatch = useDispatch()
-    const currentUser = useSelector((state) => state.currentUser.currentUser)
+    const currentUser = useSelector((state)=> state.auth?.user);
+    const dispatch = useDispatch();
 
-
-    const handleLogout = () =>{
-      dispatch(logout())
-      dispatch(removeCurrentUser())
-      dispatch(removeRoles())
-      dispatch(removePermission())
-      localStorage.removeItem('token')
-      
-    }
-    
   return (
     <>
-         <nav style={{background:'#6c738f '}} className="navbar navbar-expand ">
+         <nav style={{backgroundColor:'#090f0f',borderBottom:'1px solid rgba(252,253,255,0.2)' }} className="navbar navbar-expand rounded-3"  >
             <a onClick={toggle} className="sidebar-toggle js-sidebar-toggle">
                 <i className="hamburger align-self-center"></i>
             </a>
@@ -63,7 +53,10 @@ const Topnav = ({toggle}) => {
                         <div className="dropdown-menu dropdown-menu-end">
                             <Link className="dropdown-item" to='/profile'><i className="align-middle me-1" data-feather="user"></i> Profile</Link>
                             <Link to='/' className="dropdown-item" ><i className="align-middle me-1" data-feather="pie-chart"></i> Dashboard</Link>
-                            <p className="dropdown-item text-danger border-top mt-3" onClick={() => handleLogout()} >Log out</p>
+                            <a className="dropdown-item text-danger border-top mt-3" href="#" onClick={() => {
+                                removeAuth();
+                                dispatch(logout());
+                            }}>Log out</a>
                         </div>
                     </li>
                 </ul>

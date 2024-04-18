@@ -1,0 +1,109 @@
+import React, { useEffect, useState } from "react";
+import Table from "./Table";
+import EditUser from "./EditUser";
+import CreateUser from "./CreateUser";
+import useUsers from "../core/action";
+import { useSelector } from "react-redux";
+import SearchBar from "../../utils/components/SearchBar";
+import Pagination from "../../utils/components/Pagination";
+import Sortby from "../../utils/components/Sortby";
+import Reset from "../../utils/components/Reset";
+
+const User = () => {
+  const { users , params } = useSelector((state) => state.users);
+  const pagingdetails = useSelector((state) =>state.users.paging)
+  const {userPermission} = useSelector((state) => state.auth);
+  const { getUsers , handleFilter } = useUsers();
+  const [edit, setEdit] = useState(false);
+  const [editUser, setEditUser] = useState({});
+  const [create, setCreate] = useState(false);
+
+  useEffect(() => {
+    getUsers()
+  }, [params]);
+
+
+  const handleEdit = (editid) => {
+    if (editid === 1) {
+      return
+    } else {
+      setEdit(!edit);
+      setEditUser(users.find((user) => user.id === editid));
+    }
+  };
+  const handleCreate = () => {
+    setCreate(true);
+  };
+
+
+  return (
+    <>
+      {/* Modal */}
+
+      {edit && (
+        <>
+          <EditUser
+            handleEdit={handleEdit}
+            editUser={editUser}
+            setEdit={setEdit}
+            edit={edit}
+          />
+        </>
+      )}
+      {create && (
+        <>
+          <CreateUser
+            setCreate={setCreate}
+          />
+        </>
+      )}
+
+      {/* End of Modal */}
+
+      <div className='m-3 custom-border p-3 rounded-3'>
+          <h2 className="text-white fw-bold">Member list</h2>
+          <p className="text-white-50">Here are the list of Members</p>
+          <div >
+            <div className="d-flex justify-content-between">
+              <div className="w-50 d-flex">
+                <SearchBar  params={params} handleFilter={handleFilter} />
+                  <Sortby params={params} options={["name", "email" , "salary" , "phone"]} handleFilter={handleFilter} />
+                  <Reset params={params} handleFilter={handleFilter} />
+              </div>
+              <div className="w-50 d-flex justify-content-end">
+              {userPermission?.find((per) => per.name == "create-user")
+                  ?.status === 1 && (
+                  <>
+                    <button
+                      onClick={handleCreate}
+                      className="btn text-white custom-btn custom-border "
+                    >
+                      Add
+                    </button>
+                  </>
+                )}
+              </div>
+              </div>
+             
+
+            </div>
+              <div className="mt-3">
+                <Table
+                  handleEdit={handleEdit}
+                  users={users}
+                />{" "}
+                
+              </div>
+            
+
+            {/* pagination */}
+            <Pagination params={params} pagingdetails={pagingdetails} handleFilter={handleFilter} />
+
+          </div>
+        
+
+    </>
+  );
+};
+
+export default User;

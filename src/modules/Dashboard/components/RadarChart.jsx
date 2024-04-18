@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Radar } from 'react-chartjs-2';
-import { useSelector } from 'react-redux';
+
 
 const RadarChart = () => {
 
@@ -9,7 +9,6 @@ const RadarChart = () => {
     const [selectedMonth, setSelectedMonth] = useState('');
     const [defaultValue, setDefaultValue] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
     const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     useEffect(() => {
@@ -22,11 +21,7 @@ const RadarChart = () => {
                 const defaultDate = `${year}-${month}`;
                 const reqDate = `${year}:${month}`;
                 setDefaultValue(defaultDate);
-                const result = await axios.get(`/report/food?foodTop5=top&month=${selectedMonth ? selectedMonth : reqDate}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
+                const result = await axios.get(`/report/food?foodTop5=top&month=${selectedMonth ? selectedMonth : reqDate}`);
                 setFood(result.data.data);
                 console.log(result.data.data);
                 setIsLoading(false);
@@ -36,7 +31,7 @@ const RadarChart = () => {
             }
         };
         fetchData();
-    }, [selectedMonth, token]);
+    }, [selectedMonth]);
 
     const data = {
         labels: food?.map((food) => food?.food?.name),

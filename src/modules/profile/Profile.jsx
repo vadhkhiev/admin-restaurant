@@ -2,59 +2,45 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux';
-import "./Profile.css";
+import './css/Profile.css';
 import Editprofile from './components/Editprofile';
-
-
+import profileImg from '../../assets/img/avatar.jpg'
+import { IoMdMail } from "react-icons/io";
+import { IoMdMale } from "react-icons/io";
+import { IoMdFemale } from "react-icons/io";
+import { FaCalendarAlt } from "react-icons/fa";
+import { PiIdentificationCardFill } from "react-icons/pi";
+import { FaPhone, FaSackDollar } from "react-icons/fa6";
+import useCurrentUser from './core/action';
 const Profile = () => {
-    const [profile, SetProfile] = useState({});
+    const {getCurrentUser} = useCurrentUser(); 
     const [popupedit , setPopupedit] = useState(false)
-    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token');
-    const [ refetch , setRefetch] = useState(false)
+    const profile = useSelector((state) => state.currentUser.currentUser);
     
   useEffect(() => {  
-    fetch('/api/user/profile', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then(response => { return response.json()})
-    .then(data => {
-      console.log(data.data)
-      SetProfile(data.data)
-    }
+    getCurrentUser();
+  }, []);
 
-    )
-    .catch(error => console.error('Error:', error));
-  }, [refetch]); 
 
   return (
-    <div className='container emp-profile'>
+    <div >
+      <h3 className='ms-4 mt-3 fw-bold' style={{color:'#45495c'}}>User Profile</h3>
       {
-        popupedit ? <Editprofile setRefetch={setRefetch} refetch={refetch} setPopupedit={setPopupedit} profile={profile}/> : null 
+        popupedit ? <Editprofile  setPopupedit={setPopupedit} profile={profile}/> : null 
       }
-      <form method="">
+      <form style={{boxShadow: "rgba(0, 0, 0, 0.35) 2px 2px 2px"}} className='container custom-border rounded-3 pb-4 mt-5 p-2 emp-profile'>
         <div className='row'>
           < div className="col-md-4">
-            <img className="image border"src={profile?.avatar} alt=""/>
+            <img className="imagezz border"src={profile?.avatar?.length > 50 ? profile?.avatar : profileImg} alt=""/>
           </div>
           <div className='col-md-6 mt-5'>
             <div className='profile-head'>
               <h1 className='profile-head'><b>{profile?.name}</b></h1>
               <h3>{profile?.username}</h3>
-              <h3>{profile?.phone}</h3><br/>
-
-              <ul className="nav nav-tabs" role='tablist'>
-              <li className="nav-item">
-                <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role='tab'>About</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role='tab'>Timeline</a>
-              </li>
-              </ul>
               <div className='mt-3 about-info'>
                 <div className="row">
                   <div className="col-md-6">
+                   <IoMdMail className='fs-3 me-2'/>
                     <label>Email</label>
                   </div>
                   <div className="col-md-6">
@@ -63,6 +49,7 @@ const Profile = () => {
                 </div>
                 <div className="row">
                   <div className="col-md-6">
+                    {profile?.gender === "Male" ? <IoMdMale className='fs-3 me-2'/> : <IoMdFemale className='fs-3 me-2'/>}
                     <label>Gender</label>
                   </div>
                   <div className="col-md-6">
@@ -71,14 +58,26 @@ const Profile = () => {
                 </div>
                 <div className="row">
                   <div className="col-md-6">
-                    <label>HireDate</label>
+                    <FaPhone className='fs-4 me-2'/>
+                    <label>Phone</label>
                   </div>
                   <div className="col-md-6">
-                    <p>{profile?.hireDate}</p>
+                    <p>{profile?.phone}</p>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-md-6">
+                  <FaCalendarAlt className='fs-4 me-2'/>
+                    <label>Hire Date</label>
+                  </div>
+                  <div className="col-md-6">
+                    
+                    <p>{(profile?.hireDate?.slice(0,10))}</p> 
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <PiIdentificationCardFill className='fs-3 me-2'/>  
                     <label>ID</label>
                   </div>
                   <div className="col-md-6">
@@ -87,18 +86,11 @@ const Profile = () => {
                 </div>
                 <div className="row">
                   <div className="col-md-6">
+                    <FaSackDollar className='fs-4 me-2'/>
                     <label>Salary</label>
                   </div>
                   <div className="col-md-6">
-                    <p>{profile?.salary}</p>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <label>Status</label>
-                  </div>
-                  <div className="col-md-6">
-                    <p>{profile?.status}</p>
+                    <p>${profile?.salary}</p>
                   </div>
                 </div>
               </div>

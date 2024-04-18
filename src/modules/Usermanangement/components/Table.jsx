@@ -1,42 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TableRow from './TableRow';
-import '../../../assets/css/tablecss.css'; 
+import '../../../assets/css/tablecss.css';
 import { useSelector } from 'react-redux';
 
-const Table = ({ users, handleDelete ,handleEdit }) => {
-  const permission = useSelector((state) => state.permission?.permission?.data?.permissions); 
-  console.log(users)
+const Table = ({ users, handleEdit }) => {
+  const { userPermission } = useSelector((state) => state.auth);
   return (
     <>
-      {users?.length > 0 ? (
-        <>
-          <div className="table-container">
-            <table style={{color:'#464d69'}} className="table bg-white fw-bold">
-              <thead >
+          <div className=" custom-border rounded-3" style={{overflowX:'scroll'}}>
+            <table style={{color:'white',background:'#09090b'}} className="table table-borderless ">
+              <thead className='border-bottom border-dark'>
                 <tr>
-                  <th scope="col">Profile</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Phone Number</th>
-                  <th scope='col'>Salary</th>
-                  <th scope="col">Status</th>
-                  <th scope='col'>Roles</th>
-                  {
-                    ((permission?.find((per) => per.name == 'edit-user'))?.status === 1 || (permission?.find((per) => per.name == 'delete-user'))?.status === 1) &&<th scope='col'>Actions</th>
-                  }
+                  <th scope="col" className='text-white'>Profile</th>
+                  <th scope="col" className='text-white'>Name</th>
+                  <th scope="col" className='text-white'>Email</th>
+                  <th scope="col" className='text-white'>Phone Number</th>
+                  <th scope='col' className='text-white'>Salary</th>
+                  <th scope="col" className='text-white'>Status</th>
+                  <th scope='col' className='text-white'>Roles</th>
+                  {((userPermission?.find((per) => per.name === 'edit-user'))?.status === 1 || (userPermission?.find((per) => per.name === 'delete-user'))?.status === 1) && <th scope='col' className='text-white'>Actions</th>}
                 </tr>
               </thead>
-              <tbody>
-                {users.map((user, index) => (
-                  <TableRow handleEdit={handleEdit} handleDelete={handleDelete} key={user.id} index={index + 1} user={user} />
-                ))}
+              <tbody className='overflow-hidden'>
+                {users.length > 0 ? 
+                  users.map((user, index) => (
+                    <TableRow handleEdit={handleEdit} key={user.id} index={index + 1} user={user} />
+                  )) : 
+                  <tr><td colSpan={8} className='text-white text-center '>No Results.</td></tr>
+                }
               </tbody>
             </table>
           </div>
-        </>
-      ) : (
-        <p className='text-center text-danger'>No users found</p>
-      )}
     </>
   );
 };

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { Chart as ChartJS } from 'chart.js/auto';
 
 const getRandomColor = () => {
     const letters = '0123456789ABCDEF';
@@ -14,7 +13,6 @@ const getRandomColor = () => {
 };
 
 const PieCharts = () => {
-    const token = useSelector((state) => state.auth.token) || localStorage.getItem('token'); 
     const [data , setData ] = useState([]);
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; 
@@ -26,20 +24,11 @@ const PieCharts = () => {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`/report/income?paymentStatus=Bank&month=${selectedMonth.substring(0, 4)}:${selectedMonth.substring(5, 7)}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
+                const response = await axios.get(`/report/income?paymentStatus=Bank&month=${selectedMonth.substring(0, 4)}:${selectedMonth.substring(5, 7)}`);
 
-                const response2 = await axios.get(`/report/income?paymentStatus=Cash&month=${selectedMonth.substring(0, 4)}:${selectedMonth.substring(5, 7)}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
+                const response2 = await axios.get(`/report/income?paymentStatus=Cash&month=${selectedMonth.substring(0, 4)}:${selectedMonth.substring(5, 7)}`);
                 const bankPrice = (response.data.data[0]?.totalPrice)?.toFixed(2);
                 const cashPrice = (response2.data.data[0]?.totalPrice)?.toFixed(2);
-                console.log(response.data);
 
                 setData([ parseFloat(cashPrice) ,parseFloat(bankPrice) ]); 
             } catch (error) {
@@ -56,6 +45,17 @@ const PieCharts = () => {
             backgroundColor: [getRandomColor(), getRandomColor()]
         }]
     };
+    const options = {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true
+              }
+            }
+          ]
+        }
+      };
 
 
     return (
@@ -72,7 +72,7 @@ const PieCharts = () => {
               />
            </div>
            <p className='text-end text-success mt-3 fs-3 fw-bold'> <sup>$</sup> {(data[0] + data[1])? (data[0] + data[1])?.toFixed(2): 0 }</p>
-            <Pie data={income} />
+            <Pie data={income} options={options} />
             <div className='mt-3'>
                 <ul>
                     <li className='fw-bold list-unstyled mb-1'>Cash : <sup>$</sup><span className='fw-bold'>{data[0]}</span></li>

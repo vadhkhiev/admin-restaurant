@@ -21,12 +21,7 @@ const CreateTable = ({ Create, refresh, setRefresh, setCreate}) => {
   const handleCreate = (e) => {
     e.preventDefault();
     axios
-      .post("/api/tables", values, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .post("/api/tables", values)
       .then((res) => {
         console.log(res);
         setRefresh(!refresh);
