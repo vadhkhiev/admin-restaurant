@@ -3,8 +3,10 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import CreateTable from "./components/CreateTable";
 import UpdateTable from "./components/UpdateTable";
+import useTable from "./core/action";
 
 const Table = () => {
+  const {getTableList} = useTable();
   const [tableList, setTableList] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [paging, setPaging] = useState({});
@@ -31,7 +33,9 @@ const Table = () => {
       window.scrollTo(0, 0);
     }
   };
-
+  useEffect(() => {
+    getTableList()
+  },[])
   const handlePagePrev = () => {
     if (page === 1) {
       setPage(page);
@@ -221,16 +225,20 @@ const Table = () => {
                     </tbody>
                   </table>
                 </div>
-                <div className="d-flex justify-content-center text-primary">
-                  <span className="page-item fs-2 " onClick={handlePagePrev}>
-                    &laquo;
-                  </span>
+                <div className="d-flex justify-content-center text-primary pb-3">
+                  <a>
+                    <span className="page-item fs-2 " onClick={handlePagePrev}>
+                      &laquo;
+                    </span>
+                  </a>
                   <span className="mt-2 mx-4" style={{ fontSize: "18px" }}>
                     {page}/{paging.totalPage}
                   </span>
-                  <span className="page-item fs-2" onClick={handlePageNext}>
-                    &raquo;
-                  </span>
+                  <a>
+                    <span className="page-item fs-2" onClick={handlePageNext}>
+                      &raquo;
+                    </span>
+                  </a>
                 </div>
               </>
             ) : (

@@ -25,7 +25,6 @@ const SaleReports = () => {
         window.scrollTo(0, 0);
       }
     };
-
     const handlePagePrev = () => {
       if (page === 1) {
         setPage(page);
