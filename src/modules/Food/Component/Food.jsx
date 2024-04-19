@@ -46,6 +46,7 @@ function FoodParent() {
   useEffect(() => {
     fetchCategories();
     fetchList();
+
     setOptionForSelect(categoriesOptions());
   }, []);
 
