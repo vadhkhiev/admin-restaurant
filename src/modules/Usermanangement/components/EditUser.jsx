@@ -79,10 +79,9 @@ const EditUser = ({ handleEdit, editUser }) => {
 
               <div  className='d-flex my-3 justify-content-between'> 
                <div className='w-100  '>
-                <input style={{background:'#09090b'}} onChange={(e) => setFileInput(e.target.files[0])} className="form-control  rounded-3 custom-border text-white"  type="file"/>
+                <input style={{background:'#09090b'}} onChange={(e) => setFileInput(e.target.files[0])} className="p-1 w-100  rounded-3 custom-border text-white"  type="file"/>
                </div>
               </div>
-
               {/* name */}
               <div className="" style={{ color: "#495057" }}>
                 <p className="fs-5 text-dark  ">
