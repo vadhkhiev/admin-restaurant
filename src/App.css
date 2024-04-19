@@ -282,3 +282,14 @@ input[type="number"] {
   color: white; /* Set the text color of the selected option */
 }
 
+.forget-password{
+  margin-left: 9px;
+}
+
+.imagezz{
+  width: 220px;
+  height: 220px;
+  border-radius: 80%;
+  margin: 5vh 2vh 2vh 5vh;
+}
+

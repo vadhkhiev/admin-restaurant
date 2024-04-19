@@ -40,8 +40,6 @@ const User = () => {
         </div>
       ) : (
         <>
-          {/* Modal */}
-
           {editToggle && (
             <>
               <EditUser
@@ -55,9 +53,6 @@ const User = () => {
               <CreateUser/>
             </>
           )}
-
-          {/* End of Modal */}
-
           <div className='m-3 custom-border p-3 rounded-3'>
             <h2 className="text-white fw-bold">Member list</h2>
             <p className="text-white-50">Here is the list of Members</p>

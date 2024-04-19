@@ -2,16 +2,15 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux';
-import './css/Profile.css';
-import Editprofile from './components/Editprofile';
-import profileImg from '../../assets/img/avatar.jpg'
+import Editprofile from './Editprofile';
+import profileImg from '../../../assets/img/avatar.jpg'
 import { IoMdMail } from "react-icons/io";
 import { IoMdMale } from "react-icons/io";
 import { IoMdFemale } from "react-icons/io";
 import { FaCalendarAlt } from "react-icons/fa";
 import { PiIdentificationCardFill } from "react-icons/pi";
 import { FaPhone, FaSackDollar } from "react-icons/fa6";
-import useCurrentUser from './core/action';
+import useCurrentUser from '../core/action';
 const Profile = () => {
     const {getCurrentUser} = useCurrentUser(); 
     const [popupedit , setPopupedit] = useState(false)
@@ -24,11 +23,11 @@ const Profile = () => {
 
   return (
     <div >
-      <h3 className='ms-4 mt-3 fw-bold' style={{color:'#45495c'}}>User Profile</h3>
+      <h3 className='ms-3 mt-3 fw-bold text-white' >User Profile</h3>
       {
         popupedit ? <Editprofile  setPopupedit={setPopupedit} profile={profile}/> : null 
       }
-      <form style={{boxShadow: "rgba(0, 0, 0, 0.35) 2px 2px 2px"}} className='container custom-border rounded-3 pb-4 mt-5 p-2 emp-profile'>
+      <form className='mx-3 custom-border rounded-3 pb-4 mt-3 p-2 emp-profile'>
         <div className='row'>
           < div className="col-md-4">
             <img className="imagezz border"src={profile?.avatar?.length > 50 ? profile?.avatar : profileImg} alt=""/>
@@ -97,12 +96,12 @@ const Profile = () => {
             </div>
           </div>
           <div className='col-md-2 mt-5'> 
-            <button className='btn text-white'
+            <button className='btn text-white custom-btn custom-border'
             onClick={(e)=>{
               e.preventDefault();
               setPopupedit(true)
             }}
-             style={{background:'#6c738f'}}>Edit Profile</button>
+             >Edit Profile</button>
           </div> 
        </div>
       </form>
