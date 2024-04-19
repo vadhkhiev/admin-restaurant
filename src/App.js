@@ -7,7 +7,7 @@ import User from "./modules/Usermanangement/components/User";
 import Food from "./modules/Food/Component/Food";
 import Role from "./modules/Role/components/Role";
 import Access from "./modules/Role/components/Access";
-import Profile from "./modules/profile/Profile";
+import Profile from "./modules/profile/components/Profile";
 import Table from "./modules/table/components/Table";
 import Dashboard from "./modules/Dashboard/components/Dashboard";
 import MainOder from "./modules/order/components/MainOder";

@@ -40,7 +40,7 @@ function OrderList() {
             </div>
           </section>
 
-          <div className="m-3 rounded-3 custom-border p-3">
+          <div className="m-3 rounded-3 custom-border">
 
             <table className=" table bg-transparent table-borderless  ">
               <thead>

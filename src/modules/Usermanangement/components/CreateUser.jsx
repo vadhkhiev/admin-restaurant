@@ -96,7 +96,7 @@ const CreateUser = () => {
                             handleInputChange("email", e.target.value)
                           }
                           type="text"
-                          className="form-control p-2 rounded-3 custom-border"
+                          className="text-white w-100 p-2 rounded-3 custom-border"
                           placeholder="Email"
                           required
                         />
@@ -113,7 +113,7 @@ const CreateUser = () => {
                               parseInt(e.target.value)
                             )
                           }
-                          className="form-select form-select-md p-2 custom-border"
+                          className="text-white p-2 rounded-3 custom-border w-100"
                           style={{ background:'#09090b' , color: 'rgb(50, 50, 50)' }}
 
                         >
@@ -133,8 +133,9 @@ const CreateUser = () => {
                           onChange={(e) =>
                             handleInputChange("gender", e.target.value)
                           }
-                          className="form-select form-select-md p-2 custom-border"
+                          className="w-100 text-white rounded-3 p-2 custom-border"
                         >
+                          <option selected hidden>Gender</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                         </select>

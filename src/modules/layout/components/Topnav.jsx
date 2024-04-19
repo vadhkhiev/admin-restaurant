@@ -17,8 +17,8 @@ const Topnav = ({toggle}) => {
                 <i className="hamburger align-self-center"></i>
             </a>
 
-            <div className="navbar-collapse collapse">
-                <ul className="navbar-nav navbar-align">
+            <div className="navbar-collapse collapse" >
+                <ul style={{background:"#09090b"}} className="navbar-nav navbar-align">
                     <li className="nav-item d-flex align-items-center">
                        <span className='fs-4 fs-normal' style={{color:"#fcfdff"}}>{currentUser?.name}</span>
                     </li> 

@@ -27,12 +27,6 @@ const sidebarlink = [
         icon : <BsBox2/>
 
     },{
-        Id : 5,
-        title : 'Profile',
-        link : '/profile',
-        icon : <RxPerson/>
-
-    },{
         Id : 6,
         title : 'Foods',
         link : '/foods',

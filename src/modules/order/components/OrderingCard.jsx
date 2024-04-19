@@ -3,19 +3,15 @@ import foodimg from "../../../assets/img/dummy.png";
 import { useDispatch } from "react-redux";
 import { storeOrderedFood } from "../core/reducer";
 const OrderingCard = ({ food }) => {
-  const css = {
-    boxShadow: "rgba(0, 0, 0, 0.15) 1.4px 1.4px 2.2px",
-    border: "1px solid #c0c8ff",
-    height: "80px",
-  };
+
   const dispatch = useDispatch();
 
   return (
     <>
       <div className=" col-sm-12 col-md-6 mb-3">
         <div
-          className="position-relative rounded-3 overflow-hidden d-flex"
-          style={css}
+          className="position-relative rounded-3 overflow-hidden d-flex custom-border" 
+          style={{height: "80px"}}
         >
           <div className="w-25 overflow-hidden">
             <img width={"120px"} src={food?.foodImageEntities[0]?.url || foodimg} alt="Food" />
