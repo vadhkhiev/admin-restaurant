@@ -1,11 +1,11 @@
 import { reqFoodReports } from "./request"
-import { useSelector , useDispatch } from 'react-redux'
-import { storeParams, storefoodReports ,storePaging, setLoading } from "./reducer"
+import { useSelector, useDispatch } from 'react-redux'
+import { storeParams, storefoodReports, storePaging, setLoading } from "./reducer"
 import { useEffect } from "react";
 
 
 const useReports = () => {
-    const { params } = useSelector(state => state.foodReports); 
+    const { params } = useSelector(state => state.foodReports);
     const dispatch = useDispatch();
 
 
@@ -23,11 +23,6 @@ const useReports = () => {
             console.log(error);
         }
     };
-
-
-    useEffect(() => {
-        fetchFoodReports();
-    }, [params]);
 
     return { fetchFoodReports, handleFilter };
 };

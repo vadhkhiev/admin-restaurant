@@ -54,8 +54,8 @@ const Createrole = ({ setAdd, action }) => {
         <div className='p-3 border rounded' style={{ width: "30%", backdropFilter: "blur(10px)" }}>
           <IoCloseCircleOutline style={{ cursor: 'pointer' }} onClick={() => dispatch(action === 'update' ? storeUpdateToggle(false) : storeCreateToggle(false))} className='fs-3 text-danger mb-3 me-2' />
           <span className='fs-4 text-white mb-3'>{action === 'update' ? 'Update role' : 'Create role'}</span>
-          <input onChange={(e) => setRoleinfo({ ...roleinfo, name: e.target.value })} value={roleinfo.name} className='form-control my-3 bg-transparent' placeholder='Enter Role' type="text" />
-          <input onChange={(e) => setRoleinfo({ ...roleinfo, code: e.target.value })} value={roleinfo.code} className='form-control bg-transparent' placeholder='Enter Code' type="text" />
+          <input onChange={(e) => setRoleinfo({ ...roleinfo, name: e.target.value })} value={roleinfo.name} className='w-100 custom-border p-2 text-white rounded-3 my-3 bg-transparent' placeholder='Enter Role' type="text" />
+          <input onChange={(e) => setRoleinfo({ ...roleinfo, code: e.target.value })} value={roleinfo.code} className='w-100 custom-border p-2 text-white rounded-3 bg-transparent' placeholder='Enter Code' type="text" />
           <button onClick={action === 'update' ? handleUpdate : handleCreate}  className='btn custom-btn w-100 text-white custom-border mt-3'>{action === 'update' ? 'Update' : 'Submit'}</button>
         </div>
       </div>
