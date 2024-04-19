@@ -14,7 +14,7 @@ const SearchBar = ({ params, handleFilter }) => {
         style={{ width: '210px', background:'#09090b', color: 'white' }}
         type="text"
         value={params.query}
-        className="form-control rounded custom-border"
+        className=" rounded custom-border ps-2"
         placeholder="Search"
   
       />

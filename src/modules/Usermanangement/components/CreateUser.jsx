@@ -135,6 +135,7 @@ const CreateUser = () => {
                           }
                           className="w-100 text-white rounded-3 p-2 custom-border"
                         >
+                          <option selected hidden>Gender</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                         </select>
