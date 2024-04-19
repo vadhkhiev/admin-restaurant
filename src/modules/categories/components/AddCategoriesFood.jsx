@@ -1,38 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addCategories } from "../../Food/Core/addCategories";
-import getFoodCategories from "../../Food/Core/getFoodCategories";
-import {
-  storeCategories,
-  storeToggleAction,
-} from "../../Food/Core/allCategoriesSlice";
+import { useCategories } from "../core/action";
 
 export default function AddCategoriesFood() {
   //initial state
   const initCategories = {
     name: "",
   };
-  const dispatch = useDispatch();
+  const { fetchCategories, createCategories } = useCategories();
 
   //states
   const [newCategories, setNewCategories] = useState(initCategories);
   const pattern = /^(?=.*[A-Za-z\s])[A-Za-z\s]{4,}$/;
   const [validInput, setValidInput] = useState(false);
-  const token =
-    useSelector((state) => state.auth.token) || localStorage.getItem("token");
 
-  const handleSubmit = async () => {
-    refetchCategories();
-    addCategories(newCategories, token);
-    dispatch(storeToggleAction(false));
-    refetchCategories();
-  };
-
-  const refetchCategories = async () => {
-    try {
-      const result = await getFoodCategories(token);
-      dispatch(storeCategories(result.data));
-    } catch (error) {}
+  const handleSubmit = () => {
+    createCategories(newCategories);
+    fetchCategories();
   };
 
   return (
@@ -45,12 +29,8 @@ export default function AddCategoriesFood() {
           className="form-control"
           placeholder="New Categories"
           onChange={(e) => {
-            setNewCategories({ ...newCategories, name: e.target.value });
-            if (pattern.test(e.target.value) === true) {
-              setValidInput(true);
-            } else {
-              setValidInput(false);
-            }
+            setNewCategories({ name: e.target.value });
+            setValidInput(pattern.test(e.target.value));
           }}
         />
         <div className="mt-1">
@@ -59,7 +39,12 @@ export default function AddCategoriesFood() {
           <p className="m-0">• Enter a valid name.</p>
         </div>
         {validInput ? (
-          <button className=" mt-1 btn btn-primary" onClick={handleSubmit}>
+          <button
+            className=" mt-1 btn btn-primary"
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
             Submit form
           </button>
         ) : (

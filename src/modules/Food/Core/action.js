@@ -7,12 +7,22 @@ import {
   reqDeleteFood,
   reqGetFoodByName,
   reqGetFoodByCategory,
+  reqUploadImage,
 } from "./request";
 import { alertError, alertSuccess } from "../../utils/alert";
 
 const useFoods = () => {
   const dispatch = useDispatch();
 
+  const uploadImage = (payload) => {
+    reqUploadImage(payload)
+      .then(() => {
+        console.log("Success");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const fetchList = async () => {
     try {
       const result = await reqGetFoods();
