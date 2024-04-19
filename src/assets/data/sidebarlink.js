@@ -1,7 +1,6 @@
 import { FaChartLine } from "react-icons/fa";
-import { TfiWrite } from "react-icons/tfi";
 import { BiCategory } from "react-icons/bi";
-import { FiTag } from "react-icons/fi";
+import { TbReportMoney } from "react-icons/tb";
 import { BsPersonGear } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
 import { HiOutlineDocumentReport } from "react-icons/hi";
@@ -41,10 +40,15 @@ const sidebarlink = [
         
     },{
         Id : 3,
-        title : 'Reports',
-        link : '/reports',
+        title : 'Food Reports',
+        link : '/foodreports',
         icon : <HiOutlineDocumentReport/>
-    },
+    },{
+        id : 7,
+        title : 'Income',
+        link : '/income',
+        icon : <TbReportMoney/>
+    }
 ];
 
 const administrator = [

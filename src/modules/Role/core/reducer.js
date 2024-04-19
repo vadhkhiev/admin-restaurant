@@ -1,24 +1,56 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  id: null,
-  page : 1,
-
+  roles: [],
+  paging : {},
+  createToggle : false,
+  updateToggle : false , 
+  id : null
+  ,
+  params : {
+    page : 1,
+    size : 20,
+    query : '',
+  },
 };
 
-const idSlice = createSlice({
-  name: 'id',
+const roleSlice = createSlice({
+  name: 'roles',
   initialState,
   reducers: {
-    storeId: (state, action) => {
-      state.id = action.payload;
+    storeRoles: (state, action) => {
+      state.roles = action.payload.data;
+      state.paging = action.payload.paging;
     },
-    storePage: (state, action) => {
-      state.page = action.payload;
+    removeRoles: (state) => {
+      state.roles = [];
+      state.paging = {};
     },
-
+    storeParams: (state, action) => {
+      state.params = {...state.params, ...action.payload};
+    },
+    storeId : (state, action) => {
+      state.id = action.payload
+    },
+    storeRolePermissions : (state, action) => {
+      state.rolePermissions = action.payload.data.permissions
+    },
+    storeUpdateToggle : (state, action) => {
+      state.updateToggle = action.payload
+    },
+    storeCreateToggle : (state, action) => {
+      state.createToggle = action.payload
+    }
   },
 });
 
-export const { storeId  } = idSlice.actions;
-export default idSlice.reducer;
+export const { 
+  storeRoles ,
+  removeRoles ,
+  storeParams ,
+  storeId ,
+  storeRolePermissions ,
+   storeUpdateToggle ,
+   storeCreateToggle,
+   } = roleSlice.actions;
+export default roleSlice.reducer;
