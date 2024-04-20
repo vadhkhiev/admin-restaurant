@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select";
 import { useFoods } from "../Core/action";
 import { useCategories } from "../../categories/core/action";
 import { SlCloudUpload } from "react-icons/sl";
@@ -10,7 +11,6 @@ import EditFoodForm from "./EditFoodForm";
 import LoadingFoodCard from "./LoadingFoodCard";
 import ActionCategories from "../../categories/components/ActionCategories";
 import ViewFoodCard from "./ViewFoodCard";
-import Select from "react-select";
 import AddCategoriesFood from "../../categories/components/AddCategoriesFood";
 import EditCategoriesFood from "../../categories/components/EditCategoriesFood";
 import DeleteCategoriesFood from "../../categories/components/DeleteCategoriesFood";
