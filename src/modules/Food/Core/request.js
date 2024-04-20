@@ -17,11 +17,17 @@ const reqUpdateFood = async (id, payload) => {
 };
 
 const reqGetFoodByName = async (name) => {
-  return await axios.get(`api/food?query=${name}`);
+  return await axios.get(`api/foods?query=${name}`);
 };
 
 const reqGetFoodByCategory = async (payload) => {
-  return await axios.get(`api/foods/list?nameType=${payload}`);
+  return await axios.get(
+    `api/foods/list?nameType=${payload}&filters=categories`
+  );
+};
+
+const reqUploadImage = async (payload) => {
+  return await axios.put(`api/food/images`, payload);
 };
 
 export {
@@ -31,4 +37,5 @@ export {
   reqDeleteFood,
   reqUpdateFood,
   reqGetFoodByCategory,
+  reqUploadImage,
 };

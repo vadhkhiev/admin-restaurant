@@ -1,42 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCategories } from "../../core/deleteCategories";
-import getFoodCategories from "../../core/getFoodCategories";
-import {
-  storeCategories,
-  storeToggleAction,
-} from "../../core/allCategoriesSlice";
-import { editCategory } from "../../core/editCategory";
+import { useCategories } from "../core/action";
+import { storeToggleEditCategory } from "../core/slice";
 
 export default function EditCategoriesFood() {
-  const listCategories = useSelector(
-    (state) => state.allCategory.listCategories
-  );
-  const initNewCategory = { name: "" };
-  const [categoryNames, setCategoryNames] = useState([]);
   const dispatch = useDispatch();
-  const [selectedId, setSelectedId] = useState();
-  const [selectedCategories, setSelectedCategories] = useState();
-  const [newCategory, setNewCategories] = useState(initNewCategory);
-  const token =
-    useSelector((state) => state.auth.token) || localStorage.getItem("token");
-
-  const refetchCategories = async () => {
-    try {
-      const result = await getFoodCategories(token);
-      dispatch(storeCategories(result.data));
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    const getCategoryNames = () => {
-      const names = listCategories.map((category) => category.name);
-      setCategoryNames(names);
-    };
-    refetchCategories();
-    getCategoryNames();
-  }, [listCategories]);
-
+  const [ID, setID] = useState(null);
+  const [payload, setPayload] = useState({ name: "" });
+  const { updateCategory, fetchCategories } = useCategories();
+  const { categories } = useSelector((state) => state.category);
   return (
     <div>
       <div className="form-group">
@@ -48,10 +20,9 @@ export default function EditCategoriesFood() {
           id="inputState"
           className="form-control"
           onChange={(e) => {
-            setSelectedCategories(e.target.value);
-            listCategories.forEach(({ name, id }) => {
+            categories.forEach(({ name, id }) => {
               if (name === e.target.value) {
-                setSelectedId(id);
+                setID(id);
               }
             });
           }}
@@ -59,7 +30,7 @@ export default function EditCategoriesFood() {
           <option value="" disabled selected hidden>
             Choose...
           </option>
-          {categoryNames.map((name) => (
+          {categories.map(({ name }) => (
             <option value={name} key={name}>
               {name}
             </option>
@@ -75,7 +46,7 @@ export default function EditCategoriesFood() {
           className="form-control"
           placeholder="New Categories"
           onChange={(e) => {
-            setNewCategories({ ...newCategory, name: e.target.value });
+            setPayload({ ...payload, name: e.target.value });
           }}
         />
       </div>
@@ -83,10 +54,9 @@ export default function EditCategoriesFood() {
       <button
         className=" mt-1 btn btn-primary"
         onClick={() => {
-          refetchCategories();
-          editCategory(newCategory, selectedCategories, selectedId, token);
-          dispatch(storeToggleAction(false));
-          refetchCategories();
+          updateCategory(ID, payload);
+          fetchCategories();
+          dispatch(storeToggleEditCategory(false));
         }}
       >
         Submit Changes

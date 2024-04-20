@@ -5,7 +5,7 @@ import {
   reqGetCategories,
   reqUpdateCategory,
 } from "./request";
-import { storeCategories } from "./slice";
+import { storeCategories, storeToggleEditCategory } from "./slice";
 import { alertError, alertSuccess } from "../../utils/alert";
 
 const useCategories = () => {
@@ -23,8 +23,9 @@ const useCategories = () => {
   const createCategories = (payload) => {
     reqCreateCategory(payload)
       .then(() => {
-        fetchCategories();
         alertSuccess("New Category Created");
+        fetchCategories();
+        dispatch(storeToggleEditCategory(false));
       })
       .catch((error) => {
         console.log(error);

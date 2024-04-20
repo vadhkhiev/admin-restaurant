@@ -24,9 +24,9 @@ const categoriesSlice = createSlice({
     storeToggleAddCategory: (state, action) => {
       state.toggleAddCategory = action.payload;
     },
-    storeToggleDeleteCategory: (state, action) => [
-      (state.toggleDeleteCategory = action.payload),
-    ],
+    storeToggleDeleteCategory: (state, action) => {
+      state.toggleDeleteCategory = action.payload;
+    },
   },
 });
 

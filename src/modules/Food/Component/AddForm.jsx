@@ -1,150 +1,118 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFoods } from "../Core/action";
+import { useCategories } from "../../categories/core/action";
 
-export default function AddForm({ toggle, toggleForm }) {
-    const dispatch = useDispatch();
-    const fetchfoodList = useSelector((state) => state.foodList.foodList);
-    const { createFood } = useFoods();
+export default function AddForm() {
+  const initialValue = {
+    name: "",
+    code: "",
+    price: 0,
+    discount: 10,
+    description: "",
+    food_categoryId: 0,
+  };
+  const { createFood } = useFoods();
+  const { categories } = useSelector((state) => state.category);
+  //states
+  const [value, setValue] = useState(initialValue);
+  //validation const
 
-    //states
-    const listCategories = useSelector(
-        (state) => state.allCategory.listCategories
-    );
-    const token = useSelector(
-        (state) => state.auth.token || localStorage.getItem("token")
-    );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createFood(value);
+  };
+  return (
+    <>
+      <form
+        onSubmit={handleSubmit}
+        className="add-form d-flex justify-content-center flex-column position-absolute col-9 p-3 rounded-2 ms-3"
+        style={{ top: "15%", right: "10%" }}
+      >
+        <div class="form-group">
+          <label for="inputName">Food Name</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Food Name"
+            onChange={(e) => {
+              setValue({ ...value, name: e.target.value });
+            }}
+          />
+        </div>
 
-    let categoryName = [];
+        <div class="form-group">
+          <label for="inputPrice">Code</label>
+          {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Code"
+            onChange={(e) => {
+              setValue({ ...value, code: e.target.value });
+            }}
+          />
+        </div>
 
-    //validation const
-    const validationObj = {
-        name: /^[a-zA-Z\s]{1,20}$/,
-        price: /^[1,9]{1,3}$/,
-        code: /^[a-zA-Z1-9]{1,6}$/,
-        description: /^[a-zA-Z1-9\s]{1,20}$/,
-    };
+        <div class="form-group">
+          <label for="inputPrice">Price</label>
+          {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Price"
+            onChange={(e) => {
+              setValue({ ...value, price: e.target.value });
+            }}
+          />
+        </div>
 
-    const [submitable, setSubmitable] = useState(false);
+        <div class="form-group">
+          <label for="inputDiscount">Discount</label>
+          {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Discount"
+            onChange={(e) => {
+              setValue({ ...value, discount: 0 || e.target.value });
+            }}
+          />
+        </div>
 
-    const initialValue = {
-        name: "",
-        code: "",
-        price: 0,
-        discount: 10,
-        description: "",
-        food_categoryId: 0,
-    };
-    const [value, setValue] = useState(initialValue);
-    const [imageFile, setImageFile] = useState(null);
-    //end state
+        <div class="mb-2">
+          <label class="form-label">Food Image</label>
+          <input class="form-control" type="file" id="formFile"></input>
+        </div>
 
+        <div class="form-group">
+          <label>Categories</label>
+          <select
+            id="inputState"
+            class="form-control"
+            onChange={(e) => {
+              categories.forEach(({ id, name }) => {
+                if (name === e.target.value) {
+                  setValue({ ...value, food_categoryId: id });
+                }
+              });
+            }}
+          >
+            <option selected disabled hidden>
+              Choose...
+            </option>
 
+            {categories.map((p) => {
+              return (
+                <option value={p.name} key={p.name}>
+                  {p.name}
+                </option>
+              );
+            })}
+          </select>
+        </div>
 
-
-    listCategories.map(({ name }) => {
-        categoryName.push(name);
-    });
-
-    const sendDataToParent = () => {
-        toggle.sendDataToParent(false);
-    };
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        sendDataToParent();
-        createFood(value);
-    };
-
-    return (
-        <>
-            <form
-                onSubmit={handleSubmit}
-                className="add-form d-flex justify-content-center flex-column position-absolute col-9 p-3 rounded-2 ms-3"
-                style={{ top: "15%", right: "10%" }}
-            >
-                <div class="form-group">
-                    <label for="inputName">Food Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Food Name"
-                        onChange={(e) => {
-                            setValue({ ...value, name: e.target.value });
-                        }}
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label for="inputPrice">Price</label>
-                    {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Price"
-                        onChange={(e) => {
-                            setValue({ ...value, price: parseInt(e.target.value) });
-                        }}
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label for="inputPrice">Code</label>
-                    {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Code"
-                        onChange={(e) => {
-                            setValue({ ...value, code: e.target.value });
-                        }}
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label for="inputDiscount">Discount</label>
-                    {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Discount"
-                        onChange={(e) => {
-                            setValue({ ...value, discount: e.target.value });
-                        }}
-                    />
-                </div>
-
-                <div class="mb-2">
-                    <label class="form-label">Food Image</label>
-                    <input class="form-control" type="file" id="formFile"></input>
-                </div>
-
-                <div class="form-group">
-                    <label>Categories</label>
-                    <select
-                        id="inputState"
-                        class="form-control"
-                        onChange={(e) => {
-                            listCategories.map(({ id, name }) => {
-                                if (name === e.target.value) {
-                                    setValue({ ...value, food_categoryId: id });
-                                }
-                            });
-                        }}
-                    >
-                        <option selected disabled hidden>
-                            Choose...
-                        </option>
-                        {categoryName.map((p) => {
-                            return (
-                                <option value={p} key={p}>
-                                    {p}
-                                </option>
-                            );
-                        })}
-                    </select>
-                </div>
-
-                {/* <div class="mb-2">
+        {/* <div class="mb-2">
           <label class="form-label">Food Image</label>
           <input
             class="form-control"
@@ -156,48 +124,25 @@ export default function AddForm({ toggle, toggleForm }) {
           ></input>
         </div> */}
 
-                <div class="form-group">
-                    <label for="inputDesc">Description</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Description"
-                        onChange={(e) => {
-                            setValue({ ...value, description: e.target.value });
-                        }}
-                    />
-                </div>
+        <div class="form-group">
+          <label for="inputDesc">Description</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Description"
+            onChange={(e) => {
+              setValue({ ...value, description: e.target.value });
+            }}
+          />
+        </div>
 
-                {/**btn submit */}
-                <div class="col-12 mt-1">
-                    {!submitable ? (
-                        <button
-                            type="submit"
-                            class="btn btn-primary"
-                            onClick={() => {
-                                toggle.sendDataToParent(!toggleForm);
-                            }}
-                        >
-                            Submit form
-                        </button>
-                    ) : (
-                        <div>
-                            <h6 className="text-danger fw-bold position-absolute top-0 end-0  me-4 my-2 bg-white p-1">
-                                PLEASE CHECK THE INFORMATION ENTERED !!!
-                            </h6>
-                            <button
-                                disabled
-                                class="btn btn-primary"
-                                onClick={() => {
-                                    toggle.sendDataToParent(!toggleForm);
-                                }}
-                            >
-                                Submit form
-                            </button>
-                        </div>
-                    )}
-                </div>
-            </form>
-        </>
-    );
+        {/**btn submit */}
+        <div class="col-12 mt-1">
+          <button type="submit" class="btn btn-primary">
+            Submit form
+          </button>
+        </div>
+      </form>
+    </>
+  );
 }

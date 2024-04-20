@@ -1,38 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Select from "react-select";
-import { useFoods } from "../Core/action";
-import { useCategories } from "../../categories/core/action";
-import { SlCloudUpload } from "react-icons/sl";
-import { storeToggleAdd } from "../Core/slice";
 import FoodCard from "./FoodCard";
 import AddForm from "./AddForm";
 import EditFoodForm from "./EditFoodForm";
 import LoadingFoodCard from "./LoadingFoodCard";
 import ActionCategories from "../../categories/components/ActionCategories";
 import ViewFoodCard from "./ViewFoodCard";
-import AddCategoriesFood from "../../categories/components/AddCategoriesFood";
-import EditCategoriesFood from "../../categories/components/EditCategoriesFood";
-import DeleteCategoriesFood from "../../categories/components/DeleteCategoriesFood";
+import { useFoods } from "../Core/action";
+import { useCategories } from "../../categories/core/action";
+import { storeToggleAction } from "../../categories/core/slice";
+import Select from "react-select";
+import { SlCloudUpload, SlOptions } from "react-icons/sl";
 
 function FoodParent() {
+  const [toggleForm, setToggleForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [optionForSelect, setOptionForSelect] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState(null);
   const dispatch = useDispatch();
 
   //* Refactored
-  const { foodList, toggleView, toggleEdit, toggleAdd } = useSelector(
+  const { foodList, toggleView, toggleEdit } = useSelector(
     (state) => state.foodList
   );
-
-  const {
-    categories,
-    toggleAction,
-    toggleEditCategory,
-    toggleAddCategory,
-    toggleDeleteCategory,
-  } = useSelector((state) => state.category);
+  const { categories, toggleAction } = useSelector((state) => state.category);
   const { fetchList, filterByCategory, searchFood } = useFoods();
   const { fetchCategories } = useCategories();
 
@@ -43,6 +34,7 @@ function FoodParent() {
     });
     return initialState;
   };
+
   useEffect(() => {
     fetchCategories();
     fetchList();
@@ -78,8 +70,15 @@ function FoodParent() {
               }
             }}
           />
-          <ActionCategories />
-          <div className="d-flex w-auto">
+          <button
+            className="border text-align-center text-dark rounded-3"
+            onClick={() => {
+              dispatch(storeToggleAction(!toggleAction));
+            }}
+          >
+            <SlOptions />
+          </button>
+          <div className="d-flex w-75">
             <input
               type="text"
               className="ms-1 p-2 w-100  form-control form-input position-relative"
@@ -92,7 +91,7 @@ function FoodParent() {
         </nav>
       </header>
 
-      <main className=" position-relative">
+      <main className="container position-relative">
         {loading ? (
           <>
             <LoadingFoodCard />
@@ -108,22 +107,20 @@ function FoodParent() {
             })}
           </div>
         )}
-        {/* <FoodCard foods={foods[0]} /> */}
       </main>
-      <div>{toggleAdd && <AddForm />}</div>
       <div>{toggleEdit && <EditFoodForm />}</div>
       <div>{toggleView && <ViewFoodCard />}</div>
-      <div>{toggleAddCategory && <AddCategoriesFood />}</div>
-      <div>{toggleEditCategory && <EditCategoriesFood />}</div>
-      <div>{toggleDeleteCategory && <DeleteCategoriesFood />}</div>
+      <div>{toggleAction && <ActionCategories />}</div>
+      <div>
+        {toggleForm && <AddForm toggle={{ sendDataToParent: setToggleForm }} />}
+      </div>
 
-      <button
-        className="position-fixed bg-white text-dark no-border rounded-3 end-0 bottom-0 p-2 me-2 mb-2"
-        onClick={() => {
-          dispatch(storeToggleAdd(!toggleAdd));
-        }}
-      >
-        <SlCloudUpload />
+      <button className="position-fixed bg-white text-dark no-border rounded-3 end-0 bottom-0 p-2">
+        <SlCloudUpload
+          onClick={() => {
+            setToggleForm(!toggleForm);
+          }}
+        />
       </button>
     </div>
   );
