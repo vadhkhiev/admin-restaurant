@@ -171,7 +171,7 @@ const EditUser = ({ handleEdit, editUser }) => {
               <p onClick={()=>setToggleChange(!toggleChange)} className="fs-5 cursor-pointer  text-center text-primary underline">Change Password ?</p>
               <div className="d-flex justify-content-center pb-3">
                 <button
-                  className="btn custom-btn custom-border p-2 text-white"
+                  className="btn w-25 custom-btn custom-border p-2 text-white"
                   onClick={handleUpdate}
                 >
                   Submit
@@ -181,7 +181,7 @@ const EditUser = ({ handleEdit, editUser }) => {
           </div>
 
           <div className='w-100' style={{display: toggleChange ? "block" : "none"}}>
-            <div className='w-100 mb-3 p-3 d-flex flex-column gap-3 text-nowrap justify-content-center '>
+            <div className='w-100 mb-3 p-3 d-flex flex-column  text-nowrap justify-content-center '>
                <div>
                 <p  className='fs-4 text-center text-white'>Reset <span className='text-primary'>{editUser?.name}'s</span> Password</p>
                </div>
@@ -209,9 +209,9 @@ const EditUser = ({ handleEdit, editUser }) => {
                 
 
                </div>
-                <p className='text-primary text-decoration-underline text-center cursor-pointer mb-2' onClick={() => setToggleChange(!toggleChange)}>Back ?</p>
+                <p className='text-primary text-decoration-underline text-center cursor-pointer mt-2' onClick={() => setToggleChange(!toggleChange)}>Back ?</p>
                 <div className='d-flex justify-content-center'>
-                <button className='btn p-2 custom-btn custom-border text-white' onClick={handlePassword}  >Save</button>
+                <button className='btn  custom-btn custom-border text-white w-25' onClick={handlePassword}  >Save</button>
                 </div>
 
             </div>
