@@ -65,7 +65,7 @@ const useFoods = () => {
       .then(() => {
         fetchList();
         dispatch(storeEditToggle(false));
-        alertSuccess("Food Updated.");
+        alertSuccess("Food Updated.");  
       })
       .catch((error) => {
         console.log(error);

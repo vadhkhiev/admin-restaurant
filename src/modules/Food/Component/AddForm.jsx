@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFoods } from "../Core/action";
-import { useCategories } from "../../categories/core/action";
+import { storeToggleAdd } from "../Core/slice";
 
 export default function AddForm() {
   const initialValue = {
@@ -15,12 +15,14 @@ export default function AddForm() {
   const { createFood } = useFoods();
   const { categories } = useSelector((state) => state.category);
   //states
+  const dispatch = useDispatch();
   const [value, setValue] = useState(initialValue);
   //validation const
 
   const handleSubmit = (e) => {
     e.preventDefault();
     createFood(value);
+    dispatch(storeToggleAdd(false))
   };
   return (
     <>

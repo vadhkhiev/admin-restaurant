@@ -28,7 +28,6 @@ function FoodParent() {
 
   const {
     categories,
-    toggleAction,
     toggleEditCategory,
     toggleAddCategory,
     toggleDeleteCategory,
@@ -36,6 +35,7 @@ function FoodParent() {
   const { fetchList, filterByCategory, searchFood } = useFoods();
   const { fetchCategories } = useCategories();
 
+  //* function to create a select object 
   const categoriesOptions = () => {
     const initialState = [{ value: "all", label: "All" }];
     categories.forEach((item) => {
@@ -43,13 +43,15 @@ function FoodParent() {
     });
     return initialState;
   };
+  
   useEffect(() => {
     fetchCategories();
     fetchList();
-    setOptionForSelect(categoriesOptions());
+    
   }, []);
 
   useEffect(() => {
+    setOptionForSelect(categoriesOptions());
     if (foodList) {
       setLoading(false);
     }
