@@ -18,7 +18,8 @@ const Dashboard = () => {
   const {paging , users} = useSelector((state) => state.users);
   const {roles } = useSelector((state) => state.roles);
   const orderPaging = useSelector((state) => state.orders.paging);
-  const { foodlist } = useSelector((state) => state.foodList);
+  const  foodlist  = useSelector((state) => state.foodList.foodList);
+
 
   useEffect(() => {
     getRoles();
@@ -48,7 +49,7 @@ const Dashboard = () => {
                 <Catebox title={'Orders'} icon={<CiBoxes />} num={orderPaging.totals || 0  } color={'#09090b'} />
               </div>
               <div className='col-6 col-md-3'>
-                <Catebox title={'Foods'} icon={<IoFastFoodOutline />} num={100 || 0} color={'#09090b'} />
+                <Catebox title={'Foods'} icon={<IoFastFoodOutline />} num={foodlist.length || 0} color={'#09090b'} />
               </div>
               <div className='col-6 col-md-3'>
                 <Catebox title={'Roles'} icon={<FaUsers />} num={roles?.length || 0} color={'#09090b'} />

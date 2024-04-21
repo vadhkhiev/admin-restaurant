@@ -49,22 +49,24 @@ const YourOrder = () => {
         <section  className='my-3 d-flex justify-content-between border rounded-3 p-1 '>
             <div className='d-flex w-50'>
                 <span className='w-25 text-center text-white'>Select </span>
-                <select onChange={(e)=>setPayload({...payload , table_Id : e.target.value})}   className="form-select py-0 w-75 bg-transparent" >
-                    <option hidden selected>table</option>
+                <select 
+                    onChange={(e) => setPayload({ ...payload, table_Id: e.target.value })} 
+                    className="form-select py-0 w-75 bg-transparent"
+                    defaultValue="table" // Use defaultValue prop
+                    >
+                    <option value="table" disabled>table</option>
                     {tableList?.map((table, index) => (
                         <option key={index} value={table.id}>{table.name}</option>
                     ))}
-
-                </select>
+                    </select>
             </div>
             <div className='d-flex w-50'>
                 <span className='w-25 text-center text-white'>Select</span>
-                <select className="form-select py-0 w-75  bg-transparent" >
-                    <option hidden selected>payment</option>
+                <select className="form-select py-0 w-75 bg-transparent" defaultValue="payment">
+                    <option value="payment" disabled>payment</option>
                     <option value="Cash">Cash</option>
                     <option value="Bank">Bank</option>
-
-                </select>
+                    </select>
             </div>
         </section>
         
