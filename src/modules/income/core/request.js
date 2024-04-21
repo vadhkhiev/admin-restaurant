@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const reqSaleReport = async (params) => {
-    return await axios.get("/api/tables", { params });
+    return await axios.get("/report/staff", { params });
 };
 
 export{
