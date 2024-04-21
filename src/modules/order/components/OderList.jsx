@@ -68,8 +68,7 @@ function OrderList() {
                           onClick={() => dispatch(storeOrderTableId(order.table?.id))}
                           to={`/order/view/${order?.id}`}>
                           <FaRegEye
-                            style={{ color: "#6c738f" }}
-                            className="fs-4 me-2"
+                            className="fs-4 me-2 text-white cursor-pointer"
                           />
                         </Link>
                         <GoTrash

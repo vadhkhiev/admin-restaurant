@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import foodimg from '../../../assets/img/dummy.png';
 import { FaRegTrashAlt } from "react-icons/fa";
-import { FaRegWindowClose } from "react-icons/fa";
-import { MdSaveAlt } from "react-icons/md";
-import { FaRegEdit } from "react-icons/fa";
 import AddFood from './AddFood';
 import { useDispatch, useSelector } from 'react-redux';
 import useOrders from '../core/action';
@@ -11,7 +8,6 @@ import { useParams } from 'react-router-dom';
 import useCurrentUser from '../../profile/core/action';
 import { storeAddFoodToggle } from '../core/reducer';
 import {useFoods} from '../../Food/Core/action';
-import { filter } from 'lodash';
 
 const ViewOrder = () => {
     const { viewOrder , orderTableId , addFoodToggle } = useSelector((state) => state.orders);
@@ -175,11 +171,11 @@ const ViewOrder = () => {
                                         Add Food
                                     </span>
                                     <span
-                                        className='btn border'
+                                        className='btn custom-border custom-btn text-white'
                                         onClick={() => removeItem(orderedItem)}
                                     >
                                         delete
-                                        <FaRegTrashAlt className='fs-4 ms-2 cursor-pointer text-danger ' style={{ color: '#6c738f' }} />
+                                        <FaRegTrashAlt className='fs-4 ms-2 cursor-pointer text-danger ' />
                                     </span>
                                 </div>
                             </div>
