@@ -12,7 +12,7 @@ const Editprofile = ({ setPopupedit, profile}) => {
   });
   const [error, setError] = useState('');
   const [img, setImg] = useState(null)
-  const { handleImg , handleEditProfile ,handleChangePw} = useCurrentUser();
+  const { handleImg , handleEditProfile ,handleChangePw , getCurrentUser} = useCurrentUser();
   const [toggleChange, setToggleChange] = useState(false)
   const [password , setPassword] = useState({
     "old_password": "",
@@ -61,17 +61,20 @@ const Editprofile = ({ setPopupedit, profile}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (img) {
-      handleImg(img);
-    }
     try {
       handleEditProfile(editedProfile , img);
+      getCurrentUser();
       setTimeout(() => {
         setPopupedit(false);
+
       }, 1000);
     } catch (error) {
       setError(error);
       console.error('Error editing profile:', error);
+    }
+    if (img) {
+      handleImg(img);
+      
     }
   };
 

@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom'
 import profileImg from '../../../assets/img/avatar.jpg'
 import { logout } from '../../auth/core/reducer'
 import { removeAuth } from '../../auth/authHelper'
-import useAuth from '../../auth/core/action'
 
 const Topnav = ({toggle}) => {
-    const currentUser = useSelector((state)=> state.auth?.user);
+    const profile = useSelector((state) => state.currentUser.currentUser);
     const dispatch = useDispatch();
 
   return (
@@ -20,7 +19,7 @@ const Topnav = ({toggle}) => {
             <div className="navbar-collapse collapse" >
                 <ul style={{background:"#09090b"}} className="navbar-nav navbar-align">
                     <li className="nav-item d-flex align-items-center">
-                       <span className='fs-4 fs-normal' style={{color:"#fcfdff"}}>{currentUser?.name}</span>
+                       <span className='fs-4 fs-normal' style={{color:"#fcfdff"}}>{profile?.name}</span>
                     </li> 
                     <li className="nav-item dropdown">
                         <a className="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
@@ -46,7 +45,7 @@ const Topnav = ({toggle}) => {
                     <li className="nav-item dropdown d-flex align-items-center m-1 me-3 ">
                         <Link to='profile' className="nav-link  p-0"  data-bs-toggle="dropdown">
                         <div className='position-relative'>
-                          <img height={30}  width={30} className='p-0 avatar border rounded-circle' src={currentUser?.avatar?.length < 50 ? profileImg : currentUser?.avatar} alt="" />
+                          <img height={30}  width={30} className='p-0 avatar border rounded-circle' src={profile?.avatar?.length < 50 ? profileImg : profile?.avatar} alt="" />
                         </div>
                     
                         </Link>

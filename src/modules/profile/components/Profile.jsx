@@ -33,62 +33,62 @@ const Profile = () => {
             <img className="imagezz border"src={profile?.avatar?.length > 50 ? profile?.avatar : profileImg} alt=""/>
           </div>
           <div className='col-md-6 mt-5'>
-            <div className='profile-head'>
-              <h1 className='profile-head'><b>{profile?.name}</b></h1>
+            <div className=''>
+              <h1 className='text-white'><b>{profile?.name}</b></h1>
               <h3>{profile?.username}</h3>
               <div className='mt-3 about-info'>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-6 text-white">
                    <IoMdMail className='fs-3 me-2'/>
                     <label>Email</label>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-6 text-white">
                     <p>{profile?.email}</p>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-6 text-white">
                     {profile?.gender === "Male" ? <IoMdMale className='fs-3 me-2'/> : <IoMdFemale className='fs-3 me-2'/>}
                     <label>Gender</label>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-6 text-white">
                     <p>{profile?.gender}</p>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-6 text-white">
                     <FaPhone className='fs-4 me-2'/>
                     <label>Phone</label>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-6 text-white">
                     <p>{profile?.phone}</p>
                   </div>
                 </div>
-                <div className="row">
+                <div className="row text-white">
                   <div className="col-md-6">
                   <FaCalendarAlt className='fs-4 me-2'/>
                     <label>Hire Date</label>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-6 text-white">
                     
                     <p>{(profile?.hireDate?.slice(0,10))}</p> 
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-6 text-white">
                     <PiIdentificationCardFill className='fs-3 me-2'/>  
                     <label>ID</label>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-6 text-white">
                     <p>{profile?.id}</p>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-6 text-white">
                     <FaSackDollar className='fs-4 me-2'/>
                     <label>Salary</label>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-6 text-white">
                     <p>${profile?.salary}</p>
                   </div>
                 </div>

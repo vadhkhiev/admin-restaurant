@@ -5,10 +5,9 @@ import useRoles from '../core/action';
 import { alertError } from '../../utils/alert';
 import { storeCreateToggle, storeUpdateToggle } from '../core/reducer';
 
-const Createrole = ({ setAdd, action }) => {
+const Createrole = ({  action }) => {
   const id = useSelector((state) => state.id.id);
   const role = useSelector((state) => state.roles.roles)?.find((role) => role.id === id);
-  const {addToggle , updateToggle } = useSelector((state) => state.roles);
   const dispatch = useDispatch();
   const { createRole, updateRole } = useRoles();
   const [roleinfo, setRoleinfo] = useState({
@@ -56,7 +55,9 @@ const Createrole = ({ setAdd, action }) => {
           <span className='fs-4 text-white mb-3'>{action === 'update' ? 'Update role' : 'Create role'}</span>
           <input onChange={(e) => setRoleinfo({ ...roleinfo, name: e.target.value })} value={roleinfo.name} className='w-100 custom-border p-2 text-white rounded-3 my-3 bg-transparent' placeholder='Enter Role' type="text" />
           <input onChange={(e) => setRoleinfo({ ...roleinfo, code: e.target.value })} value={roleinfo.code} className='w-100 custom-border p-2 text-white rounded-3 bg-transparent' placeholder='Enter Code' type="text" />
-          <button onClick={action === 'update' ? handleUpdate : handleCreate}  className='btn custom-btn w-100 text-white custom-border mt-3'>{action === 'update' ? 'Update' : 'Submit'}</button>
+          <div className='d-flex justify-content-center'>
+          <button onClick={action === 'update' ? handleUpdate : handleCreate}  className='btn custom-btn  text-white custom-border w-25 mt-3'>{action === 'update' ? 'Update' : 'Submit'}</button>
+          </div>
         </div>
       </div>
     </div>
