@@ -110,7 +110,7 @@ const Editprofile = ({ setPopupedit, profile}) => {
             <div className="mx-3 d-flex flex-row justify-content-center">
               <div className="w-100">
                   <div className='d-flex justify-content-center'>
-                  <img width={70} height={70} className='rounded-circle mb-2' onChange={(e) => setImg(e.target.files[0])} src={profile?.avatar ? profile?.avatar : profileImg} alt="" />
+                  <img width={70} height={70} className='rounded-circle mb-2' onChange={(e) => setImg(e.target.files[0])} src={((profile?.avatar && profile.avatar.length > 50) ? profile?.avatar  : profileImg) } alt="" />
                   </div>
                   <input type="file" className='w-100 p-2 mb-2 custom-border rounded-3 text-white' name="" id="" />
                   <input style={{background:'#09090b'}} className='w-100 p-2 mb-2 custom-border rounded-3 text-white' type="text" name="name" value={editedProfile.name} onChange={handleChange} />
@@ -120,7 +120,7 @@ const Editprofile = ({ setPopupedit, profile}) => {
                       <option value="Female">Female</option>
                     </select>
                   <input style={{background:'#09090b'}} className='custom-border w-100 mb-2 p-2 text-white rounded-3'  type="text" name="phone" value={editedProfile.phone} onChange={handleChange} />
-                <div className="forget-password text-center">Change password? <a><span className='text-primary text-decoration-underline' onClick={() => setToggleChange(!toggleChange)}>Click Here!!!</span></a></div><br />
+                <div className="forget-password text-center mt-2">Change password? <a><span className='text-primary text-decoration-underline' onClick={() => setToggleChange(!toggleChange)}>Click Here!!!</span></a></div><br />
                 <div className='d-flex justify-content-center'>
                 <button onClick={handleSubmit} style={{background:'#09090b'}} className='w-25 p-2 mb-2 custom-border custom-btn rounded-3 text-white'>Save</button>
                 </div>
@@ -130,34 +130,29 @@ const Editprofile = ({ setPopupedit, profile}) => {
           </div>
           </div>
           <div className='w-100' style={{display: toggleChange ? "block" : "none"}}>
-            <div className='w-100 mb-3 d-flex flex-column gap-3 text-nowrap justify-content-center '>
-               <div>
-                <h4 className='textzz text-center'>Change Password</h4>
-               </div>
-               <div className=''>
-                  <h5>Old Password:</h5>
+            <div className='w-100 mb-3 d-flex flex-column p-3 gap-3 text-nowrap justify-content-center '>
+              <h3 className='text-center text-white'>Change Password</h3>
                   <input
+                  className='w-100 p-2 mb-2 custom-border rounded-3 text-white bg-transparent'
+                  placeholder='Old Password'
                   onChange={(e) => collectData(e)}
                    type="text" name="old_password"   />
-                </div>
-                <div className='inputzz'>
-                  <h5>New Password:</h5>
                   <input
+                  placeholder='New password'
+                  className='w-100 p-2 mb-2 custom-border rounded-3 text-white bg-transparent'
                   onChange={(e) => collectData(e)}
                    type="text" name="password"  />
-                </div>
-                <div className='inputzz'>
-                  <h5>Confirm Password:</h5>
                   <input
+                  placeholder='Confirm new password'
+                   className='w-100 p-2 mb-2 custom-border rounded-3 text-white bg-transparent'
                   onChange={(e) => collectData(e)}
                    type="text" name="confirm_password"  />
-                </div>
+                               <div className="forget-password d-flex justify-content-center mb-2">Update Profile? <a><span className='text-primary text-decoration-underline' onClick={() => setToggleChange(!toggleChange)}>Click Here!!!</span></a></div>
                 <div className='d-flex justify-content-center'>
-                <button className='btn text-white custom-btn custom-border' onClick={handleChangePass} >Save</button>
+                <button className='btn text-white custom-btn custom-border w-25' onClick={handleChangePass} >Save</button>
                 </div>
 
             </div>
-            <div className="forget-password d-flex justify-content-center">Update Profile? <a><span className='text-primary text-decoration-underline' onClick={() => setToggleChange(!toggleChange)}>Click Here!!!</span></a></div>
           </div>
         </div>
         {

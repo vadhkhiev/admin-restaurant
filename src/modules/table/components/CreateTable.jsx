@@ -58,7 +58,7 @@ const CreateTable = () => {
               onChange={(e) => setValues({ ...values, name: e.target.value })}
             />
             <br /> <br />
-            <select className="ps-2 pe-5 py-2 text-white-50 custom-border rounded-3 w-100 form-select bg-transparent" name="status" id="" onChange={(e) => setValues({ ...values, status: e.target.value })}>
+            <select className="ps-2 pe-5 py-2 text-white-50 custom-border rounded-3 w-100 mb-3" style={{background:'#090a0a'}} name="status" id="" onChange={(e) => setValues({ ...values, status: e.target.value })}>
               <option value="">Choose Status</option>
               {options.map((option,index) => (
                 <option value={option.value} key={index}>{option.value}</option>

@@ -4,10 +4,14 @@ import { Link } from 'react-router-dom'
 import profileImg from '../../../assets/img/avatar.jpg'
 import { logout } from '../../auth/core/reducer'
 import { removeAuth } from '../../auth/authHelper'
-
+import useCurrentUser from '../../profile/core/action'
 const Topnav = ({toggle}) => {
     const profile = useSelector((state) => state.currentUser.currentUser);
     const dispatch = useDispatch();
+    const {getCurrentUser} = useCurrentUser();
+    useEffect(() => {
+        getCurrentUser()
+    },[])
 
   return (
     <>

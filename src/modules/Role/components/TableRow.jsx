@@ -46,13 +46,13 @@ const TableRow = ({role , index }) => {
   return (
     <>
         <tr className='hover-effect '>
-            <td className=' text-white'  >
+            <td className=' text-white '  >
               {params.page === 1 ? index : (params.page - 1) * (params.size) + index }
             </td>
             <td className=' text-white'>{role?.name}</td>
             <td className=' text-white'>{role?.createdBy.name}</td>
             <td className=' text-white'>{dateTimeFormat(role?.createdDate)}</td>
-            <td className=' text-white'>{dateTimeFormat(role?.updateDate)}</td>
+            <td className=' text-white '>{dateTimeFormat(role?.updateDate)}</td>
             {
             (user.id === 1 || userPermission?.find(per => per.name === 'edit-role')?.status === 1 || userPermission?.find(per => per.name === 'delete-role')?.status === 1) && (
               <td className='d-flex  text-white'>

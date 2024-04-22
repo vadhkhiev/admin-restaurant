@@ -26,7 +26,7 @@ function OrderList() {
           <img width={40} src={loadingImg} alt="" />
         </div>
       ) : (
-        <>
+        <div className="custom-border m-3  rounded-3">
           <section className="m-3 ">
             <div className="d-flex  ">
               <h3 className="text-nowrap fw-bold text-white">
@@ -87,7 +87,7 @@ function OrderList() {
           <div className="mx-3">
             <Pagination params={params} handleFilter={handleFilter} pagingdetails={paging} />
           </div>
-        </>
+        </div>
       )}
     </>
   );
