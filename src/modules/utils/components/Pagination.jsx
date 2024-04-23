@@ -4,15 +4,15 @@ import { MdKeyboardDoubleArrowLeft, MdKeyboardArrowLeft, MdKeyboardArrowRight, M
 const Pagination = ({ params, pagingdetails, handleFilter }) => {
   const handlePagination = (paging) => {
     let newPage = params.page;
-    if (paging === 'increase') {
-      if (params.page < pagingdetails.totalPage) {
-        newPage = params.page + 1;
-      }
-    } else if (params.page > 1) {
+    if (paging === 'increase' && params.page < pagingdetails.totalPage) {
+      newPage = params.page + 1;
+    } else if (paging === 'decrease' && params.page > 1) {
       newPage = params.page - 1;
     }
     handleFilter('page', newPage);
   };
+
+  const isDisabled = pagingdetails.totalPage === 0;
 
   return (
     <div className='p-0 d-flex flex-column flex-sm-row justify-content-between mt-3'>
@@ -32,6 +32,7 @@ const Pagination = ({ params, pagingdetails, handleFilter }) => {
                 handleFilter('size', size);
                 handleFilter('page', 1);
               }}
+              disabled={isDisabled}
             >
               <option value="10">10</option>
               <option value="20">20</option>
@@ -41,19 +42,19 @@ const Pagination = ({ params, pagingdetails, handleFilter }) => {
           </div>
         </section>
         <section className='me-2 me-sm-5 mt-1'>
-          <p className='fw-bold text-white'>Page {params.page} of {pagingdetails.totalPage}</p>
+          <p className='fw-bold text-white'>Page {pagingdetails.totalPage === 0 ? 0 : params.page} of {pagingdetails.totalPage}</p>
         </section>
         <div className='d-flex'>
-          <p className={`btn custom-btn text-white custom-border square-btn me-2 ${params.page === 1 ? 'disabled' : ''}`} onClick={() => handleFilter('page',1)}>
+          <p className={`btn custom-btn text-white custom-border square-btn me-2 ${isDisabled ? 'disabled' : params.page === 1 ? 'disabled' : ''}`} onClick={() => handleFilter('page',1)}>
             <MdKeyboardDoubleArrowLeft />
           </p>
-          <p className={`btn custom-btn text-white custom-border square-btn me-2 ${params.page === 1 ? 'disabled' : ''}`} onClick={() => handlePagination('decrease')}>
+          <p className={`btn custom-btn text-white custom-border square-btn me-2 ${isDisabled ? 'disabled' : params.page === 1 ? 'disabled' : ''}`} onClick={() => handlePagination('decrease')}>
             <MdKeyboardArrowLeft />
           </p>
-          <p className={`btn custom-btn text-white custom-border square-btn me-2 ${params.page >= pagingdetails.totalPage ? 'disabled' : ''}`} onClick={() => handlePagination('increase')}>
+          <p className={`btn custom-btn text-white custom-border square-btn me-2 ${isDisabled ? 'disabled' : params.page >= pagingdetails.totalPage ? 'disabled' : ''}`} onClick={() => handlePagination('increase')}>
             <MdKeyboardArrowRight />
           </p>
-          <p className={`btn custom-btn text-white custom-border square-btn ${params.page === pagingdetails.totalPage ? 'disabled' : ''}`} onClick={() => handleFilter('page',pagingdetails.totalPage)}>
+          <p className={`btn custom-btn text-white custom-border square-btn ${isDisabled ? 'disabled' : params.page === pagingdetails.totalPage ? 'disabled' : ''}`} onClick={() => handleFilter('page',pagingdetails.totalPage)}>
             <MdKeyboardDoubleArrowRight />
           </p>
         </div>
@@ -63,3 +64,4 @@ const Pagination = ({ params, pagingdetails, handleFilter }) => {
 };
 
 export default Pagination;
+
