@@ -14,15 +14,15 @@ import { alertError, alertSuccess } from "../../utils/alert";
 const useFoods = () => {
   const dispatch = useDispatch();
 
-  const uploadImage = (payload) => {
-    reqUploadImage(payload)
-      .then(() => {
-        console.log("Success");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const uploadImageById = (id, payload) => {
+  //   reqUploadImage(id, payload)
+  //     .then(() => {
+  //       console.log("Success");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
   const fetchList = async () => {
     try {
       const result = await reqGetFoods();
@@ -60,7 +60,7 @@ const useFoods = () => {
       });
   };
 
-  const updateFood = (id, payload) => {
+  const updateFood = (id, payload, imagePayload) => {
     reqUpdateFood(id, payload)
       .then(() => {
         fetchList();
@@ -71,6 +71,14 @@ const useFoods = () => {
         console.log(error);
         alertError("Can't Edit!");
       });
+    reqUploadImage(imagePayload)
+      .then(()=>{
+        fetchList();
+        alertSuccess("Image Changed")
+      })
+      .catch(()=>{
+        alertError("can't upload")
+      })
   };
 
   const deleteFood = (id) => {

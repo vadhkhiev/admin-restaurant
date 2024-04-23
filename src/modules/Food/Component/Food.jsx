@@ -61,8 +61,8 @@ function FoodParent() {
     <div className="">
       <header>
         <div
-          className=" p-2 text-center text-white m-2 rounded-3 fw-bold"
-          style={{ background: "#6c738f" }}
+          className=" p-2 text-center text-white border m-2 rounded-3 fw-bold"
+          style={{ background: "transparent" }}
         >
           Food List
         </div>
@@ -76,7 +76,7 @@ function FoodParent() {
               if (selectedCategories.label === "All") {
                 fetchList();
               } else {
-                filterByCategory(selectedCategories.label);
+                filterByCategory(selectedCategories.label); 
               }
             }}
           />
