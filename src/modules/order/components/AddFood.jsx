@@ -5,12 +5,12 @@ import foodimg from '../../../assets/img/dummy.png'
 import { FiTrash } from 'react-icons/fi';
 import { storeAddFoodToggle } from '../core/reducer';
 import { useCategories } from '../../categories/core/action';
+import { useFoods } from '../../Food/Core/action';
 const AddFood = ({handleAddtionalFood}) => {
     const {foodList} = useSelector((state) => state.foodList)
-    const [listFood , setListFood] = useState(foodList)
     const {categories} = useSelector((state) => state.category)
+    const { filterByCategory} = useFoods();
     const {fetchCategories} = useCategories();
-    const [selectedCategories , setSelectedCategories] = useState('defualt')
     const [addFood , setAddFood] = useState([])
     const [selectAll , setSelectAll] = useState(false)
     const dispatch = useDispatch()
@@ -19,17 +19,6 @@ const AddFood = ({handleAddtionalFood}) => {
         fetchCategories();
     }, []);
     
-    useEffect(() => {
-      const handleCate = () =>{
-          if(selectedCategories === ('defualt' || '')){ 
-            setListFood(foodList)
-          }else{
-            setListFood(foodList.filter((i)=> i.foodCategoryEntity.name === selectedCategories))
-          }
-      }
-      handleCate()
-      console.log(selectedCategories)
-    }, [selectedCategories])
     
 
 
@@ -117,9 +106,9 @@ const AddFood = ({handleAddtionalFood}) => {
             <h3 className='text-white'>Select Food</h3>
             <div className='py-2'>
                 <div>
-                    <select onChange={(e)=>setSelectedCategories(e.target.value)} className='form-select w-25 bg-transparent' name="" id="">
-                        <option hidden value="defualt">Categories</option>
-                        <option value="defualt">All</option>
+                    <select onChange={(e)=>filterByCategory(e.target.value)} className='form-select w-25 bg-transparent' name="" id="">
+                        <option hidden value="">Categories</option>
+                        <option value="">All</option>
                         {categories?.map((food, index) => (
                             <option key={index} value={food.name}>{food.name}</option>
                         ))}
@@ -131,10 +120,10 @@ const AddFood = ({handleAddtionalFood}) => {
                 <section className={`  col-12 col-md-12 ${addFood.length === 0 ? ' col-lg-12': ' col-lg-8' } `} >
                 {
                     <div className='row'>
-    {listFood.length === 0 ? (
+    {foodList.length === 0 ? (
         <div className='text-danger text-center'>No Result.</div>
     ) : (
-      listFood?.map((food, index) => (
+      foodList?.map((food, index) => (
             <div key={index} className='col-md-12 col-lg-6 mb-3'>
                 <div className='position-relative rounded-3 overflow-hidden d-flex' style={css}>
                     <div className='w-25 overflow-hidden'>
