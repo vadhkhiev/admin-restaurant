@@ -17,12 +17,12 @@ const SaleReports = () => {
   };
   return (
     <>
-      <div style={{ height: '35px' }} className='d-flex justify-content-between mb-3'>
+      <div  className='d-flex justify-content-between mb-3'>
           <div>
             <h3 className="text-white mb-3 fw-bold">Sale Reports</h3>
           </div>
           <div className='d-flex justify-content-end'>
-            <div style={{ height: '35px' }} className='rounded-start-3 d-flex justify-content-center'>
+            <div  className='rounded-start-3 d-flex justify-content-center'>
               <Reset params={params} handleFilter={handleFilter}/>
               <input
                 onChange={(e) => {
@@ -31,22 +31,22 @@ const SaleReports = () => {
                 value={params.query}                
                 className='custom-border ms-2 ps-3 text-white rounded-3 bg-transparent' placeholder="Search" />
             </div>
-            <div className="p-0 d-flex">
-              <Filter handleFilter={handleFilter} params={params} action="order" options={["asc", "desc"]} />
-            </div>
-            <div style={{ height: '35px' }} className={`ms-2 custom-border rounded-3 d-flex p-2 px-3`}>
-              <div className='d-flex text-nowrap'>
+            <div  className={`ms-2 custom-border rounded-3 d-flex `}>
+              <div style={{paddingTop: '5px' }} className="me-2">
+                <Filter handleFilter={handleFilter} params={params} action="order" options={["asc", "desc"]} />
+              </div>
+              <div className='d-flex text-nowrap p-2'>
                 <label className='text-white me-3' htmlFor="">Start date</label>
                 <input
                   onChange={(e) => collectParam('start', e.target.value)}
-                  className='form-control py-0 rounded me-3' type="date" name="" id=""
+                  className='  rounded me-3' type="date" name="" id=""
                 />
               </div>
-              <div className='d-flex text-nowrap '>
+              <div className='d-flex text-nowrap p-2'>
                 <label className='text-white me-3' htmlFor="">End date</label>
                 <input
                   onChange={(e) => collectParam('end', e.target.value)}
-                  className='form-control py-0 rounded' type="date" name="" id="" />
+                  className=' rounded' type="date" name="" id="" />
               </div>
             </div>
         </div>        
