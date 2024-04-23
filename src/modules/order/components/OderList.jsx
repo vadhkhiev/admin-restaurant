@@ -9,6 +9,7 @@ import { storeOrderTableId } from "../core/reducer";
 import SearchBar from "../../utils/components/SearchBar";
 import Reset from "../../utils/components/Reset";
 import Pagination from "../../utils/components/Pagination";
+import Filter from "../../utils/components/Filter";
 
 function OrderList() {
   const { orders, params, paging, loading } = useSelector((state) => state.orders);
@@ -26,7 +27,7 @@ function OrderList() {
           <img width={40} src={loadingImg} alt="" />
         </div>
       ) : (
-        <>
+        <div className="custom-border m-3  rounded-3">
           <section className="m-3 ">
             <div className="d-flex  ">
               <h3 className="text-nowrap fw-bold text-white">
@@ -34,9 +35,19 @@ function OrderList() {
               </h3>
             </div>
             <p className="text-white-50">Here is the list of orders</p>
-            <div className="d-flex">
-              <SearchBar params={params} handleFilter={handleFilter} />
+            <div className="d-flex justify-content-between">
+              <div className="d-flex">
+              <SearchBar params={params} handleFilter={handleFilter} title={'Search by table'} />
               <Reset params={params} handleFilter={handleFilter} />
+              </div>
+              <div className="d-flex">
+              <span className="mt-1 text-white">Filter</span>
+              <div className="d-flex">
+                <Filter action={"order"} options={["asc", "desc"]} params={params} handleFilter={handleFilter}/>
+                <Filter action={"paymentMethod"} options={["Cash", "Bank"]} params={params} handleFilter={handleFilter}/>
+                <Filter action={"status"} options={["Cooking", "Prepare" ,'Complete','Cancel']} params={params} handleFilter={handleFilter}/>
+              </div>
+              </div>
             </div>
           </section>
 
@@ -68,8 +79,7 @@ function OrderList() {
                           onClick={() => dispatch(storeOrderTableId(order.table?.id))}
                           to={`/order/view/${order?.id}`}>
                           <FaRegEye
-                            style={{ color: "#6c738f" }}
-                            className="fs-4 me-2"
+                            className="fs-4 me-2 text-white cursor-pointer"
                           />
                         </Link>
                         <GoTrash
@@ -88,7 +98,7 @@ function OrderList() {
           <div className="mx-3">
             <Pagination params={params} handleFilter={handleFilter} pagingdetails={paging} />
           </div>
-        </>
+        </div>
       )}
     </>
   );

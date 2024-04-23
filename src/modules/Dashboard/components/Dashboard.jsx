@@ -3,47 +3,29 @@ import Catebox from './Catebox';
 import { FaUsers } from "react-icons/fa";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { CiBoxes } from "react-icons/ci";
-import PieCharts from './PieCharts';
 import profile from '../../../assets/img/avatar.jpg';  
 import LineChart from './LineChart';
-import RadarChart from './RadarChart';
-import axios from 'axios';
 import useRoles from '../../Role/core/action';
 import { useSelector } from 'react-redux';
 import useUsers from '../../Usermanangement/core/action';
-
+import useOrders from '../../order/core/action';
+import  { useFoods } from '../../Food/Core/action'
 const Dashboard = () => {
-  const [foodlist , setFoodlist] = useState([]);
-  const [Allorders,setAllorders] = useState([]);
   const {getUsers} = useUsers();
   const { getRoles } = useRoles();
+  const {getOrders} = useOrders();
+  const {fetchList} = useFoods();
   const {paging , users} = useSelector((state) => state.users);
   const {roles } = useSelector((state) => state.roles);
-  console.log(users)
+  const orderPaging = useSelector((state) => state.orders.paging);
+  const  foodlist  = useSelector((state) => state.foodList.foodList);
+
 
   useEffect(() => {
     getRoles();
     getUsers();
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get('/api/orders');
-        setAllorders(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchOrders();
-
-    const fetchfood = async () => {
-      try {
-        const response = await axios.get('/api/foods');
-        setFoodlist(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchfood();
+    getOrders();
+    fetchList();
 
   },[])
 
@@ -64,10 +46,10 @@ const Dashboard = () => {
                 <Catebox title={'Users'} icon={<FaUsers />} num={paging?.totals || 0} color={'#09090b'} />
               </div>
               <div className='col-6 col-md-3'>
-                <Catebox title={'Orders'} icon={<CiBoxes />} num={Allorders?.paging?.totals || 0} color={'#09090b'} />
+                <Catebox title={'Orders'} icon={<CiBoxes />} num={orderPaging.totals || 0  } color={'#09090b'} />
               </div>
               <div className='col-6 col-md-3'>
-                <Catebox title={'Foods'} icon={<IoFastFoodOutline />} num={foodlist?.data?.length || 0} color={'#09090b'} />
+                <Catebox title={'Foods'} icon={<IoFastFoodOutline />} num={foodlist.length || 0} color={'#09090b'} />
               </div>
               <div className='col-6 col-md-3'>
                 <Catebox title={'Roles'} icon={<FaUsers />} num={roles?.length || 0} color={'#09090b'} />

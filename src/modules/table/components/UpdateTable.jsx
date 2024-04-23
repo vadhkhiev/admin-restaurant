@@ -63,7 +63,8 @@ const UpdateTable = () => {
             />
             <br /> <br />
             <select
-              className="form-select form-select-lg bg-transparent fw-normal text-white-50 custom-border rounded-3 w-100"
+            style={{background:'#090a0a'}}
+              className="p-2 custom-border mb-4 text-white  fw-normal  custom-border rounded-3 w-100"
               name="status"
               id=""
               onChange={(e) => setData({ ...data, status: e.target.value })}

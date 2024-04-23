@@ -8,7 +8,8 @@ const Filter = ({ options, handleFilter, params, action }) => {
   return (
     <div className="ms-2">
     <select 
-      className="form-select custom-btn rounded custom-border text-white bg-transparent"
+      className="px-2 py-1 custom-btn rounded custom-border text-white "
+      style={{background:'#09090b'}}
       value={params[action]}
       onChange={(e) => handleSort(e.target.value)}
     >

@@ -25,6 +25,8 @@ const Table = () => {
     deleteTable(id);
   };
 
+ 
+
   return (
     <>
       {createToggle && (
@@ -81,13 +83,10 @@ const Table = () => {
                       <td className="text-white">{tables.id}</td>
                       <td className="text-white">{tables.name}</td>
                       <td
-                        className={`${
-                          tables.status === "Available"
-                            ? "text-success"
-                            : "text-danger"
-                        }`}
+                        className="text-white"
+                        
                       >
-                        {tables.status}
+                        <span className="px-2 rounded-pill" style={{background: tables.status === "Available" ? "#086355" : "#7f1f1f"}}>{tables.status}</span>
                       </td>
                       <td className="text-white">{tables.seat_Capacity}</td>
                       <td>

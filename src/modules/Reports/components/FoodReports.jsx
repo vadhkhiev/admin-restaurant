@@ -11,12 +11,14 @@ const FoodReports = () => {
 
   useEffect(() => {
     fetchFoodReports();
-  }, []);
+  }, [params]);
 
   const collectParam = (key, value) => {
     const formattedValue = (key === 'start' || key === 'end') ? value.replace(/-/g, ':') : value;
     handleFilter(key, formattedValue);
   };
+
+  console.log(params)
 
   return (
     <>
@@ -40,7 +42,7 @@ const FoodReports = () => {
             <div style={{ height: '35px' }} className={`ms-2 custom-border rounded-3 d-flex p-2 px-3`}>
               <div className='d-flex text-nowrap'>
                 <label className='text-white me-3' htmlFor="">Start date</label>
-                <input
+                <input                
                   onChange={(e) => collectParam('start', e.target.value)}
                   className='form-control py-0 rounded me-3' type="date" name="" id=""
                 />

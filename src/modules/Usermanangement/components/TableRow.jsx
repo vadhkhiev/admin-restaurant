@@ -14,12 +14,12 @@ const TableRow = ({ user, handleEdit }) => {
     <>
       <tr className='text-white hover-effect'>
         <td className='text-white'><img src={user?.avatar?.length > 50 ? user.avatar : avatar} className="avatar rounded-circle " style={{ border: '1px solid #6c738f' }} /></td>
-        <td className='text-white'>{user.name}</td>
+        <td className='text-white'>{user.name}</td> 
         <td className='text-white'>{user.email}</td>
         <td className='text-white'>{user.phone}</td>
         <td className='text-white'>$ {user.salary}</td>
         <td className='text-white'>
-          <p style={{ borderRadius: '13px', color: user.status ? '#3fa27f' : 'red' }} className='fs-6 fw-normal custom-border text-center mt-3'>
+          <p style={{ borderRadius: '13px', background: user.status ? '#086355' : '#7f1f1f' }} className='fs-6   custom-border text-center mt-3 text-white'>
             {user.status ? "Active" : "Inactive"}
           </p>
         </td>

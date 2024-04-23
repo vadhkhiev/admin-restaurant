@@ -3,6 +3,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
 import useUsers from '../core/action';
 import { setEditToggle } from '../core/reducer';
+import avatarImg from "../../../assets/img/avatar.jpg"
 
 const EditUser = ({ handleEdit, editUser }) => {
   const roles = useSelector((state) => state.roles.roles);
@@ -68,7 +69,7 @@ const EditUser = ({ handleEdit, editUser }) => {
               <div  className={`${toggleChange ? "d-none" : "d-block"} mx-3`}>
               <div className=' rounded-3 w-100 d-flex  justify-content-center'  >
                 <div className='d-flex flex-row '>
-                <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={editUser?.avatar} width={60} height={60}  alt="" className='rounded-circle ' />
+                <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={editUser?.avatar &&  editUser?.avatar.length > 50 ? editUser?.avatar : avatarImg } width={60} height={60}  alt="" className='rounded-circle ' />
                 <h4  className=' text-white  w-50 ms-2 text-nowrap'>Editing
                 <span className='text-primary'> {editUser?.name}</span> 
                 </h4>
@@ -171,7 +172,7 @@ const EditUser = ({ handleEdit, editUser }) => {
               <p onClick={()=>setToggleChange(!toggleChange)} className="fs-5 cursor-pointer  text-center text-primary underline">Change Password ?</p>
               <div className="d-flex justify-content-center pb-3">
                 <button
-                  className="btn custom-btn custom-border p-2 text-white"
+                  className="btn w-25 custom-btn custom-border p-2 text-white"
                   onClick={handleUpdate}
                 >
                   Submit
@@ -181,7 +182,7 @@ const EditUser = ({ handleEdit, editUser }) => {
           </div>
 
           <div className='w-100' style={{display: toggleChange ? "block" : "none"}}>
-            <div className='w-100 mb-3 p-3 d-flex flex-column gap-3 text-nowrap justify-content-center '>
+            <div className='w-100 mb-3 p-3 d-flex flex-column  text-nowrap justify-content-center '>
                <div>
                 <p  className='fs-4 text-center text-white'>Reset <span className='text-primary'>{editUser?.name}'s</span> Password</p>
                </div>
@@ -209,9 +210,9 @@ const EditUser = ({ handleEdit, editUser }) => {
                 
 
                </div>
-                <p className='text-primary text-decoration-underline text-center cursor-pointer mb-2' onClick={() => setToggleChange(!toggleChange)}>Back ?</p>
+                <p className='text-primary text-decoration-underline text-center cursor-pointer mt-2' onClick={() => setToggleChange(!toggleChange)}>Back ?</p>
                 <div className='d-flex justify-content-center'>
-                <button className='btn p-2 custom-btn custom-border text-white' onClick={handlePassword}  >Save</button>
+                <button className='btn  custom-btn custom-border text-white w-25' onClick={handlePassword}  >Save</button>
                 </div>
 
             </div>
