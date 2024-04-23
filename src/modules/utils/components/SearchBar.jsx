@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SearchBar = ({ params, handleFilter }) => {
+const SearchBar = ({ params, handleFilter , title = 'Search' }) => {
   const handleInputChange = (e) => {
     handleFilter('query', e.target.value);
     handleFilter('page', 1);
@@ -15,7 +15,7 @@ const SearchBar = ({ params, handleFilter }) => {
         type="text"
         value={params.query}
         className=" rounded custom-border ps-2 py-1"
-        placeholder="Search"
+        placeholder={title}
   
       />
     </div>

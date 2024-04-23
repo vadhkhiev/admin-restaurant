@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {  useSelector , useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import profileImg from '../../../assets/img/avatar.jpg'
@@ -8,7 +8,7 @@ import useCurrentUser from '../../profile/core/action'
 const Topnav = ({toggle}) => {
     const profile = useSelector((state) => state.currentUser.currentUser);
     const dispatch = useDispatch();
-    const {getCurrentUser} = useCurrentUser();
+    const {getCurrentUser} = useCurrentUser(); 
     useEffect(() => {
         getCurrentUser()
     },[])

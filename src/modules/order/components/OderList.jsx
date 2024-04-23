@@ -9,6 +9,7 @@ import { storeOrderTableId } from "../core/reducer";
 import SearchBar from "../../utils/components/SearchBar";
 import Reset from "../../utils/components/Reset";
 import Pagination from "../../utils/components/Pagination";
+import Filter from "../../utils/components/Filter";
 
 function OrderList() {
   const { orders, params, paging, loading } = useSelector((state) => state.orders);
@@ -34,9 +35,19 @@ function OrderList() {
               </h3>
             </div>
             <p className="text-white-50">Here is the list of orders</p>
-            <div className="d-flex">
-              <SearchBar params={params} handleFilter={handleFilter} />
+            <div className="d-flex justify-content-between">
+              <div className="d-flex">
+              <SearchBar params={params} handleFilter={handleFilter} title={'Search by table'} />
               <Reset params={params} handleFilter={handleFilter} />
+              </div>
+              <div className="d-flex">
+              <span className="mt-1 text-white">Filter</span>
+              <div className="d-flex">
+                <Filter action={"order"} options={["asc", "desc"]} params={params} handleFilter={handleFilter}/>
+                <Filter action={"paymentMethod"} options={["Cash", "Bank"]} params={params} handleFilter={handleFilter}/>
+                <Filter action={"status"} options={["Cooking", "Prepare" ,'Complete','Cancel']} params={params} handleFilter={handleFilter}/>
+              </div>
+              </div>
             </div>
           </section>
 
