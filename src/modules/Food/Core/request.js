@@ -4,6 +4,7 @@ const reqGetFoods = async (id = "") => {
   return await axios.get(`/api/foods${id}`);
 };
 
+
 const reqCreateFood = async (payload) => {
   return await axios.post(`/api/foods`, payload);
 };
@@ -27,7 +28,7 @@ const reqGetFoodByCategory = async (payload) => {
 };
 
 const reqUploadImage = async (payload) => {
-  return await axios.put(`api/food/images`, payload);
+  return await axios.post(`api/food/images`, payload);
 };
 
 export {

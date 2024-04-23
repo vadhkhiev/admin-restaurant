@@ -5,8 +5,9 @@ import { useFoods } from "../Core/action";
 
 export default function EditForm() {
   const { food } = useSelector((state) => state.foodList);
-  const { updateFood } = useFoods();
+  const { updateFood, uploadImageById } = useFoods();
   const { categories } = useSelector((state) => state.category);
+  const [selectedImage,setSelectedImage] = useState(null)
 
   const dispatch = useDispatch();
   const initialValue = {
@@ -23,14 +24,19 @@ export default function EditForm() {
     ...initialValue,
     ...food,
   });
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    updateFood(food.id, value);
-    dispatch(storeEditToggle(false));
-  };
+  
   const { name, price, code, description } = value;
 
+  const handleSubmit = (event) => {
+    const formdata = new FormData();
+    if(selectedImage){
+      formdata.append("files",selectedImage)
+      formdata.append("foodId", food.id)
+    }
+    event.preventDefault();
+    updateFood(food.id, value, formdata);
+    dispatch(storeEditToggle(false));
+  };
   const handleOnChange = (e) =>
     setValue({ ...value, [e.target.name]: e.target.value });
 
@@ -121,7 +127,7 @@ export default function EditForm() {
 
         <div class="mb-2">
           <label class="form-label">Food Image</label>
-          <input class="form-control" type="file" id="formFile"></input>
+          <input class="form-control" type="file" id="formFile" onChange={(e)=>{setSelectedImage(e.target.files[0])}}></input>
         </div>
 
         <div class="form-group">
