@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Pagination from "../../utils/components/Pagination";
 import Reset from "../../utils/components/Reset";
 import loadingImg from '../../../assets/img/loading.gif';
+import Filter from "../../utils/components/Filter";
 const SaleReports = () => {
   const {getSaleReport, handleFilter} = useSaleReport()
   const {saleReportList,params,pagingdetails,loading} = useSelector((state)=> state.saleReportList)
@@ -29,6 +30,9 @@ const SaleReports = () => {
                 }}
                 value={params.query}                
                 className='custom-border ms-2 ps-3 text-white rounded-3 bg-transparent' placeholder="Search" />
+            </div>
+            <div className="p-0 d-flex">
+              <Filter handleFilter={handleFilter} params={params} action="order" options={["asc", "desc"]} />
             </div>
             <div style={{ height: '35px' }} className={`ms-2 custom-border rounded-3 d-flex p-2 px-3`}>
               <div className='d-flex text-nowrap'>
