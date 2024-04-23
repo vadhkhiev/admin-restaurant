@@ -57,14 +57,14 @@ const User = () => {
             <h2 className="text-white fw-bold">Member list</h2>
             <p className="text-white-50">Here is the list of Members</p>
             <div >
-              <div className="d-flex justify-content-between">
-                <div className="w-50 d-flex">
+              <div className="row">
+                <div className="col-12 col-lg-6 d-flex">
                   <SearchBar  params={params} handleFilter={handleFilter} />
                   <Filter params={params} options={["name", "email" , "salary" , "phone"]} action={'sort'} handleFilter={handleFilter} />
                   <Filter params={params} options={["asc" , "desc"]} action={'order'} handleFilter={handleFilter} />
                   <Reset params={params} handleFilter={handleFilter} />
                 </div>
-                <div className="w-50 d-flex justify-content-end">
+                <div className="col-12 col-lg-6 d-flex justify-content-lg-end">
                   {userPermission?.find((per) => per.name === "create-user")
                     ?.status === 1 && (
                       <>

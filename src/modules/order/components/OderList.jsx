@@ -35,12 +35,12 @@ function OrderList() {
               </h3>
             </div>
             <p className="text-white-50">Here is the list of orders</p>
-            <div className="d-flex justify-content-between">
-              <div className="d-flex">
+            <div className="row">
+              <div className="d-flex col-12 col-lg-6">
               <SearchBar params={params} handleFilter={handleFilter} title={'Search by table'} />
               <Reset params={params} handleFilter={handleFilter} />
               </div>
-              <div className="d-flex">
+              <div className="d-flex justify-content-lg-end justify-content-start col-12 col-lg-6">
               <span className="mt-1 text-white">Filter</span>
               <div className="d-flex">
                 <Filter action={"order"} options={["asc", "desc"]} params={params} handleFilter={handleFilter}/>
