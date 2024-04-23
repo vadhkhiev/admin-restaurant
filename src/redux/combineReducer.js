@@ -10,6 +10,7 @@ import ordersReducer from "../modules/order/core/reducer";
 import foodReportsReducer from "../modules/Reports/core/reducer";
 import categoriesReducer from "../modules/categories/core/slice";
 import tableReducer from "../modules/table/core/reducer";
+import saleReportReducer from "../modules/income/core/reducer";
 export const rootReducers = combineReducers({
   auth: authReducer, // auth
   roles: roleReducer, // all roles
@@ -21,7 +22,7 @@ export const rootReducers = combineReducers({
   orders: ordersReducer, 
   foodReports: foodReportsReducer,
   category: categoriesReducer,
-  tableList : tableReducer
-
+  tableList : tableReducer,
+  saleReportList : saleReportReducer
   /* Add other reducers here  */
 });

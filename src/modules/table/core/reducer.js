@@ -43,9 +43,9 @@ const tableSlice = createSlice({
 export const { 
   storeTableList, 
   setLoading ,
-   storeParams,
-   storeUpdate,
-   storeUpdateToggle ,
-   storeCreateToggle
-   } = tableSlice.actions;
+  storeParams,
+  storeUpdate,
+  storeUpdateToggle,
+  storeCreateToggle
+} = tableSlice.actions;
 export default tableSlice.reducer;
