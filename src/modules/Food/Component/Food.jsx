@@ -35,7 +35,7 @@ function FoodParent() {
   const { fetchList, filterByCategory, searchFood } = useFoods();
   const { fetchCategories } = useCategories();
 
-  //* function to create a select object 
+  //* function to create a select object
   const categoriesOptions = () => {
     const initialState = [{ value: "all", label: "All" }];
     categories.forEach((item) => {
@@ -43,11 +43,10 @@ function FoodParent() {
     });
     return initialState;
   };
-  
+
   useEffect(() => {
     fetchCategories();
     fetchList();
-    
   }, []);
 
   useEffect(() => {
@@ -67,13 +66,14 @@ function FoodParent() {
           Food List
         </div>
 
-        <nav className="d-flex m-2  flex-wrap justify-content-between">
+        <nav className="d-flex m-2   flex-wrap justify-content-between">
           <div className="d-flex">
             <Select
             styles={{
                 control: (provided) => (
                     {
                         ...provided,
+                        width:"150px",
                         backgroundColor: "black",
                     }
                 )
@@ -83,7 +83,7 @@ function FoodParent() {
             onChange={(selectedCategories) => {
               setSelectedCategories(selectedCategories);
               if (selectedCategories.label === "All") {
-                fetchList();
+                  fetchList();
               } else {
                 filterByCategory(selectedCategories.label);
               }
@@ -104,7 +104,7 @@ function FoodParent() {
         </nav>
       </header>
 
-      <main className=" position-relative">
+      <main className="position-relative">
         {loading ? (
           <>
             <LoadingFoodCard />
