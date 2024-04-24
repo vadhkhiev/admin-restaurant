@@ -18,7 +18,7 @@ import DeleteCategoriesFood from "../../categories/components/DeleteCategoriesFo
 function FoodParent() {
   const [loading, setLoading] = useState(true);
   const [optionForSelect, setOptionForSelect] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState(null);
+  const [selectedCategories, setSelectedCategories] =   useState(null);
   const dispatch = useDispatch();
 
   //* Refactored
@@ -67,8 +67,17 @@ function FoodParent() {
           Food List
         </div>
 
-        <nav className="d-flex m-2  flex-wrap justify-content-start">
-          <Select
+        <nav className="d-flex m-2  flex-wrap justify-content-between">
+          <div className="d-flex">
+            <Select
+            styles={{
+                control: (provided) => (
+                    {
+                        ...provided,
+                        backgroundColor: "black",
+                    }
+                )
+            }}
             options={optionForSelect}
             value={selectedCategories}
             onChange={(selectedCategories) => {
@@ -76,15 +85,16 @@ function FoodParent() {
               if (selectedCategories.label === "All") {
                 fetchList();
               } else {
-                filterByCategory(selectedCategories.label); 
+                filterByCategory(selectedCategories.label);
               }
             }}
           />
           <ActionCategories />
-          <div className="d-flex w-auto">
+          </div>
+          <div className="d-flex justify-content-center w-25">
             <input
               type="text"
-              className="ms-1 p-2 w-100  form-control form-input position-relative"
+              className="bg-transparent dark:placeholder-white/50 ms-1 p-2 w-100  form-control form-input position-relative"
               placeholder="Search anything..."
               onChange={(e) => {
                 searchFood(e.target.value);
