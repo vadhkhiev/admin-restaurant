@@ -13,7 +13,6 @@ import { alertError, alertSuccess } from "../../utils/alert";
 
 const useFoods = () => {
   const dispatch = useDispatch();
-
   // const uploadImageById = (id, payload) => {
   //   reqUploadImage(id, payload)
   //     .then(() => {

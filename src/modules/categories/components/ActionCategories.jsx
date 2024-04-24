@@ -15,7 +15,7 @@ export default function ActionCategories() {
   return (
     <div className="ms-1">
       <button
-        className="bg-white border-0 p-2 rounded-2"
+        className="bg-transparent text-white border-0 p-2 rounded-2"
         onClick={() => {
           dispatch(storeToggleAddCategory(!toggleAddCategory));
         }}
@@ -23,7 +23,7 @@ export default function ActionCategories() {
         <CgAdd />
       </button>
       <button
-        className="bg-white border-0 p-2 rounded-2"
+        className="bg-transparent text-white border-0 p-2 rounded-2"
         onClick={() => {
           dispatch(storeToggleEditCategory(!toggleEditCategory));
         }}
@@ -31,7 +31,7 @@ export default function ActionCategories() {
         <FaEdit />
       </button>
       <button
-        className="bg-white border-0 p-2 rounded-2 "
+        className="bg-transparent text-white border-0 p-2 rounded-2 "
         onClick={() => {
           dispatch(storeToggleDeleteCategory(!toggleDeleteCategory));
         }}
