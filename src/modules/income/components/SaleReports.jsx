@@ -72,6 +72,7 @@ const SaleReports = () => {
                         <td className="text-white">{SaleReports.cashier.username}</td>
                         <td className="text-white"><sup className="text-danger">$</sup>{SaleReports.totalPrice.toFixed(2)}</td>
                       </tr>
+        
                     ))
                   ) : (
                     <tr>

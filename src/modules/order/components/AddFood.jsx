@@ -159,10 +159,10 @@ const AddFood = ({handleAddtionalFood}) => {
 
                 </section>
                 {
-                    addFood.length > 0 &&   <section className='col-12 col-md-12 col-lg-4'>
-                    <div className='d-flex justify-content-between'>
+                    addFood.length > 0 &&   <section className='col-12 col-md-12 col-lg-4  rounded-3'>
+                    <div className='d-flex justify-content-between '>
                                    <p>
-                                <input  onChange={()=>toggleCheck()} checked={selectAll} className='form-check-input me-1' type="checkbox" />
+                                <input  onChange={()=>toggleCheck()} checked={selectAll} className='form-check-input me-1 text-white' type="checkbox" />
                                 Select All
                             </p>
                             <p  onClick={handleDelete}  className='border text-white p-1 rounded cursor-pointer' >
@@ -171,11 +171,11 @@ const AddFood = ({handleAddtionalFood}) => {
                             </p>
                         </div>
     
-                        <section >
+                        <section className='' >
                         <div className='w-100 p-2 mb-2 border rounded-3'>
                                     {
                                         addFood?.map((food , index)=>(
-                                            <div key={index} className='d-flex border-bottom p-2'>
+                                            <div key={index} className='d-flex border-bottom  p-2'>
                                                 <input 
                                                     checked={food.checked}
                                                     className='form-check-input me-1' 
@@ -186,7 +186,7 @@ const AddFood = ({handleAddtionalFood}) => {
                                                 <div style={{width:'33%'}}>
                                                     <div className='d-flex'>
                                                     <img className='rounded-3' width={50} src={food.foodImageEntities[0]?.url || foodimg} alt="" />
-                                                    <h6 className='ms-2 text-nowrap'>{food.name.length > 15 ? food.name.slice(0,15) + '...' : food.name}</h6>
+                                                    <h6 className='ms-2 text-nowrap text-white'>{food.name.length > 15 ? food.name.slice(0,15) + '...' : food.name}</h6>
                                                     
                                                     </div>
                                                         
