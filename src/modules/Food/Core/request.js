@@ -29,7 +29,7 @@ const reqGetFoodByCategory = async (payload) => {
 
 const reqGetPopularFoods = async () => {
     return await axios.get(
-        `/api/foods/list?filters=popular`
+        `/api/foods/list?size=16&filters=popular`
     )
 }
 
