@@ -5,12 +5,12 @@ import foodimg from '../../../assets/img/dummy.png'
 import { FiTrash } from 'react-icons/fi';
 import { storeAddFoodToggle } from '../core/reducer';
 import { useCategories } from '../../categories/core/action';
+import { useFoods } from '../../Food/Core/action';
 const AddFood = ({handleAddtionalFood}) => {
     const {foodList} = useSelector((state) => state.foodList)
-    const [listFood , setListFood] = useState(foodList)
     const {categories} = useSelector((state) => state.category)
+    const { filterByCategory} = useFoods();
     const {fetchCategories} = useCategories();
-    const [selectedCategories , setSelectedCategories] = useState('defualt')
     const [addFood , setAddFood] = useState([])
     const [selectAll , setSelectAll] = useState(false)
     const dispatch = useDispatch()
@@ -19,17 +19,6 @@ const AddFood = ({handleAddtionalFood}) => {
         fetchCategories();
     }, []);
     
-    useEffect(() => {
-      const handleCate = () =>{
-          if(selectedCategories === ('defualt' || '')){ 
-            setListFood(foodList)
-          }else{
-            setListFood(foodList.filter((i)=> i.foodCategoryEntity.name === selectedCategories))
-          }
-      }
-      handleCate()
-      console.log(selectedCategories)
-    }, [selectedCategories])
     
 
 
@@ -117,9 +106,9 @@ const AddFood = ({handleAddtionalFood}) => {
             <h3 className='text-white'>Select Food</h3>
             <div className='py-2'>
                 <div>
-                    <select onChange={(e)=>setSelectedCategories(e.target.value)} className='form-select w-25 bg-transparent' name="" id="">
-                        <option hidden value="defualt">Categories</option>
-                        <option value="defualt">All</option>
+                    <select onChange={(e)=>filterByCategory(e.target.value)} className='form-select w-25 bg-transparent' name="" id="">
+                        <option hidden value="">Categories</option>
+                        <option value="">All</option>
                         {categories?.map((food, index) => (
                             <option key={index} value={food.name}>{food.name}</option>
                         ))}
@@ -131,14 +120,14 @@ const AddFood = ({handleAddtionalFood}) => {
                 <section className={`  col-12 col-md-12 ${addFood.length === 0 ? ' col-lg-12': ' col-lg-8' } `} >
                 {
                     <div className='row'>
-    {listFood.length === 0 ? (
+    {foodList.length === 0 ? (
         <div className='text-danger text-center'>No Result.</div>
     ) : (
-      listFood?.map((food, index) => (
+      foodList?.map((food, index) => (
             <div key={index} className='col-md-12 col-lg-6 mb-3'>
                 <div className='position-relative rounded-3 overflow-hidden d-flex' style={css}>
                     <div className='w-25 overflow-hidden'>
-                        <img width={'120px'} src={food.foodImageEntities[0]?.url || foodimg} alt='Food' />
+                        <img width={'120px'} src={food.foodImage|| foodimg} alt='Food' />
                     </div>
                     <main className='ms-3 d-flex flex-row mt-2 w-75 position-relative '>
                         <aside style={{ width: '60%' }}>
@@ -170,10 +159,10 @@ const AddFood = ({handleAddtionalFood}) => {
 
                 </section>
                 {
-                    addFood.length > 0 &&   <section className='col-12 col-md-12 col-lg-4'>
-                    <div className='d-flex justify-content-between'>
+                    addFood.length > 0 &&   <section className='col-12 col-md-12 col-lg-4  rounded-3'>
+                    <div className='d-flex justify-content-between '>
                                    <p>
-                                <input  onChange={()=>toggleCheck()} checked={selectAll} className='form-check-input me-1' type="checkbox" />
+                                <input  onChange={()=>toggleCheck()} checked={selectAll} className='form-check-input me-1 text-white' type="checkbox" />
                                 Select All
                             </p>
                             <p  onClick={handleDelete}  className='border text-white p-1 rounded cursor-pointer' >
@@ -182,11 +171,11 @@ const AddFood = ({handleAddtionalFood}) => {
                             </p>
                         </div>
     
-                        <section >
+                        <section className='' >
                         <div className='w-100 p-2 mb-2 border rounded-3'>
                                     {
                                         addFood?.map((food , index)=>(
-                                            <div key={index} className='d-flex border-bottom p-2'>
+                                            <div key={index} className='d-flex border-bottom  p-2'>
                                                 <input 
                                                     checked={food.checked}
                                                     className='form-check-input me-1' 
@@ -196,8 +185,8 @@ const AddFood = ({handleAddtionalFood}) => {
     
                                                 <div style={{width:'33%'}}>
                                                     <div className='d-flex'>
-                                                    <img className='rounded-3' width={50} src={food.foodImageEntities[0]?.url || foodimg} alt="" />
-                                                    <h6 className='ms-2 text-nowrap'>{food.name.length > 15 ? food.name.slice(0,15) + '...' : food.name}</h6>
+                                                    <img className='rounded-3' width={50} src={food.foodImage || foodimg} alt="" />
+                                                    <h6 className='ms-2 text-nowrap text-white'>{food.name.length > 15 ? food.name.slice(0,15) + '...' : food.name}</h6>
                                                     
                                                     </div>
                                                         

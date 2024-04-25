@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import loadingImg from '../../../assets/img/loading.gif';
 import useReports from '../core/action';
 import Pagination from '../../utils/components/Pagination';
 import Reset from '../../utils/components/Reset';
+import Filter from '../../utils/components/Filter';
 
 const FoodReports = () => {
   const { foodReports, params, pagingdetails, loading } = useSelector(state => state.foodReports);
@@ -38,6 +39,7 @@ const FoodReports = () => {
                 }}
                 value={params.query}
                  className='custom-border ms-2 ps-3 text-white rounded-3 bg-transparent' placeholder="Search" />
+                 <Filter params={params} handleFilter={handleFilter} options={['asc', 'desc']} action={'order'}/>
             </div>
             <div style={{ height: '35px' }} className={`ms-2 custom-border rounded-3 d-flex p-2 px-3`}>
               <div className='d-flex text-nowrap'>

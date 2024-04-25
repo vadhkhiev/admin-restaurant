@@ -230,7 +230,7 @@ const ViewOrder = () => {
                 </span>
                 <div className='position-relative rounded-3 w-100 overflow-hidden d-flex' style={css}>
                     <div className='w-25 overflow-hidden'>
-                        <img width={'120px'} src={item.foodImageEntities[0]?.url || foodimg} alt='order' />
+                        <img width={'120px'} src={item.foodImage || foodimg} alt='order' />
                     </div>
                     <main className='ms-3 d-flex flex-row mt-2 w-75 position-relative ordercardwrapper'>
                         <aside style={{ width: '60%' }}>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import img from '../../../assets/img/dummy.png'
 import { quantity, tickedFood } from '../core/reducer'
 
@@ -23,8 +23,8 @@ const OrderedFood = ({orderedFood}) => {
 
                     <div className='' style={{width:'33%'}}>
                         <div className='d-flex'>
-                        { food.foodImageEntities[0]?.url ? (
-                            <img className='rounded-3' width={50} src={food.foodImageEntities[0]?.url} alt="" />
+                        { food.foodImage ? (
+                            <img className='rounded-3' width={50} src={food.foodImage} alt="" />
                         ) : (
                             <img className='rounded-3' width={50} src={img} alt="No Image Found" />
                         )}

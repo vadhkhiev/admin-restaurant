@@ -17,11 +17,11 @@ const SaleReports = () => {
   };
   return (
     <>
-      <div  className='d-flex justify-content-between mb-3'>
+      <div style={{height:'35px'}}  className='d-flex justify-content-between mb-3'>
           <div>
             <h3 className="text-white mb-3 fw-bold">Sale Reports</h3>
           </div>
-          <div className='d-flex justify-content-end'>
+          <div className='d-flex  justify-content-end p-0'>
             <div  className='rounded-start-3 d-flex justify-content-center'>
               <Reset params={params} handleFilter={handleFilter}/>
               <input
@@ -30,11 +30,9 @@ const SaleReports = () => {
                 }}
                 value={params.query}                
                 className='custom-border ms-2 ps-3 text-white rounded-3 bg-transparent' placeholder="Search" />
+              <Filter handleFilter={handleFilter} params={params} action="order" options={["asc", "desc"]} />
             </div>
-            <div  className={`ms-2 custom-border rounded-3 d-flex `}>
-              <div style={{paddingTop: '5px' }} className="me-2">
-                <Filter handleFilter={handleFilter} params={params} action="order" options={["asc", "desc"]} />
-              </div>
+            <div  className={`ms-2 custom-border rounded-3 d-flex p-0`}>
               <div className='d-flex text-nowrap p-2'>
                 <label className='text-white me-3' htmlFor="">Start date</label>
                 <input
@@ -74,6 +72,7 @@ const SaleReports = () => {
                         <td className="text-white">{SaleReports.cashier.username}</td>
                         <td className="text-white"><sup className="text-danger">$</sup>{SaleReports.totalPrice.toFixed(2)}</td>
                       </tr>
+        
                     ))
                   ) : (
                     <tr>
