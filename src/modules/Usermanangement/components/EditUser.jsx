@@ -26,11 +26,7 @@ const EditUser = ({ handleEdit, editUser }) => {
   const [toggleChange, setToggleChange] = useState(false)
 
   const handleUpdate = async () =>{
-    const formdata = new FormData();
-    if(fileInput){
-      formdata.append("file", fileInput);
-    }
-   updateUser(editing , editUser.id , fileInput ? formdata : null ,handleEdit)
+   updateUser(editing , editUser.id)
    
   }
 
