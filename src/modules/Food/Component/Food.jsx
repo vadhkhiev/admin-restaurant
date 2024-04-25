@@ -4,7 +4,7 @@ import Select from "react-select";
 import {useFoods} from "../Core/action";
 import {useCategories} from "../../categories/core/action";
 import {SlCloudUpload} from "react-icons/sl";
-import {storeToggleAdd, storeToggleUploadImage} from "../Core/slice";
+import {storeToggleAdd} from "../Core/slice";
 import FoodCard from "./FoodCard";
 import AddForm from "./AddForm";
 import EditFoodForm from "./EditFoodForm";
@@ -15,7 +15,7 @@ import AddCategoriesFood from "../../categories/components/AddCategoriesFood";
 import EditCategoriesFood from "../../categories/components/EditCategoriesFood";
 import DeleteCategoriesFood from "../../categories/components/DeleteCategoriesFood";
 import {UploadImageForm} from "./UploadImageForm";
-import {FaRegCircleXmark} from "react-icons/fa6";
+import Pagination from "../../utils/components/Pagination";
 
 function FoodParent() {
     const [loading, setLoading] = useState(true);
@@ -24,17 +24,16 @@ function FoodParent() {
     const dispatch = useDispatch();
 
     //* Refactored
-    const {foodList, toggleView, toggleEdit, toggleAdd, toggleUploadImage} = useSelector(
+    const {foodList, params, paging, toggleView, toggleEdit, toggleAdd, toggleUploadImage} = useSelector(
         (state) => state.foodList
     );
-
     const {
         categories,
         toggleEditCategory,
         toggleAddCategory,
         toggleDeleteCategory,
     } = useSelector((state) => state.category);
-    const {fetchList, filterByCategory, searchFood, filterByPopular} = useFoods();
+    const {fetchList, filterByCategory, searchFood, filterByPopular, handleFilter} = useFoods();
     const {fetchCategories} = useCategories();
 
     //* function to create a select object
@@ -99,7 +98,7 @@ function FoodParent() {
                             className="bg-transparent dark:placeholder-white/50 ms-1 p-2 w-100  form-control form-input position-relative"
                             placeholder="Search anything..."
                             onChange={(e) => {
-                                searchFood(e.target.value);
+                                handleFilter("query", e.target.value);
                             }}
                         ></input>
                     </div>
@@ -140,6 +139,9 @@ function FoodParent() {
             >
                 <SlCloudUpload/>
             </button>
+
+            <Pagination params={params} pagingdetails={paging} handleFilter={handleFilter}/>
+
         </div>
     );
 }

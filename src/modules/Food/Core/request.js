@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const reqGetFoods = async (id = "") => {
-    return await axios.get(`/api/foods${id}`);
+const reqGetFoods = async (params) => {
+    return await axios.get(`/api/foods`, {params});
 };
 
 
@@ -15,10 +15,6 @@ const reqDeleteFood = async (id) => {
 
 const reqUpdateFood = async (id, payload) => {
     return await axios.put(`/api/foods/${id}`, payload);
-};
-
-const reqGetFoodByName = async (name) => {
-    return await axios.get(`api/foods?query=${name}`);
 };
 
 const reqGetFoodByCategory = async (payload) => {
@@ -39,7 +35,6 @@ const reqUploadImage = async (payload) => {
 
 export {
     reqGetFoods,
-    reqGetFoodByName,
     reqCreateFood,
     reqDeleteFood,
     reqUpdateFood,
