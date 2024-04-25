@@ -28,8 +28,12 @@ export default function AddForm() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="add-form d-flex justify-content-center flex-column position-absolute col-9 p-3 rounded-2 ms-3"
-        style={{ top: "15%", right: "10%" }}
+        className="form-group position-absolute w-50 custom-border text-white rounded-3 top-0 p-2"
+        style={{
+          marginLeft: "15%", marginTop: "10%",
+          backdropFilter: "5px",
+          background: "rgba(10,10,10, 0.35)"
+        }}
       >
         <div className="form-group">
           <label htmlFor="inputName">Food Name</label>
@@ -122,7 +126,7 @@ export default function AddForm() {
         </div>
         {/**btn submit */}
         <div className="col-12 mt-1">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="custom-btn custom-border btn">
             Submit form
           </button>
         </div>

@@ -4,7 +4,7 @@ import Select from "react-select";
 import {useFoods} from "../Core/action";
 import {useCategories} from "../../categories/core/action";
 import {SlCloudUpload} from "react-icons/sl";
-import {storeToggleAdd} from "../Core/slice";
+import {storeToggleAdd, storeToggleUploadImage} from "../Core/slice";
 import FoodCard from "./FoodCard";
 import AddForm from "./AddForm";
 import EditFoodForm from "./EditFoodForm";
@@ -15,6 +15,7 @@ import AddCategoriesFood from "../../categories/components/AddCategoriesFood";
 import EditCategoriesFood from "../../categories/components/EditCategoriesFood";
 import DeleteCategoriesFood from "../../categories/components/DeleteCategoriesFood";
 import {UploadImageForm} from "./UploadImageForm";
+import {FaRegCircleXmark} from "react-icons/fa6";
 
 function FoodParent() {
     const [loading, setLoading] = useState(true);
@@ -33,12 +34,12 @@ function FoodParent() {
         toggleAddCategory,
         toggleDeleteCategory,
     } = useSelector((state) => state.category);
-    const {fetchList, filterByCategory, searchFood} = useFoods();
+    const {fetchList, filterByCategory, searchFood, filterByPopular} = useFoods();
     const {fetchCategories} = useCategories();
 
     //* function to create a select object
     const categoriesOptions = () => {
-        const initialState = [{value: "all", label: "All"}];
+        const initialState = [{value: "popular", label: "Popular"}];
         categories.forEach((item) => {
             initialState.push({value: item.name, label: item.name});
         });
@@ -83,8 +84,8 @@ function FoodParent() {
                             value={selectedCategories}
                             onChange={(selectedCategories) => {
                                 setSelectedCategories(selectedCategories);
-                                if (selectedCategories.label === "All") {
-                                    fetchList();
+                                if (selectedCategories.label === "Popular") {
+                                    filterByPopular()
                                 } else {
                                     filterByCategory(selectedCategories.label);
                                 }
@@ -112,7 +113,7 @@ function FoodParent() {
                     </>
                 ) : (
                     <div className="row">
-                        {foodList.map((food) => {
+                    {foodList.map((food) => {
                             return (
                                 <div className="col-6 col-lg-3 col-md-4 col-sm-6" key={food.id}>
                                     <FoodCard food={food}/>

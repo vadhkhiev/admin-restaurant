@@ -6,7 +6,7 @@ const initialState = {
     toggleView: false,
     toggleAdd: false,
     toggleUploadImage: false,
-    setID: null,
+    selectedID: null,
     food: null,
 };
 
@@ -29,11 +29,11 @@ const foodsSlice = createSlice({
         setFood: (state, action) => {
             state.food = action.payload;
         },
-        storeID: (state, action) => {
-            state.setID = action.payload;
+        storeSelectedID: (state, action) => {
+            state.selectedID = action.payload;
         },
         storeToggleUploadImage: (state, action) => {
-            state.uploadImage = action.payload;
+            state.toggleUploadImage = action.payload;
         }
     },
 });
@@ -44,7 +44,7 @@ export const {
     storeToggleView,
     storeEditToggle,
     storeToggleAdd,
-    storeID,
+    storeSelectedID,
     storeToggleUploadImage
 } = foodsSlice.actions;
 export default foodsSlice.reducer;

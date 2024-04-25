@@ -49,8 +49,12 @@ export default function EditForm() {
         <>
             <form
                 onSubmit={handleSubmit}
-                className="add-form d-flex justify-content-center flex-column position-absolute col-9 p-3 rounded-2 ms-3"
-                style={{top: "15%", right: "10%"}}
+                className="form-group position-absolute w-50 custom-border text-white rounded-3 top-0 p-2"
+                style={{
+                    marginLeft: "15%", marginTop: "10%",
+                    backdropFilter: "5px",
+                    background: "rgba(10,10,10, 0.35)"
+                }}
             >
                 <button
                     className="border position-absolute top-0 end-0 bg-whit fw-bold rounded-3 mt-1 me-3"
@@ -60,6 +64,8 @@ export default function EditForm() {
                 >
                     X
                 </button>
+
+                <h3 className="text-white text-center ">EDIT FOOD INFORMATION</h3>
 
                 <div className="form-group">
                     <label htmlFor="inputCode">Code</label>
@@ -156,7 +162,7 @@ export default function EditForm() {
                 </div>
 
                 <div className="col-12 mt-1">
-                    <button className="btn btn-primary">Submit form</button>
+                    <button className="btn custom-btn custom-border">Submit form</button>
                 </div>
             </form>
         </>

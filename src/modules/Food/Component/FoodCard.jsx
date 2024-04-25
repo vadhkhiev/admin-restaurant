@@ -1,18 +1,17 @@
 import React from "react";
 import dummyImage from "../../../assets/img/dummy.png";
 import {useDispatch, useSelector} from "react-redux";
-import {storeEditToggle, storeToggleUploadImage, storeToggleView} from "../Core/slice";
+import {storeEditToggle, storeSelectedID, storeToggleUploadImage, storeToggleView} from "../Core/slice";
 import {useFoods} from "../Core/action";
 import {alertConfirm} from "../../utils/alert";
 import {FaRegEdit, FaRegEye} from "react-icons/fa";
 import {FaRegCircleUp, FaRegTrashCan} from "react-icons/fa6";
-import {UploadImageForm} from "./UploadImageForm";
 
 export default function FoodCard({food}) {
     const dispatch = useDispatch();
-    const {toggleView, toggleEdit, toggleUploadImage} = useSelector((state) => state.foodList);
+    const {toggleView, toggleEdit} = useSelector((state) => state.foodList);
     const {onSetEditFood, deleteFood} = useFoods();
-    const {foodImageEntities} = food;
+    const {foodImage} = food;
 
     return (
         <>
@@ -20,13 +19,13 @@ export default function FoodCard({food}) {
                 <div className="rounded-3 overflow-hidden" style={{height: "200px"}}>
                     <img
                         className="rounded-3 w-100"
-                        src={foodImageEntities[0]?.url || dummyImage}
+                        src={foodImage || dummyImage}
                         alt=""
                     />
                 </div>
                 <div className="position-absolute text-white cursor-pointer top-0 end-0 mt-1 me-1" onClick={() => {
+                    dispatch(storeSelectedID(food.id));
                     dispatch(storeToggleUploadImage(true));
-                    console.log(toggleUploadImage)
                 }}>
                     <FaRegCircleUp/>
                 </div>
