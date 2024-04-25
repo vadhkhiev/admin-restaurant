@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useCategories} from "../core/action";
-import {storeToggleDeleteCategory, storeToggleEditCategory} from "../core/slice";
+import {storeToggleDeleteCategory} from "../core/slice";
 
 export default function DeleteCategoriesFood() {
     const [ID, setID] = useState(null);

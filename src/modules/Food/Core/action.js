@@ -31,6 +31,10 @@ const useFoods = () => {
     }
   };
 
+  const uploadImage = (payload) =>{
+
+  }
+
   const searchFood = async (name) => {
     try {
       const result = await reqGetFoodByName(name);
@@ -59,7 +63,7 @@ const useFoods = () => {
       });
   };
 
-  const updateFood = (id, payload, imagePayload) => {
+  const updateFood = (id, payload) => {
     reqUpdateFood(id, payload)
       .then(() => {
         fetchList();
@@ -70,14 +74,6 @@ const useFoods = () => {
         console.log(error);
         alertError("Can't Edit!");
       });
-    reqUploadImage(imagePayload)
-      .then(()=>{
-        fetchList();
-        alertSuccess("Image Changed")
-      })
-      .catch(()=>{
-        alertError("can't upload")
-      })
   };
 
   const deleteFood = (id) => {
@@ -102,6 +98,7 @@ const useFoods = () => {
     updateFood,
     deleteFood,
     filterByCategory,
+    uploadImage,
   };
 };
 

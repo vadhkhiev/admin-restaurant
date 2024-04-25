@@ -31,8 +31,8 @@ export default function AddForm() {
         className="add-form d-flex justify-content-center flex-column position-absolute col-9 p-3 rounded-2 ms-3"
         style={{ top: "15%", right: "10%" }}
       >
-        <div class="form-group">
-          <label for="inputName">Food Name</label>
+        <div className="form-group">
+          <label htmlFor="inputName">Food Name</label>
           <input
             type="text"
             className="form-control"
@@ -43,8 +43,8 @@ export default function AddForm() {
           />
         </div>
 
-        <div class="form-group">
-          <label for="inputPrice">Code</label>
+        <div className="form-group">
+          <label htmlFor="inputPrice">Code</label>
           {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
           <input
             type="text"
@@ -56,8 +56,8 @@ export default function AddForm() {
           />
         </div>
 
-        <div class="form-group">
-          <label for="inputPrice">Price</label>
+        <div className="form-group">
+          <label htmlFor="inputPrice">Price</label>
           {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
           <input
             type="text"
@@ -69,8 +69,8 @@ export default function AddForm() {
           />
         </div>
 
-        <div class="form-group">
-          <label for="inputDiscount">Discount</label>
+        <div className="form-group">
+          <label htmlFor="inputDiscount">Discount</label>
           {/* <input type="password" class="form-control" id="inputPassword4" placeholder="Password"> */}
           <input
             type="text"
@@ -82,16 +82,11 @@ export default function AddForm() {
           />
         </div>
 
-        <div class="mb-2">
-          <label class="form-label">Food Image</label>
-          <input class="form-control" type="file" id="formFile"></input>
-        </div>
-
-        <div class="form-group">
+        <div className="form-group">
           <label>Categories</label>
           <select
             id="inputState"
-            class="form-control"
+            className="form-control"
             onChange={(e) => {
               categories.forEach(({ id, name }) => {
                 if (name === e.target.value) {
@@ -114,20 +109,8 @@ export default function AddForm() {
           </select>
         </div>
 
-        {/* <div class="mb-2">
-          <label class="form-label">Food Image</label>
-          <input
-            class="form-control"
-            type="file"
-            id="formFile"
-            onChange={(e) => {
-              setImageFile(e.target.files[0]);
-            }}
-          ></input>
-        </div> */}
-
-        <div class="form-group">
-          <label for="inputDesc">Description</label>
+        <div className="form-group">
+          <label htmlFor="inputDesc">Description</label>
           <input
             type="text"
             className="form-control"
@@ -137,10 +120,9 @@ export default function AddForm() {
             }}
           />
         </div>
-
         {/**btn submit */}
-        <div class="col-12 mt-1">
-          <button type="submit" class="btn btn-primary">
+        <div className="col-12 mt-1">
+          <button type="submit" className="btn btn-primary">
             Submit form
           </button>
         </div>
