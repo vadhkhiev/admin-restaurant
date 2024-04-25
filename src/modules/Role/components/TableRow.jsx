@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { MdOutlineLockPerson } from "react-icons/md";
 import { PiNotePencilThin } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';

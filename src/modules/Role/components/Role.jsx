@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Table from "./Table";
 import { useDispatch, useSelector } from "react-redux";
 import Createrole from "./Createrole";
@@ -35,7 +35,7 @@ const Role = () => {
             </div>
             <div className='d-flex justify-content-end w-50'>
             {
-                (userPermission ?.find((per) => per.name == 'create-role'))?.status === 1 
+                (userPermission?.find((per) => per.name === 'create-role'))?.status === 1 
                 && 
                 <button onClick={()=>dispatch(storeCreateToggle(true))} className='btn custom-btn text-white custom-border' >Add</button>
               }

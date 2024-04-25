@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TableRow from './TableRow'
 import { useSelector } from 'react-redux'
 
@@ -21,7 +21,7 @@ const Table = () => {
                   <th scope='col' className='text-white'>Created Date</th>
                   <th scope='col' className='text-white'>Updated Date</th>
                   {
-                    ((userPermission?.find((per) => per.name == 'edit-role'))?.status === 1 || (userPermission ?.find((per) => per.name == 'delete-role'))?.status === 1) && <th scope='col' className='text-white'>Action</th>
+                    ((userPermission?.find((per) => per.name === 'edit-role'))?.status === 1 || (userPermission?.find((per) => per.name === 'delete-role'))?.status === 1) && <th scope='col' className='text-white'>Action</th>
                   }
                 </tr>
               </thead>

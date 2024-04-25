@@ -7,7 +7,7 @@ import loadingscreen from '../../../assets/img/loading.gif';
 
 const Access = () => {
   const id = useSelector((state) => state.id.id);
-  const role = useSelector((state) => state.roles.roles)?.find((role)=>role.id == id);
+  const role = useSelector((state) => state.roles.roles)?.find((role)=>role.id === id);
   const {updateRolePermissions} = useRoles();
   const [rolePermissions, setPermissions] = useState([]);
   const [defaultValue, setDefault] = useState([]); 
@@ -74,7 +74,7 @@ const Access = () => {
   <thead>
     <tr className='py-3'>
       <th className='border-bottom border-dark text-white-50'># Permission</th>
-      <th className='border-bottom border-dark text-white-50 d-flex justify-content-end'>Check</th>
+      <th className='border-bottom border-dark text-white-50 d-flex justify-content-end'>check</th>
     </tr>
   </thead>
   <tbody>

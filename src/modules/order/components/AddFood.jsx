@@ -127,7 +127,7 @@ const AddFood = ({handleAddtionalFood}) => {
             <div key={index} className='col-md-12 col-lg-6 mb-3'>
                 <div className='position-relative rounded-3 overflow-hidden d-flex' style={css}>
                     <div className='w-25 overflow-hidden'>
-                        <img width={'120px'} src={food.foodImageEntities[0]?.url || foodimg} alt='Food' />
+                        <img width={'120px'} src={food.foodImage|| foodimg} alt='Food' />
                     </div>
                     <main className='ms-3 d-flex flex-row mt-2 w-75 position-relative '>
                         <aside style={{ width: '60%' }}>
@@ -185,7 +185,7 @@ const AddFood = ({handleAddtionalFood}) => {
     
                                                 <div style={{width:'33%'}}>
                                                     <div className='d-flex'>
-                                                    <img className='rounded-3' width={50} src={food.foodImageEntities[0]?.url || foodimg} alt="" />
+                                                    <img className='rounded-3' width={50} src={food.foodImage || foodimg} alt="" />
                                                     <h6 className='ms-2 text-nowrap text-white'>{food.name.length > 15 ? food.name.slice(0,15) + '...' : food.name}</h6>
                                                     
                                                     </div>
