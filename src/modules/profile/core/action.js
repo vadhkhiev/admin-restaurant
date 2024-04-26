@@ -14,7 +14,6 @@ const useCurrentUser = () => {
                  dispatch(storeCurrentUser(response.data?.data));
 
             }).catch((error) => {
-                console.log(error)
             })
         };
 
@@ -26,7 +25,6 @@ const useCurrentUser = () => {
                 alertSuccess("Avatar Updated")
            
             }).catch((error) => {
-                console.log(error)
                 alertError("Can not Update Avatar")
             })
           }
@@ -45,16 +43,16 @@ const useCurrentUser = () => {
             }
         };
         
-        const handleEditProfile = (payload,img) => {
-            editProfile(payload).then((response) => {
+        const handleEditProfile = (payload , img) => {
+            if(img){
+                delete payload.avatar;
+                handleImg(img);
+                console.log(payload)
+            }
+            editProfile(payload).then(() => {
                 getCurrentUser();
-                if(!img){
-                    alertSuccess("Profile Updated")
-                }
-                
-            }).catch((error) => {
+            }).catch(() => {
                 alertError("Can not Update Profile")
-                console.log(error)
             })
         }
 

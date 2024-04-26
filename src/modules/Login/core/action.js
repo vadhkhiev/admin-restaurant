@@ -6,16 +6,13 @@ import { reqLogin } from './request'
 import {useDispatch } from "react-redux"
 
 const useLogin = () => {
-    const dispatch = useDispatch();
     const {getUser} = useAuth();
 
-     const userLogin = async (username , password) => {
+     const userLogin = async (username , password , setError) => {
         await reqLogin(username , password).then((res)=>{
             setAuth(res.data.token)
             getUser();
-            
-        })
-        .catch((err)=> {console.log(err)})
+        }).catch((err)=>setError(err.response.data.message))
      }
 
   return {userLogin}

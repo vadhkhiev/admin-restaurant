@@ -65,7 +65,7 @@ const EditUser = ({ handleEdit, editUser }) => {
               <div  className={`${toggleChange ? "d-none" : "d-block"} mx-3`}>
               <div className=' rounded-3 w-100 d-flex  justify-content-center'  >
                 <div className='d-flex flex-row '>
-                <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={editUser?.avatar &&  editUser?.avatar.length > 50 ? editUser?.avatar : avatarImg } width={60} height={60}  alt="" className='rounded-circle ' />
+                <img style={{boxShadow: "rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 1) 0px 0px 1px 1px"}} src={fileInput ? URL.createObjectURL(fileInput) : (editUser?.avatar && editUser.avatar?.length > 50) ? editUser?.avatar : avatarImg } width={60} height={60}  alt="" className='rounded-circle ' />
                 <h4  className=' text-white  w-50 ms-2 text-nowrap'>Editing
                 <span className='text-primary'> {editUser?.name}</span> 
                 </h4>

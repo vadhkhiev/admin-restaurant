@@ -19,7 +19,6 @@ const FoodReports = () => {
     handleFilter(key, formattedValue);
   };
 
-  console.log(params)
 
   return (
     <>

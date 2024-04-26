@@ -16,9 +16,8 @@ const Login = () => {
         setError('Please enter a username and password');
         return;
       }
-      userLogin(username , password);
+      userLogin(username , password , setError);
     };
-    console.log(username, password)
     
 
 
