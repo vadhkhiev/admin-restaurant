@@ -1,4 +1,4 @@
-import {setFood, storeEditToggle, storeFood, storeParams} from "./slice";
+import {setFood, storeEditToggle, storeFood, storePaging, storeParams} from "./slice";
 import {useDispatch, useSelector} from "react-redux";
 import {
     reqGetFoods,
@@ -14,16 +14,17 @@ const useFoods = () => {
     const dispatch = useDispatch();
     const {params} = useSelector((state) => state.foodList);
 
-    const fetchList = async (payload) => {
+    const fetchList = async () => {
         await reqGetFoods(params).then((res) => {
             dispatch(storeFood(res.data.data));
+            dispatch(storePaging(res.data.paging));
         }).catch((err) => {
             console.log("Error in component: ", err);
         })
     };
 
     const handleFilter = (name, value) => {
-        dispatch(storeParams([name], value));
+        dispatch(storeParams({[name]: value}));
     }
 
     const uploadImage = (payload) => {

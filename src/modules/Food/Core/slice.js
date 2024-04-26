@@ -10,7 +10,7 @@ const initialState = {
     selectedID: null,
     food: null,
     params : {
-        size:10,
+        size:12,
         page:1,
         query:''
     }
@@ -43,6 +43,9 @@ const foodsSlice = createSlice({
         },
         storeParams : (state, action) =>{
             state.params = { ...state.params,...action.payload};
+        },
+        storePaging: (state, action) => {
+            state.paging = action.payload;
         }
     },
 });
@@ -56,5 +59,6 @@ export const {
     storeSelectedID,
     storeToggleUploadImage,
     storeParams ,
+    storePaging
 } = foodsSlice.actions;
 export default foodsSlice.reducer;
