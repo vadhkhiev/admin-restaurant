@@ -1,11 +1,10 @@
-import {setFood, storeEditToggle, storeFood} from "./slice";
-import {useDispatch} from "react-redux";
+import {setFood, storeEditToggle, storeFood, storePaging, storeParams} from "./slice";
+import {useDispatch, useSelector} from "react-redux";
 import {
     reqGetFoods,
     reqCreateFood,
     reqUpdateFood,
     reqDeleteFood,
-    reqGetFoodByName,
     reqGetFoodByCategory,
     reqUploadImage, reqGetPopularFoods
 } from "./request";
@@ -13,23 +12,20 @@ import {alertError, alertSuccess} from "../../utils/alert";
 
 const useFoods = () => {
     const dispatch = useDispatch();
-    // const uploadImageById = (id, payload) => {
-    //   reqUploadImage(id, payload)
-    //     .then(() => {
-    //       console.log("Success");
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // };
+    const {params} = useSelector((state) => state.foodList);
+
     const fetchList = async () => {
-        try {
-            const result = await reqGetFoods();
-            dispatch(storeFood(result.data.data));
-        } catch (error) {
-            console.error("Error in  component:", error);
-        }
+        await reqGetFoods(params).then((res) => {
+            dispatch(storeFood(res.data.data));
+            dispatch(storePaging(res.data.paging));
+        }).catch((err) => {
+            console.log("Error in component: ", err);
+        })
     };
+
+    const handleFilter = (name, value) => {
+        dispatch(storeParams({[name]: value}));
+    }
 
     const uploadImage = (payload) => {
         reqUploadImage(payload)
@@ -43,9 +39,9 @@ const useFoods = () => {
             })
     }
 
-    const searchFood = async (name) => {
+    const searchFood = async (params) => {
         try {
-            const result = await reqGetFoodByName(name);
+            const result = await fetchList(params);
             dispatch(storeFood(result.data.data));
         } catch (error) {
             console.log("Error in component: ", error);
@@ -56,16 +52,16 @@ const useFoods = () => {
         try {
             const result = await reqGetFoodByCategory(payload);
             dispatch(storeFood(result.data.data));
-        } catch (error){
+        } catch (error) {
             console.log(error)
         }
     };
 
     const filterByPopular = async () => {
         try {
-            const result  = await reqGetPopularFoods()
+            const result = await reqGetPopularFoods()
             return dispatch(storeFood(result.data.data));
-        } catch (error){
+        } catch (error) {
             console.log(error);
         }
     }
@@ -119,6 +115,7 @@ const useFoods = () => {
         filterByCategory,
         filterByPopular,
         uploadImage,
+        handleFilter
     };
 };
 

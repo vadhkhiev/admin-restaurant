@@ -3,11 +3,17 @@ import {createSlice} from "@reduxjs/toolkit";
 const initialState = {
     foodList: [],
     toggleEdit: false,
+    paging:{},
     toggleView: false,
     toggleAdd: false,
     toggleUploadImage: false,
     selectedID: null,
     food: null,
+    params : {
+        size:12,
+        page:1,
+        query:''
+    }
 };
 
 const foodsSlice = createSlice({
@@ -34,6 +40,12 @@ const foodsSlice = createSlice({
         },
         storeToggleUploadImage: (state, action) => {
             state.toggleUploadImage = action.payload;
+        },
+        storeParams : (state, action) =>{
+            state.params = { ...state.params,...action.payload};
+        },
+        storePaging: (state, action) => {
+            state.paging = action.payload;
         }
     },
 });
@@ -45,6 +57,8 @@ export const {
     storeEditToggle,
     storeToggleAdd,
     storeSelectedID,
-    storeToggleUploadImage
+    storeToggleUploadImage,
+    storeParams ,
+    storePaging
 } = foodsSlice.actions;
 export default foodsSlice.reducer;
