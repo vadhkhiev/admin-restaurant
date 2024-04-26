@@ -14,7 +14,6 @@ const Role = () => {
     const { getRoles , handleFilter } = useRoles();
     const {createToggle , updateToggle } = useSelector((state) => state.roles);
     const dispatch = useDispatch();
-    console.log(createToggle,updateToggle)
 
     
     useEffect(()=>{

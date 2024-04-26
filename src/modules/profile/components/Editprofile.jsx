@@ -55,27 +55,22 @@ const Editprofile = ({ setPopupedit, profile}) => {
       console.error('Error changing password:', error);
     }
   };
-  
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      handleEditProfile(editedProfile , img);
+      handleEditProfile(editedProfile);
+      if (img) {
+        handleImg(img);
+      }
       getCurrentUser();
       setTimeout(() => {
         setPopupedit(false);
-
       }, 1000);
     } catch (error) {
       setError(error);
-      console.error('Error editing profile:', error);
     }
-    if (img) {
-      handleImg(img);
-      
-    }
+
   };
 
   
