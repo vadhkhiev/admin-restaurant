@@ -12,16 +12,13 @@ const Editprofile = ({ setPopupedit, profile}) => {
   });
   const [error, setError] = useState('');
   const [img, setImg] = useState(null)
-  const { handleImg , handleEditProfile ,handleChangePw , getCurrentUser} = useCurrentUser();
+  const {  handleEditProfile ,handleChangePw , getCurrentUser} = useCurrentUser();
   const [toggleChange, setToggleChange] = useState(false)
   const [password , setPassword] = useState({
     "old_password": "",
     "password": "",
     "confirm_password": ""
   })
-
-
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,10 +56,7 @@ const Editprofile = ({ setPopupedit, profile}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      handleEditProfile(editedProfile);
-      if (img) {
-        handleImg(img);
-      }
+      handleEditProfile(editedProfile , img);
       getCurrentUser();
       setTimeout(() => {
         setPopupedit(false);
@@ -70,10 +64,7 @@ const Editprofile = ({ setPopupedit, profile}) => {
     } catch (error) {
       setError(error);
     }
-
   };
-
-  
 
   return (
     <div>
@@ -105,9 +96,10 @@ const Editprofile = ({ setPopupedit, profile}) => {
             <div className="mx-3 d-flex flex-row justify-content-center">
               <div className="w-100">
                   <div className='d-flex justify-content-center'>
-                  <img width={70} height={70} className='rounded-circle mb-2' onChange={(e) => setImg(e.target.files[0])} src={((profile?.avatar && profile.avatar.length > 50) ? profile?.avatar  : profileImg) } alt="" />
+                  <img width={70} height={70} className='rounded-circle mb-2' 
+                  src={img ? URL.createObjectURL(img) : (profile?.avatar && profile.avatar.length > 50) ? profile?.avatar  : profileImg} alt="" />
                   </div>
-                  <input type="file" className='w-100 p-2 mb-2 custom-border rounded-3 text-white' name="" id="" />
+                  <input type="file" onChange={(e) => setImg(e.target.files[0])} className='w-100 p-2 mb-2 custom-border rounded-3 text-white' name="" id="" />
                   <input style={{background:'#09090b'}} className='w-100 p-2 mb-2 custom-border rounded-3 text-white' type="text" name="name" value={editedProfile.name} onChange={handleChange} />
                   <select style={{background:'#09090b'}} className='custom-border mb-2 w-100 p-2 text-white rounded-3' name="gender" value={editedProfile.gender} onChange={handleChange}>
                       <option hidden value="">Select Gender</option>

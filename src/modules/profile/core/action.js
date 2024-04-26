@@ -43,13 +43,16 @@ const useCurrentUser = () => {
             }
         };
         
-        const handleEditProfile = (payload) => {
-            editProfile(payload).then((response) => {
+        const handleEditProfile = (payload , img) => {
+            if(img){
+                delete payload.avatar;
+                handleImg(img);
+                console.log(payload)
+            }
+            editProfile(payload).then(() => {
                 getCurrentUser();
-                
-            }).catch((error) => {
+            }).catch(() => {
                 alertError("Can not Update Profile")
-                console.log(error)
             })
         }
 
