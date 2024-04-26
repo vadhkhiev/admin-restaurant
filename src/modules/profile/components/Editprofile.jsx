@@ -107,7 +107,7 @@ const Editprofile = ({ setPopupedit, profile}) => {
                       <option value="Female">Female</option>
                     </select>
                   <input style={{background:'#09090b'}} className='custom-border w-100 mb-2 p-2 text-white rounded-3'  type="text" name="phone" value={editedProfile.phone} onChange={handleChange} />
-                <div className="forget-password text-center mt-2">Change password? <a><span className='text-primary text-decoration-underline' onClick={() => setToggleChange(!toggleChange)}>Click Here!!!</span></a></div><br />
+                <div className="forget-password text-center mt-2">Change password? <span className='text-primary text-decoration-underline cursor-pointer' onClick={() => setToggleChange(!toggleChange)}>Click Here!!!</span></div><br />
                 <div className='d-flex justify-content-center'>
                 <button onClick={handleSubmit} style={{background:'#09090b'}} className='w-25 p-2 mb-2 custom-border custom-btn rounded-3 text-white'>Save</button>
                 </div>
@@ -134,7 +134,7 @@ const Editprofile = ({ setPopupedit, profile}) => {
                    className='w-100 p-2 mb-2 custom-border rounded-3 text-white bg-transparent'
                   onChange={(e) => collectData(e)}
                    type="text" name="confirm_password"  />
-                               <div className="forget-password d-flex justify-content-center mb-2">Update Profile? <a><span className='text-primary text-decoration-underline' onClick={() => setToggleChange(!toggleChange)}>Click Here!!!</span></a></div>
+                               <div className="forget-password d-flex justify-content-center mb-2 cursor-pointer">Update Profile? <span className='text-primary text-decoration-underline' onClick={() => setToggleChange(!toggleChange)}>Click Here!!!</span></div>
                 <div className='d-flex justify-content-center'>
                 <button className='btn text-white custom-btn custom-border w-25' onClick={handleChangePass} >Save</button>
                 </div>
