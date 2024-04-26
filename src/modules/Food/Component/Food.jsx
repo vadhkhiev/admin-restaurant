@@ -19,6 +19,8 @@ import FoodPagination from "./foodPagination";
 import Filter from "../../utils/components/Filter";
 import Reset from "../../utils/components/Reset";
 import {MdRefresh} from "react-icons/md";
+import {FaRegCircleXmark} from "react-icons/fa6";
+import {FaRegPlusSquare} from "react-icons/fa";
 
 function FoodParent() {
     const [loading, setLoading] = useState(true);
@@ -110,6 +112,18 @@ function FoodParent() {
                                 handleFilter("query", e.target.value)
                             }}
                         ></input>
+                        <button
+                            className="btn custom-btn custom-border w-fit text-white px-1 ms-1 w-auto"
+                            onClick={() => {
+                                dispatch(storeToggleAdd(!toggleAdd));
+                            }}
+                        >
+                            <div className="d-flex w-100 align-items-center">
+                                <FaRegPlusSquare/>
+                                <p className="p-0 m-0 px-1">Food</p>
+                            </div>
+
+                        </button>
                     </div>
                 </nav>
             </header>
@@ -140,14 +154,6 @@ function FoodParent() {
             <div>{toggleDeleteCategory && <DeleteCategoriesFood/>}</div>
             <div>{toggleUploadImage && <UploadImageForm/>}</div>
 
-            <button
-                className="position-fixed bg-white text-dark no-border rounded-3 end-0 bottom-0 p-2 me-2 mb-5"
-                onClick={() => {
-                    dispatch(storeToggleAdd(!toggleAdd));
-                }}
-            >
-                <SlCloudUpload/> ADD FOOD
-            </button>
 
             <FoodPagination params={params} handleFilter={handleFilter} pagingdetails={paging}/>
 

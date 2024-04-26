@@ -18,9 +18,9 @@ export const UploadImageForm = () => {
     }
 
     return (
-        <div className="form-group position-absolute w-50 custom-border text-white rounded-3 top-0 p-2"
+        <div className="custom-background-modal d-flex align-items-center justify-content-center">
+        <div className="form-group  w-50 custom-border text-white rounded-3 p-2"
              style={{
-                 marginLeft: "15%", marginTop: "10%",
                  backdropFilter: "blur(5px)", // Correct backdropFilter value
                  background: "rgba(10,10,10, 0.35)"
              }}>
@@ -43,7 +43,8 @@ export const UploadImageForm = () => {
                 <FaRegTimesCircle/> {/* Correct icon component */}
             </button>
             <div className="d-flex justify-content-center pt-3 overflow-hidden" style={{height: "200px"}}>
-                {imageForUpload && <img className="img-fluid" src={URL.createObjectURL(imageForUpload)} alt="UploadedImage"/>}
+                {imageForUpload &&
+                    <img className="img-fluid" src={URL.createObjectURL(imageForUpload)} alt="UploadedImage"/>}
             </div>
             <button
                 className="custom-btn btn custom-border"
@@ -53,6 +54,7 @@ export const UploadImageForm = () => {
                 }}>
                 Submit Changes
             </button>
+        </div>
         </div>
     );
 };
