@@ -23,7 +23,6 @@ const MakeOrder = () => {
   useEffect(() => {
     fetchCategories();
     getTableList();
-    handleFilter('size',10)
   },[])
 
   useEffect(() => {

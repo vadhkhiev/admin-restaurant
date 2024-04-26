@@ -14,7 +14,7 @@ import AddCategoriesFood from "../../categories/components/AddCategoriesFood";
 import EditCategoriesFood from "../../categories/components/EditCategoriesFood";
 import DeleteCategoriesFood from "../../categories/components/DeleteCategoriesFood";
 import {UploadImageForm} from "./UploadImageForm";
-import FoodPagination from "./foodPagination";
+import FoodPagination from "./FoodPagination";
 import Filter from "../../utils/components/Filter";
 import Reset from "../../utils/components/Reset";
 import {MdRefresh} from "react-icons/md";
