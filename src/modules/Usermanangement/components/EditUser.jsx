@@ -26,12 +26,11 @@ const EditUser = ({ handleEdit, editUser }) => {
   const [toggleChange, setToggleChange] = useState(false)
 
   const handleUpdate = async () =>{
-   updateUser(editing , editUser.id)
-   
+    await updateUser(editing, editUser.id , fileInput)
   }
 
   const handlePassword =  () =>{
-    changePassword(passwordChange ,editUser.id)
+    changePassword(passwordChange ,editUser.id )
     dispatch(setEditToggle(false))
 }
   

@@ -14,12 +14,12 @@ const ViewOrder = () => {
     const {foodList} = useSelector((state) => state.foodList)
     const { getOrderbyId , updateOrder } = useOrders();
     const { currentUser } = useSelector((state) => state.currentUser);
-    const [orderedItem, setOrderedItem] = useState([]);
-    const [ additionalFood , setAdditionalFood ] = useState([]);
     const {getCurrentUser} = useCurrentUser();
     const dispatch = useDispatch();
     const { id } = useParams();
     const {fetchList} = useFoods ();
+    const [orderedItem, setOrderedItem] = useState([]);
+    const [ additionalFood , setAdditionalFood ] = useState([]);
 
     useEffect(() => {
       getCurrentUser();

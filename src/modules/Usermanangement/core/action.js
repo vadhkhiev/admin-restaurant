@@ -55,7 +55,9 @@ const useUsers = () => {
     const updateUser = async (payload, id, img) => {
         let newPayload = { ...payload }
         if (img) {
-            await reqUploadImage(img, id).then((response) => {
+            const imgdata = new FormData();
+            imgdata.append('file', img)
+            await reqUploadImage(imgdata, id).then((response) => {
                 newPayload.avatar = response.data.data;
             }).catch((error) => {
                 alertError(error.response.data.message);
