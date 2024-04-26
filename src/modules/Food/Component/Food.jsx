@@ -4,7 +4,7 @@ import Select from "react-select";
 import {useFoods} from "../Core/action";
 import {useCategories} from "../../categories/core/action";
 import {SlCloudUpload} from "react-icons/sl";
-import {storeParams, storeToggleAdd} from "../Core/slice";
+import { storeToggleAdd} from "../Core/slice";
 import FoodCard from "./FoodCard";
 import AddForm from "./AddForm";
 import EditFoodForm from "./EditFoodForm";
@@ -96,7 +96,7 @@ function FoodParent() {
                         <ActionCategories/>
                         <Filter handleFilter={handleFilter} params={params} action={"Order"} options={["ASC", "DESC"]}/>
                         <Reset params={params} handleFilter={handleFilter}/>
-                        <button className="btn custom-btn custom-border text-white px-1 ms-1" onClick={(event) => {
+                        <button className="btn custom-btn custom-border text-white px-1 ms-1" onClick={() => {
                             fetchList()
                         }}><MdRefresh/></button>
                     </div>
@@ -141,12 +141,12 @@ function FoodParent() {
             <div>{toggleUploadImage && <UploadImageForm/>}</div>
 
             <button
-                className="position-fixed bg-white text-dark no-border rounded-3 end-0 bottom-0 p-2 me-2 mb-2"
+                className="position-fixed bg-white text-dark no-border rounded-3 end-0 bottom-0 p-2 me-2 mb-5"
                 onClick={() => {
                     dispatch(storeToggleAdd(!toggleAdd));
                 }}
             >
-                <SlCloudUpload/>
+                <SlCloudUpload/> ADD FOOD
             </button>
 
             <FoodPagination params={params} handleFilter={handleFilter} pagingdetails={paging}/>

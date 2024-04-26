@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {storeEditToggle} from "../Core/slice";
 import {useFoods} from "../Core/action";
+import {FaRegCircleXmark} from "react-icons/fa6";
 
 export default function EditForm() {
     const {food} = useSelector((state) => state.foodList);
@@ -47,6 +48,7 @@ export default function EditForm() {
 
     return (
         <>
+            <div className="d-flex justify-content-center align-items-center custom-background-modal">
             <form
                 onSubmit={handleSubmit}
                 className="form-group position-absolute w-50 custom-border text-white rounded-3 top-0 p-2"
@@ -57,12 +59,12 @@ export default function EditForm() {
                 }}
             >
                 <button
-                    className="border position-absolute top-0 end-0 bg-whit fw-bold rounded-3 mt-1 me-3"
+                    className="custom-border custom-btn btn position-absolute top-0 end-0 text-white fw-bold rounded-3 mt-1 me-3"
                     onClick={() => {
                         dispatch(storeEditToggle(false));
                     }}
                 >
-                    X
+                    <FaRegCircleXmark/>
                 </button>
 
                 <h3 className="text-white text-center ">EDIT FOOD INFORMATION</h3>
@@ -165,6 +167,7 @@ export default function EditForm() {
                     <button className="btn custom-btn custom-border">Submit form</button>
                 </div>
             </form>
+            </div>
         </>
     );
 }
