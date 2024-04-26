@@ -1,109 +1,122 @@
-import { setFood, storeEditToggle, storeFood } from "./slice";
-import { useDispatch } from "react-redux";
+import {setFood, storeEditToggle, storeFood, storePaging, storeParams} from "./slice";
+import {useDispatch, useSelector} from "react-redux";
 import {
-  reqGetFoods,
-  reqCreateFood,
-  reqUpdateFood,
-  reqDeleteFood,
-  reqGetFoodByName,
-  reqGetFoodByCategory,
-  reqUploadImage,
+    reqGetFoods,
+    reqCreateFood,
+    reqUpdateFood,
+    reqDeleteFood,
+    reqGetFoodByCategory,
+    reqUploadImage, reqGetPopularFoods
 } from "./request";
-import { alertError, alertSuccess } from "../../utils/alert";
+import {alertError, alertSuccess} from "../../utils/alert";
 
 const useFoods = () => {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const {params} = useSelector((state) => state.foodList);
 
-  // const uploadImageById = (id, payload) => {
-  //   reqUploadImage(id, payload)
-  //     .then(() => {
-  //       console.log("Success");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-  const fetchList = async () => {
-    try {
-      const result = await reqGetFoods();
-      dispatch(storeFood(result.data.data));
-    } catch (error) {
-      console.error("Error in  component:", error);
+    const fetchList = async () => {
+        await reqGetFoods(params).then((res) => {
+            dispatch(storeFood(res.data.data));
+            dispatch(storePaging(res.data.paging));
+        }).catch((err) => {
+            console.log("Error in component: ", err);
+        })
+    };
+
+    const handleFilter = (name, value) => {
+        dispatch(storeParams({[name]: value}));
     }
-  };
 
-  const searchFood = async (name) => {
-    try {
-      const result = await reqGetFoodByName(name);
-      dispatch(storeFood(result.data.data));
-    } catch (error) {
-      console.log("Error in component: ", error);
+    const uploadImage = (payload) => {
+        reqUploadImage(payload)
+            .then((data) => {
+                fetchList();
+                alertSuccess("Successfully uploaded image");
+            })
+            .catch((error) => {
+                fetchList();
+                alertError("Error in uploading image");
+            })
     }
-  };
 
-  const filterByCategory = async (payload) => {
-    try {
-      const result = await reqGetFoodByCategory(payload);
-      dispatch(storeFood(result.data.data));
-    } catch {}
-  };
+    const searchFood = async (params) => {
+        try {
+            const result = await fetchList(params);
+            dispatch(storeFood(result.data.data));
+        } catch (error) {
+            console.log("Error in component: ", error);
+        }
+    };
 
-  const createFood = (payload) => {
-    reqCreateFood(payload)
-      .then(() => {
-        fetchList();
-        alertSuccess("Food Added.");
-      })
-      .catch((error) => {
-        console.log(error);
-        alertError("Can't Add!");
-      });
-  };
+    const filterByCategory = async (payload) => {
+        try {
+            const result = await reqGetFoodByCategory(payload);
+            dispatch(storeFood(result.data.data));
+        } catch (error) {
+            console.log(error)
+        }
+    };
 
-  const updateFood = (id, payload, imagePayload) => {
-    reqUpdateFood(id, payload)
-      .then(() => {
-        fetchList();
-        dispatch(storeEditToggle(false));
-        alertSuccess("Food Updated.");  
-      })
-      .catch((error) => {
-        console.log(error);
-        alertError("Can't Edit!");
-      });
-    reqUploadImage(imagePayload)
-      .then(()=>{
-        fetchList();
-        alertSuccess("Image Changed")
-      })
-      .catch(()=>{
-        alertError("can't upload")
-      })
-  };
+    const filterByPopular = async () => {
+        try {
+            const result = await reqGetPopularFoods()
+            return dispatch(storeFood(result.data.data));
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-  const deleteFood = (id) => {
-    reqDeleteFood(id)
-      .then(() => {
-        fetchList();
-        alertSuccess("Food Deleted.");
-      })
-      .catch((error) => {
-        console.log(error);
-        alertError("Can't Delete!");
-      });
-  };
+    const createFood = (payload) => {
+        reqCreateFood(payload)
+            .then(() => {
+                fetchList();
+                alertSuccess("Food Added.");
+            })
+            .catch((error) => {
+                console.log(error);
+                alertError("Can't Add!");
+            });
+    };
 
-  const onSetEditFood = (food) => dispatch(setFood(food));
+    const updateFood = (id, payload) => {
+        reqUpdateFood(id, payload)
+            .then(() => {
+                fetchList();
+                dispatch(storeEditToggle(false));
+                alertSuccess("Food Updated.");
+            })
+            .catch((error) => {
+                console.log(error);
+                alertError("Can't Edit!");
+            });
+    };
 
-  return {
-    fetchList,
-    searchFood,
-    createFood,
-    onSetEditFood,
-    updateFood,
-    deleteFood,
-    filterByCategory,
-  };
+    const deleteFood = (id) => {
+        reqDeleteFood(id)
+            .then(() => {
+                fetchList();
+                alertSuccess("Food Deleted.");
+            })
+            .catch((error) => {
+                console.log(error);
+                alertError("Can't Delete!");
+            });
+    };
+
+    const onSetEditFood = (food) => dispatch(setFood(food));
+
+    return {
+        fetchList,
+        searchFood,
+        createFood,
+        onSetEditFood,
+        updateFood,
+        deleteFood,
+        filterByCategory,
+        filterByPopular,
+        uploadImage,
+        handleFilter
+    };
 };
 
-export { useFoods };
+export {useFoods};

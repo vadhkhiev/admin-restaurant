@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const reqUsers = async (params) => {
-  return await axios.get('/api/user', { params }); ;
+  return await axios.get('/api/user', { params });
 };
 
 const reqCreateUser = async (payload) => {
-  return  await axios.post(`/api/user`, payload);;
+  return  await axios.post(`/api/user`, payload);
 };
 
 const reqUpdateUser = async (payload, id) => {

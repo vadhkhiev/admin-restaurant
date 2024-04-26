@@ -25,7 +25,7 @@ const User = () => {
 
   const handleEdit = (editid) => {
     if (editid === 1) {
-      return;
+
     } else {
       dispatch(setEditToggle(true));
       setEditUser(users.find((user) => user.id === editid));
