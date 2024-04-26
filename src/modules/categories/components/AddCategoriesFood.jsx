@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useState} from "react";
+import {useDispatch} from "react-redux";
 import {useCategories} from "../core/action";
-import {storeCategories, storeToggleAddCategory} from "../core/slice";
-import {storeToggleUploadImage} from "../../Food/Core/slice";
+import {storeToggleAddCategory} from "../core/slice";
 import {FaRegCircleXmark} from "react-icons/fa6";
 
 export default function AddCategoriesFood() {
@@ -24,7 +23,9 @@ export default function AddCategoriesFood() {
     };
 
     return (
-        <>
+    <>
+        <div className="d-flex justify-content-center align-items-center custom-background-modal" >
+
             <div className="form-group position-absolute w-50 custom-border text-white rounded-3 top-0 p-2"
                  style={{
                      marginLeft: "15%", marginTop: "10%",
@@ -56,7 +57,7 @@ export default function AddCategoriesFood() {
                 </div>
                 {validInput ? (
                     <button
-                        className=" mt-1 btn custom-btn custom-border"
+                        className=" mt-1 btn custom-btn text-white custom-border"
                         onClick={() => {
                             handleSubmit();
                         }}
@@ -64,11 +65,12 @@ export default function AddCategoriesFood() {
                         Submit form
                     </button>
                 ) : (
-                    <button disabled className="mt-1 btn custom-btn custom-border">
+                    <button disabled className="mt-1 btn custom-btn text-danger custom-border">
                         Submit Form
                     </button>
                 )}
             </div>
+        </div>
         </>
     )
         ;

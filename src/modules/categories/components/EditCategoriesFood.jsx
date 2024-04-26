@@ -2,7 +2,6 @@ import React, { useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useCategories} from "../core/action";
 import {storeToggleEditCategory} from "../core/slice";
-import {storeToggleUploadImage} from "../../Food/Core/slice";
 import {FaRegCircleXmark} from "react-icons/fa6";
 
 export default function EditCategoriesFood() {
@@ -12,6 +11,8 @@ export default function EditCategoriesFood() {
     const {updateCategory, fetchCategories} = useCategories();
     const {categories} = useSelector((state) => state.category);
     return (
+        <div className="d-flex justify-content-center align-items-center custom-background-modal" >
+
         <div className="position-absolute w-50 custom-border text-white rounded-3 top-0 p-2"
              style={{
                  marginLeft: "15%", marginTop: "10%",
@@ -74,6 +75,7 @@ export default function EditCategoriesFood() {
             >
                 Submit Changes
             </button>
+        </div>
         </div>
     );
 }
