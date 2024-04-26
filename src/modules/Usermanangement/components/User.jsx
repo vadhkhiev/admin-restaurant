@@ -8,11 +8,10 @@ import SearchBar from "../../utils/components/SearchBar";
 import Pagination from "../../utils/components/Pagination";
 import Reset from "../../utils/components/Reset";
 import Filter from "../../utils/components/Filter";
-import loadingImg from "../../../assets/img/loading.gif";
 import { setCreateToggle, setEditToggle } from "../core/reducer";
 
 const User = () => {
-  const { users, params, loading ,editToggle ,createToggle } = useSelector((state) => state.users);
+  const { users, params ,editToggle ,createToggle } = useSelector((state) => state.users);
   const pagingdetails = useSelector((state) => state.users.paging);
   const { userPermission } = useSelector((state) => state.auth);
   const { getUsers, handleFilter } = useUsers();
@@ -34,12 +33,6 @@ const User = () => {
 
   return (
     <>
-      {loading ? (
-        <div style={{ height: '80vh' }} className="d-flex justify-content-center align-items-center">
-          <img width={40} src={loadingImg} alt="" />
-        </div>
-      ) : (
-        <>
           {editToggle && (
             <>
               <EditUser
@@ -89,8 +82,6 @@ const User = () => {
             {/* pagination */}
             <Pagination params={params} pagingdetails={pagingdetails} handleFilter={handleFilter} />
           </div>
-        </>
-      )}
     </>
   );
 };

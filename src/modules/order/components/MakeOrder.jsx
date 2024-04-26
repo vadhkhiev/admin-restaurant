@@ -5,6 +5,7 @@ import YourOrder from './YourOrder'
 import { useFoods } from '../../Food/Core/action'
 import { useCategories } from '../../categories/core/action'
 import useTable from '../../table/core/action'
+import Pagination from '../../utils/components/Pagination'
 
 
 
@@ -12,17 +13,23 @@ import useTable from '../../table/core/action'
 const MakeOrder = () => {
   const [clickedIndex , setClickedIndex] = useState(0)  
   const {orderedFood} = useSelector((state) => state.orders)
-  const {foodList} = useSelector((state) => state.foodList)
+  const {foodList , params , paging} = useSelector((state) => state.foodList)
   const {categories} = useSelector((state) => state.category)
-  const {fetchList ,  filterByCategory} = useFoods();
+  const {fetchList ,  filterByCategory , handleFilter} = useFoods();
   const {fetchCategories} = useCategories();
   const {getTableList } = useTable();
 
+
   useEffect(() => {
-    fetchList();
     fetchCategories();
     getTableList();
+    handleFilter('size',10)
   },[])
+
+  useEffect(() => {
+    fetchList();
+  },[params])
+  
   const handleClicked = (index)=>{
     setClickedIndex(index)
   }
@@ -70,6 +77,7 @@ const MakeOrder = () => {
         <YourOrder/>
       </aside> 
     </main>
+    <Pagination params={params} handleFilter={handleFilter} pagingdetails={paging}/>
       </div>
     </div> 
 

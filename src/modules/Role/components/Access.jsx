@@ -87,7 +87,7 @@ const Access = () => {
                   {loading ? (
                     <tr>
                       <td colSpan="2" className="text-center">
-                        <img width={20} height={20} src={loadingscreen} alt="loading" />
+                        <img width={25} src={loadingscreen} alt="loading" />
                       </td>
                     </tr>
                   ) : (

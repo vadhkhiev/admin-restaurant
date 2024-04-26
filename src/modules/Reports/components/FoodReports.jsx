@@ -57,13 +57,6 @@ const FoodReports = () => {
             </div>
           </div>
         </div>
-        {loading ? (
-          /* start of loading screen */
-          <div className="d-flex justify-content-center align-items-center my-3">
-            <img width={20} src={loadingImg} alt="" />
-          </div>
-        ) : (
-          <>
           <div className='custom-border rounded-3'>
           <table className='table  table-borderless '>
               <thead>
@@ -76,32 +69,43 @@ const FoodReports = () => {
                 </tr>
               </thead>
               <tbody>
-                {foodReports && foodReports.length > 0 ? (
-                  <>
-                    {foodReports.map((report, index) => (
-                      <tr key={index} className='hover-effect'>
-                        <td className='text-white'>{report?.food?.id}</td>
-                        <td className='text-white'>{report?.food?.name}</td>
-                        <td className='text-white'><sup className='text-danger'>$</sup>{(report?.unitPrice).toFixed(2)}</td>
-                        <td className='text-white'>{report?.totalQuantitySold} unit</td>
-                        <td className='text-white'>
-                          <sup className='text-danger'>$</sup>{(report?.totalPrice).toFixed(2)}
-                        </td>
-                      </tr>
-                    ))}
-                  </>
-                ) : (
+              {loading ? (
                   <tr>
-                    <td className="text-center text-white" colSpan="5">No Result.</td>
+                    <td colSpan="5" className="text-center">
+                      <div className="d-flex justify-content-center align-items-center my-3">
+                        <img width={25} src={loadingImg} alt="" />
+                      </div>
+                    </td>
                   </tr>
+                ) : (
+                  <>
+                    {foodReports && foodReports.length > 0 ? (
+                      <>
+                        {foodReports.map((report, index) => (
+                          <tr key={index} className='hover-effect'>
+                            <td className='text-white'>{report?.food?.id}</td>
+                            <td className='text-white'>{report?.food?.name}</td>
+                            <td className='text-white'><sup className='text-danger'>$</sup>{(report?.unitPrice).toFixed(2)}</td>
+                            <td className='text-white'>{report?.totalQuantitySold} unit</td>
+                            <td className='text-white'>
+                              <sup className='text-danger'>$</sup>{(report?.totalPrice).toFixed(2)}
+                            </td>
+                          </tr>
+                        ))}
+                      </>
+                    ) : (
+                      <tr>
+                        <td className="text-center text-white" colSpan="5">No Result.</td>
+                      </tr>
+                    )}
+                  </>
                 )}
+
               </tbody>
             </table>
           </div>
 
             <Pagination params={params} handleFilter={handleFilter} pagingdetails={pagingdetails} />
-          </>
-        )}
       </div>
     </>
   );
