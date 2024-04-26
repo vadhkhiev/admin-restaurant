@@ -18,9 +18,7 @@ import {UploadImageForm} from "./UploadImageForm";
 import FoodPagination from "./foodPagination";
 import Filter from "../../utils/components/Filter";
 import Reset from "../../utils/components/Reset";
-import {FaSpinner} from "react-icons/fa";
 import {MdRefresh} from "react-icons/md";
-import {storeCreateToggle} from "../../Role/core/reducer";
 
 function FoodParent() {
     const [loading, setLoading] = useState(true);
