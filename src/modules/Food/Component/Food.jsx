@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from "react-redux";
 import Select from "react-select";
 import {useFoods} from "../Core/action";
 import {useCategories} from "../../categories/core/action";
-import {SlCloudUpload} from "react-icons/sl";
 import { storeToggleAdd} from "../Core/slice";
 import FoodCard from "./FoodCard";
 import AddForm from "./AddForm";
@@ -19,7 +18,6 @@ import FoodPagination from "./foodPagination";
 import Filter from "../../utils/components/Filter";
 import Reset from "../../utils/components/Reset";
 import {MdRefresh} from "react-icons/md";
-import {FaRegCircleXmark} from "react-icons/fa6";
 import {FaRegPlusSquare} from "react-icons/fa";
 
 function FoodParent() {
@@ -54,6 +52,10 @@ function FoodParent() {
         fetchCategories();
         fetchList();
     }, [params]);
+
+    useEffect(() => {
+        handleFilter('size', 12)
+    }, []);
 
     useEffect(() => {
         setOptionForSelect(categoriesOptions());
