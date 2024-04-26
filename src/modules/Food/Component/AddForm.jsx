@@ -27,7 +27,7 @@ export default function AddForm() {
     };
     return (
         <>
-            <div className="d-flex justify-content-center align-items-center custom-background-modal" >
+            <div className="d-flex justify-content-center align-items-center custom-background-modal">
 
                 <form
                     onSubmit={handleSubmit}
@@ -38,13 +38,16 @@ export default function AddForm() {
                         background: "rgba(10,10,10, 0.35)"
                     }}
                 >
-                    <button className="btn custom-btn custom-border text-white "
-                            onClick={(e) => {
-                                e.preventDefault()
-                                dispatch(storeToggleAdd(false))
-                            }}><FaRegCircleXmark/></button>
+
                     <div className="form-group">
-                        <label htmlFor="inputName">Food Name</label>
+                        <div className="d-flex justify-content-between pb-1">
+                            <label htmlFor="inputName">Food Name</label>
+                            <button className="btn custom-btn custom-border text-white "
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        dispatch(storeToggleAdd(false))
+                                    }}><FaRegCircleXmark/></button>
+                        </div>
                         <input
                             type="text"
                             className="form-control"
@@ -113,7 +116,7 @@ export default function AddForm() {
 
                             {categories.map((p) => {
                                 return (
-                                    <option value={p.name} key={p.name}>
+                                    <option defaultValue={p.name} key={p.name}>
                                         {p.name}
                                     </option>
                                 );

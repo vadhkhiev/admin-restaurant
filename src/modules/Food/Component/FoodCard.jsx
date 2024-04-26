@@ -5,7 +5,8 @@ import {storeEditToggle, storeSelectedID, storeToggleUploadImage, storeToggleVie
 import {useFoods} from "../Core/action";
 import {alertConfirm} from "../../utils/alert";
 import {FaRegEdit, FaRegEye} from "react-icons/fa";
-import {FaRegCircleUp, FaRegTrashCan} from "react-icons/fa6";
+import { FaRegTrashCan} from "react-icons/fa6";
+import {SlCloudUpload} from "react-icons/sl";
 
 export default function FoodCard({food}) {
     const dispatch = useDispatch();
@@ -23,11 +24,11 @@ export default function FoodCard({food}) {
                         alt=""
                     />
                 </div>
-                <div className="position-absolute text-white cursor-pointer top-0 end-0 mt-1 me-1" onClick={() => {
+                <div className="position-absolute text-white fw-bolder cursor-pointer top-0 end-0 mt-1 me-1" onClick={() => {
                     dispatch(storeSelectedID(food.id));
                     dispatch(storeToggleUploadImage(true));
                 }}>
-                    <FaRegCircleUp/>
+                    <SlCloudUpload/>
                 </div>
 
                 <div className="px-2 pb-2 pt-1 h-50">
