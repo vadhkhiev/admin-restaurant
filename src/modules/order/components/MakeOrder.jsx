@@ -5,9 +5,7 @@ import YourOrder from './YourOrder'
 import { useFoods } from '../../Food/Core/action'
 import { useCategories } from '../../categories/core/action'
 import useTable from '../../table/core/action'
-import Pagination from '../../utils/components/Pagination'
-
-
+import FoodPagination from '../../Food/Component/foodPagination'
 
 
 const MakeOrder = () => {
@@ -23,7 +21,6 @@ const MakeOrder = () => {
   useEffect(() => {
     fetchCategories();
     getTableList();
-    handleFilter('size',10)
   },[])
 
   useEffect(() => {
@@ -77,7 +74,7 @@ const MakeOrder = () => {
         <YourOrder/>
       </aside> 
     </main>
-    <Pagination params={params} handleFilter={handleFilter} pagingdetails={paging}/>
+    <FoodPagination params={params} handleFilter={handleFilter} pagingdetails={paging}/>
       </div>
     </div> 
 
