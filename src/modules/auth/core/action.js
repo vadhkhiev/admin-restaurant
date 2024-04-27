@@ -1,10 +1,10 @@
 
-import useUsers from "../../Usermanangement/core/action";
+
 import { reqUserbyId } from "../../Usermanangement/core/request";
 import {  getAuth, removeAuth} from "../authHelper";
-import {  login, logout, rememberAuth, storePermission } from "./reducer";
+import {  logout, rememberAuth, storePermission } from "./reducer";
 import { reqGetUser,  reqRoles,  reqUserPermission } from "./request"
-import { useDispatch , useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 const useAuth = () => {
     const dispatch = useDispatch();    

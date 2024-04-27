@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Catebox = ({title , icon , num , color}) => {
+const Catebox = ({title , icon , num }) => {
   return (
     <>
     <div >

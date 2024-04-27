@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import useAuth from "./core/action";
 import {useSelector} from "react-redux"
 import useRoles from "../Role/core/action";
@@ -13,7 +13,6 @@ const AuthInit = ({children}) => {
          getRoles(); 
             getUser();
         };
-        
         fetchData();
     }, [isAuth]);
     return children;

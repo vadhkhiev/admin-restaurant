@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect,} from 'react';
 import Catebox from './Catebox';
 import { FaUsers } from "react-icons/fa";
 import { IoFastFoodOutline } from "react-icons/io5";
@@ -26,7 +26,6 @@ const Dashboard = () => {
     getUsers();
     getOrders();
     fetchList();
-
   },[])
 
   return (
