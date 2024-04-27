@@ -5,7 +5,7 @@ import YourOrder from './YourOrder'
 import { useFoods } from '../../Food/Core/action'
 import { useCategories } from '../../categories/core/action'
 import useTable from '../../table/core/action'
-import FoodPagination from '../../Food/Component/foodPagination'
+import FoodPagination from '../../Food/Component/FoodPagination'
 
 
 const MakeOrder = () => {
