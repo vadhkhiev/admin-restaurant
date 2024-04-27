@@ -2,19 +2,14 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import Topnav from "./Topnav";
-import { useDispatch} from "react-redux";
 
 
 import useRoles from "../../Role/core/action";
 const Layout1 = () => {
   const [open, setOpen] = useState(true);
   const {getRoles } = useRoles()
-  const dispatch = useDispatch();
-
   useEffect(() => {
     getRoles()
-  
-
   }, []);
 
   

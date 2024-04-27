@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import img from '../../../assets/img/dummy.png'
+import dummyImg from '../../../assets/img/dummy.png'
 import { quantity, tickedFood } from '../core/reducer'
 
 
@@ -26,7 +26,7 @@ const OrderedFood = ({orderedFood}) => {
                         { food.foodImage ? (
                             <img className='rounded-3' width={50} src={food.foodImage} alt="" />
                         ) : (
-                            <img className='rounded-3' width={50} src={img} alt="No Image Found" />
+                            <img className='rounded-3' width={50} src={dummyImg} alt="No Image Found" />
                         )}
                          <h6 className='ms-2 text-white text-nowrap'>{food.name.length > 15 ? food.name.slice(0,15) + '...' : food.name}</h6>
                         

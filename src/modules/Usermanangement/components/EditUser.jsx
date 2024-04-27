@@ -5,7 +5,7 @@ import useUsers from '../core/action';
 import { setEditToggle } from '../core/reducer';
 import avatarImg from "../../../assets/img/avatar.jpg"
 
-const EditUser = ({ handleEdit, editUser }) => {
+const EditUser = ({  editUser }) => {
   const roles = useSelector((state) => state.roles.roles);
   const { updateUser , changePassword   } = useUsers();
   const dispatch = useDispatch()
