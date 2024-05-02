@@ -6,18 +6,18 @@ import { FiTrash } from 'react-icons/fi';
 import { storeAddFoodToggle } from '../core/reducer';
 import { useCategories } from '../../categories/core/action';
 import { useFoods } from '../../Food/Core/action';
+import FoodPagination from '../../Food/Component/FoodPagination';
 const AddFood = ({handleAddtionalFood}) => {
-    const {foodList} = useSelector((state) => state.foodList)
+    const {foodList , params , paging} = useSelector((state) => state.foodList)
     const {categories} = useSelector((state) => state.category)
-    const { filterByCategory} = useFoods();
-    const {fetchCategories} = useCategories();
+    const { filterByCategory , handleFilter , fetchList } = useFoods();
     const [addFood , setAddFood] = useState([])
     const [selectAll , setSelectAll] = useState(false)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        fetchCategories();
-    }, []);
+      fetchList()
+    }, [params])
     
     
 
@@ -104,32 +104,20 @@ const AddFood = ({handleAddtionalFood}) => {
         <IoCloseCircleOutline onClick={()=>dispatch(storeAddFoodToggle(false))} className='cursor-pointer position-absolute top-0 start-0 m-2 fs-3 text-danger'/>
         <div className='m-3 '>
             <h3 className='text-white'>Select Food</h3>
-            <div className='py-2'>
-                <div>
-                    <select onChange={(e)=>filterByCategory(e.target.value)} className='form-select w-25 bg-transparent' name="" id="">
-                        <option hidden value="">Categories</option>
-                        <option value="">All</option>
-                        {categories?.map((food, index) => (
-                            <option key={index} value={food.name}>{food.name}</option>
-                        ))}
-                    </select>
-                </div>
-            </div>
-
             <main className='row overflow-scroll ' style={{ maxHeight: '75vh', overflowY: 'scroll' }}>
                 <section className={`  col-12 col-md-12 ${addFood.length === 0 ? ' col-lg-12': ' col-lg-8' } `} >
                 {
                     <div className='row'>
     {foodList.length === 0 ? (
-        <div className='text-danger text-center'>No Result.</div>
+        <div className=' text-center'>No Result.</div>
     ) : (
-      foodList?.map((food, index) => (
+      foodList.map((food, index) => (
             <div key={index} className='col-md-12 col-lg-6 mb-3'>
                 <div className='position-relative rounded-3 overflow-hidden d-flex' style={css}>
                     <div className='w-25 overflow-hidden'>
-                        <img width={'120px'} src={food.foodImage|| foodimg} alt='Food' />
+                        <img width={'120px'} src={food.foodImage || foodimg} alt='Food' />
                     </div>
-                    <main className='ms-3 d-flex flex-row mt-2 w-75 position-relative '>
+                    <main className='ms-3 d-flex flex-row mt-2 w-75 position-relative'>
                         <aside style={{ width: '60%' }}>
                             <h4 className='text-white'>{food.name}</h4>
                             <p className='text-white-50 w-100'>{food.description}</p>
@@ -153,7 +141,10 @@ const AddFood = ({handleAddtionalFood}) => {
             </div>
         ))
     )}
-</div>
+                    {foodList.length > 0 && (
+                  <FoodPagination handleFilter={handleFilter} params={params} pagingdetails={paging}/>
+                )}
+                </div>
 
 }
 
