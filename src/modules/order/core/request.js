@@ -21,10 +21,15 @@ const reqDeleteOrder = async (id) => {
     return await axios.delete(`/api/orders/${id}`);
 }
 
+const reqStatus = async (data,id) => {
+    return await axios.put(`/api/orders/status/${id}` , {status : data}  );
+}
+
 export {
      reqOrders,
     reqOrderbyId,
     reqAddOrder,
     reqUpdateOrder,
-    reqDeleteOrder
+    reqDeleteOrder,
+    reqStatus
  }

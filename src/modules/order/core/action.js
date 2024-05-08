@@ -1,5 +1,5 @@
 
-import { reqAddOrder, reqDeleteOrder, reqOrderbyId, reqOrders, reqUpdateOrder } from './request'
+import { reqAddOrder, reqDeleteOrder, reqOrderbyId, reqOrders, reqStatus, reqUpdateOrder } from './request'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearOrderedFood, setLoading, storeOrders, storeParams, storeViewOrder } from './reducer'
 import { alertConfirm, alertError, alertSuccess } from '../../utils/alert'
@@ -55,6 +55,16 @@ const useOrders = () => {
             await alertError(err.response.data.message);
         }
     };
+
+    const updateStatus = async (data , id) =>{
+        try {
+            await reqStatus(data , id )
+            getOrderbyId(id)
+        } catch (error) {
+            alertError(error.response.data.message)
+        }
+
+    }
     
 
     const handleFilter = (name, value) => {
@@ -67,7 +77,8 @@ const useOrders = () => {
     handleFilter,
     addOrder,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    updateStatus
   }
 }
 

@@ -12,7 +12,7 @@ import {useFoods} from '../../Food/Core/action';
 const ViewOrder = () => {
     const { viewOrder , orderTableId , addFoodToggle } = useSelector((state) => state.orders);
     const {foodList} = useSelector((state) => state.foodList)
-    const { getOrderbyId , updateOrder } = useOrders();
+    const { getOrderbyId , updateOrder , updateStatus } = useOrders();
     const { currentUser } = useSelector((state) => state.currentUser);
     const {getCurrentUser} = useCurrentUser();
     const dispatch = useDispatch();
@@ -34,6 +34,13 @@ const ViewOrder = () => {
         }
         fetchList();
     }, [id]);
+
+    const statusList = [
+        { id: 0, name: 'Prepare' },
+        { id: 1, name: 'Cooking' },
+        { id: 2, name: 'Complete' },
+        { id: 3, name: 'Cancel' }
+    ];
 
     const removeItem = () => {
         setOrderedItem(orderedItem.filter((item) => !item.checked));
@@ -103,8 +110,27 @@ const ViewOrder = () => {
         updateOrder(payload, id);
         reset();
     };
-    
 
+    const getColor = (param) => {
+        switch (param) {
+            case 'Prepare':
+                return 'bg-primary';
+            case 'Cooking':
+                return 'bg-warning';
+            case 'Complete':
+                return 'bg-success';
+            case 'Cancel':
+                return 'bg-danger';
+            default:
+                return '';
+        }
+    }
+
+    const handleStatus = (status) => {
+        updateStatus(status ,parseInt(id))
+    }
+
+    console.log(viewOrder)
 
     const css = {
         boxShadow: "rgba(0, 0, 0, 0.15) 1.4px 1.4px 2.2px",
@@ -125,6 +151,17 @@ const ViewOrder = () => {
                 <div className=' mb-4  mt-3 d-flex justify-content-between border-bottom border-dark pb-3'>
                     <div>
                         <h4 className='fw-bold border-bottom border-dark text-white'>Order ID : {id}  </h4>
+                    </div>
+                    <div>
+                        <span   className='text-white'>Status : </span>
+                        <select 
+                        onChange={(e) => handleStatus(e.target.value)}
+                        className={`text-white p-1 px-2 rounded ${getColor(viewOrder[0]?.order?.status)}`}> 
+                         <option hidden>{viewOrder[0]?.order?.status}</option>
+                         {statusList.map((item) => (
+                             <option className={`${getColor(item.name)}`} key={item.id} value={item.name}>{item.name}</option>
+                         ))}
+                        </select>
                     </div>
                 </div>
                 <main className='row mt-3 text-white' style={{ background: '#09090b' }}>
