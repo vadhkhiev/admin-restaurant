@@ -16,11 +16,6 @@ const sidebarlink = [
         link : '/',
         icon : <FaChartLine/>
     },{
-        Id : 2,
-        title : 'Table',
-        link : '/table',
-        icon : <MdTableBar/>
-    },{
         Id : 4,
         title : 'Order',
         link : '/order',
@@ -32,6 +27,11 @@ const sidebarlink = [
         link : '/foods',
         icon : <IoFastFoodOutline/>
         
+    },{
+        Id : 2,
+        title : 'Table',
+        link : '/table',
+        icon : <MdTableBar/>
     },{
         Id : 3,
         title : 'Food Reports',
