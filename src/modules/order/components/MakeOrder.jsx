@@ -74,7 +74,7 @@ const MakeOrder = () => {
         <YourOrder/>
       </aside> 
     </main>
-    <FoodPagination params={params} handleFilter={handleFilter} pagingdetails={paging}/>
+       {foodList.length > 0 &&  <FoodPagination params={params} handleFilter={handleFilter} pagingdetails={paging}/>}
       </div>
     </div> 
 
