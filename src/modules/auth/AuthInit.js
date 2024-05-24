@@ -10,8 +10,10 @@ const AuthInit = ({children}) => {
 
     useEffect(() => {
         const fetchData =  () => {
-         getRoles(); 
-            getUser();
+            if(localStorage.getItem("token")){
+                getRoles(); 
+                getUser();
+            }
         };
         fetchData();
     }, [isAuth]);

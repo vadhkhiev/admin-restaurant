@@ -1,9 +1,7 @@
 
 import { setAuth } from '../../auth/authHelper';
 import useAuth from '../../auth/core/action';
-
 import { reqLogin } from './request'
-import {useDispatch } from "react-redux"
 
 const useLogin = () => {
     const {getUser} = useAuth();
@@ -12,7 +10,7 @@ const useLogin = () => {
         await reqLogin(username , password).then((res)=>{
             setAuth(res.data.token)
             getUser();
-        }).catch((err)=>setError(err.response.data.message))
+        }).catch((err)=>setError(err?.response?.data?.message))
      }
 
   return {userLogin}

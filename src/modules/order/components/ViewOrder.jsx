@@ -156,10 +156,10 @@ const ViewOrder = () => {
                         <span   className='text-white'>Status : </span>
                         <select 
                         onChange={(e) => handleStatus(e.target.value)}
-                        className={`text-white p-1 px-2 rounded ${getColor(viewOrder[0]?.order?.status)}`}> 
+                        className={`text-white p-1 px-2 rounded-pill ${getColor(viewOrder[0]?.order?.status)}`}> 
                          <option hidden>{viewOrder[0]?.order?.status}</option>
                          {statusList.map((item) => (
-                             <option className={`${getColor(item.name)}`} key={item.id} value={item.name}>{item.name}</option>
+                             <option style={{background: '#09090b'}}  key={item.id} value={item.name}>{item.name}</option>
                          ))}
                         </select>
                     </div>

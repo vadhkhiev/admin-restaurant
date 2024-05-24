@@ -54,7 +54,7 @@ const YourOrder = () => {
                     className="form-select py-0 w-75 bg-transparent"
                     defaultValue="table" // Use defaultValue prop
                     >
-                    <option value="table" disabled>table</option>
+                    <option value="table" hidden>table</option>
                     {tableList?.map((table, index) => (
                         <option key={index} value={table.id}>{table.name}</option>
                     ))}
@@ -63,7 +63,7 @@ const YourOrder = () => {
             <div className='d-flex w-50'>
                 <span className='w-25 text-center text-white'>Select</span>
                 <select className="form-select py-0 w-75 bg-transparent" defaultValue="payment">
-                    <option value="payment" disabled>payment</option>
+                    <option value="payment" hidden>payment</option>
                     <option value="Cash">Cash</option>
                     <option value="Bank">Bank</option>
                     </select>

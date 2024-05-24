@@ -13,7 +13,9 @@ const TableRow = ({ user, handleEdit }) => {
   return (
     <>
       <tr className='text-white hover-effect'>
-        <td className='text-white'><img src={user?.avatar?.length > 50 ? user.avatar : avatar} className="avatar rounded-circle " style={{ border: '1px solid #6c738f' }} /></td>
+        <td className='text-white'>
+          <img  className='avatar rounded-circle' src={user?.avatar?.length > 50 ? user.avatar : avatar} style={{ border: '1px solid #6c738f' }} />
+          </td>
         <td className='text-white'>{user.name}</td> 
         <td className='text-white'>{user.email}</td>
         <td className='text-white'>{user.phone}</td>
