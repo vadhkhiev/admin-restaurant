@@ -91,7 +91,7 @@ const Table = () => {
                       <td className="text-white">{tables.seat_Capacity}</td>
                       <td>
                         <PiNotePencilThin
-                          className="text-white fs-4 me-2"
+                          className="text-white fs-4 me-2 cursor-pointer"
                           onClick={() => {
                             dispatch(storeUpdate(tables));
                             dispatch(storeUpdateToggle(true));
@@ -99,7 +99,7 @@ const Table = () => {
                         />
                         <GoTrash
                           onClick={(e) => handleDelete(tables.id)}
-                          className="text-danger fs-4"
+                          className="text-danger fs-4 cursor-pointer"
                         />
                       </td>
                     </tr>

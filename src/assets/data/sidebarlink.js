@@ -1,11 +1,9 @@
 import { FaChartLine } from "react-icons/fa";
-import { BiCategory } from "react-icons/bi";
 import { TbReportMoney } from "react-icons/tb";
 import { BsPersonGear } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { IoFastFoodOutline } from "react-icons/io5";
-import { RxPerson } from "react-icons/rx";
 import { MdTableBar } from "react-icons/md";
 import { BsBox2 } from "react-icons/bs";
 
@@ -32,10 +30,14 @@ const sidebarlink = [
         title : 'Table',
         link : '/table',
         icon : <MdTableBar/>
-    },{
+    }
+];
+
+const report = [
+    {
         Id : 3,
-        title : 'Food Reports',
-        link : '/foodreports',
+        title : 'Food',
+        link : '/food',
         icon : <HiOutlineDocumentReport/>
     },{
         id : 7,
@@ -43,7 +45,7 @@ const sidebarlink = [
         link : '/income',
         icon : <TbReportMoney/>
     }
-];
+]
 
 const administrator = [
     {
@@ -60,4 +62,4 @@ const administrator = [
     }
 ];
 
-export { sidebarlink, administrator };
+export { sidebarlink, administrator , report };

@@ -279,7 +279,7 @@ input[type="number"] {
 }
 
 .form-select option:checked {
-  background-color: blue; /* Set the background color of the selected option */
+  background-color: #27272a; /* Set the background color of the selected option */
   color: white; /* Set the text color of the selected option */
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import useTable from "../core/action";
@@ -15,17 +15,13 @@ const UpdateTable = () => {
     ...updateData
   });
 
-  useEffect(() => {
-   
-
-  }, []);
-
   const handleUpdate = (e) => {
     e.preventDefault();
     const { id, ...restData } = data; 
     const payload = {...restData };
    updateTable(payload , updateData.id); 
   };
+  console.log(data)
   return (
     <>
       <div
@@ -69,10 +65,14 @@ const UpdateTable = () => {
               id=""
               onChange={(e) => setData({ ...data, status: e.target.value })}
             >
+              <option selected hidden value={data.status}>{data.status}</option>
               {options.map((option, index) => (
+                <>
                 <option value={option.value} key={index}>
                   {option.value}
                 </option>
+              
+                </>
               ))}
             </select>
             <br />
