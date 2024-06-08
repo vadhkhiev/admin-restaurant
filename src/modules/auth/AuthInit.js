@@ -1,24 +1,22 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import useAuth from "./core/action";
-import {useSelector} from "react-redux"
+import { useSelector } from "react-redux"
 import useRoles from "../Role/core/action";
+import { getPermission } from "../../assets/helper/PermissionChecker";
 
-const AuthInit = ({children}) => {
-    const {getUser} = useAuth();
-    const {getRoles} = useRoles();
-    const {isAuth} = useSelector((state) => state.auth);
+const AuthInit = ({ children }) => {
+    const { getUser } = useAuth();
+    const { getRoles } = useRoles();
+    const { isAuth } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        const fetchData =  () => {
-            if(localStorage.getItem("token")){
-                getRoles(); 
-                getUser();
-            }
-        };
-        fetchData();
+        getRoles();
+        getUser();
+        getPermission();
+
     }, [isAuth]);
     return children;
 
 }
 
-export {AuthInit}
+export { AuthInit }
