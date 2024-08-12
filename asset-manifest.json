@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/vadhkhiev/admin-restaurant/static/css/main.75ade4b3.css",
-    "main.js": "/vadhkhiev/admin-restaurant/static/js/main.3094e7e4.js",
-    "static/js/592.1df087fd.chunk.js": "/vadhkhiev/admin-restaurant/static/js/592.1df087fd.chunk.js",
-    "static/media/kiloit-logo.svg": "/vadhkhiev/admin-restaurant/static/media/kiloit-logo.09e7a798fa71bf7bbac555ae10bd0f2f.svg",
-    "static/media/dummy.png": "/vadhkhiev/admin-restaurant/static/media/dummy.ab5ba568420feeb0a31e.png",
-    "index.html": "/vadhkhiev/admin-restaurant/index.html",
-    "main.75ade4b3.css.map": "/vadhkhiev/admin-restaurant/static/css/main.75ade4b3.css.map",
-    "main.3094e7e4.js.map": "/vadhkhiev/admin-restaurant/static/js/main.3094e7e4.js.map",
-    "592.1df087fd.chunk.js.map": "/vadhkhiev/admin-restaurant/static/js/592.1df087fd.chunk.js.map"
+    "main.css": "/vadhkhiev/admin-restaurant/login/static/css/main.75ade4b3.css",
+    "main.js": "/vadhkhiev/admin-restaurant/login/static/js/main.35cb6b60.js",
+    "static/js/592.1df087fd.chunk.js": "/vadhkhiev/admin-restaurant/login/static/js/592.1df087fd.chunk.js",
+    "static/media/kiloit-logo.svg": "/vadhkhiev/admin-restaurant/login/static/media/kiloit-logo.09e7a798fa71bf7bbac555ae10bd0f2f.svg",
+    "static/media/dummy.png": "/vadhkhiev/admin-restaurant/login/static/media/dummy.ab5ba568420feeb0a31e.png",
+    "index.html": "/vadhkhiev/admin-restaurant/login/index.html",
+    "main.75ade4b3.css.map": "/vadhkhiev/admin-restaurant/login/static/css/main.75ade4b3.css.map",
+    "main.35cb6b60.js.map": "/vadhkhiev/admin-restaurant/login/static/js/main.35cb6b60.js.map",
+    "592.1df087fd.chunk.js.map": "/vadhkhiev/admin-restaurant/login/static/js/592.1df087fd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.75ade4b3.css",
-    "static/js/main.3094e7e4.js"
+    "static/js/main.35cb6b60.js"
   ]
 }
